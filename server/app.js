@@ -5,6 +5,8 @@ var session = require('express-session')
 var bodyParser = require('body-parser');
 const app = express()
 
+var Resource = require('./Resource.js')
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -76,10 +78,14 @@ app.get('/resource/update', function (req, res) {
 
       } else {
         // Look for informations about the resource to update
-        var updatedAt = doc.updatedAt
-        var production = doc.production
-        var quantity = doc.quantity
+        var newResource = new Resource(doc.level)
+        newResource.updatedAt = doc.updatedAt
+        newResource.update()
+
         var level = doc.level
+        var production = doc.production
+        var updatedAt = doc.updatedAt
+        var quantity = doc.quantity
         var secondsElapsed = (new Date() - updatedAt) / 1000
         var newQuantity = quantity
         newQuantity += (production * level) * secondsElapsed
@@ -125,11 +131,11 @@ app.post('/user/signup', (req, res) => {
       var newUser = data.userModel
       newUser.name = userName
       data.users.insert(newUser, (err, docUser) => {
-        // res.send({ message: "success", name: docUser.name })
         var userId = docUser._id
 
         //Create the resource
-        var newResource = data.resourceModel
+        // var newResource = data.resourceModel
+        var newResource = new Resource(1)
         newResource.userId = userId
         data.resources.insert(newResource, (err, docResource) => {
           res.send({ message: "success", user: docUser, resource: docResource })
