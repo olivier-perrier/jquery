@@ -1,7 +1,14 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="main.js"></script>
 </head>
@@ -9,17 +16,64 @@
 <body>
 
     <header>
-        <input type="text" name="Name" id="loggin" class='logginName' placeholder="Loggin" value="Olivier">
-        <input type="button" value="Loggin" class="loggin">
-        <input type="button" value="Signup" class="signup">
-        <input type="button" value="Account" class="account">
+        <nav class="navbar navbar-light bg-light mb-3">
+            <a class="navbar-brand">Navbar</a>
+
+            <ul class="navbar-nav mr-auto">
+                <button id="account" class="btn btn-outline-success" type="button">Account</button>
+            </ul>
+
+            <form id="logginForm" class="form-inline">
+                <span class="input-group-text" id="basic-addon1">@</span>
+
+                <input id="logginInput" type="text" class="form-control mr-2" placeholder="Username" value="Olivier"
+                    aria-label="Username" aria-describedby="basic-addon1">
+                <button id="loggin" class="btn btn-outline-success mr-2" type="button">Loggin</button>
+                <button id="signup" class="btn btn-outline-primary" type="button">Signup</button>
+
+            </form>
+
+        </nav>
+
+
     </header>
 
-    <div class="resource">
-        <span class="resourceName"></span> <br>
-        Level <span class="resourceLevel"></span> <br>
-        Quantity <span class="quantity"></span> (<span class="production"></span>) <br>
-        <input class="upgrade" type="button" value="Upgrade">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-4">
+
+                <div class="card resource">
+                    <div class="card-header">
+                        <span class="resourceName"></span> <br>
+                    </div>
+                    <div class="card-body">
+                        Level <span class="resourceLevel"></span> <br>
+                        Quantity <span class="quantity"></span> <br>
+                        Production (<span class="production"></span>) <br>
+                        <button id="upgrade" class="btn btn-primary" type="button" value="Upgrade">Upgrade</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+
+                <div class="card defence">
+                    <div class="card-header">
+                        <span id="defenceName"></span> <br>
+                    </div>
+                    <div class="card-body">
+                        Number <span class="defenceNumber"></span> <br>
+                        Attack <span class="defenceAttack"></span> <br>
+                        Defence <span class="defenceDef"></span> <br>
+                        <button id="build" class="btn btn-primary" type="button" value="build">Build</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
 

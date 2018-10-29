@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     loggin("Olivier")
 
-    $(".resource .upgrade").click(() => {
+    $("#upgrade").click(() => {
         $.post("http://localhost:3000/resource/upgrade", (data) => {
             console.log(data)
         })
@@ -14,18 +14,22 @@ $(document).ready(function () {
         updateFromServer()
     })
 
-    $("header input.loggin").click(() => {
-        loggin($("header input.logginName").val())
+    $("#logginForm").submit((event) => {
+        event.preventDefault()
+        loggin($("#logginInput").val())
     })
 
-    $("header input.account").click(() => {
+    $("#loggin").click(() => {
+        loggin($("#logginInput").val())
+    })
+
+    $("#account").click(() => {
         account()
     })
 
-    $("header input.signup").click(() => {
-        signup($("header input.logginName").val())
+    $("#signup").click(() => {
+        signup($("#logginInput").val())
     })
-
 
 });
 
@@ -69,9 +73,13 @@ function updateLocal() {
     $(".resource .resourceLevel").html(resource.level)
     $(".resource .quantity").html(Math.round(resource.quantity))
     $(".resource .production").html(resource.production)
+
+    $("#defenceName").html(defence.name)
+    
 }
 
 var resource = {}
+var defence = {}
 
 setInterval(() => {
     resource.quantity = resource.quantity + resource.production * resource.level

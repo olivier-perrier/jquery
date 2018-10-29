@@ -80,23 +80,15 @@ app.get('/resource/update', function (req, res) {
         // Look for informations about the resource to update
         var newResource = new Resource(doc.level)
         newResource.updatedAt = doc.updatedAt
+        newResource.quantity = doc.quantity
+        newResource.userId = doc.userId
         newResource.update()
 
-        var level = doc.level
-        var production = doc.production
-        var updatedAt = doc.updatedAt
-        var quantity = doc.quantity
-        var secondsElapsed = (new Date() - updatedAt) / 1000
-        var newQuantity = quantity
-        newQuantity += (production * level) * secondsElapsed
-
         // Update the resoucr with new quantity
-        data.resources.update({ userId: userId }, { $set: { quantity: newQuantity, updatedAt: new Date() } })
+        data.resources.update({ userId: userId }, newResource)
 
-        // Return the updated resource
-        data.resources.findOne({ userId: userId }, (err, doc) => {
-          res.json(doc)
-        })
+        res.send(newResource)
+        
       }
     })
   }

@@ -9,7 +9,7 @@ function Resource(level){
     this.updatedAt = new Date()
     this.createdAt = new Date()
 
-    function update() {
+    this.update = function() {
         var secondsElapsed = (new Date() - this.updatedAt) / 1000
         this.updatedAt = new Date()
         this.quantity += (this.production * this.level) * secondsElapsed

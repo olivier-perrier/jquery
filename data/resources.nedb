@@ -1,3 +1,6 @@
-{"name":"Resource","level":1,"quantity":42.208000000000006,"production":1.1,"cost":250,"userId":"x5kovy7p4MTZZPnL","updatedAt":{"$$date":1540555728581},"createdAt":{"$$date":1540555699301},"_id":"KJUOxNm4w5aLHOpS"}
-{"name":"Olivier","level":10,"quantity":157864.68190000008,"production":1.1,"cost":"250","userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540553982943},"createdAt":{"$$date":1540385945088},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":1,"quantity":5948.139899999998,"production":1.1,"cost":250,"userId":"x5kovy7p4MTZZPnL","updatedAt":{"$$date":1540819703146},"createdAt":{"$$date":1540819703146},"_id":"KJUOxNm4w5aLHOpS"}
+{"name":"Resource","level":26,"quantity":106685.36700000001,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540822746961},"createdAt":{"$$date":1540822746961},"_id":"LaHJNg4cZeRq1zO7"}
 {"name":"Olivier","level":6,"quantity":879.9922,"production":1.1,"cost":"250","userId":"reNSpSzDNaWfMAoR","updatedAt":{"$$date":1540474018922},"createdAt":{"$$date":1540473228020},"_id":"NBIpbB8MKb4weByt"}
+{"name":"Resource","level":26,"quantity":107086.39620000002,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540822760983},"createdAt":{"$$date":1540822760983},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":26,"quantity":110165.07180000002,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540822868629},"createdAt":{"$$date":1540822868629},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":26,"quantity":111189.95280000001,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540822904464},"createdAt":{"$$date":1540822904464},"_id":"LaHJNg4cZeRq1zO7"}
