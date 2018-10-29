@@ -1,5 +1,9 @@
 const data = require('./data.js')
 
+var indexRouter = require('../routes/index');
+var defencesRouter = require('../routes/defences.js')
+var usersRouter = require('../routes/users.js')
+
 var express = require('express')
 var session = require('express-session')
 var bodyParser = require('body-parser');
@@ -25,11 +29,14 @@ app.use(function (req, res, next) {
 // app.use('static', express.static(__dirname + '/public'))
 app.use(express.static('public'))
 
-
+app.use('/', indexRouter);
+app.use('/defences', defencesRouter);
+app.use('/users', usersRouter);
 
 app.get('/', function (req, res) {
   res.send(__dirname + '/public/index.html')
 })
+
 
 app.post('/resource/upgrade', function (req, res) {
   console.log('POST /resource/upgrade')
@@ -88,70 +95,11 @@ app.get('/resource/update', function (req, res) {
         data.resources.update({ userId: userId }, newResource)
 
         res.send(newResource)
-        
+
       }
     })
   }
 })
-
-app.post('/user/loggin', (req, res) => {
-  console.log("POST /user/loggin")
-  var userName = req.body.name
-
-  data.users.findOne({ name: userName }, (err, doc) => {
-    if (doc) {
-      req.session.userId = doc._id
-      res.send({ message: "success loggin", name: doc.name })
-    } else {
-      res.send({ message: "unknow username" })
-    }
-  })
-
-})
-
-app.post('/user/signup', (req, res) => {
-  console.log("POST /user/signup")
-  var userName = req.body.name
-
-  data.users.findOne({ name: userName }, (err, doc) => {
-
-    if (doc) {
-      res.send({ message: "user not available" })
-
-    } else {
-      //Create the user
-      var newUser = data.userModel
-      newUser.name = userName
-      data.users.insert(newUser, (err, docUser) => {
-        var userId = docUser._id
-
-        //Create the resource
-        // var newResource = data.resourceModel
-        var newResource = new Resource(1)
-        newResource.userId = userId
-        data.resources.insert(newResource, (err, docResource) => {
-          res.send({ message: "success", user: docUser, resource: docResource })
-        })
-
-      })
-    }
-  })
-
-})
-
-app.get('/user/account', (req, res) => {
-  console.log("GET /user/account")
-
-  userId = req.session.userId
-
-  if (userId == null)
-    res.send({ message: "You must be logged" })
-  else
-    res.send({ messagge: "success", userId: userId })
-})
-
-
-
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

@@ -34,7 +34,7 @@ $(document).ready(function () {
 });
 
 function loggin(logginName) {
-    $.post("http://localhost:3000/user/loggin", { name: logginName }, (data, statut) => {
+    $.post("http://localhost:3000/users/loggin", { name: logginName }, (data, statut) => {
         console.log(data)
 
         //Loggin is followed by getting informations from the server to display it
@@ -43,14 +43,14 @@ function loggin(logginName) {
 }
 
 function signup(name) {
-    $.post("http://localhost:3000/user/signup", { name: name }, (data, statut) => {
+    $.post("http://localhost:3000/users/signup", { name: name }, (data, statut) => {
         console.log("signup ")
         console.log(data)
     })
 }
 
 function account() {
-    $.get("http://localhost:3000/user/account", (data, statut) => {
+    $.get("http://localhost:3000/users/account", (data, statut) => {
         console.log("Account informations ")
         console.log(data)
     })
@@ -62,10 +62,15 @@ function updateFromServer(callback) {
     $.get("http://localhost:3000/resource/update/", function (data, status) {
         console.log(data)
         resource = data
+    }).then(updateLocal)
 
-        //Server update is always followed by a local update
-        updateLocal()
-    });
+    $.get("http://localhost:3000/defences/update/", function (data, status) {
+        console.log(data)
+        defence = data
+    })
+
+    
+
 }
 
 function updateLocal() {
@@ -75,7 +80,7 @@ function updateLocal() {
     $(".resource .production").html(resource.production)
 
     $("#defenceName").html(defence.name)
-    
+
 }
 
 var resource = {}
