@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var data = require('../server/data.js')
+var data = require('../models/data.js')
 
-var Resource = require('../server/Resource')
+var Resource = require('../models/Resource')
 
 router.post('/upgrade', function (req, res) {
   console.log('POST /resource/upgrade')

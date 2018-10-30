@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var data = require('../server/data.js')
+var data = require('../models/data.js')
+
+var User = require('../models/User')
 
 router.post('/loggin', (req, res) => {
   console.log("POST /users/loggin")
@@ -52,6 +54,16 @@ router.get('/account', (req, res) => {
   console.log("GET /users/account")
 
   userId = req.session.userId
+
+  // User.findById(userId).then((user) => { return res.send(user) })
+  // user = new User()
+  // User().then((data) => {
+  //   console.log(data)
+  // })
+  // user.findById(userId).then((user) => {
+  //   console.log(user)
+  //   return res.send(user)
+  // })
 
   if (userId == null)
     res.send({ message: "You must be logged" })

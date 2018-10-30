@@ -2,16 +2,16 @@
 var express = require('express')
 var session = require('express-session')
 
-var indexRouter = require('../routes/index');
-var usersRouter = require('../routes/users.js')
-var defencesRouter = require('../routes/defences.js')
-var resourcesRouter = require('../routes/resources.js')
+var indexRouter = require('./routes/index.js');
+var usersRouter = require('./routes/users.js')
+var defencesRouter = require('./routes/defences.js')
+var resourcesRouter = require('./routes/resources.js')
 
 var app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'))
 
 app.use(session({
   secret: 'srecetkeyop',
@@ -29,10 +29,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/defences', defencesRouter);
 app.use('/resources', resourcesRouter);
-
-// app.get('/', function (req, res) {
-//   res.send(__dirname + '/public/index.html')
-// })
 
 
 app.listen(3000, function () {

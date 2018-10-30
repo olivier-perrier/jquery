@@ -1,7 +1,6 @@
 console.log("Database managment loaded")
 
 var Datastore = require('nedb')
-var Resource = require('./Resource.js')
 
 db = {}
 db.users = new Datastore({ filename: 'data/users.nedb' })
