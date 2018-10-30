@@ -9,7 +9,7 @@ var router = express.Router();
 
 
 router.get('/', function (req, res) {
-    res.send(__dirname + '/public/index.html')
+    res.send('index')
 })
 
 module.exports = router;

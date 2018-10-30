@@ -1,5 +1,6 @@
-{"name":"Resource","level":1,"quantity":5948.139899999998,"production":1.1,"cost":250,"userId":"x5kovy7p4MTZZPnL","updatedAt":{"$$date":1540819703146},"createdAt":{"$$date":1540819703146},"_id":"KJUOxNm4w5aLHOpS"}
-{"name":"Resource","level":27,"quantity":281720.2328,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540828785098},"createdAt":{"$$date":1540828785098},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":5,"quantity":102717.7448,"production":1.1,"cost":250,"userId":"x5kovy7p4MTZZPnL","updatedAt":{"$$date":1540908559973},"createdAt":{"$$date":1540908559973},"_id":"KJUOxNm4w5aLHOpS"}
+{"name":"Resource","level":33,"quantity":2666225.9461,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540908997605},"createdAt":{"$$date":1540908997605},"_id":"LaHJNg4cZeRq1zO7"}
 {"name":"Olivier","level":6,"quantity":879.9922,"production":1.1,"cost":"250","userId":"reNSpSzDNaWfMAoR","updatedAt":{"$$date":1540474018922},"createdAt":{"$$date":1540473228020},"_id":"NBIpbB8MKb4weByt"}
-{"name":"Resource","level":27,"quantity":283583.789,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540828847844},"createdAt":{"$$date":1540828847843},"_id":"LaHJNg4cZeRq1zO7"}
-{"name":"Resource","level":27,"quantity":283647.1688,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540828849978},"createdAt":{"$$date":1540828849978},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":33,"quantity":2668162.8052,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540909050962},"createdAt":{"$$date":1540909050961},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":34,"quantity":2667912.8052,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540909050962},"createdAt":{"$$date":1540909050961},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":35,"quantity":2667662.8052,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540909050962},"createdAt":{"$$date":1540909050961},"_id":"LaHJNg4cZeRq1zO7"}

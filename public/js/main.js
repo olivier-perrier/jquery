@@ -3,7 +3,7 @@ $(document).ready(function () {
     loggin("Olivier")
 
     $("#upgrade").click(() => {
-        $.post("http://localhost:3000/resource/upgrade", (data) => {
+        $.post("http://localhost:3000/resources/upgrade", (data) => {
             console.log(data)
         })
         resource.level++
@@ -33,6 +33,7 @@ $(document).ready(function () {
 
 });
 
+// Users
 function loggin(logginName) {
     $.post("http://localhost:3000/users/loggin", { name: logginName }, (data, statut) => {
         console.log(data)
@@ -44,14 +45,12 @@ function loggin(logginName) {
 
 function signup(name) {
     $.post("http://localhost:3000/users/signup", { name: name }, (data, statut) => {
-        console.log("signup ")
         console.log(data)
     })
 }
 
 function account() {
     $.get("http://localhost:3000/users/account", (data, statut) => {
-        console.log("Account informations ")
         console.log(data)
     })
 }
@@ -59,7 +58,7 @@ function account() {
 
 // Updating
 function updateFromServer(callback) {
-    $.get("http://localhost:3000/resource/update/", function (data, status) {
+    $.get("http://localhost:3000/resources/update/", function (data, status) {
         console.log(data)
         resource = data
     }).then(updateLocal)

@@ -1,15 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-const data = require('../server/data.js')
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+var data = require('../server/data.js')
 
 router.post('/loggin', (req, res) => {
-  console.log("POST /user/loggin")
+  console.log("POST /users/loggin")
   var userName = req.body.name
 
   data.users.findOne({ name: userName }, (err, doc) => {
@@ -24,7 +19,7 @@ router.post('/loggin', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-  console.log("POST /user/signup")
+  console.log("POST /users/signup")
   var userName = req.body.name
 
   data.users.findOne({ name: userName }, (err, doc) => {
@@ -44,7 +39,7 @@ router.post('/signup', (req, res) => {
         var newResource = new Resource(1)
         newResource.userId = userId
         data.resources.insert(newResource, (err, docResource) => {
-          res.send({ message: "success", user: docUser, resource: docResource })
+          res.send({ message: "sigup success", user: docUser, resource: docResource })
         })
 
       })
@@ -54,14 +49,14 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/account', (req, res) => {
-  console.log("GET /user/account")
+  console.log("GET /users/account")
 
   userId = req.session.userId
 
   if (userId == null)
     res.send({ message: "You must be logged" })
   else
-    res.send({ messagge: "success", userId: userId })
+    res.send({ messagge: "Account informations : success", userId: userId })
 })
 
 
