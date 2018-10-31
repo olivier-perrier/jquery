@@ -8,6 +8,4 @@ function User(userName) {
     this.name = userName
 }
 
-
-
 module.exports = User

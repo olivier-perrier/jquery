@@ -21,8 +21,11 @@ router.post('/create', function (req, res) {
     data.defences.findOne({ userId: userId }, (err, doc) => {
 
       if (doc == null) {
-        Defence.createDefence(userId)
-        res.send({ message: "success : defence created" })
+        var newDefence = new Defence(userId)
+        data.defences.insert(newDefence, (err, doc) => {
+          res.send({ message: "success : defence created" })
+        })
+        // Defence.createDefence(userId)
       } else {
         /*
           // Temporary force the creation of a new defence
