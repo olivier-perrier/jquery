@@ -21,9 +21,13 @@ db.resourceModel = {
     createdAt: new Date()
 }
 
-db.userModel = {
-    name: "Olivier"
+db.UserSchema = {
+    name: "Olivier",
+    createdAt: new Date(),
+    updatedAt: new Date()
 }
+
+db.User = db.users
 
 // db.resources.remove({name: "Olivier"})
 // db.resources.insert(db.resourceModel, (err, res) => { console.log(res) })

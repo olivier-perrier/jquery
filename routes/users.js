@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var data = require('../models/data.js')
-
-var User = require('../models/User')
+var User = data.User
 
 router.post('/loggin', (req, res) => {
   console.log("POST /users/loggin")
@@ -55,20 +54,16 @@ router.get('/account', (req, res) => {
 
   userId = req.session.userId
 
-  // User.findById(userId).then((user) => { return res.send(user) })
-  // user = new User()
-  // User().then((data) => {
-  //   console.log(data)
-  // })
-  // user.findById(userId).then((user) => {
-  //   console.log(user)
-  //   return res.send(user)
-  // })
+  data.users.findOne({ _id: userId }, (err, user) => {
 
-  if (userId == null)
-    res.send({ message: "You must be logged" })
-  else
-    res.send({ messagge: "Account informations : success", userId: userId })
+    if (user == null) {
+      res.send({ message: "forbidden: You must be logged" })
+    } else {
+      res.send({ messagge: "success: Account informations", user: user })
+    }
+
+  })
+
 })
 
 
