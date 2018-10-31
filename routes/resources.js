@@ -6,17 +6,17 @@ var data = require('../models/data.js')
 var Resource = require('../models/Resource')
 
 router.post('/upgrade', function (req, res) {
-  console.log('POST /resource/upgrade')
+  console.log('POST /resources/upgrade')
   var userId = req.session.userId
 
   if (userId == null)
-    res.send({ message: 'You must be logged' })
+    res.send({ message: 'forbiden : you must be logged' })
 
   else {
     data.resources.findOne({ userId: userId }, (err, doc) => {
 
       if (doc == null) {
-        res.send({ message: "no resource found" })
+        res.send({ message: "internal error : resource not found for user" })
 
       } else {
         var cost = doc.cost
@@ -24,10 +24,10 @@ router.post('/upgrade', function (req, res) {
         var level = doc.level
 
         if (quantity < cost * level) {
-          res.send({ message: "not enouth resources" })
+          res.send({ message: "forbidden : not enouth resources" })
         } else {
           data.resources.update({ userId: userId }, { $inc: { level: 1, quantity: -cost } }, (err, num) => {
-            res.send({ message: "success upgrade" })
+            res.send({ message: "success : upgraded resource" })
           })
         }
       }
@@ -36,12 +36,12 @@ router.post('/upgrade', function (req, res) {
 })
 
 router.get('/update', function (req, res) {
-  console.log('GET /update')
+  console.log('GET /resources/update')
 
   var userId = req.session.userId
 
   if (userId == null) {
-    res.send({ message: "must be loggin" })
+    res.send({ message: 'forbiden : you must be logged' })
 
   } else {
 

@@ -1,3 +1,9 @@
-{"name":"Resource","level":5,"quantity":102717.7448,"production":1.1,"cost":250,"userId":"x5kovy7p4MTZZPnL","updatedAt":{"$$date":1540908559973},"createdAt":{"$$date":1540908559973},"_id":"KJUOxNm4w5aLHOpS"}
-{"name":"Resource","level":38,"quantity":5760850.947,"production":1.1,"cost":250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540983251082},"createdAt":{"$$date":1540983251082},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":1,"quantity":12.8908,"production":1.1,"cost":250,"userId":"ASdRqugQwQgcH44O","updatedAt":{"$$date":1540995329742},"createdAt":{"$$date":1540995329742},"_id":"2iiHndMyGnTAkiIK"}
+{"name":"Resource","level":5,"quantity":560553.2492999998,"production":5.5,"cost":1250,"userId":"x5kovy7p4MTZZPnL","updatedAt":{"$$date":1540991802792},"createdAt":{"$$date":1540991802792},"_id":"KJUOxNm4w5aLHOpS"}
+{"name":"Resource","level":38,"quantity":6417928.053399999,"production":41.800000000000004,"cost":9500,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1540992434728},"createdAt":{"$$date":1540992434728},"_id":"LaHJNg4cZeRq1zO7"}
 {"name":"Olivier","level":6,"quantity":879.9922,"production":1.1,"cost":"250","userId":"reNSpSzDNaWfMAoR","updatedAt":{"$$date":1540474018922},"createdAt":{"$$date":1540473228020},"_id":"NBIpbB8MKb4weByt"}
+{"name":"Resource","level":1,"quantity":10,"production":1.1,"cost":250,"userId":"UjOGb8zIWIEn7eTS","updatedAt":{"$$date":1540995111299},"createdAt":{"$$date":1540995111299},"_id":"RCNOGEjJGNIxZ7C5"}
+{"name":"Resource","level":1,"quantity":21.6468,"production":1.1,"cost":250,"userId":"xVJaVp2Qx4Ja4AW2","updatedAt":{"$$date":1540995256319},"createdAt":{"$$date":1540995256319},"_id":"TTK1tOxCgwFFr7MV"}
+{"name":"Resource","level":1,"quantity":10,"production":1.1,"cost":250,"userId":"XNtpB029rBZwt7Sx","updatedAt":{"$$date":1540995092005},"createdAt":{"$$date":1540995092005},"_id":"y39flBmzB78nNiIz"}
+{"name":"Resource","level":1,"quantity":10,"production":1.1,"cost":250,"userId":"LKvMGFIYi995jrXW","updatedAt":{"$$date":1540995203999},"createdAt":{"$$date":1540995203999},"_id":"z34o8xoXCnENTjKv"}
+{"name":"Resource","level":1,"quantity":96.493,"production":1.1,"cost":250,"userId":"ASdRqugQwQgcH44O","updatedAt":{"$$date":1540995405744},"createdAt":{"$$date":1540995405743},"_id":"2iiHndMyGnTAkiIK"}

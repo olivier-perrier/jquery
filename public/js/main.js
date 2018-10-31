@@ -31,6 +31,11 @@ $(document).ready(function () {
         signup($("#logginInput").val())
     })
 
+    // DEBUG
+    $("#DEBUG_CREATE").click(() => {
+        DEBUG_CREATE()
+    })
+
 });
 
 // Users
@@ -66,19 +71,26 @@ function updateFromServer(callback) {
     $.get("http://localhost:3000/defences/update/", function (data, status) {
         console.log(data)
         defence = data
-    })
+    }).then(updateLocal)
+}
 
-    
-
+function DEBUG_CREATE() {
+    $.post("http://localhost:3000/defences/create/", function (data, status) {
+        console.log(data)
+        defence = data
+    }).then(updateLocal)
 }
 
 function updateLocal() {
     $(".resource .resourceName").html(resource.name)
     $(".resource .resourceLevel").html(resource.level)
     $(".resource .quantity").html(Math.round(resource.quantity))
-    $(".resource .production").html(resource.production)
+    $(".resource .production").html(Math.round(resource.production))
 
     $("#defenceName").html(defence.name)
+    $("#defenceNumber").html(defence.number)
+    $("#defenceAttack").html(defence.attack)
+    $("#defenceDef").html(defence.defence)
 
 }
 
@@ -86,7 +98,7 @@ var resource = {}
 var defence = {}
 
 setInterval(() => {
-    resource.quantity = resource.quantity + resource.production * resource.level
+    resource.quantity += resource.production
     $(".resource .quantity").html(Math.round(resource.quantity))
 }, 1000)
 

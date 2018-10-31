@@ -2,7 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 var data = require('../models/data.js')
-var User = data.User
+var User = require('../models/User')
+var Resource = require('../models/Resource')
+var Defence = require('../models/Defence')
+
 
 router.post('/loggin', (req, res) => {
   console.log("POST /users/loggin")
@@ -26,22 +29,31 @@ router.post('/signup', (req, res) => {
   data.users.findOne({ name: userName }, (err, doc) => {
 
     if (doc) {
-      res.send({ message: "user not available" })
+      res.send({ message: "forbidden : user not available" })
 
     } else {
       //Create the user
-      var newUser = data.userModel
-      newUser.name = userName
+      var newUser = new User(userName)
+
       data.users.insert(newUser, (err, docUser) => {
+        console.log(docUser)
         var userId = docUser._id
 
         //Create the resource
-        // var newResource = data.resourceModel
-        var newResource = new Resource(1)
-        newResource.userId = userId
+        var newResource = new Resource(userId)
         data.resources.insert(newResource, (err, docResource) => {
-          res.send({ message: "sigup success", user: docUser, resource: docResource })
+          // console.log("success : resource created")
+          // res.send({ message: "sigup success", user: docUser, resource: docResource })
         })
+
+        //Create the defence
+        var newDefence = new Defence(userId)
+        data.defences.insert(newDefence, (err, doc) => {
+          // console.log("success : defence created")
+          // res.send({ message: "sigup success", user: docUser, resource: docResource })
+        })
+
+        res.send({ message: "sigup success", user: docUser })
 
       })
     }
