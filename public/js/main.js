@@ -1,3 +1,14 @@
+// Test 
+
+var db = new Nedb("users.nedb");   // Create an in-memory only datastore
+
+db.insert({ planet: 'Earth' }, function (err) {
+    db.find({}, function (err, docs) {
+        console.log('Test Browser db')
+        console.log(docs)
+    });
+});
+
 $(document).ready(function () {
 
     loggin("Olivier")
