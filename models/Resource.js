@@ -11,7 +11,7 @@ function Resource(userId) {
     this.updatedAt = new Date()
     this.createdAt = new Date()
 
-    this.update = function () {
+    this.updateQuantity = function () {
         var secondsElapsed = (new Date() - this.updatedAt) / 1000
         this.updatedAt = new Date()
         this.quantity += (this.production * secondsElapsed)

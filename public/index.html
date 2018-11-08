@@ -13,6 +13,8 @@
 
     <!-- Private JS -->
     <script src="js/main.js"></script>
+
+    <link rel="icon" href="./img/icon.png">
 </head>
 
 <body>
@@ -47,10 +49,10 @@
             <div class="col-4">
 
                 <div class="card resource">
-                    <div class="card-header">
-                        <span class="resourceName"></span> <br>
-                    </div>
+                    <img class="card-img-top" src="./img/card-286px180.svg" alt="Card image cap">
+
                     <div class="card-body">
+                        <h5 id="resourceName" class="card-title"></h5>
                         Level <span class="resourceLevel"></span> <br>
                         Quantity <span class="quantity"></span> <br>
                         Production <span class="production"></span> <br>
@@ -62,14 +64,19 @@
             <div class="col-4">
 
                 <div class="card defence">
-                    <div class="card-header">
-                        <span id="defenceName"></span> <br>
-                    </div>
+                    <img class="card-img-top" src="./img/card-286px180.svg" alt="Card image cap">
+
                     <div class="card-body">
+                        <h5 id="defenceName"></h5>
                         Number <span id="defenceNumber"></span> <br>
                         Attack <span id="defenceAttack"></span> <br>
                         Defence <span id="defenceDef"></span> <br>
-                        <button id="build" class="btn btn-primary" type="button" value="build">Build</button>
+                        <div class="input-group">
+                            <input type="number" id="defenceBuildNumber" class="form-control" placeholder="Number">
+                            <div class="input-group-append">
+                                <button id="buildDefence" class="btn btn-primary" type="button" value="build">Build</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -78,6 +85,7 @@
 
     </div>
 
+    <br>
 
     <input type="button" class="update" value="Update">
     <input type="button" id="DEBUG_CREATE" value="Create">

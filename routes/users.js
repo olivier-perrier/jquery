@@ -2,11 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 var data = require('../models/data.js')
-// var User = require('../models/User')
-var User = data.model('User')
-console.log(User)
-var Resource = require('../models/Resource')
-var Defence = require('../models/Defence')
+var User = data.model.User
+var Resource = data.model.Resource
+var Defence = data.model.Defence
 
 
 router.post('/loggin', (req, res) => {

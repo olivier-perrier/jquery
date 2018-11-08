@@ -3,6 +3,8 @@ console.log("Database managment loaded")
 var Datastore = require('nedb')
 
 var User = require('./User')
+var Resource = require('./Resource')
+var Defence = require('./Defence')
 
 db = {}
 db.users = new Datastore({ filename: 'data/users.nedb' })
@@ -13,19 +15,10 @@ db.users.loadDatabase()
 db.resources.loadDatabase()
 db.defences.loadDatabase()
 
-db.model = function(modelName, modelFunction) {
-    this.models.push(modelName, modelFunction)
+db.model = {
+    User,
+    Resource,
+    Defence
 }
-
-db.model = function (modelName) {
-    return models.find((elem) => {
-        elem.name = modelName
-        return elem.model
-    }).model
-}
-
-var models = [
-    { name: 'User', model: User },
-]
 
 module.exports = db

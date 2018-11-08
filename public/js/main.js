@@ -1,14 +1,3 @@
-// Test 
-
-var db = new Nedb("users.nedb");   // Create an in-memory only datastore
-
-db.insert({ planet: 'Earth' }, function (err) {
-    db.find({}, function (err, docs) {
-        console.log('Test Browser db')
-        console.log(docs)
-    });
-});
-
 $(document).ready(function () {
 
     loggin("Olivier")
@@ -38,6 +27,10 @@ $(document).ready(function () {
         account()
     })
 
+    $("#signup").click(() => {
+        signup($("#logginInput").val())
+    })
+    
     $("#signup").click(() => {
         signup($("#logginInput").val())
     })
@@ -93,7 +86,7 @@ function DEBUG_CREATE() {
 }
 
 function updateLocal() {
-    $(".resource .resourceName").html(resource.name)
+    $("#resourceName").html(resource.name)
     $(".resource .resourceLevel").html(resource.level)
     $(".resource .quantity").html(Math.round(resource.quantity))
     $(".resource .production").html(Math.round(resource.production))

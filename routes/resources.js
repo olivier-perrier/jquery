@@ -3,7 +3,7 @@ var router = express.Router();
 
 var data = require('../models/data.js')
 
-var Resource = require('../models/Resource')
+var Resource = data.model.Resource
 
 router.post('/upgrade', function (req, res) {
   console.log('POST /resources/upgrade')
@@ -52,11 +52,11 @@ router.get('/update', function (req, res) {
 
       } else {
         // Look for informations about the resource to update
-        var newResource = new Resource(doc.level)
+        var newResource = new Resource(userId)
         newResource.updatedAt = doc.updatedAt
         newResource.quantity = doc.quantity
-        newResource.userId = doc.userId
-        newResource.update()
+        newResource.level = doc.level
+        newResource.updateQuantity()
 
         // Update the resoucr with new quantity
         data.resources.update({ userId: userId }, newResource)

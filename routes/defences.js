@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var data = require('../models/data.js')
-var Defence = require('../models/Defence')
-
+var Defence = data.model.Defence
 
 router.get('/', function (req, res) {
   res.send('Defences home page');

@@ -5,9 +5,7 @@ var DefenceSchema = {
     number : Number,
     attack: 1,
     defence: 2,
-    userId: String,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    userId: String
 
 }
 
@@ -30,10 +28,5 @@ function Defence(userId) {
     this.defence = 2
     this.userId = userId
 }
-
-// var Defence = {
-//     DefenceSchema: DefenceSchema,
-//     createDefence: createDefence
-// }
 
 module.exports = Defence
