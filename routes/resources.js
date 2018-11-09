@@ -52,16 +52,12 @@ router.get('/update', function (req, res) {
 
       } else {
         // Look for informations about the resource to update
-        var newResource = new Resource(userId)
-        newResource.updatedAt = doc.updatedAt
-        newResource.quantity = doc.quantity
-        newResource.level = doc.level
-        newResource.updateQuantity()
+        Resource.update(doc)
 
         // Update the resoucr with new quantity
-        data.resources.update({ userId: userId }, newResource)
+        data.resources.update({ userId: userId }, { $set: {quantity: doc.quantity}})
 
-        res.send(newResource)
+        res.send(doc)
 
       }
     })
