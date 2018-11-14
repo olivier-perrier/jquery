@@ -26,9 +26,9 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-// app.use('/defences', defencesRouter);
-// app.use('/resources', resourcesRouter);
+app.use('/users', usersRouter);
+app.use('/defences', defencesRouter);
+app.use('/resources', resourcesRouter);
 
 
 app.listen(process.env.PORT || 3000, function () {
