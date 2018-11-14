@@ -3,9 +3,9 @@ var express = require('express')
 var session = require('express-session')
 
 var indexRouter = require('./routes/index.js');
-var usersRouter = require('./routes/users.js')
-var defencesRouter = require('./routes/defences.js')
-var resourcesRouter = require('./routes/resources.js')
+// var usersRouter = require('./routes/users.js')
+// var defencesRouter = require('./routes/defences.js')
+// var resourcesRouter = require('./routes/resources.js')
 
 var app = express()
 
