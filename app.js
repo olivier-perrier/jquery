@@ -3,9 +3,9 @@ var express = require('express')
 var session = require('express-session')
 
 var indexRouter = require('./routes/index.js');
-// var usersRouter = require('./routes/users.js')
-// var defencesRouter = require('./routes/defences.js')
-// var resourcesRouter = require('./routes/resources.js')
+var usersRouter = require('./routes/users.js')
+var defencesRouter = require('./routes/defences.js')
+var resourcesRouter = require('./routes/resources.js')
 
 var app = express()
 
@@ -26,9 +26,9 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/defences', defencesRouter);
-app.use('/resources', resourcesRouter);
+// app.use('/users', usersRouter);
+// app.use('/defences', defencesRouter);
+// app.use('/resources', resourcesRouter);
 
 
 app.listen(3000, function () {
