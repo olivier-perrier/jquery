@@ -31,6 +31,6 @@ app.use('/', indexRouter);
 // app.use('/resources', resourcesRouter);
 
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log('Example app listening on port 3000!')
 })
