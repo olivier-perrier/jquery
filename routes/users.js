@@ -16,7 +16,7 @@ router.post('/loggin', (req, res) => {
       req.session.userId = doc._id
       res.send({ message: "success loggin", name: doc.name })
     } else {
-      res.send({ message: "unknow username" })
+      res.send({ message: "not found : unknow username" })
     }
   })
 
@@ -40,14 +40,16 @@ router.post('/signup', (req, res) => {
         var userId = docUser._id
 
         //Create the resource
-        var newResource = new Resource(userId)
+        var newResource = Resource
+        newResource.userId = userId
         data.resources.insert(newResource, (err, docResource) => {
           // console.log("success : resource created")
           // res.send({ message: "sigup success", user: docUser, resource: docResource })
         })
 
         //Create the defence
-        var newDefence = new Defence(userId)
+        var newDefence = Defence
+        newDefence.userId = userId
         data.defences.insert(newDefence, (err, doc) => {
           // console.log("success : defence created")
           // res.send({ message: "sigup success", user: docUser, resource: docResource })

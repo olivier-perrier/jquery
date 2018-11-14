@@ -18,27 +18,22 @@ var data = require('./data')
 //     }
 // }
 
-var ResourceSchema = {
+var Resource = {
     name: "Resource",
-    level: Number,
+    level: 1,
     quantity: 10,
-    production: 1.1 * this.level,
-    cost: 250 * this.level,
+    production: 1.1,
+    cost: 250,
     userId: null,
     updatedAt: new Date(),
     createdAt: new Date(),
 }
 
-ResourceSchema.update = function (resource) {
+Resource.update = function (resource) {
     var secondsElapsed = (new Date() - resource.updatedAt) / 1000
     resource.updatedAt = new Date()
     resource.quantity += (resource.production * secondsElapsed)
 
-    console.log(ResourceSchema)
-    ResourceSchema = resource
-
-
-    console.log(ResourceSchema)
 }
 
-module.exports = ResourceSchema
+module.exports = Resource

@@ -19,14 +19,16 @@ router.post('/upgrade', function (req, res) {
         res.send({ message: "internal error : resource not found for user" })
 
       } else {
-        var cost = doc.cost
-        var quantity = doc.quantity
-        var level = doc.level
 
-        if (quantity < cost * level) {
+        if (doc.quantity < doc.cost * doc.level) {
           res.send({ message: "forbidden : not enouth resources" })
         } else {
-          data.resources.update({ userId: userId }, { $inc: { level: 1, quantity: -cost } }, (err, num) => {
+
+          doc.level++
+          doc.quantity -= doc - cost
+
+          // data.resources.update({ userId: userId }, { $inc: { level: 1, quantity: -doc.cost } }, (err, num) => {
+          data.resources.update({ userId: userId }, doc, (err, num) => {
             res.send({ message: "success : upgraded resource" })
           })
         }
@@ -48,14 +50,20 @@ router.get('/update', function (req, res) {
     data.resources.findOne({ userId: userId }, (err, doc) => {
 
       if (doc == null) {
-        res.send({ message: "no resource found" })
+        res.send({ message: "not found : no resource found for user " + userId })
 
       } else {
         // Look for informations about the resource to update
-        Resource.update(doc)
+        var secondsElapsed = (new Date() - doc.updatedAt) / 1000
+        doc.updatedAt = new Date()
+        doc.quantity += (doc.production * secondsElapsed)
+
+        doc.production = Resource.production * doc.level
+        doc.cost = Resource.cost * doc.level
 
         // Update the resoucr with new quantity
-        data.resources.update({ userId: userId }, { $set: {quantity: doc.quantity}})
+        data.resources.update({ userId: userId }, doc)
+        // data.resources.update({ userId: userId }, { $set: { quantity: doc.quantity, updatedAt: new Date() } })
 
         res.send(doc)
 
