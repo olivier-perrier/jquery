@@ -1,11 +1,15 @@
+{"name":"Resource","level":1,"quantity":10,"production":1.1,"cost":250,"userId":"i3SspFz05YzO5gJ3","updatedAt":{"$$date":1542210187905},"createdAt":{"$$date":1542210187905},"_id":"0K169TIKxOTW74Bd"}
 {"name":"Resource","quantity":null,"production":null,"cost":null,"userId":"Glp0FoOph9eABUNA","updatedAt":{"$$date":1542030088792},"createdAt":{"$$date":1542030088792},"_id":"2HH9xEnohcmGNevt"}
 {"name":"Resource","level":1,"quantity":4552781.0547,"production":1.1,"cost":250,"userId":"ASdRqugQwQgcH44O","updatedAt":{"$$date":1540995405744},"createdAt":{"$$date":1540995405743},"_id":"2iiHndMyGnTAkiIK"}
 {"name":"Resource","level":6,"quantity":1126660.0524,"production":1.1,"cost":250,"userId":"X3y2pGfkCFFidhSE","updatedAt":{"$$date":1541517436784},"createdAt":{"$$date":1541517436784},"_id":"DJWvV0JcOnbuuRo8"}
 {"name":"Resource","level":5,"quantity":560553.2492999998,"production":5.5,"cost":1250,"userId":"x5kovy7p4MTZZPnL","updatedAt":{"$$date":1540991802792},"createdAt":{"$$date":1540991802792},"_id":"KJUOxNm4w5aLHOpS"}
-{"name":"Resource","level":13,"quantity":84618.95099999999,"production":14.3,"cost":3250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1542038752032},"createdAt":{"$$date":1541772611919},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":13,"quantity":3825591.2575000003,"production":14.3,"cost":3250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1542300358487},"createdAt":{"$$date":1541772611919},"_id":"LaHJNg4cZeRq1zO7"}
 {"name":"Olivier","level":6,"quantity":879.9922,"production":1.1,"cost":"250","userId":"reNSpSzDNaWfMAoR","updatedAt":{"$$date":1540474018922},"createdAt":{"$$date":1540473228020},"_id":"NBIpbB8MKb4weByt"}
 {"name":"Resource","level":1,"quantity":10,"production":1.1,"cost":250,"userId":"UjOGb8zIWIEn7eTS","updatedAt":{"$$date":1540995111299},"createdAt":{"$$date":1540995111299},"_id":"RCNOGEjJGNIxZ7C5"}
 {"name":"Resource","level":1,"quantity":21.6468,"production":1.1,"cost":250,"userId":"xVJaVp2Qx4Ja4AW2","updatedAt":{"$$date":1540995256319},"createdAt":{"$$date":1540995256319},"_id":"TTK1tOxCgwFFr7MV"}
+{"name":"Resource","level":1,"quantity":10,"production":1.1,"cost":250,"userId":"zEsoi5lhOsoFLGdr","updatedAt":{"$$date":1542210187905},"createdAt":{"$$date":1542210187905},"_id":"iKl2sVp3FuLWL3AN"}
 {"name":"Resource","quantity":10,"production":null,"cost":null,"userId":"W8iT6HYaEGNorHf1","updatedAt":{"$$date":1542030088792},"createdAt":{"$$date":1542030088792},"_id":"u5fVYv22P5qelrsh"}
 {"name":"Resource","level":1,"quantity":10,"production":1.1,"cost":250,"userId":"XNtpB029rBZwt7Sx","updatedAt":{"$$date":1540995092005},"createdAt":{"$$date":1540995092005},"_id":"y39flBmzB78nNiIz"}
 {"name":"Resource","level":1,"quantity":10,"production":1.1,"cost":250,"userId":"LKvMGFIYi995jrXW","updatedAt":{"$$date":1540995203999},"createdAt":{"$$date":1540995203999},"_id":"z34o8xoXCnENTjKv"}
+{"name":"Resource","level":13,"quantity":3826195.0607000003,"production":14.3,"cost":3250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1542300400711},"createdAt":{"$$date":1541772611919},"_id":"LaHJNg4cZeRq1zO7"}
+{"name":"Resource","level":13,"quantity":3826208.3168,"production":14.3,"cost":3250,"userId":"Vtaodg4DedJsGKVs","updatedAt":{"$$date":1542300401638},"createdAt":{"$$date":1541772611919},"_id":"LaHJNg4cZeRq1zO7"}

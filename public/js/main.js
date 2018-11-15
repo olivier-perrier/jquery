@@ -1,3 +1,5 @@
+const URL = 'http://localhost:3000'
+
 $(document).ready(function () {
 
     loggin("Olivier")
@@ -44,7 +46,7 @@ $(document).ready(function () {
 
 // Users
 function loggin(logginName) {
-    $.post("http://localhost:3000/users/loggin", { name: logginName }, (data, statut) => {
+    $.post(URL + "/users/loggin", { name: logginName }, (data, statut) => {
         console.log(data)
 
         //Loggin is followed by getting informations from the server to display it
@@ -53,13 +55,13 @@ function loggin(logginName) {
 }
 
 function signup(name) {
-    $.post("http://localhost:3000/users/signup", { name: name }, (data, statut) => {
+    $.post(URL + "/users/signup", { name: name }, (data, statut) => {
         console.log(data)
     })
 }
 
 function account() {
-    $.get("http://localhost:3000/users/account", (data, statut) => {
+    $.get(URL + "/users/account", (data, statut) => {
         console.log(data)
     })
 }
@@ -67,19 +69,19 @@ function account() {
 
 // Updating
 function updateFromServer(callback) {
-    $.get("http://localhost:3000/resources/update/", function (data, status) {
+    $.get(URL + "/resources/update/", function (data, status) {
         console.log(data)
         resource = data
     }).then(updateLocal)
 
-    $.get("http://localhost:3000/defences/update/", function (data, status) {
+    $.get(URL + "/defences/update/", function (data, status) {
         console.log(data)
         defence = data
     }).then(updateLocal)
 }
 
 function DEBUG_CREATE() {
-    $.post("http://localhost:3000/defences/create/", function (data, status) {
+    $.post(URL + "/defences/create/", function (data, status) {
         console.log(data)
         defence = data
     }).then(updateLocal)
