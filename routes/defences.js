@@ -3,6 +3,7 @@ var router = express.Router();
 
 var data = require('../models/data.js')
 var Defence = data.model.Defence
+var Resource = data.model.Resource
 
 router.get('/', function (req, res) {
   res.send('Defences home page');
@@ -32,6 +33,55 @@ router.post('/create', function (req, res) {
           Defence.createDefence(userId) 
         */
         res.send({ message: "forbidden : defence already exist for the current user" })
+      }
+    })
+  }
+
+});
+
+router.post('/build', function (req, res) {
+  console.log('GET /defences/build')
+  
+  var userId = req.session.userId
+  var numberToBuild = req.body.numberToBuild
+
+  Resource.update(userId)
+
+  if (userId == null)
+    res.send({ message: 'forbiden : you must be logged' })
+
+  else {
+    data.defences.findOne({ userId: userId }, (err, docDef) => {
+
+      if (docDef == null) {
+        res.send({ message: "internal error : no defence found for user" })
+      } else {
+
+        var totalPrice = docDef.price * numberToBuild
+
+        data.resources.findOne({ userId: userId }, (err, docRes) => {
+
+          if (docRes == null) {
+            res.send({ message: "internal error : no resource found for user" })
+          } else {
+
+            if (docRes.quantity >= totalPrice) {
+
+              // Remove price resourses
+              data.resources.update({ userId: userId }, { $inc: { quantity: -totalPrice } }, (err, num) => { })
+
+              // Increase defences number
+              data.defences.update({ userId: userId }, { $inc: { number: numberToBuild } }, (err, num) => { })
+
+              res.send({ message: "success : defences created" })
+
+            } else {
+              res.send({ message: "forbidden : no not enouth ressources" })
+
+            }
+          }
+        })
+
       }
     })
   }

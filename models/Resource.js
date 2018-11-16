@@ -1,4 +1,4 @@
-var data = require('./data')
+var data = require('./data.js')
 
 // function Resource(userId) {
 
@@ -29,10 +29,20 @@ var Resource = {
     createdAt: new Date(),
 }
 
-Resource.update = function (resource) {
-    var secondsElapsed = (new Date() - resource.updatedAt) / 1000
-    resource.updatedAt = new Date()
-    resource.quantity += (resource.production * secondsElapsed)
+Resource.update = function (userId) {
+    data.resources.findOne({userId: userId}, (err, doc) => {
+
+        if(doc == null) {
+            return {message : "internal error : no resource found for user"}
+        }else {
+
+            var secondsElapsed = (new Date() - doc.updatedAt) / 1000
+            var quantity = doc.quantity + (resource.production * secondsElapsed)
+
+            data.resources.update({ userId: userId }, { $set: { quantity: quantity, updatedAt: new Date() } })
+        }
+
+    })
 
 }
 

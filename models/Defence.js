@@ -5,6 +5,7 @@ var Defence = {
     number : 0,
     attack: 1,
     defence: 2,
+    price: 10,
     userId: null
 
 }

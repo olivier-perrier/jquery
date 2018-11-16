@@ -1,19 +1,14 @@
-const URL = 'http://localhost:3000'
+// const URL = 'http://localhost:3000'
+const URL = ""
 
 $(document).ready(function () {
 
     loggin("Olivier")
 
-    $("#upgrade").click(() => {
-        $.post("http://localhost:3000/resources/upgrade", (data) => {
-            console.log(data)
-        })
-        resource.level++
-        updateLocal()
-    })
+    // User 
 
-    $(".update").click(() => {
-        updateFromServer()
+    $("#loggin").click(() => {
+        loggin($("#logginInput").val())
     })
 
     $("#logginForm").submit((event) => {
@@ -21,23 +16,30 @@ $(document).ready(function () {
         loggin($("#logginInput").val())
     })
 
-    $("#loggin").click(() => {
-        loggin($("#logginInput").val())
-    })
-
-    $("#account").click(() => {
-        account()
-    })
-
     $("#signup").click(() => {
         signup($("#logginInput").val())
     })
     
-    $("#signup").click(() => {
-        signup($("#logginInput").val())
+    $("#account").click(() => {
+        account()
+    })
+    
+
+    // Resources
+    $("#upgrade").click(() => {
+        upgrade()
+    })
+
+    // Defences
+    $("#buildDefence").click(() => {
+        buildDefence($("#defenceBuildNumber").val())
     })
 
     // DEBUG
+    $("#update").click(() => {
+        updateFromServer()
+    })
+
     $("#DEBUG_CREATE").click(() => {
         DEBUG_CREATE()
     })
@@ -66,9 +68,30 @@ function account() {
     })
 }
 
+// Resources
+
+function upgrade(){
+    $.post(URL + "/resources/upgrade", (data) => {
+        console.log(data)
+    })
+    resource.level++
+    updateLocal()
+}
+
+// Defences
+
+function buildDefence(number){
+    console.log("buildDefence " + number)
+    $.post(URL + "/defences/build", {numberToBuild: number}, (data) => {
+        console.log(data)
+    })
+    // resource.level++
+    // updateLocal()
+}
+
 
 // Updating
-function updateFromServer(callback) {
+function updateFromServer() {
     $.get(URL + "/resources/update/", function (data, status) {
         console.log(data)
         resource = data
