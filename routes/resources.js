@@ -25,7 +25,7 @@ router.post('/upgrade', function (req, res) {
         } else {
 
           doc.level++
-          doc.quantity -= doc - cost
+          doc.quantity -= doc.cost
 
           // data.resources.update({ userId: userId }, { $inc: { level: 1, quantity: -doc.cost } }, (err, num) => {
           data.resources.update({ userId: userId }, doc, (err, num) => {
