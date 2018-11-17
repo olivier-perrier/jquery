@@ -73,6 +73,7 @@ function account() {
 function upgrade(){
     $.post(URL + "/resources/upgrade", (data) => {
         console.log(data)
+        updateFromServer()
     })
     resource.level++
     updateLocal()
@@ -127,7 +128,7 @@ var resource = {}
 var defence = {}
 
 setInterval(() => {
-    resource.quantity += resource.production
+    resource.quantity += (resource.production * resource.level)
     $(".resource .quantity").html(Math.round(resource.quantity))
 }, 1000)
 

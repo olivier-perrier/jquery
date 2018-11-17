@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 var data = require('../models/data.js')
-var User = data.model.User
-var Resource = data.model.Resource
-var Defence = data.model.Defence
+var User = data.model('User')
+var Resource = data.model('Resource')
+var Defence = data.model('Defence')
 
 
 router.post('/loggin', (req, res) => {
@@ -40,16 +40,14 @@ router.post('/signup', (req, res) => {
         var userId = docUser._id
 
         //Create the resource
-        var newResource = Resource
-        newResource.userId = userId
+        var newResource = new Resource(userId)
         data.resources.insert(newResource, (err, docResource) => {
           // console.log("success : resource created")
           // res.send({ message: "sigup success", user: docUser, resource: docResource })
         })
 
         //Create the defence
-        var newDefence = Defence
-        newDefence.userId = userId
+        var newDefence = new Defence(userId)
         data.defences.insert(newDefence, (err, doc) => {
           // console.log("success : defence created")
           // res.send({ message: "sigup success", user: docUser, resource: docResource })
