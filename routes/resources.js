@@ -19,13 +19,11 @@ router.post('/upgrade', function (req, res) {
 
       } else {
 
-        if (doc.quantity < doc.cost * doc.level) {
+        if (doc.quantity < doc.cost) {
           res.send({ message: "forbidden : not enouth resources" })
         } else {
 
-          var cost = doc.cost * doc.level
-
-          data.resources.update({ userId: userId }, { $inc: { level: 1, quantity: -cost } }, (err, num) => {
+          data.resources.update({ userId: userId }, { $inc: { level: 1, quantity: -doc.cost } }, (err, num) => {
             res.send({ message: "success : upgraded resource" })
           })
         }
@@ -44,19 +42,9 @@ router.get('/update', function (req, res) {
 
   } else {
 
-    data.resources.findOne({ userId: userId }, (err, doc) => {
+    Resource.updateQuantity(userId)
+    res.send(doc)
 
-      if (doc == null) {
-        res.send({ message: "not found : no resource found for user " + userId })
-
-      } else {
-
-        Resource.updateQuantity(userId)
-
-        res.send(doc)
-
-      }
-    })
   }
 })
 
