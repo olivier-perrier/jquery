@@ -5,13 +5,13 @@ var data = require('../models/data.js')
 var Post = data.model('Post')
 
 router.get('/', (req, res) => {
-  console.log("POST /posts")
+  console.log("GET /posts")
 
   data.posts.find({}, (err, docs) => {
     if (docs == null) {
       res.send({ message: "not found : no posts found" })
     } else {
-      res.send({ message: "success found posts", posts: docs })
+      res.render('posts', {title: 'olivier', message: 'olivier'})
     }
   })
 

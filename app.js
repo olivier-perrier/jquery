@@ -10,6 +10,26 @@ var postsRouter = require('./routes/posts.js')
 
 var app = express()
 
+// Templating
+
+// var fs = require('fs')
+
+// app.engine('ntl', (filePath, options, callback) => {
+//   fs.readFile(filePath, (err, content) => {
+
+//     console.log(options.)
+//     var rendered = content.toString().replace("{{" + options.key + "}}", options)
+
+//     return callback(null, rendered)
+//   })
+// })
+
+var mustacheExpress = require('mustache-express')
+
+app.engine('html', mustacheExpress());
+app.set('view engine', 'html');
+// app.set('views',  __dirname + '/views');
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
@@ -33,6 +53,8 @@ app.use('/resources', resourcesRouter);
 app.use('/posts', postsRouter);
 
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT || '3000', function () {
   console.log('Example app listening on port 3000!')
 })
+
+module.exports = app;

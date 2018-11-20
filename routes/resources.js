@@ -43,7 +43,7 @@ router.get('/update', function (req, res) {
   } else {
 
     Resource.updateQuantity(userId)
-    res.send(doc)
+    res.send({message: "success : updated resource"})
 
   }
 })
