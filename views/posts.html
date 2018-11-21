@@ -1,26 +1,15 @@
-<!doctype html>
-<html lang="en">
+<!-- {{#> base}}
+{{/base}} -->
 
-<head>
+{{> header}}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.js"></script>
+<ul>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {{#posts}}
+    <li>
+        <a href="posts/{{_id}}">{{name}}</a>
+        content {{content}}
+    </li>
+    {{/posts}}
+</ul>
 
-    <script src="js/posts.js"></script>
-</head>
-
-<body>
-
-    {{> header}}
-
-    <ul>
-
-        {{#posts}}
-        <li>
-            <a href="posts/{{_id}}">{{name}}</a>
-            content {{content}}
-        </li>
-        {{/posts}}
-    </ul>
-</body>
