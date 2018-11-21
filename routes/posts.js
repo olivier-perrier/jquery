@@ -11,7 +11,21 @@ router.get('/', (req, res) => {
     if (docs == null) {
       res.send({ message: "not found : no posts found" })
     } else {
-      res.render('posts', {title: 'olivier', message: 'olivier'})
+      res.render('posts', {posts: docs})
+    }
+  })
+
+})
+
+router.get('/:postId', (req, res) => {
+  console.log("GET /posts")
+  var postId = req.params.postId
+
+  data.posts.findOne({_id: postId}, (err, doc) => {
+    if (doc == null) {
+      res.send({ message: "not found : no posts found" })
+    } else {
+      res.render('post', {post: doc})
     }
   })
 

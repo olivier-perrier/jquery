@@ -18,5 +18,9 @@
     "start": "node ./bin/www"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+
+  "nodemonConfig": {
+    "ext": "html, js"
+  }
 }

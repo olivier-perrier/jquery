@@ -1,6 +1,7 @@
 
 var express = require('express')
 var session = require('express-session')
+var mustacheExpress = require('mustache-express')
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js')
@@ -10,25 +11,10 @@ var postsRouter = require('./routes/posts.js')
 
 var app = express()
 
-// Templating
-
-// var fs = require('fs')
-
-// app.engine('ntl', (filePath, options, callback) => {
-//   fs.readFile(filePath, (err, content) => {
-
-//     console.log(options.)
-//     var rendered = content.toString().replace("{{" + options.key + "}}", options)
-
-//     return callback(null, rendered)
-//   })
-// })
-
-var mustacheExpress = require('mustache-express')
 
 app.engine('html', mustacheExpress());
 app.set('view engine', 'html');
-// app.set('views',  __dirname + '/views');
+
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
