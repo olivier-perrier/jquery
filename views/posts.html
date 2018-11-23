@@ -13,10 +13,11 @@
                     <h3 class="mb-0">
                         <a href="posts/{{_id}}">{{name}}</a>
                     </h3>
-                    <div class="mb-1 text-muted">{{createdAt}}</div>
-                    <p class="card-text mb-auto">{{content}}</p>
+                    <div class="mb-1 text-muted">{{createdAt | bold}}</div>
+                    <p class="card-text mb-auto">{{{content}}}</p>
                     <a href="#">Continue reading</a>
                 </div>
+                <img class="card-img-right flex-auto d-none d-lg-block" data-src="holder.js/200x250?theme=thumb" alt="Card image cap">
             </div>
         </div>
         {{/posts}}
