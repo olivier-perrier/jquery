@@ -12,6 +12,6 @@ function createPost(name, content) {
 
 }
 
-// createPost("Salut 2", "Bla bla blabla blaaaaa")
+// createPost("Post 3", "Bla bla blabla blaaaaa <strong>strong</strong>")
 
 module.exports = Post
