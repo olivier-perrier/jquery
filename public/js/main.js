@@ -131,4 +131,3 @@ setInterval(() => {
     resource.quantity += (resource.production * resource.level)
     $(".resource .quantity").html(Math.round(resource.quantity))
 }, 1000)
-
