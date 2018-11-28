@@ -7,8 +7,7 @@
 <input type="hidden" id="postId" name="postId" value="{{post._id}}">
 
 <br>
-<textarea id="postContent" rows="4" cols="50" name="comment" form="usrform">{{{post.content}}}</textarea>
-<input type="button" id="postSave" value="Save">
+
 
 
 <div class="container">
@@ -17,11 +16,16 @@
             <h3 class="mb-0">
                 <input type="text" id="postName" value="{{post.name}}" /></a>
             </h3>
-            <div class="mb-1 text-muted">{{post.createdAt}}</div>
-            <p class="card-text mb-auto">{{{post.content}}}</p>
+            <p class="mb-1 text-muted">{{post.createdAt}}</p>
+            <textarea id="postContent" rows="4" cols="50" name="comment" form="usrform">{{{post.content}}}</textarea>
+
             <a href="#">Continue reading</a>
         </div>
     </div>
+
+    <input class="btn btn-primary" type="button" id="postSave" value="Save">
+    <a href="/posts/{{post._id}}" class="btn btn-light">View</button>
+
 
 </div>
 
