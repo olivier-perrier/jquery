@@ -52,8 +52,6 @@ router.post('/save/:postId', (req, res) => {
   var postName = req.body.name
   var postContent = req.body.content
 
-  console.log(postId)
-
   data.posts.findOne({ _id: postId }, (err, doc) => {
     if (doc == null) {
       res.send({ message: "not found : no posts found" + postId })
