@@ -17,6 +17,34 @@ router.get('/', (req, res) => {
 
 })
 
+router.get('/create', (req, res) => {
+  console.log("POST /posts/create")
+
+  data.posts.insert(Post, (err, doc) => {
+    if (doc == null) {
+      res.send({ message: "internal error : impossible to create post" })
+    } else {
+      res.render('post_edit', { post: doc })
+    }
+  })
+
+})
+
+router.post('/delete/:postId', (req, res) => {
+  console.log("POST /posts/delete")
+
+  var postId = req.params.postId
+
+  data.posts.remove({_id: postId}, (err, num) => {
+    if (num == 0) {
+      res.send({ message: "not found : no post found to delete" })
+    } else {
+      res.send({ message: "success : post deleted" })
+    }
+  })
+
+})
+
 router.get('/:postId', (req, res) => {
   console.log("GET /posts/:postId")
   var postId = req.params.postId
@@ -25,6 +53,7 @@ router.get('/:postId', (req, res) => {
     if (doc == null) {
       res.send({ message: "not found : no posts found" })
     } else {
+      doc.createdAt = doc.createdAt.toDateString()
       res.render('post', { post: doc })
     }
   })
@@ -51,14 +80,15 @@ router.post('/save/:postId', (req, res) => {
 
   var postName = req.body.name
   var postContent = req.body.content
+  var postContentPreview = req.body.content.substring(1, 50)
 
   data.posts.findOne({ _id: postId }, (err, doc) => {
     if (doc == null) {
       res.send({ message: "not found : no posts found" + postId })
     } else {
-      data.posts.update({ _id: postId }, { $set: { name: postName, content: postContent } }, (err, num) => {
+      data.posts.update({ _id: postId }, { $set: { name: postName, content: postContent, contentPreview: postContentPreview } }, (err, num) => {
 
-        res.send({ message: "success : post updated", name: postName, content: postContent })
+        res.send({ message: "success : post updated", name: postName, content: postContent, contentPreview: postContentPreview })
       })
     }
 

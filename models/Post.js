@@ -2,14 +2,18 @@ var data = require('./data')
 
 var Post = {
     name: String,
-    content: String
+    content: String,
+    createdAt: new Date(),
+    updatedAt: new Date()
 }
 
 function createPost(name, content) {
     data.posts.insert({
         name: name,
         content: content,
-        createdAt: new Date()
+        contentPreview: content.subString(1, 50),
+        createdAt: new Date(),
+        updatedAt: new Date()
     }, (err, doc) => {
         console.log('Post created')
     })
