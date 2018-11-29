@@ -18,7 +18,7 @@ function createPost(name, content) {
 
 // data.posts.update({}, {$set: {createdAt: new Date()}})
 
-// createPost("Post 3", "Bla bla blabla blaaaaa <strong>strong</strong>")
-// createPost("Post 3", "Bla bla blabla blaaaaa <strong>strong</strong>")
+// createPost("Post 1", "Bla bla blabla blaaaaa <strong>strong</strong>")
+// createPost("Post 2", "Bla bla blabla blaaaaa <strong>strong</strong>")
 
 module.exports = Post
