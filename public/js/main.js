@@ -1,9 +1,9 @@
 // const URL = 'http://localhost:3000'
 const URL = ""
 
-$(document).ready(function () {
+$(() => {
 
-    loggin("Olivier")
+    // loggin("Olivier")
 
     // User 
 
