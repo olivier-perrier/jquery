@@ -7,7 +7,27 @@ var Post = data.model('Post')
 router.get('/', (req, res) => {
   console.log("GET /admin")
 
-  res.render('admin/index')
+  //DEBUG fake login
+  req.session.userId = "lFvBTABQpEluOzfv"
+  var userId = req.session.userId
+
+  if (userId == null) {
+    res.send({ messsage: "forbidden: you must be logged to access admin" })
+
+  } else {
+
+    data.users.findOne({ _id: userId }, (err, doc) => {
+
+      if (doc == null) {
+        res.send({ messsage: "internal error : no user found for userId " + userId })
+
+      } else {
+        res.render('admin/index', { user: doc })
+      }
+    })
+
+  }
+
 
 })
 

@@ -8,67 +8,46 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="icon" href="./img/icon.png">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Private JS -->
     <script src="js/main.js"></script>
 
-    <link rel="icon" href="./img/icon.png">
 </head>
 
-<body>
+<body onload="loggin('Olivier')">
 
-    {{> header}}
+    <header>
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand">OP Admin</a>
 
-    <div class="container">
+            <a id="admin" class="btn btn-link" href="admin" role="button">{{user.name}}</a>
 
-        <div class="row">
 
-            <div class="col-4">
+        </nav>
 
-                <div class="card resource">
-                    <img class="card-img-top" src="./img/card-286px180.svg" alt="Card image cap">
+        <nav class="nav flex-column">
+            <a class="p-2" href="/">Home</a>
+            <a class="p-2" href="/posts">Posts</a>
+            <a class="p-2" href="#">Link</a>
+            <a class="p-2 disabled" href="#">Disabled</a>
+        </nav>
 
-                    <div class="card-body">
-                        <h5 id="resourceName" class="card-title"></h5>
-                        Level <span class="resourceLevel"></span> <br>
-                        Quantity <span class="quantity"></span> <br>
-                        Production <span class="production"></span> <br>
-                        <button id="upgrade" class="btn btn-primary" type="button" value="Upgrade">Upgrade</button>
-                    </div>
-                </div>
-            </div>
+    </header>
 
-            <div class="col-4">
 
-                <div class="card defence">
-                    <img class="card-img-top" src="./img/card-286px180.svg" alt="Card image cap">
 
-                    <div class="card-body">
-                        <h5 id="defenceName"></h5>
-                        Number <span id="defenceNumber"></span> <br>
-                        Attack <span id="defenceAttack"></span> <br>
-                        Defence <span id="defenceDef"></span> <br>
-                        <div class="input-group">
-                            <input type="number" id="defenceBuildNumber" class="form-control" placeholder=1>
-                            <div class="input-group-append">
-                                <button id="buildDefence" class="btn btn-primary" type="button" value="build">Build</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-    <br>
-
-    <input type="button" id="update" value="Update">
-    <input type="button" id="DEBUG_CREATE" value="Create">
 
 </body>
 
 </html>
+
+<script>
+
+    function loggin(logginName) {
+        $.post(URL + "/users/loggin", { name: logginName }, (data, statut) => {
+            console.log(data)
+        })
+    }
+
+</script>
