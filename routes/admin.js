@@ -7,8 +7,7 @@ var Post = data.model('Post')
 router.get('/', (req, res) => {
   console.log("GET /admin")
 
-  //DEBUG fake login
-  req.session.userId = "lFvBTABQpEluOzfv"
+  DEBUG_fakeLogin(req)
   var userId = req.session.userId
 
   if (userId == null) {
@@ -28,6 +27,28 @@ router.get('/', (req, res) => {
 
   }
 
+
+})
+
+function DEBUG_fakeLogin(req) {
+  req.session.userId = "lFvBTABQpEluOzfv"
+}
+
+router.get('/posts', (req, res) => {
+  console.log("POST /admin/posts")
+
+  DEBUG_fakeLogin(req)
+  var userId = req.session.userId
+
+  if (userId == null) {
+    res.send({ messsage: "forbidden: you must be logged to access admin" })
+
+  } else {
+    data.posts.find({}, (err, docs) => {
+      res.send('admin/posts.html')
+      // res.render('admin/posts', { posts: docs })
+    })
+  }
 
 })
 
