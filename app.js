@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users.js')
 var defencesRouter = require('./routes/defences.js')
 var resourcesRouter = require('./routes/resources.js')
 var postsRouter = require('./routes/posts.js')
+var adminRouter = require('./routes/admin.js')
 
 var app = express()
 
@@ -37,6 +38,7 @@ app.use('/users', usersRouter);
 app.use('/defences', defencesRouter);
 app.use('/resources', resourcesRouter);
 app.use('/posts', postsRouter);
+app.use('/admin', adminRouter);
 
 
 app.listen(process.env.PORT || '3000', function () {
