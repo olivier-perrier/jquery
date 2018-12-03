@@ -29,11 +29,22 @@
 
     <br>
 
+    <button-counter></button-counter>
 </div>
+
 
 {{> footer}}
 
 <script>
+
+    Vue.component('button-counter', {
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{=%% %%=}} {{ count }}  %%={{ }}=%% times.</button>'
+    })
 
     var app = new Vue({
         el: '#app',
@@ -52,7 +63,7 @@
                 })
             },
             createPost: function () {
-                $.post(URL + "/API/posts/create", {name: "salut", content: "salut"}, (data, statut) => {
+                $.post(URL + "/API/posts/create", { name: "salut", content: "salut" }, (data, statut) => {
                     console.log(data)
                     this.posts.push(data.post)
                 })
@@ -66,7 +77,7 @@
                 })
 
             },
-            
+
         }
     })
 
