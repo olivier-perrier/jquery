@@ -45,8 +45,8 @@ router.get('/posts', (req, res) => {
 
   } else {
     data.posts.find({}, (err, docs) => {
-      res.send('admin/posts.html')
-      // res.render('admin/posts', { posts: docs })
+      // res.sendFile(__dirname + '/index.html')
+      res.render('admin/posts', { posts: docs })
     })
   }
 

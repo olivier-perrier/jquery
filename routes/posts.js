@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
 
 })
 
+
 router.get('/create', (req, res) => {
   console.log("POST /posts/create")
 
@@ -35,9 +36,9 @@ router.post('/delete/:postId', (req, res) => {
 
   var postId = req.params.postId
 
-  data.posts.remove({_id: postId}, (err, num) => {
+  data.posts.remove({ _id: postId }, (err, num) => {
     if (num == 0) {
-      res.send({ message: "not found : no post found to delete" })
+      res.send({ message: "not found : no post found to delete " + postId })
     } else {
       res.send({ message: "success : post deleted" })
     }

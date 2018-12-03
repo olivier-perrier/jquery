@@ -5,26 +5,30 @@
 {{> header}}
 
 <div id="app" class="container">
-        {{ message }}
 
+    {{=%% %%=}}
     <div class="card">
         <div class="card-header">
-            Posts {{ message }}
+            Posts {{post}}
         </div>
-
         <ul class="list-group list-group-flush">
-            {{# posts}}
-            <li class="list-group-item">
-                <a href="posts/{{_id}}">{{name}}</a>
-                <button class="btn btn-danger btn-sm" href="admin/posts">X</button>
+            <li v-for="item in posts" class="list-group-item">
+                <input type="hidden" id="postId" name="postId" value="post._id">
+
+                <!-- <a href="posts/{{_id}}">{{item.name}}</a> -->
+                {{item.name}}
+                {{post}}
+                <button v-on:click="deletePost(item)" class="btn btn-danger btn-sm" href="admin/posts">X</button>
             </li>
-            {{/ posts}}
         </ul>
 
     </div>
+    %%={{ }}=%%
 
 
-    <a href="posts/create" class="btn btn-light">Create</button>
+    <button v-on:click="createPost()" class="btn btn-light">Create</button>
+
+    <br>
 
 </div>
 
@@ -35,7 +39,37 @@
     var app = new Vue({
         el: '#app',
         data: {
-            message: 'Hello Vue!'
+            message: 'Hello Vue!',
+            posts: Array(), //[{ name: "salut1" }, { name: "salut2" }]
+            post: 1
+        },
+        mounted: function () {
+            this.getPosts()
+        },
+        methods: {
+            getPosts: function () {
+                $.get(URL + "/API/posts", (data, statut) => {
+                    console.log(data)
+                    this.posts = data.posts
+                })
+            },
+            createPost: function () {
+                $.post(URL + "/API/posts/create", {name: "salut", content: "salut"}, (data, statut) => {
+                    console.log(data)
+                    this.getPosts()
+                    // this.posts = data.posts
+                })
+            },
+            deletePost: function (post) {
+
+                $.post(URL + "/posts/delete/" + post._id, {}, (data, statut) => {
+                    console.log(data)
+                    this.getPosts()
+                    // this.posts = data.posts
+                })
+
+            },
+            
         }
     })
 
