@@ -7,18 +7,20 @@ var Post = {
     updatedAt: new Date()
 }
 
-function createPost(name, content) {
+function createPost(name, content, callback) {
     data.posts.insert({
         name: name,
         content: content,
-        contentPreview: content.subString(1, 50),
+        contentPreview: content.substring(1, 50),
         createdAt: new Date(),
         updatedAt: new Date()
     }, (err, doc) => {
-        console.log('Post created')
+        callback(err, doc)
     })
 
 }
+
+Post.createPost = createPost
 
 // data.posts.update({}, {$set: {createdAt: new Date()}})
 

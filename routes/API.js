@@ -11,7 +11,7 @@ router.get('/posts', (req, res) => {
     if (docs == null) {
       res.send({ message: "not found : no posts found" })
     } else {
-      res.send({message: "success : posts found", posts: docs })
+      res.send({ message: "success : posts found", posts: docs })
     }
   })
 
@@ -20,11 +20,24 @@ router.get('/posts', (req, res) => {
 router.post('/posts/create', (req, res) => {
   console.log("POST /API/posts/create")
 
-  data.posts.insert(Post, (err, doc) => {
-    if (doc == null) {
-      res.send({ message: "internal error : impossible to create post" })
+  Post.createPost("Lorem ipsum", "zerzerzerze", (err, doc) => {
+    if (doc) {
+      res.send({post : doc})
+    }
+  })
+
+})
+
+router.post('/delete/:postId', (req, res) => {
+  console.log("POST /API/posts/delete/:postId")
+
+  var postId = req.params.postId
+
+  data.posts.remove({ _id: postId }, (err, num) => {
+    if (num == 0) {
+      res.send({ message: "not found : no post found to delete " + postId })
     } else {
-      res.send({message: "success : post created" })
+      res.send({ message: "success : post deleted" })
     }
   })
 
