@@ -1,6 +1,3 @@
-# Databases
-data/resources.nedb
-
 # Logs
 logs
 *.log
@@ -61,4 +58,9 @@ typings/
 .env
 
 # next.js build output
+
 .next
+
+# Databases
+data/resources.nedb
+data/posts.nedb
