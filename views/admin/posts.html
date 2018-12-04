@@ -1,8 +1,8 @@
-{{> base}}
+{{> admin/base}}
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-{{> header}}
+{{> admin/header}}
 
 <div id="app" class="container">
 
@@ -29,7 +29,6 @@
 
     <br>
 
-    <button-counter></button-counter>
 </div>
 
 
@@ -37,20 +36,10 @@
 
 <script>
 
-    Vue.component('button-counter', {
-        data: function () {
-            return {
-                count: 0
-            }
-        },
-        template: '<button v-on:click="count++">You clicked me {{=%% %%=}} {{ count }}  %%={{ }}=%% times.</button>'
-    })
-
     var app = new Vue({
         el: '#app',
         data: {
-            message: 'Hello Vue!',
-            posts: Array(), //[{ name: "salut1" }, { name: "salut2" }]
+            posts: Array(),
         },
         mounted: function () {
             this.getPosts()
