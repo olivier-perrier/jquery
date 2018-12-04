@@ -30,6 +30,20 @@ router.get('/', (req, res) => {
 
 })
 
+router.get('/posts/edit/:postId', (req, res) => {
+  console.log("GET /admin/posts/edit/:postId")
+  var postId = req.params.postId
+
+  data.posts.findOne({ _id: postId }, (err, doc) => {
+    if (doc == null) {
+      res.send({ message: "not found : no posts found" })
+    } else {
+      res.render('admin/post_edit', { post: doc })
+    }
+  })
+
+})
+
 function DEBUG_fakeLogin(req) {
   req.session.userId = "lFvBTABQpEluOzfv"
 }

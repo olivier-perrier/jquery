@@ -1,8 +1,6 @@
-{{> base}}
+{{> admin/base}}
 
-<script src="/js/post_edit.js"></script>
-
-{{> header}}
+{{> admin/header}}
 
 <input type="hidden" id="postId" name="postId" value="{{post._id}}">
 
@@ -20,8 +18,9 @@
         </div>
     </div>
 
-    <input class="btn btn-primary" type="button" id="postSave" value="Save">
-    <a href="/posts/{{post._id}}" class="btn btn-light">View</button>
+    <a href="/admin/posts" class="btn btn-light">Return</a>
+    <button class="btn btn-primary" type="button" id="postSave">Save</button>
+    <a href="/posts/{{post._id}}" class="btn btn-light">View</a>
 
 
 </div>
