@@ -31,20 +31,7 @@ router.get('/create', (req, res) => {
 
 })
 
-router.post('/delete/:postId', (req, res) => {
-  console.log("POST /posts/delete")
 
-  var postId = req.params.postId
-
-  data.posts.remove({ _id: postId }, (err, num) => {
-    if (num == 0) {
-      res.send({ message: "not found : no post found to delete " + postId })
-    } else {
-      res.send({ message: "success : post deleted" })
-    }
-  })
-
-})
 
 router.get('/:postId', (req, res) => {
   console.log("GET /posts/:postId")
@@ -56,20 +43,6 @@ router.get('/:postId', (req, res) => {
     } else {
       doc.createdAt = doc.createdAt.toDateString()
       res.render('post', { post: doc })
-    }
-  })
-
-})
-
-router.get('/edit/:postId', (req, res) => {
-  console.log("GET /posts/edit/:postId")
-  var postId = req.params.postId
-
-  data.posts.findOne({ _id: postId }, (err, doc) => {
-    if (doc == null) {
-      res.send({ message: "not found : no posts found" })
-    } else {
-      res.render('post_edit', { post: doc })
     }
   })
 
