@@ -3,15 +3,7 @@ const URL = ""
 
 $(() => {
 
-    // loggin("Olivier")
-
-    // User 
-
-    $("#loggin").click(() => {
-        loggin($("#logginInput").val())
-    })
-
-    $("#logginForm").submit((event) => {
+      $("#logginForm").submit((event) => {
         event.preventDefault()
         loggin($("#logginInput").val())
     })
@@ -45,16 +37,6 @@ $(() => {
     })
 
 });
-
-// Users
-function loggin(logginName) {
-    $.post(URL + "/users/loggin", { name: logginName }, (data, statut) => {
-        console.log(data)
-
-        //Loggin is followed by getting informations from the server to display it
-        updateFromServer()
-    })
-}
 
 function signup(name) {
     $.post(URL + "/users/signup", { name: name }, (data, statut) => {
