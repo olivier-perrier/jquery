@@ -1,22 +1,33 @@
 <header>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">OP</a>
 
-        <ul class="navbar-nav mr-auto">
-            <button id="account" class="btn btn-outline-success" type="button">Account</button>
-        </ul>
-
-        {{> includes/login}}
-
-        <form id="logginForm" class="form-inline">
-
-            <button id="signup" class="btn btn-outline-primary" type="button">Sign up</button>
-            <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
-
-        </form>
-        
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="#">OP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Account</a>
+                    <!-- <button id="account" class="btn btn-outline-success" type="button">Account</button> -->
+                </li>
+
+                
+            </ul>
+            {{> includes/login}}
+            <form id="logginForm" class="form-inline">
+
+                <button id="signup" class="btn btn-outline-primary" type="button">Sign up</button>
+                <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
+
+            </form>
+
+
+        </div>
     </nav>
 
     <nav class="nav justify-content-center">
