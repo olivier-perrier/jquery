@@ -3,16 +3,22 @@ var router = express.Router();
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
+var User = data.model('User')
 
 router.get('/', (req, res) => {
   console.log("GET /posts")
 
-  data.posts.find({}, (err, docs) => {
-    if (docs == null) {
-      res.send({ message: "not found : no posts found" })
-    } else {
-      res.render('posts', { posts: docs })
-    }
+  User.getUser(req.session.userId, (doc) => {
+    var user = doc
+
+    data.posts.find({}, (err, docs) => {
+      if (docs == null) {
+        res.send({ message: "not found : no posts found" })
+      } else {
+        res.render('posts', { posts: docs, user: user })
+      }
+    })
+
   })
 
 })

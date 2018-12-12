@@ -22,6 +22,16 @@ router.post('/loggin', (req, res) => {
 
 })
 
+router.get('/logout', (req, res) => {
+  console.log("POST /users/logout")
+  var userName = req.body.name
+  
+  req.session.userId = null
+
+  res.redirect('/')
+
+})
+
 router.post('/signup', (req, res) => {
   console.log("POST /users/signup")
   var userName = req.body.name
@@ -33,25 +43,11 @@ router.post('/signup', (req, res) => {
 
     } else {
       //Create the user
-      var newUser = new User(userName)
+      var newUser = User.returnUser(userName)
 
       data.users.insert(newUser, (err, docUser) => {
         console.log(docUser)
         var userId = docUser._id
-
-        //Create the resource
-        var newResource = new Resource(userId)
-        data.resources.insert(newResource, (err, docResource) => {
-          // console.log("success : resource created")
-          // res.send({ message: "sigup success", user: docUser, resource: docResource })
-        })
-
-        //Create the defence
-        var newDefence = new Defence(userId)
-        data.defences.insert(newDefence, (err, doc) => {
-          // console.log("success : defence created")
-          // res.send({ message: "sigup success", user: docUser, resource: docResource })
-        })
 
         res.send({ message: "sigup success", user: docUser })
 

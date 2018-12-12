@@ -18,14 +18,24 @@
 
                 
             </ul>
+
+            {{ #user.name }}
+                <a id="account" class="btn btn-link" href="/account" role="button">Hola {{ user.name }}</a>
+                <a id="logout" class="btn btn-link" href="/users/logout" role="button">Log out</a>
+            {{ /user.name }}
+
+            {{ ^user.name }}
+            
             {{> includes/login}}
             <form id="logginForm" class="form-inline">
-
+                
                 <button id="signup" class="btn btn-outline-primary" type="button">Sign up</button>
-                <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
-
+                
             </form>
+            
+            {{ /user.name }}
 
+            <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
 
         </div>
     </nav>

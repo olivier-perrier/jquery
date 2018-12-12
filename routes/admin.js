@@ -7,7 +7,7 @@ var Post = data.model('Post')
 router.get('/', (req, res) => {
   console.log("GET /admin")
 
-  DEBUG_fakeLogin(req)
+  // DEBUG_fakeLogin(req)
   var userId = req.session.userId
 
   if (userId == null) {
@@ -27,7 +27,6 @@ router.get('/', (req, res) => {
 
   }
 
-
 })
 
 router.get('/posts/edit/:postId', (req, res) => {
@@ -44,14 +43,14 @@ router.get('/posts/edit/:postId', (req, res) => {
 
 })
 
-function DEBUG_fakeLogin(req) {
-  req.session.userId = "lFvBTABQpEluOzfv"
-}
+// function DEBUG_fakeLogin(req) {
+//   req.session.userId = "lFvBTABQpEluOzfv"
+// }
 
 router.get('/posts', (req, res) => {
   console.log("POST /admin/posts")
 
-  DEBUG_fakeLogin(req)
+  // DEBUG_fakeLogin(req)
   var userId = req.session.userId
 
   if (userId == null) {

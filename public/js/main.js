@@ -3,19 +3,27 @@ const URL = ""
 
 $(() => {
 
-      $("#logginForm").submit((event) => {
+    // login("Olivier", "123")
+
+    function login(username, password) {
+        $.post(URL + "/users/loggin", { name: username, password: password }, (data, statut) => {
+            console.log(data)
+        })
+    }
+
+    $("#logginForm").submit((event) => {
         event.preventDefault()
-        loggin($("#logginInput").val())
+        login($("#logginInput").val())
     })
 
     $("#signup").click(() => {
         signup($("#logginInput").val())
     })
-    
+
     $("#account").click(() => {
         account()
     })
-    
+
 
     // Resources
     $("#upgrade").click(() => {
@@ -52,7 +60,7 @@ function account() {
 
 // Resources
 
-function upgrade(){
+function upgrade() {
     $.post(URL + "/resources/upgrade", (data) => {
         console.log(data)
         updateFromServer()
@@ -63,9 +71,9 @@ function upgrade(){
 
 // Defences
 
-function buildDefence(number){
+function buildDefence(number) {
     console.log("buildDefence " + number)
-    $.post(URL + "/defences/build", {numberToBuild: number}, (data) => {
+    $.post(URL + "/defences/build", { numberToBuild: number }, (data) => {
         console.log(data)
     })
     // resource.level++
