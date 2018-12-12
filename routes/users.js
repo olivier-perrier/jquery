@@ -6,6 +6,20 @@ var User = data.model('User')
 var Resource = data.model('Resource')
 var Defence = data.model('Defence')
 
+router.get('/login', (req, res) => {
+  console.log("GET /users/login")
+  var userName = req.body.name
+
+  data.users.findOne({ name: userName }, (err, doc) => {
+    if (doc) {
+      req.session.userId = doc._id
+      res.send({ message: "success loggin", name: doc.name })
+    } else {
+      res.redirect("/")
+    }
+  })
+
+})
 
 router.post('/loggin', (req, res) => {
   console.log("POST /users/loggin")
@@ -23,7 +37,7 @@ router.post('/loggin', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-  console.log("POST /users/logout")
+  console.log("GET /users/logout")
   var userName = req.body.name
   
   req.session.userId = null
