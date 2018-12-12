@@ -43,8 +43,9 @@
     <nav class="nav justify-content-center">
         <a class="p-2" href="/">Home</a>
         <a class="p-2" href="/posts">Posts</a>
-        <a class="p-2" href="#">Link</a>
-        <a class="p-2 disabled" href="#">Disabled</a>
+        {{# menu }}
+            <a class="p-2" href="/{{menu.name}}">{{menu.name}}</a>
+        {{/ menu }}
     </nav>
 
 </header>
