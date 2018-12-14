@@ -4,16 +4,14 @@ var router = express.Router();
 var data = require('../models/data.js')
 var Post = data.model('Post')
 var User = data.model('User')
-
-var menus = [{name: "contracts"}, {name: "clients"}]
-
+var Setting = data.model('Setting')
 
 router.get('/', function (req, res) {
 
     User.getUser(req.session.userId, (doc) => {
         var user = doc
 
-        res.render('index', { user: user, menus: menus })
+        res.render('index', { user: user, menu: Setting.menu })
 
     })
 
@@ -29,7 +27,7 @@ router.get('/posts', (req, res) => {
         if (docs == null) {
           res.send({ message: "not found : no posts found" })
         } else {
-          res.render('posts', { posts: docs, user: user, menus: menus })
+          res.render('posts', { posts: docs, user: user, menu: Setting.menu })
         }
       })
   
@@ -37,15 +35,15 @@ router.get('/posts', (req, res) => {
   
   })
 
-// Requests for dynamique menus
-menus.forEach(menu => {
+// Requests for dynamique menu
+Setting.menu.forEach(menu => {
 
     router.get('/' + menu.name, function (req, res) {
         console.log("GET /" + menu.name)
 
         User.getUser(req.session.userId, (doc) => {
             var user = doc
-            res.render('page', { user: user, menus: menus })
+            res.render('page', { user: user, menu: Setting.menu })
         })
     })
 
