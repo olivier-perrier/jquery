@@ -25,13 +25,7 @@ router.post('/create', function (req, res) {
         data.defences.insert(newDefence, (err, doc) => {
           res.send({ message: "success : defence created" })
         })
-        // Defence.createDefence(userId)
       } else {
-        /*
-          // Temporary force the creation of a new defence
-          data.defences.remove({userId: userId})
-          Defence.createDefence(userId) 
-        */
         res.send({ message: "forbidden : defence already exist for the current user" })
       }
     })
@@ -41,7 +35,7 @@ router.post('/create', function (req, res) {
 
 router.post('/build', function (req, res) {
   console.log('GET /defences/build')
-  
+
   var userId = req.session.userId
   var numberToBuild = req.body.numberToBuild
 

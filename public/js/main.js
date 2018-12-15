@@ -40,10 +40,6 @@ $(() => {
         updateFromServer()
     })
 
-    $("#DEBUG_CREATE").click(() => {
-        DEBUG_CREATE()
-    })
-
 });
 
 function signup(name) {
@@ -89,13 +85,6 @@ function updateFromServer() {
     }).then(updateLocal)
 
     $.get(URL + "/defences/update/", function (data, status) {
-        console.log(data)
-        defence = data
-    }).then(updateLocal)
-}
-
-function DEBUG_CREATE() {
-    $.post(URL + "/defences/create/", function (data, status) {
         console.log(data)
         defence = data
     }).then(updateLocal)
