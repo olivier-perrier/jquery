@@ -7,11 +7,4 @@ var Setting = {
     
 }
 
-var menu = [
-    {name: "contracts"}, 
-    {name: "clients"}
-]
-
-Setting.menu = menu
-
 module.exports = Setting

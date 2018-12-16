@@ -11,7 +11,11 @@ router.get('/', function (req, res) {
     User.getUser(req.session.userId, (doc) => {
         var user = doc
 
-        res.render('index', { user: user, menu: Setting.menu })
+        data.settings.findOne({ name: "menu" }, (err, menu) => {
+
+            res.render('index', { user: user, menu: menu.value })
+
+        })
 
     })
 
@@ -19,34 +23,40 @@ router.get('/', function (req, res) {
 
 router.get('/posts', (req, res) => {
     console.log("GET /posts")
-  
+
     User.getUser(req.session.userId, (doc) => {
-      var user = doc
-  
-      data.posts.find({}, (err, docs) => {
-        if (docs == null) {
-          res.send({ message: "not found : no posts found" })
-        } else {
-          res.render('posts', { posts: docs, user: user, menu: Setting.menu })
-        }
-      })
-  
+        var user = doc
+
+        data.posts.find({}, (err, docs) => {
+            data.settings.findOne({ name: "menu" }, (err, menu) => {
+
+                res.render('posts', { posts: docs, user: user, menu: menu.value })
+            })
+        })
+
     })
-  
-  })
+
+})
 
 // Requests for dynamique menu
-Setting.menu.forEach(menu => {
+data.settings.findOne({ name: "menu" }, (err, menuSetting) => {
 
-    router.get('/' + menu.name, function (req, res) {
-        console.log("GET /" + menu.name)
+    if (menuSetting) {
 
-        User.getUser(req.session.userId, (doc) => {
-            var user = doc
-            res.render('page', { user: user, menu: Setting.menu })
+        menuSetting.value.forEach(menu => {
+
+            router.get('/' + menu.name, function (req, res) {
+                console.log("GET /" + menu.name)
+
+                User.getUser(req.session.userId, (user) => {
+
+                    res.render('page', { user: user, menu: menuSetting.value })
+
+                })
+            })
+
         })
-    })
-
-});
+    }
+})
 
 module.exports = router;

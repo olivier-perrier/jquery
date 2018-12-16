@@ -24,21 +24,6 @@ router.get('/', (req, res) => {
 })
 
 
-router.get('/create', (req, res) => {
-  console.log("POST /posts/create")
-
-  data.posts.insert(Post, (err, doc) => {
-    if (doc == null) {
-      res.send({ message: "internal error : impossible to create post" })
-    } else {
-      res.render('post_edit', { post: doc })
-    }
-  })
-
-})
-
-
-
 router.get('/:postId', (req, res) => {
   console.log("GET /posts/:postId")
   var postId = req.params.postId

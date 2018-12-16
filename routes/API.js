@@ -28,7 +28,7 @@ router.post('/posts/create', (req, res) => {
 
 })
 
-router.post('/delete/:postId', (req, res) => {
+router.post('/posts/delete/:postId', (req, res) => {
   console.log("POST /API/posts/delete/:postId")
 
   var postId = req.params.postId

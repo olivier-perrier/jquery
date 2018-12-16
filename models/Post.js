@@ -3,6 +3,7 @@ var data = require('./data')
 var Post = {
     name: String,
     content: String,
+    contentPreview: String,
     createdAt: new Date(),
     updatedAt: new Date()
 }

@@ -1,0 +1,52 @@
+{{> admin/base}}
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+
+{{> admin/header}}
+
+
+<div id="app" class="container">
+
+    <div class="card">
+        <div class="card-header">
+            Menus
+        </div>
+        <ul class="list-group list-group-flush">
+            {{# menu}}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <input type="hidden" id="postId" name="postId" value="post._id">
+
+                <span :href="'/admin/posts/edit/' + item._id">{{name}}</span>
+                <button v-on:click="deletePost(item)" class="btn btn-danger btn-sm" href="admin/posts">Delete</button>
+            </li>
+            {{/ menu}}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <input type="text" id="menuName" placeholder="Menu name">
+                <button id="addMenu" class="btn btn-success btn-sm">Add</button>
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+
+{{> includes/footer}}
+
+<script>
+
+    $(() => {
+        $("#addMenu").click(() => {
+
+            var menuName = $("#menuName").val()
+
+            $.post(URL + "/admin/menu/create", { name: menuName }, (data, statut) => {
+                console.log(data)
+                window.location = "/admin/menu"
+            })
+        })
+
+    })
+
+</script>
