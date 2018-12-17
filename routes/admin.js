@@ -66,8 +66,32 @@ router.post('/menu/create/', (req, res) => {
   var menuName = req.body.name
 
   data.settings.findOne({ name: "menu" }, (err, doc) => {
-    var oldMenu = doc.value
-    var newMenu = doc.value.concat([{ name: menuName }])
+    var menuItem = {
+      name: menuName,
+    }
+    var newMenu = doc.value.concat([menuItem])
+
+    data.settings.update({ name: "menu" }, { $set: { value: newMenu } }, (err, doc) => {
+      if (doc) {
+        res.send({ menu: doc })
+      } else {
+        res.send({ message: "internal error : impossible to create menu" })
+      }
+    })
+
+  })
+})
+
+router.post('/menu/delete/', (req, res) => {
+  console.log("POST /admin/menu/delete")
+  var menuName = req.body.name
+
+  data.settings.findOne({ name: "menu" }, (err, doc) => {
+
+    //Remove the value from the list 
+    var newMenu = doc.value.filter((value, index, arr) => {
+      return value.name != menuName
+    })
 
     data.settings.update({ name: "menu" }, { $set: { value: newMenu } }, (err, doc) => {
       if (doc) {
