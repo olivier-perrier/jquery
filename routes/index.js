@@ -8,8 +8,7 @@ var Setting = data.model('Setting')
 
 router.get('/', function (req, res) {
 
-    User.getUser(req.session.userId, (doc) => {
-        var user = doc
+    User.getUser(req.session.userId, (user) => {
 
         data.settings.findOne({ name: "menu" }, (err, menu) => {
 
@@ -36,6 +35,48 @@ router.get('/posts', (req, res) => {
 
     })
 
+})
+
+router.get('/:page', function (req, res, next) {
+    console.log("GET /:page")
+
+    var pageName = req.params.page
+
+    if (pageName == 'admin')
+        next()
+    else {
+
+
+        console.log("page name = " + pageName)
+
+        data.settings.findOne({ name: "menu" }, (err, setting) => {
+            if (setting) {
+                var menu = setting.value
+
+                var menuPage = menu.find((elem) => {
+                    return elem.name == pageName
+                })
+
+                //Page is a dynamique menu from setting
+                if (menuPage) {
+                    console.log("page found")
+                    User.getUser(req.session.userId, (user) => {
+
+
+                        res.render('page', { user: user, menu: menu })
+
+                    })
+                
+                } else {
+                    next()
+                }
+
+
+            } else {
+                res.sendDate({ message: "internal error: impossible to find menu from setting" })
+            }
+        })
+    }
 })
 
 // Requests for dynamique menu

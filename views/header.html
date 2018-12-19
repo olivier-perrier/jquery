@@ -12,27 +12,28 @@
             <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Account</a>
+                    <a class="nav-link" href="#" onClick="account()">Account</a>
                     <!-- <button id="account" class="btn btn-outline-success" type="button">Account</button> -->
                 </li>
 
-                
+
             </ul>
 
+            <!-- if user is login -->
             {{ #user.name }}
-                <a id="account" class="btn btn-link" href="/account" role="button">Hola {{ user.name }}</a>
-                <a id="logout" class="btn btn-link" href="/users/logout" role="button">Log out</a>
+            <a id="account" class="btn btn-link" href="/account" role="button">Hola {{ user.name }}</a>
+            <a id="logout" class="btn btn-link" href="/users/logout" role="button">Log out</a>
             {{ /user.name }}
 
+            <!-- if user is not login -->
             {{ ^user.name }}
-            
             {{> includes/login}}
             <form id="logginForm" class="form-inline">
-                
-                <button id="signup" class="btn btn-outline-primary" type="button">Sign up</button>
-                
+
+                <button class="btn btn-outline-primary" type="button" onClick="signup()">Sign up</button>
+
             </form>
-            
+
             {{ /user.name }}
 
             <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
@@ -44,7 +45,7 @@
         <a class="p-2" href="/">Home</a>
         <a class="p-2" href="/posts">Posts</a>
         {{#menu}}
-            <a class="p-2" href="/{{name}}">{{name}}</a>
+        <a class="p-2" href="/{{name}}">{{name}}</a>
         {{/menu}}
     </nav>
 
@@ -53,6 +54,19 @@
 <script>
     $(() => {
 
+
     })
+
+    function signup() {
+        $.post(URL + "/users/signup", { name: name }, (data, statut) => {
+            console.log(data)
+        })
+    }
+
+    function account() {
+        $.get(URL + "/users/account", (data, statut) => {
+            console.log(data)
+        })
+    }
 
 </script>

@@ -5,8 +5,6 @@ var mustacheExpress = require('mustache-express')
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js')
-var defencesRouter = require('./routes/defences.js')
-var resourcesRouter = require('./routes/resources.js')
 var postsRouter = require('./routes/posts.js')
 var adminRouter = require('./routes/admin.js')
 var APIRouter = require('./routes/API.js')
@@ -36,8 +34,6 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/defences', defencesRouter);
-app.use('/resources', resourcesRouter);
 app.use('/posts', postsRouter);
 app.use('/admin', adminRouter);
 app.use('/API', APIRouter);
