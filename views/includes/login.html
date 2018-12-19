@@ -29,6 +29,7 @@
 
                 <!-- <button type="button" id="login" class="btn btn-primary">Log in</button> -->
                 <a id="login" class="btn btn-link" href="/users/login" role="button">Log in</a>
+
             </div>
         </div>
     </div>
@@ -44,6 +45,11 @@
             login($("#username").val(), $("#password").val())
             window.location = "/"
         })
+
+        // $("#logginForm").submit((event) => {
+        //     event.preventDefault()
+        //     login($("#logginInput").val())
+        // })
 
 
     })

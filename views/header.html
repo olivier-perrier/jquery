@@ -24,15 +24,14 @@
             <a id="account" class="btn btn-link" href="/account" role="button">Hola {{ user.name }}</a>
             <a id="logout" class="btn btn-link" href="/users/logout" role="button">Log out</a>
             {{ /user.name }}
+            
 
             <!-- if user is not login -->
             {{ ^user.name }}
+
             {{> includes/login}}
-            <form id="logginForm" class="form-inline">
 
-                <button class="btn btn-outline-primary" type="button" onClick="signup()">Sign up</button>
-
-            </form>
+            <button class="btn btn-outline-primary" type="button" onClick="signup()">Sign up</button>
 
             {{ /user.name }}
 

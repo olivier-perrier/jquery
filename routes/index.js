@@ -9,11 +9,12 @@ var Setting = data.model('Setting')
 router.get('/', function (req, res) {
 
     User.getUser(req.session.userId, (user) => {
+        data.posts.find({}, (err, posts) => {
+            data.settings.findOne({ name: "menu" }, (err, menu) => {
 
-        data.settings.findOne({ name: "menu" }, (err, menu) => {
+                res.render('index', { posts: posts, user: user, menu: menu.value })
 
-            res.render('index', { user: user, menu: menu.value })
-
+            })
         })
 
     })
@@ -26,10 +27,10 @@ router.get('/posts', (req, res) => {
     User.getUser(req.session.userId, (doc) => {
         var user = doc
 
-        data.posts.find({}, (err, docs) => {
+        data.posts.find({}, (err, posts) => {
             data.settings.findOne({ name: "menu" }, (err, menu) => {
 
-                res.render('posts', { posts: docs, user: user, menu: menu.value })
+                res.render('posts', { posts: posts, user: user, menu: menu.value })
             })
         })
 
@@ -66,7 +67,7 @@ router.get('/:page', function (req, res, next) {
                         res.render('page', { user: user, menu: menu })
 
                     })
-                
+
                 } else {
                     next()
                 }

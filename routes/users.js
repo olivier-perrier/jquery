@@ -3,8 +3,6 @@ var router = express.Router();
 
 var data = require('../models/data.js')
 var User = data.model('User')
-var Resource = data.model('Resource')
-var Defence = data.model('Defence')
 
 router.get('/login', (req, res) => {
   console.log("GET /users/login")
