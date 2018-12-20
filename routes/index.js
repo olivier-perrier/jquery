@@ -43,62 +43,35 @@ router.get('/:page', function (req, res, next) {
 
     var pageName = req.params.page
 
-    if (pageName == 'admin')
-        next()
-    else {
+    console.log("page name = " + pageName)
 
+    data.settings.findOne({ name: "menu" }, (err, setting) => {
+        if (setting) {
+            var menu = setting.value
 
-        console.log("page name = " + pageName)
-
-        data.settings.findOne({ name: "menu" }, (err, setting) => {
-            if (setting) {
-                var menu = setting.value
-
-                var menuPage = menu.find((elem) => {
-                    return elem.name == pageName
-                })
-
-                //Page is a dynamique menu from setting
-                if (menuPage) {
-                    console.log("page found")
-                    User.getUser(req.session.userId, (user) => {
-
-
-                        res.render('page', { user: user, menu: menu })
-
-                    })
-
-                } else {
-                    next()
-                }
-
-
-            } else {
-                res.sendDate({ message: "internal error: impossible to find menu from setting" })
-            }
-        })
-    }
-})
-
-// Requests for dynamique menu
-data.settings.findOne({ name: "menu" }, (err, menuSetting) => {
-
-    if (menuSetting) {
-
-        menuSetting.value.forEach(menu => {
-
-            router.get('/' + menu.name, function (req, res) {
-                console.log("GET /" + menu.name)
-
-                User.getUser(req.session.userId, (user) => {
-
-                    res.render('page', { user: user, menu: menuSetting.value })
-
-                })
+            var menuPage = menu.find((elem) => {
+                return elem.name == pageName
             })
 
-        })
-    }
+            //Page is a dynamique menu from setting
+            if (menuPage) {
+                console.log("page found")
+                User.getUser(req.session.userId, (user) => {
+
+
+                    res.render('page', { user: user, menu: menu })
+
+                })
+
+            } else {
+                next()
+            }
+
+
+        } else {
+            res.sendDate({ message: "internal error: impossible to find menu from setting" })
+        }
+    })
 })
 
 module.exports = router;
