@@ -1,7 +1,7 @@
 <header>
 
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="#">OP</a>
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-2">
+        <a class="navbar-brand" href="/">OP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -14,16 +14,27 @@
                 <li class="nav-item">
                     <!-- <button id="account" class="btn btn-outline-success" type="button">Account</button> -->
                 </li>
+                <li class="nav-item">
+                    <a class="nav-lik p-2" href="/">Home</a>
+                    <a class="p-2" href="/posts">Posts</a>
+                    <a class="p-2" href="/posts">Posts</a>
+                </li>
+                <li class="nav-item">
+                    {{#menu}}
+                    <a class="p-2" href="/{{name}}">{{name}}</a>
+                    {{/menu}}
+                </li>
 
 
             </ul>
 
             <!-- if user is login -->
             {{ #user.name }}
-            <a id="account" class="btn btn-link" href="/users/account" onClick="account()" role="button">{{ user.name }}</a>
+            <a id="account" class="btn btn-link" href="/users/account" onClick="account()" role="button">{{ user.name
+                }}</a>
             <a id="logout" class="btn btn-link" href="/users/logout" role="button">Log out</a>
             {{ /user.name }}
-            
+
 
             <!-- if user is not login -->
             {{ ^user.name }}
@@ -37,14 +48,6 @@
             <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
 
         </div>
-    </nav>
-
-    <nav class="nav justify-content-center">
-        <a class="p-2" href="/">Home</a>
-        <a class="p-2" href="/posts">Posts</a>
-        {{#menu}}
-        <a class="p-2" href="/{{name}}">{{name}}</a>
-        {{/menu}}
     </nav>
 
 </header>
@@ -62,7 +65,7 @@
     }
 
     function account() {
-     
+
     }
 
 </script>
