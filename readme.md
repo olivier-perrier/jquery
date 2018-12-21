@@ -11,3 +11,5 @@ TODO
 - Ok - Enlever logique resource et defence
 - Ok - Enlever le main.js si besoin. Conservation du fichier commme script pouvant etre utilisaé de maniere générale mais toutes les fonctions ont été enlevées.
 - Ok - Organisation des template. Seul les template de page en direct, les autre dans les includes.
+
+Typage des posts

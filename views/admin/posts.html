@@ -62,7 +62,6 @@
                 $.post(URL + "/API/posts/delete/" + post._id, {}, (data, statut) => {
                     console.log(data)
                     this.getPosts()
-                    // this.posts = data.posts
                 })
 
             },
