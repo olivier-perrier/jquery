@@ -2,15 +2,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-<script src="/comp.js"></script>
-
 {{> admin/header}}
-
 
 <div id="app" class="container">
     
-    <buttoncounter></buttoncounter>
-
     <div class="card">
         <div class="card-header">
             Posts
@@ -30,7 +25,7 @@
     </div>
 
 
-    <button v-on:click="createPost()" class="btn btn-light">Create</button>
+    <button v-on:click="createPost()" class="btn btn-light my-2">Create</button>
 
     <br>
 
