@@ -55,12 +55,10 @@ router.get('/:page', function (req, res, next) {
 
             //Page is a dynamique menu from setting
             if (menuPage) {
-                console.log("page found")
+
                 User.getUser(req.session.userId, (user) => {
 
-
                     res.render('page', { user: user, menu: menu })
-
                 })
 
             } else {

@@ -3,9 +3,4 @@ const URL = ""
 
 $(() => {
 
-    $("#logginForm").submit((event) => {
-        event.preventDefault()
-        login($("#logginInput").val())
-    })
-
 });

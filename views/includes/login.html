@@ -27,8 +27,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                <!-- <button type="button" id="login" class="btn btn-primary">Log in</button> -->
-                <a id="login" class="btn btn-link" href="/users/login" role="button">Log in</a>
+                <button type="button" onClick="login()" class="btn btn-primary">Log in</button>
+                <a class="btn btn-link" href="" role="button" onClick="login()">Log in</a>
 
             </div>
         </div>
@@ -39,24 +39,19 @@
 
     $(() => {
 
-        login("Olivier", "123")
-
-        $("#login").click(() => {
-            login($("#username").val(), $("#password").val())
-            window.location = "/"
-        })
-
-        // $("#logginForm").submit((event) => {
-        //     event.preventDefault()
-        //     login($("#logginInput").val())
-        // })
-
+        // login("Olivier", "123")
 
     })
 
-    function login(username, password) {
+    function login() {
+
+        var username = $("#username").val()
+        var password = $("#password").val()
+
         $.post(URL + "/users/loggin", { name: username, password: password }, (data, statut) => {
             console.log(data)
+
+            window.location = "/"
         })
     }
 

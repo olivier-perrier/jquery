@@ -62,5 +62,4 @@ typings/
 .next
 
 # Databases
-data/resources.nedb
 data/posts.nedb

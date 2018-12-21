@@ -12,7 +12,6 @@
             <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onClick="account()">Account</a>
                     <!-- <button id="account" class="btn btn-outline-success" type="button">Account</button> -->
                 </li>
 
@@ -21,7 +20,7 @@
 
             <!-- if user is login -->
             {{ #user.name }}
-            <a id="account" class="btn btn-link" href="/account" role="button">Hola {{ user.name }}</a>
+            <a id="account" class="btn btn-link" href="/users/account" onClick="account()" role="button">{{ user.name }}</a>
             <a id="logout" class="btn btn-link" href="/users/logout" role="button">Log out</a>
             {{ /user.name }}
             
@@ -63,9 +62,7 @@
     }
 
     function account() {
-        $.get(URL + "/users/account", (data, statut) => {
-            console.log(data)
-        })
+     
     }
 
 </script>

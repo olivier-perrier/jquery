@@ -4,29 +4,17 @@ var router = express.Router();
 var data = require('../models/data.js')
 var User = data.model('User')
 
-router.get('/login', (req, res) => {
-  console.log("GET /users/login")
-  var userName = req.body.name
-
-  data.users.findOne({ name: userName }, (err, doc) => {
-    if (doc) {
-      req.session.userId = doc._id
-      res.send({ message: "success loggin", name: doc.name })
-    } else {
-      res.redirect("/")
-    }
-  })
-
-})
 
 router.post('/loggin', (req, res) => {
-  console.log("POST /users/loggin")
+  console.log("GET /users/loggin")
+
   var userName = req.body.name
 
-  data.users.findOne({ name: userName }, (err, doc) => {
-    if (doc) {
-      req.session.userId = doc._id
-      res.send({ message: "success loggin", name: doc.name })
+  data.users.findOne({ name: userName }, (err, user) => {
+    if (user) {
+      req.session.userId = user._id
+      res.redirect("/")
+      // res.send({ message: "success : loggin ", user: user })
     } else {
       res.send({ message: "not found : unknow username" })
     }
@@ -36,7 +24,6 @@ router.post('/loggin', (req, res) => {
 
 router.get('/logout', (req, res) => {
   console.log("GET /users/logout")
-  var userName = req.body.name
   
   req.session.userId = null
 
@@ -79,7 +66,7 @@ router.get('/account', (req, res) => {
     if (user == null) {
       res.send({ message: "forbidden: You must be logged" })
     } else {
-      res.send({ messagge: "success: Account informations", user: user })
+      res.send("This is account")
     }
 
   })
