@@ -6,6 +6,31 @@
 
 This is page (parent of post)
 
+<div class="container">
+
+    <div class="row">
+
+        {{#posts}}
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <h3 class="mb-3">
+                        <a href="posts/{{_id}}">{{name}}</a>
+                    </h3>
+                    <!-- <div class="mb-1 text-muted">{{createdAt}}</div> -->
+                    <p id="postContent" class="card-text mb-auto">{{{contentPreview}}}</p>
+                    <a href="posts/{{_id}}">Continue reading</a>
+                </div>
+            </div>
+        </div>
+        {{/posts}}
+
+    </div>
+
+    <a href="/admin/posts/create/" class="btn btn-light my-2">Create</a>
+
+</div>
+
 
 
 {{> includes/footer}}

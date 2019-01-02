@@ -18,10 +18,12 @@
 
                 <span :href="'/admin/posts/edit/' + item._id">{{name}}</span>
                 <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu" href="admin/posts">Delete</button>
+              
             </li>
             {{/ menu}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <input type="text" id="menuName" placeholder="Menu name">
+                <input type="text" id="postType" placeholder="Post type">
                 <button id="addMenu" class="btn btn-success btn-sm">Add</button>
             </li>
 
@@ -50,8 +52,9 @@
         $("#addMenu").click(() => {
 
             var menuName = $("#menuName").val()
+            var postType = $("#postType").val()
 
-            $.post(URL + "/admin/menu/create", { name: menuName }, (data, statut) => {
+            $.post(URL + "/admin/menu/create", { name: menuName, postType: postType }, (data, statut) => {
                 console.log(data)
                 window.location = "/admin/menu"
             })

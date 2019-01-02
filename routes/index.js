@@ -27,7 +27,7 @@ router.get('/posts', (req, res) => {
     User.getUser(req.session.userId, (doc) => {
         var user = doc
 
-        data.posts.find({postType: "post"}, (err, posts) => {
+        data.posts.find({ postType: "post" }, (err, posts) => {
             data.settings.findOne({ name: "menu" }, (err, menu) => {
 
                 res.render('posts', { posts: posts, user: user, menu: menu.value })
@@ -42,8 +42,9 @@ router.get('/:page', function (req, res, next) {
     console.log("GET /:page")
 
     var pageName = req.params.page
+    var postType = ""
 
-    console.log("page name = " + pageName)
+    console.log("page name : " + pageName)
 
     data.settings.findOne({ name: "menu" }, (err, setting) => {
         if (setting) {
@@ -57,8 +58,11 @@ router.get('/:page', function (req, res, next) {
             if (menuPage) {
 
                 User.getUser(req.session.userId, (user) => {
+                    console.log("type Post: " + menuPage.postType)
+                    data.posts.find({ postType: menuPage.postType }, (err, posts) => {
 
-                    res.render('page', { user: user, menu: menu })
+                        res.render('page', { user: user, menu: menu, posts: posts })
+                    })
                 })
 
             } else {

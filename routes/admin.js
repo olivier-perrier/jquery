@@ -64,10 +64,12 @@ router.get('/posts/create/', (req, res) => {
 router.post('/menu/create/', (req, res) => {
   console.log("POST /admin/menu/create")
   var menuName = req.body.name
+  var postType = req.body.postType
 
   data.settings.findOne({ name: "menu" }, (err, doc) => {
     var menuItem = {
       name: menuName,
+      postType: postType
     }
     var newMenu = doc.value.concat([menuItem])
 
