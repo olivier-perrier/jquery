@@ -21,7 +21,7 @@
     <form>
         <div class="form-group">
             <label for="postType">Post type</label>
-            <input type="text" class="form-control" id="postType" aria-describedby="emailHelp" placeholder="Post type">
+            <input type="text" id="postType" class="form-control" aria-describedby="emailHelp" placeholder="Post type" value="{{post.postType}}">
         </div>
     </form>
 
@@ -43,8 +43,10 @@
             var postId = $('#postId').val()
             var postName = $('#postName').val()
             var postContent = $('#postContent').val()
+            var postType = $('#postType').val()
 
-            $.post(URL + "/posts/save/" + postId, { name: postName, content: postContent }, (data, statut) => {
+
+            $.post(URL + "/posts/save/" + postId, { name: postName, content: postContent, postType: postType }, (data, statut) => {
                 console.log(data)
 
             })

@@ -27,7 +27,7 @@ router.get('/posts', (req, res) => {
     User.getUser(req.session.userId, (doc) => {
         var user = doc
 
-        data.posts.find({}, (err, posts) => {
+        data.posts.find({postType: "post"}, (err, posts) => {
             data.settings.findOne({ name: "menu" }, (err, menu) => {
 
                 res.render('posts', { posts: posts, user: user, menu: menu.value })
