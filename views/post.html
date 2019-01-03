@@ -6,9 +6,13 @@
 
 <input type="hidden" id="postId" name="postId" value="{{post._id}}">
 
-Posts of Post type only
 
 <div class="container">
+    
+    <h4 class="mb-3">
+        <a href="/posts">All posts</a>
+    </h4>
+
     <div class="card flex-md-row mb-4 shadow-sm h-md-250">
         <div class="card-body d-flex flex-column align-items-start">
             <h3 class="mb-3">
@@ -16,16 +20,13 @@ Posts of Post type only
             </h3>
             <div class="mb-1 text-muted">{{post.createdAt}}</div>
             <p id="postContent" class="card-text mb-auto">{{{post.content}}}</p>
-            <a href="#">Continue reading</a>
         </div>
     </div>
 
-    <a href="edit/{{post._id}}" class="btn btn-light">Edit</a>
-    <button href="/posts" id="postDelete" class="btn btn-light">Delete</button>
-
 </div>
 
-<a href="/posts">All posts</a>
+
+Posts of type "Post"
 
 {{> includes/footer}}
 
@@ -33,18 +34,6 @@ Posts of Post type only
 
 <script>
 
-    $(() => {
 
-        $("#postDelete").click(() => {
-
-            var postId = $('#postId').val()
-
-            $.post(URL + "/posts/delete/" + postId, {}, (data, statut) => {
-                console.log(data)
-                window.location = "/posts"
-            })
-        })
-
-    })
 
 </script>

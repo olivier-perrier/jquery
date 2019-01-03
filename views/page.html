@@ -4,7 +4,6 @@
 {{> includes/header}}
 
 
-This is page (parent of post)
 
 <div class="container">
 
@@ -25,13 +24,13 @@ This is page (parent of post)
         </div>
         {{/posts}}
 
+        {{ ^posts }}
+        No post axising yet
+        {{ /posts }}
+
     </div>
 
-    <a href="/admin/posts/create/" class="btn btn-light my-2">Create</a>
-
 </div>
-
-
 
 {{> includes/footer}}
 

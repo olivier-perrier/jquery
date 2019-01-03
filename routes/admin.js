@@ -46,20 +46,18 @@ router.get('/posts/edit/:postId', (req, res) => {
 
 })
 
-router.get('/posts/create/', (req, res) => {
-  console.log("GET /admin/posts/create")
-  var postId = req.params.postId
+// router.get('/posts/create/', (req, res) => {
+//   console.log("GET /admin/posts/create")
+//   var postId = req.params.postId
 
-  Post.createPost("Lorem ipsum", "zerzerzerze", (err, doc) => {
-    if (doc) {
-      res.render('admin/post_edit', { post: doc })
-    } else {
-      res.send({ message: "internal error : impossible to create post" })
-    }
-  })
-
-
-})
+//   Post.createPost("Lorem ipsum", "zerzerzerze", (err, doc) => {
+//     if (doc) {
+//       res.render('admin/post_edit', { post: doc })
+//     } else {
+//       res.send({ message: "internal error : impossible to create post" })
+//     }
+//   })
+// })
 
 router.post('/menu/create/', (req, res) => {
   console.log("POST /admin/menu/create")
