@@ -8,24 +8,38 @@
 <div class="container">
     <div class="card mb-4 shadow-sm">
         <div class="card-body d-flex flex-column align-items-start">
-            <h3 class="mb-0">
-                <input type="text" id="postName" style="width:100%" value="{{post.name}}">
-            </h3>
+
+            <!-- Title -->
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Title</span>
+                </div>
+                <input type="text" class="form-control" id="postName" value="{{post.name}}">
+            </div>
+
             <p class="mb-1 text-muted">{{post.createdAt}}</p>
-            <textarea id="postContent" rows="10" style="height:100%" class="w-100" name="comment" form="usrform">{{{post.content}}}</textarea>
+
+            <!-- Test area -->
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Content</span>
+                </div>
+                <textarea id="postContent" rows="10" class="form-control">{{{post.content}}}</textarea>
+            </div>
 
         </div>
     </div>
 
-    
+
     <form>
         <div class="form-group">
             <label for="postType">Post type</label>
-            <input type="text" id="postType" class="form-control" aria-describedby="emailHelp" placeholder="Post type" value="{{post.postType}}">
+            <input type="text" id="postType" class="form-control" aria-describedby="emailHelp" placeholder="Post type"
+                value="{{post.postType}}">
         </div>
     </form>
 
-    
+
     <a href="/admin/posts" class="btn btn-light">Return</a>
     <button class="btn btn-primary" type="button" id="postSave">Save</button>
     <a href="/posts/{{post._id}}" class="btn btn-light">View</a>

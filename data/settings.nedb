@@ -1,1 +1,1 @@
-{"name":"menu","value":[{"name":"Contrats"},{"name":"myposts","postType":"post"},{"name":"mycontracts","postType":"contract"}],"_id":"aMHOQ933i3SY2cbs"}
+{"name":"menu","value":[{"name":"Contracts","postType":"contract"},{"name":"Others","postType":"*"}],"_id":"aMHOQ933i3SY2cbs"}
