@@ -17,8 +17,12 @@
                 <input type="hidden" id="postId" name="postId" value="post._id">
 
                 <span :href="'/admin/posts/edit/' + item._id">{{name}}</span>
+
+                <span class="postTypeSpan">{{postType}}</span>
+                <input type="text" class="postTypeInput" placeholder="Post type" style='display:none'>
+
                 <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu" href="admin/posts">Delete</button>
-              
+
             </li>
             {{/ menu}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -35,6 +39,8 @@
 
 <br>
 
+<span class="testA">test</span>
+<span class="testB">Click me</span>
 
 {{> includes/footer}}
 
@@ -42,12 +48,25 @@
 
     function deleteMenu(menuName) {
         $.post(URL + "/admin/menu/delete", { name: menuName }, (data, statut) => {
-                console.log(data)
-                window.location = "/admin/menu"
-            })
+            console.log(data)
+            window.location = "/admin/menu"
+        })
     }
 
     $(() => {
+
+        $(".postTypeSpan").click(function() {
+            $(this).hide();
+            $(this).next(".postTypeInput").val($(this).text())
+            $(this).next(".postTypeInput").show()
+            $(this).next(".postTypeInput").focus()
+        })
+
+        $(".postTypeInput").focusout(function () {
+            $(this).hide();
+            $(this).prev().html($(this).val());
+            $(this).prev().show();
+        });
 
         $("#addMenu").click(() => {
 
