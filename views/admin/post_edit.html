@@ -3,6 +3,7 @@
 {{> admin/header}}
 
 <input type="hidden" id="postId" name="postId" value="{{post._id}}">
+<input type="hidden" id="postType" name="postType" value="{{post.postType}}">
 
 
 <div class="container">
@@ -31,13 +32,20 @@
     </div>
 
 
-    <form>
-        <div class="form-group">
-            <label for="postType">Post type</label>
-            <input type="text" id="postType" class="form-control" aria-describedby="emailHelp" placeholder="Post type"
-                value="{{post.postType}}">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Post type</span>
         </div>
-    </form>
+        <select class="custom-select" id="inputGroupPostType">
+            <option value="post">post</option>
+            <option value="page">page</option>
+            <option value="menu">menu</option>
+            <option value="other">other</option>
+        </select>
+        <!-- <input type="text" id="postType" class="form-control" value="{{post.postType}}"> -->
+    </div>
+
+    <br>
 
 
     <a href="/admin/posts" class="btn btn-light">Return</a>
@@ -52,13 +60,15 @@
 <script>
     $(document).ready(function () {
 
+        $('#inputGroupPostType').val($("#postType").val()).change()
+
         $("#postSave").click(() => {
 
             var postId = $('#postId').val()
             var postName = $('#postName').val()
             var postContent = $('#postContent').val()
-            var postType = $('#postType').val()
-
+            // var postType = $('#postType').val()
+            var postType = $('#inputGroupPostType').val()
 
             $.post(URL + "/posts/save/" + postId, { name: postName, content: postContent, postType: postType }, (data, statut) => {
                 console.log(data)
