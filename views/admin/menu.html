@@ -12,19 +12,19 @@
             Menus
         </div>
         <ul class="list-group list-group-flush">
-            {{# menu}}
+            {{# menus}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <input type="hidden" id="postId" name="postId" value="post._id">
 
-                <span :href="'/admin/posts/edit/' + item._id">{{name}}</span>
+                <span :href="'/admin/posts/edit/' + item._id">{{title}}</span>
 
-                <span class="postTypeSpan">{{postType}}</span>
+                <span class="postTypeSpan">{{content}}</span>
                 <input type="text" class="postTypeInput" placeholder="Post type" style='display:none'>
 
                 <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
 
             </li>
-            {{/ menu}}
+            {{/ menus}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <input type="text" id="menuName" placeholder="Menu name">
                 <input type="text" id="postType" placeholder="Post type">

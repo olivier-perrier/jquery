@@ -10,9 +10,9 @@ router.get('/', function (req, res) {
 
     User.getUser(req.session.userId, (user) => {
         data.posts.find({}, (err, posts) => {
-            data.settings.findOne({ name: "menu" }, (err, menu) => {
+            data.posts.find({ postType: "menu" }, (err, menus) => {
 
-                res.render('index', { posts: posts, user: user, menu: menu.value })
+                res.render('index', { posts: posts, user: user, menus: menus })
 
             })
         })

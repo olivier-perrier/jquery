@@ -46,61 +46,32 @@ router.get('/posts/edit/:postId', (req, res) => {
 
 })
 
-// router.get('/posts/create/', (req, res) => {
-//   console.log("GET /admin/posts/create")
-//   var postId = req.params.postId
-
-//   Post.createPost("Lorem ipsum", "zerzerzerze", (err, doc) => {
-//     if (doc) {
-//       res.render('admin/post_edit', { post: doc })
-//     } else {
-//       res.send({ message: "internal error : impossible to create post" })
-//     }
-//   })
-// })
-
 router.post('/menu/create/', (req, res) => {
   console.log("POST /admin/menu/create")
+
   var menuName = req.body.name
   var postType = req.body.postType
 
-  data.settings.findOne({ name: "menu" }, (err, doc) => {
-    var menuItem = {
-      name: menuName,
-      postType: postType
+  Post.createMenu(menuName, postType, (err, menu) => {
+    if (menu) {
+      res.send({ message: "success : new menu created", menu: menu })
+    } else {
+      res.send({ message: "internal error : impossible to create menu" })
     }
-    var newMenu = doc.value.concat([menuItem])
-
-    data.settings.update({ name: "menu" }, { $set: { value: newMenu } }, (err, doc) => {
-      if (doc) {
-        res.send({ menu: doc })
-      } else {
-        res.send({ message: "internal error : impossible to create menu" })
-      }
-    })
-
   })
+
 })
 
 router.post('/menu/delete/', (req, res) => {
   console.log("POST /admin/menu/delete")
   var menuName = req.body.name
 
-  data.settings.findOne({ name: "menu" }, (err, doc) => {
-
-    //Remove the value from the list 
-    var newMenu = doc.value.filter((value, index, arr) => {
-      return value.name != menuName
-    })
-
-    data.settings.update({ name: "menu" }, { $set: { value: newMenu } }, (err, doc) => {
-      if (doc) {
+  data.post.remove({ _id: menuId, postType: "menu", name: menuName }, (err, num) => {
+      if (num == 0) {
         res.send({ menu: doc })
       } else {
         res.send({ message: "internal error : impossible to create menu" })
       }
-    })
-
   })
 })
 
@@ -139,11 +110,11 @@ router.get('/menu', (req, res) => {
     res.send({ messsage: "forbidden: you must be logged to access admin" })
 
   } else {
-    data.settings.findOne({ name: "menu" }, (err, menu) => {
+    data.posts.find({ postType: "menu" }, (err, menus) => {
 
       data.users.findOne({ _id: userId }, (err, user) => {
 
-        res.render('admin/menu', { menu: menu.value, user: user })
+        res.render('admin/menu', { menus: menus, user: user })
 
       })
     })
