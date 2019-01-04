@@ -64,3 +64,4 @@ typings/
 # Databases
 data/posts.nedb
 data/settings.nedb
+data/users.nedb

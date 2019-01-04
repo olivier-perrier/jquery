@@ -13,3 +13,10 @@ TODO
 - Ok - Organisation des template. Seul les template de page en direct, les autre dans les includes.
 
 Typage des posts
+- Typage haut : post, page, menu
+- Les posts de type menu definissent le menu
+- Les posts de type page ou post peuvent etre le lien vers un menu
+- Un menu peut aussi etre un lien direct
+- Une page est un post particulier qui ne peut jamais etre listé 
+- Une page est un contenu riche
+
