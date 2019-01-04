@@ -30,7 +30,7 @@ router.get('/posts', (req, res) => {
         data.posts.find({ postType: "post" }, (err, posts) => {
             data.settings.findOne({ name: "menu" }, (err, menu) => {
 
-                res.render('posts', { posts: posts, user: user, menu: menu.value })
+                res.render('posts', { posts: posts, user: user, menu: menu })
             })
         })
 
@@ -46,32 +46,23 @@ router.get('/:page', function (req, res, next) {
 
     console.log("page name : " + pageName)
 
-    data.settings.findOne({ name: "menu" }, (err, setting) => {
-        if (setting) {
-            var menu = setting.value
+    data.posts.findOne({ postType: "menu", name: pageName }, (err, menu) => {
 
-            var menuPage = menu.find((elem) => {
-                return elem.name == pageName
-            })
+        if (menu) {
 
-            //Page is a dynamique menu from setting
-            if (menuPage) {
+            data.posts.find({ postType: "menu" }, (err, menus) => {
 
                 User.getUser(req.session.userId, (user) => {
-                    console.log("type Post: " + menuPage.postType)
-                    data.posts.find({ postType: menuPage.postType }, (err, posts) => {
 
-                        res.render('page', { user: user, menu: menu, posts: posts })
+                    data.posts.find({ postType: pageName }, (err, posts) => {
+
+                        res.render('page', { user: user, menus: menus, posts: posts })
                     })
                 })
 
-            } else {
-                next()
-            }
-
-
-        } else {
-            res.sendDate({ message: "internal error: impossible to find menu from setting" })
+            })
+        }else{
+            next()
         }
     })
 })
