@@ -9,7 +9,9 @@ var Setting = data.model('Setting')
 router.get('/', function (req, res) {
 
     User.getUser(req.session.userId, (user) => {
-        data.posts.find({}, (err, posts) => {
+
+        data.posts.find({ postType: "post" }, (err, posts) => {
+
             data.posts.find({ postType: "menu" }, (err, menus) => {
 
                 res.render('index', { posts: posts, user: user, menus: menus })
@@ -24,13 +26,12 @@ router.get('/', function (req, res) {
 router.get('/posts', (req, res) => {
     console.log("GET /posts")
 
-    User.getUser(req.session.userId, (doc) => {
-        var user = doc
+    User.getUser(req.session.userId, (user) => {
 
         data.posts.find({ postType: "post" }, (err, posts) => {
-            data.settings.findOne({ name: "menu" }, (err, menu) => {
+            data.posts.find({ postType: "menu" }, (err, menus) => {
 
-                res.render('posts', { posts: posts, user: user, menu: menu })
+                res.render('posts', { posts: posts, user: user, menus: menus })
             })
         })
 

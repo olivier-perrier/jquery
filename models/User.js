@@ -16,6 +16,8 @@ User.getUser = function getUser(userId, callback) {
     })
 }
 
+// data.users.insert({name: "Olivier"})
+
 User.returnUser = function returnUser(username) {
     return {name : username}
 }

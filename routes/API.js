@@ -7,11 +7,11 @@ var Post = data.model('Post')
 router.get('/posts', (req, res) => {
   console.log("GET /API/posts")
 
-  data.posts.find({}, (err, docs) => {
-    if (docs == null) {
+  data.posts.find({ postType: "post" }, (err, posts) => {
+    if (posts == null) {
       res.send({ message: "not found : no posts found" })
     } else {
-      res.send({ message: "success : posts found", posts: docs })
+      res.send({ message: "success : posts found", posts: posts })
     }
   })
 

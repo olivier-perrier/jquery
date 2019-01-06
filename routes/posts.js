@@ -14,8 +14,8 @@ router.get('/:postId', (req, res) => {
     if (post == null) {
       res.send({ message: "not found : no posts found" })
     } else {
-      data.settings.findOne({ name: "menu" }, (err, menu) => {
-        res.render('post', { post: post, menu: menu.value })
+      data.posts.find({ postType: "menu" }, (err, menus) => {
+        res.render('post', { post: post, menus: menus })
       })
     }
   })

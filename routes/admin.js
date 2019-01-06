@@ -87,7 +87,7 @@ router.get('/posts', (req, res) => {
     res.send({ messsage: "forbidden: you must be logged to access admin" })
 
   } else {
-    data.posts.find({}, (err, posts) => {
+    data.posts.find({ postType: "post" }, (err, posts) => {
       data.users.findOne({ _id: userId }, (err, user) => {
 
         res.render('admin/posts', { posts: posts, user: user })
