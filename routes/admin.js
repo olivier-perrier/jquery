@@ -49,10 +49,30 @@ router.get('/posts/edit/:postId', (req, res) => {
 router.post('/menu/create/', (req, res) => {
   console.log("POST /admin/menu/create")
 
-  var menuName = req.body.name
-  var postType = req.body.postType
+  var name = req.body.name
+  var title = req.body.title
+  var content = req.body.content
+  var format = req.body.format
 
-  Post.createMenu(menuName, postType, (err, menu) => {
+  Post.createMenu(title, name, content, format, (err, menu) => {
+    if (menu) {
+      res.send({ message: "success : new menu created", menu: menu })
+    } else {
+      res.send({ message: "internal error : impossible to create menu" })
+    }
+  })
+
+})
+
+router.post('/menu/save/', (req, res) => {
+  console.log("POST /admin/menu/save")
+
+  var name = req.body.name
+  var title = req.body.title
+  var content = req.body.content
+  var format = req.body.format
+
+  Post.updateMenu(title, name, content, format, (err, menu) => {
     if (menu) {
       res.send({ message: "success : new menu created", menu: menu })
     } else {
@@ -66,7 +86,7 @@ router.post('/menu/delete/', (req, res) => {
   console.log("POST /admin/menu/delete")
   var menuName = req.body.name
 
-  data.post.remove({ _id: menuId, postType: "menu", name: menuName }, (err, num) => {
+  data.posts.remove({ postType: "menu", name: menuName }, (err, num) => {
       if (num == 0) {
         res.send({ menu: doc })
       } else {

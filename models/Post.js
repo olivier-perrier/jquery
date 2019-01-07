@@ -15,27 +15,34 @@ function createPost(name, content, callback) {
     })
 }
 
-function createMenu(name, content, callback) {
-
-    create(name, name, content, "menu", (err, doc) => {
+function createMenu(title, name, content, format, callback) {
+    create(title, name, content, "menu", null, null, format, (err, doc) => {
         callback(err, doc)
     })
 }
 
-function getMenus(callback) {
 
-    data.posts.find({postType: "menu"}, (err, menus) => {
+function updateMenu(title, name, content, format, callback) {
+    update(title, name, content, "menu", null, null, format, (err, num) => {
+        callback(err, num)
+    })
+}
+
+function getMenus(callback) {
+    data.posts.find({ postType: "menu" }, (err, menus) => {
         callback(err, menus)
     })
 }
 
-function create(title, name, content, type, callback) {
+function create(title, name, content, postType, category, tag, format, callback) {
     data.posts.insert({
         title: title,
         name: name,
         content: content,
-        contentPreview: content.substring(1, 50),
-        postType: type,
+        postType: postType,     // Define the type of post (post, menu, page)
+        category: category,     // Define custom category
+        tag: tag,               // Define list of tags related to the post
+        format: format,         // Define the format of the post (audio, video, text, link, default...)
         createdAt: new Date(),
         updatedAt: new Date()
     }, (err, doc) => {
@@ -43,9 +50,26 @@ function create(title, name, content, type, callback) {
     })
 }
 
+function update(title, name, content, postType, category, tag, format, callback) {
+    data.posts.update({ name: name }, {
+        title: title,
+        name: name,
+        content: content,
+        postType: postType,         // Define the type of post (post, menu, page)
+        category: category,     // Define custom category
+        tag: tag,               // Define list of tags related to the post
+        format: format,         // Define the format of the post (audio, video, text, link, default...)
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }, (err, num) => {
+    callback(err, num)
+})
+}
+
 Post.createPost = createPost
 
 Post.createMenu = createMenu
+Post.updateMenu = updateMenu
 Post.getMenus = getMenus
 
 // data.posts.update({}, {$set: {createdAt: new Date()}})

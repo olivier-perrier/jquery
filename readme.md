@@ -20,3 +20,10 @@ Typage des posts
 - Une page est un post particulier qui ne peut jamais etre listé 
 - Une page est un contenu riche
 
+Gestion des menus
+
+Gestion des pages
+
+Gestion des utilisateurs
+
+GEstion des médias

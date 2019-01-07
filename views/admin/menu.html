@@ -14,21 +14,38 @@
         <ul class="list-group list-group-flush">
             {{# menus}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <input type="hidden" id="postId" name="postId" value="post._id">
 
-                <span :href="'/admin/posts/edit/' + item._id">{{title}}</span>
+                <input type="hidden" id="postId" name="postId" value="{{_id}}">
+                <input type="hidden" class="format" name="format" value="{{format}}">
 
-                <span class="postTypeSpan">{{content}}</span>
-                <input type="text" class="postTypeInput" placeholder="Post type" style='display:none'>
+                <span class="input-group-text mr-2">{{title}}</span>
+                <span class="input-group-text mr-2">{{name}}</span>
 
+
+                <select class="custom-select mr-2" class="inputGroupMenuFormat">
+                    <option value="direct">Direct link</option>
+                    <option value="page">Page</option>
+                    <option value="post">Post</option>
+                    <option value="posts">posts</option>
+                </select>
+
+                <span class="postTypeSpan mr-2">{{content}}</span>
+
+                <button id="save" onClick="saveMenu('{{title}}', '{{name}}', '{{content}}', '{{format}}')" class="btn btn-success btn-sm saveMenu mr-2">Save</button>
                 <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
-
             </li>
             {{/ menus}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <input type="text" id="menuName" placeholder="Menu name">
-                <input type="text" id="postType" placeholder="Post type">
-                <button id="addMenu" class="btn btn-success btn-sm">Add</button>
+                <input type="text" id="menuTitle" class="form-control" placeholder="Title">
+                <input type="text" id="menuName" class="form-control" placeholder="Name">
+                <select class="custom-select mr-2" id="inputGroupMenuFormat">
+                    <option value="direct">Direct link</option>
+                    <option value="page">Page</option>
+                    <option value="post">Post</option>
+                    <option value="posts">posts</option>
+                </select>
+                <input type="text" id="menuContent" placeholder="Content">
+                <button onClick="addMenu()" class="btn btn-success btn-sm">Add</button>
             </li>
 
         </ul>
@@ -43,6 +60,19 @@
 
 <script>
 
+    function addMenu() {
+        var menuTitle = $("#menuTitle").val()
+        var menuName = $("#menuName").val()
+        var menuContent = $("#menuContent").val()
+        var menuFormat = $('#inputGroupMenuFormat').val()
+
+
+        $.post(URL + "/admin/menu/create", { title: menuTitle, name: menuName, content: menuContent, format: menuFormat }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/menu"
+        })
+    }
+
     function deleteMenu(menuName) {
         $.post(URL + "/admin/menu/delete", { name: menuName }, (data, statut) => {
             console.log(data)
@@ -50,9 +80,19 @@
         })
     }
 
+    function saveMenu(title, name, content, format) {
+        $.post(URL + "/admin/menu/save", { title: title, name: name, content: content, format: format }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/menu"
+        })
+    }
+
     $(() => {
 
-        $(".postTypeSpan").click(function() {
+        // $('.inputGroupMenuFormat').val($("#format").val()).change()
+        console.log($(".format").val())
+
+        $(".postTypeSpan").click(function () {
             $(this).hide();
             $(this).next(".postTypeInput").val($(this).text())
             $(this).next(".postTypeInput").show()
@@ -64,17 +104,6 @@
             $(this).prev().html($(this).val());
             $(this).prev().show();
         });
-
-        $("#addMenu").click(() => {
-
-            var menuName = $("#menuName").val()
-            var postType = $("#postType").val()
-
-            $.post(URL + "/admin/menu/create", { name: menuName, postType: postType }, (data, statut) => {
-                console.log(data)
-                window.location = "/admin/menu"
-            })
-        })
 
     })
 
