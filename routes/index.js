@@ -29,7 +29,7 @@ router.get('/posts', (req, res) => {
     User.getUser(req.session.userId, (user) => {
 
         data.posts.find({ postType: "post" }, (err, posts) => {
-            data.posts.find({ postType: "menu" }, (err, menus) => {
+            Post.getMenus((err, menus) => {
 
                 res.render('posts', { posts: posts, user: user, menus: menus })
             })
@@ -57,15 +57,15 @@ router.get('/:page', function (req, res, next) {
 
 
             } else if (menu.format == "posts") {
-                console.log("menu.format : " + menu.format)
-                console.log("menu.content : " + menu.content)
 
                 var postCategory = menu.content
 
                 Post.getPosts(postCategory, (err, posts) => {
-                    console.log(posts)
 
-                    res.render('posts', { posts: posts, user: "user", menus: "menus" })
+                    Post.getMenus((err, menus) => {
+
+                        res.render('posts', { posts: posts, user: "user", menus: menus })
+                    })
 
                 })
 
@@ -78,13 +78,13 @@ router.get('/:page', function (req, res, next) {
                         console.log("redirection to " + "/posts/" + post._id)
                         res.redirect("/posts/" + post._id)
 
-                    }else{
-                        res.send({message: "Internal error : no post found for name " + pageName})
+                    } else {
+                        res.send({ message: "Internal error : no post found for name " + pageName })
                     }
 
                 })
             }
-       
+
         } else {
             console.log("No menu found for this page")
             next()
