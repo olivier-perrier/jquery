@@ -15,7 +15,7 @@
                 <input type="hidden" id="postId" name="postId" value="post._id">
 
                 {{=%% %%=}}
-                <a :href="'/admin/posts/edit/' + item._id">{{item.name}}</a>
+                <a :href="'/admin/posts/edit/' + item._id">{{item.title}}</a>
                 %%={{ }}=%%
                 <button v-on:click="deletePost(item)" class="btn btn-danger btn-sm" href="admin/posts">X</button>
                 <!-- <span class="badge badge-primary badge-pill">14</span> -->

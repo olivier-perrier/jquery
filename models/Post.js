@@ -1,17 +1,16 @@
 var data = require('./data')
 
-var Post = {
-    name: String,
-    content: String,
-    contentPreview: String,
-    createdAt: new Date(),
-    updatedAt: new Date()
+var Post = {}
+
+function createPost(title, name, content, category, callback) {
+    create(title, name, content, "post", category, null, null, (err, doc) => {
+        callback(err, doc)
+    })
 }
 
-function createPost(name, content, callback) {
-
-    create(name, name, content, "post", (err, doc) => {
-        callback(err, doc)
+function getPosts(category, callback) {
+    data.posts.findOne({ category: category, postType: "post" }, (err, posts) => {
+        callback(err, posts)
     })
 }
 
@@ -21,12 +20,12 @@ function getPost(name, callback) {
     })
 }
 
+/*** Menus ***/
 function createMenu(title, name, content, format, callback) {
     create(title, name, content, "menu", null, null, format, (err, doc) => {
         callback(err, doc)
     })
 }
-
 
 function updateMenu(title, name, content, format, callback) {
     update(title, name, content, "menu", null, null, format, (err, num) => {
@@ -79,6 +78,7 @@ function update(title, name, content, postType, category, tag, format, callback)
 }
 
 Post.createPost = createPost
+Post.getPosts = getPosts
 Post.getPost = getPost
 
 Post.createMenu = createMenu

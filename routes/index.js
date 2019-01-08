@@ -57,7 +57,17 @@ router.get('/:page', function (req, res, next) {
 
 
             } else if (menu.format == "posts") {
+                console.log("menu.format : " + menu.format)
+                console.log("menu.content : " + menu.content)
 
+                var postCategory = menu.content
+
+                Post.getPosts(postCategory, (err, posts) => {
+                    console.log(posts)
+
+                    res.render('posts', { posts: posts, user: "user", menus: "menus" })
+
+                })
 
             } else if (menu.format == "post") {
 

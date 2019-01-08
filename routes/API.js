@@ -20,7 +20,7 @@ router.get('/posts', (req, res) => {
 router.post('/posts/create', (req, res) => {
   console.log("POST /API/posts/create")
 
-  Post.createPost("Lorem ipsum", "zerzerzerze", (err, doc) => {
+  Post.createPost("Lorem ipsum", "post_x", "zerzerzerze", "family", (err, doc) => {
     if (doc) {
       res.send({post : doc})
     }
