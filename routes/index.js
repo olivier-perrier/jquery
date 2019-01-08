@@ -43,26 +43,40 @@ router.get('/:page', function (req, res, next) {
     console.log("GET /:page")
 
     var pageName = req.params.page
-    var postType = ""
 
     console.log("page name : " + pageName)
 
-    data.posts.findOne({ postType: "menu", name: pageName }, (err, menu) => {
+    Post.getMenu(pageName, (err, menu) => {
 
         if (menu) {
 
-            data.posts.find({ postType: "menu" }, (err, menus) => {
+            if (menu.format == "direct") {
+                res.redirect("http://" + menu.content)
 
-                User.getUser(req.session.userId, (user) => {
+            } else if (menu.format == "page") {
 
-                    data.posts.find({ postType: pageName }, (err, posts) => {
 
-                        res.render('page', { user: user, menus: menus, posts: posts })
-                    })
+            } else if (menu.format == "posts") {
+
+
+            } else if (menu.format == "post") {
+
+                Post.getPost(pageName, (err, post) => {
+
+                    if (post) {
+
+                        console.log("redirection to " + "/posts/" + post._id)
+                        res.redirect("/posts/" + post._id)
+
+                    }else{
+                        res.send({message: "Internal error : no post found for name " + pageName})
+                    }
+
                 })
-
-            })
-        }else{
+            }
+       
+        } else {
+            console.log("No menu found for this page")
             next()
         }
     })

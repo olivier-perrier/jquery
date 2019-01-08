@@ -15,6 +15,12 @@ function createPost(name, content, callback) {
     })
 }
 
+function getPost(name, callback) {
+    data.posts.findOne({ name: name, postType: "post" }, (err, post) => {
+        callback(err, post)
+    })
+}
+
 function createMenu(title, name, content, format, callback) {
     create(title, name, content, "menu", null, null, format, (err, doc) => {
         callback(err, doc)
@@ -31,6 +37,12 @@ function updateMenu(title, name, content, format, callback) {
 function getMenus(callback) {
     data.posts.find({ postType: "menu" }, (err, menus) => {
         callback(err, menus)
+    })
+}
+
+function getMenu(name, callback) {
+    data.posts.findOne({ name: name, postType: "menu" }, (err, menu) => {
+        callback(err, menu)
     })
 }
 
@@ -67,10 +79,12 @@ function update(title, name, content, postType, category, tag, format, callback)
 }
 
 Post.createPost = createPost
+Post.getPost = getPost
 
 Post.createMenu = createMenu
 Post.updateMenu = updateMenu
 Post.getMenus = getMenus
+Post.getMenu = getMenu
 
 // data.posts.update({}, {$set: {createdAt: new Date()}})
 

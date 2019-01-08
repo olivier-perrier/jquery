@@ -15,7 +15,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">Title</span>
                 </div>
-                <input type="text" class="form-control" id="postName" value="{{post.name}}">
+                <input type="text" class="form-control" id="postTitle" value="{{post.title}}">
             </div>
 
             <p class="mb-1 text-muted">{{post.createdAt}}</p>
@@ -32,21 +32,7 @@
     </div>
 
 
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Post type</span>
-        </div>
-        <select class="custom-select" id="inputGroupPostType">
-            <option value="post">post</option>
-            <option value="page">page</option>
-            <option value="menu">menu</option>
-            <option value="other">other</option>
-        </select>
-        <!-- <input type="text" id="postType" class="form-control" value="{{post.postType}}"> -->
-    </div>
-
     <br>
-
 
     <a href="/admin/posts" class="btn btn-light">Return</a>
     <button class="btn btn-primary" type="button" id="postSave">Save</button>
@@ -60,17 +46,14 @@
 <script>
     $(document).ready(function () {
 
-        $('#inputGroupPostType').val($("#postType").val()).change()
-
         $("#postSave").click(() => {
 
             var postId = $('#postId').val()
-            var postName = $('#postName').val()
+            var postTitle = $('#postTitle').val()
+            var postName = postTitle.toLowerCase()
             var postContent = $('#postContent').val()
-            // var postType = $('#postType').val()
-            var postType = $('#inputGroupPostType').val()
 
-            $.post(URL + "/posts/save/" + postId, { name: postName, content: postContent, postType: postType }, (data, statut) => {
+            $.post(URL + "/posts/save/" + postId, { title: postTitle, name: postName, content: postContent }, (data, statut) => {
                 console.log(data)
 
             })

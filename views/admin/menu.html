@@ -16,35 +16,31 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
 
                 <input type="hidden" id="postId" name="postId" value="{{_id}}">
-                <input type="hidden" class="format" name="format" value="{{format}}">
+                <input type="hidden" id="format" name="format" value="{{format}}">
 
-                <span class="input-group-text mr-2">{{title}}</span>
-                <span class="input-group-text mr-2">{{name}}</span>
+                <span class="mr-2">{{title}}</span>
+                <!-- <span class="mr-2">{{name}}</span> -->
 
+                <span class="mr-2">{{format}}</span>
 
-                <select class="custom-select mr-2" class="inputGroupMenuFormat">
-                    <option value="direct">Direct link</option>
-                    <option value="page">Page</option>
-                    <option value="post">Post</option>
-                    <option value="posts">posts</option>
-                </select>
+                <span class="mr-2">{{content}}</span>
 
-                <span class="postTypeSpan mr-2">{{content}}</span>
-
-                <button id="save" onClick="saveMenu('{{title}}', '{{name}}', '{{content}}', '{{format}}')" class="btn btn-success btn-sm saveMenu mr-2">Save</button>
-                <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
+                <div>
+                    <button id="save" onClick="saveMenu('{{title}}', '{{name}}', '{{content}}', '{{format}}')" class="btn btn-success btn-sm saveMenu mr-2">Save</button>
+                    <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
+                </div>
             </li>
             {{/ menus}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <input type="text" id="menuTitle" class="form-control" placeholder="Title">
-                <input type="text" id="menuName" class="form-control" placeholder="Name">
+                <input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title">
+                <!-- <input type="text" id="menuName" class="form-control" placeholder="Name"> -->
                 <select class="custom-select mr-2" id="inputGroupMenuFormat">
                     <option value="direct">Direct link</option>
                     <option value="page">Page</option>
                     <option value="post">Post</option>
-                    <option value="posts">posts</option>
+                    <option value="posts">Posts</option>
                 </select>
-                <input type="text" id="menuContent" placeholder="Content">
+                <input type="text" id="menuContent" class="form-control mr-2" placeholder="Content">
                 <button onClick="addMenu()" class="btn btn-success btn-sm">Add</button>
             </li>
 
@@ -62,7 +58,7 @@
 
     function addMenu() {
         var menuTitle = $("#menuTitle").val()
-        var menuName = $("#menuName").val()
+        var menuName = menuTitle.toLowerCase()
         var menuContent = $("#menuContent").val()
         var menuFormat = $('#inputGroupMenuFormat').val()
 
@@ -81,6 +77,7 @@
     }
 
     function saveMenu(title, name, content, format) {
+        name = title.toLowerCase()
         $.post(URL + "/admin/menu/save", { title: title, name: name, content: content, format: format }, (data, statut) => {
             console.log(data)
             window.location = "/admin/menu"
@@ -88,9 +85,6 @@
     }
 
     $(() => {
-
-        // $('.inputGroupMenuFormat').val($("#format").val()).change()
-        console.log($(".format").val())
 
         $(".postTypeSpan").click(function () {
             $(this).hide();
