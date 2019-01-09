@@ -1,0 +1,65 @@
+{{> admin/base}}
+
+{{> admin/header}}
+
+<input type="hidden" id="postId" name="postId" value="{{page._id}}">
+<input type="hidden" id="postType" name="postType" value="{{page.postType}}">
+
+
+<div class="container">
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body d-flex flex-column align-items-start">
+
+            <!-- Title -->
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Title</span>
+                </div>
+                <input type="text" class="form-control" id="postTitle" value="{{page.title}}">
+            </div>
+
+            <p class="mb-1 text-muted">{{page.createdAt}}</p>
+
+            <!-- Test area -->
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Content</span>
+                </div>
+                <textarea id="postContent" rows="10" class="form-control">{{{page.content}}}</textarea>
+            </div>
+
+        </div>
+    </div>
+
+
+    <br>
+
+    <a href="/admin/posts" class="btn btn-light">Return</a>
+    <button class="btn btn-primary" type="button" id="postSave">Save</button>
+    <a href="/posts/{{post._id}}" class="btn btn-light">View</a>
+
+</div>
+
+<a href="/posts">All posts</a>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#postSave").click(() => {
+
+            var postId = $('#postId').val()
+            var postTitle = $('#postTitle').val()
+            var postName = postTitle.toLowerCase()
+            var postContent = $('#postContent').val()
+
+            $.post(URL + "/posts/save/" + postId, { title: postTitle, name: postName, content: postContent }, (data, statut) => {
+                console.log(data)
+
+            })
+
+        })
+
+    })
+
+</script>

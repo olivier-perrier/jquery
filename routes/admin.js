@@ -167,4 +167,19 @@ router.get('/pages', (req, res) => {
 
 })
 
+router.get('/page/edit/:pageId', (req, res) => {
+  console.log("GET /admin/page/edit/:pageId")
+
+  var pageId = req.params.pageId
+
+  data.posts.findOne({ _id: pageId }, (err, page) => {
+    if (page) {
+      res.render('admin/page-edit', { page: page })
+    } else {
+      res.send({ message: "not found : page not found " + page.name })
+    }
+  })
+
+})
+
 module.exports = router;
