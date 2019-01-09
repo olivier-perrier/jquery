@@ -6,9 +6,17 @@
 <input type="hidden" id="postType" name="postType" value="{{page.postType}}">
 
 
-<div class="container">
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body d-flex flex-column align-items-start">
+<!-- <div class="container"> -->
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-1">
+        </div>
+
+        <div class="col-8">
+
 
             <!-- Title -->
             <div class="input-group mb-3">
@@ -29,16 +37,67 @@
             </div>
 
         </div>
+
+        <!-- Settings menu -->
+        <div class="col-3">
+
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                aria-controls="collapseOne">Name</button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <label for="postName">Name</label>
+                            <input type="text" class="form-control" id="postName" value="{{page.name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                                aria-expanded="false" aria-controls="collapseTwo">Categories</button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            Categories
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
+                                aria-expanded="false" aria-controls="collapseThree">Tags</button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                                <label for="postName">Tags</label>
+                                <input type="text" class="form-control" id="pageTags" value="{{page.tags}}">
+                                <small>Tags separeted with ;</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
-
     <br>
-
     <a href="/admin/posts" class="btn btn-light">Return</a>
     <button class="btn btn-primary" type="button" id="postSave">Save</button>
     <a href="/posts/{{post._id}}" class="btn btn-light">View</a>
 
 </div>
+
 
 <a href="/posts">All posts</a>
 
