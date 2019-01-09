@@ -20,6 +20,25 @@ function getPost(name, callback) {
     })
 }
 
+/*** Pages ***/
+function createPage(title, name, content, callback) {
+    create(title, name, content, "page", null, null, null, (err, doc) => {
+        callback(err, doc)
+    })
+}
+
+function deletePage(id, callback) {
+    data.posts.remove( {_id : id}, (err, num) => {
+        callback(err, num)
+    })
+}
+
+function getPage(name, callback) {
+    data.posts.findOne({ name: name, postType: "page" }, (err, page) => {
+        callback(err, page)
+    })
+}
+
 /*** Menus ***/
 function createMenu(title, name, content, format, callback) {
     create(title, name, content, "menu", null, null, format, (err, doc) => {
@@ -63,23 +82,29 @@ function create(title, name, content, postType, category, tag, format, callback)
 
 function update(title, name, content, postType, category, tag, format, callback) {
     data.posts.update({ name: name }, {
-        title: title,
-        name: name,
-        content: content,
-        postType: postType,         // Define the type of post (post, menu, page)
-        category: category,     // Define custom category
-        tag: tag,               // Define list of tags related to the post
-        format: format,         // Define the format of the post (audio, video, text, link, default...)
-        createdAt: new Date(),
-        updatedAt: new Date()
+        $set: {
+            title: title,
+            name: name,
+            content: content,
+            postType: postType,     // Define the type of post (post, menu, page)
+            category: category,     // Define custom category
+            tag: tag,               // Define list of tags related to the post
+            format: format,         // Define the format of the post (audio, video, text, link, default...)
+            updatedAt: new Date()
+        }
     }, (err, num) => {
-    callback(err, num)
-})
+        callback(err, num)
+    })
 }
 
 Post.createPost = createPost
 Post.getPosts = getPosts
 Post.getPost = getPost
+
+Post.createPage = createPage
+Post.getPage = getPage
+Post.deletePage = deletePage
+
 
 Post.createMenu = createMenu
 Post.updateMenu = updateMenu

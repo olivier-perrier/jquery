@@ -22,7 +22,7 @@ router.post('/posts/create', (req, res) => {
 
   Post.createPost("Lorem ipsum", "post_x", "zerzerzerze", "family", (err, doc) => {
     if (doc) {
-      res.send({post : doc})
+      res.send({ post: doc })
     }
   })
 
@@ -38,6 +38,38 @@ router.post('/posts/delete/:postId', (req, res) => {
       res.send({ message: "not found : no post found to delete " + postId })
     } else {
       res.send({ message: "success : post deleted" })
+    }
+  })
+
+})
+
+router.post('/page/create', (req, res) => {
+  console.log("POST /API/page/create")
+
+  var name = req.body.name
+  var title = req.body.title
+  var content = req.body.content
+
+  Post.createPage(title, name, content, (err, page) => {
+    if (page) {
+      res.send({ message: "success : page created", menu: page })
+    } else {
+      res.send({ message: "internal error : impossible to create page" })
+    }
+  })
+
+})
+
+router.post('/page/delete', (req, res) => {
+  console.log("POST /API/page/delete")
+
+  var id = req.body.id
+
+  Post.deletePage(id, (err, num) => {
+    if (num) {
+      res.send({ message: "success : page deleted" })
+    } else {
+      res.send({ message: "internal error : impossible to delete page" })
     }
   })
 

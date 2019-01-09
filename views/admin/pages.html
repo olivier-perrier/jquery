@@ -1,0 +1,92 @@
+{{> admin/base}}
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+
+{{> admin/header}}
+
+
+<div id="app" class="container">
+
+    <div class="card">
+        <div class="card-header">
+            Pages
+        </div>
+        <ul class="list-group list-group-flush">
+            {{# pages}}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                <input type="hidden" id="pageId" name="pageId" value="{{_id}}">
+
+                <span class="mr-2">{{title}}</span>
+
+                <span class="mr-2">{{content}}</span>
+
+                <div>
+                    <button id="editPage" onClick="editPage('{{_id}}')" class="btn btn-success btn-sm editPage mr-2">Edit</button>
+                    <a class="btn btn-primary btn-sm mr-2" href="/admin/page/edit/{{_id}}">Edit</a>
+
+                    <button id="deletePage" onClick="deletePage('{{_id}}')" class="btn btn-danger btn-sm deletePage">Delete</button>
+                </div>
+            </li>
+            {{/ pages}}
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <input type="text" id="pageTitle" class="form-control mr-2" placeholder="Title">
+
+                <button onClick="addPage()" class="btn btn-success btn-sm">Add</button>
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<br>
+
+{{> includes/footer}}
+
+<script>
+
+    function addPage() {
+        var pageTitle = $("#pageTitle").val()
+        var pageName = pageTitle.toLowerCase()
+        var pageContent = ""
+
+        $.post(URL + "/API/page/create", { title: pageTitle, name: pageName, content: pageContent }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/pages"
+        })
+    }
+
+    function editPage(id) {
+        window.location = "/admin/page/edit/" + id
+    }
+
+    function deletePage(id) {
+        $.post(URL + "/API/page/delete", { id: id }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/pages"
+        })
+    }
+
+
+
+    $(() => {
+
+        $(".postTypeSpan").click(function () {
+            $(this).hide();
+            $(this).next(".postTypeInput").val($(this).text())
+            $(this).next(".postTypeInput").show()
+            $(this).next(".postTypeInput").focus()
+        })
+
+        $(".postTypeInput").focusout(function () {
+            $(this).hide();
+            $(this).prev().html($(this).val());
+            $(this).prev().show();
+        });
+
+    })
+
+</script>

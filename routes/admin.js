@@ -87,11 +87,11 @@ router.post('/menu/delete/', (req, res) => {
   var menuName = req.body.name
 
   data.posts.remove({ postType: "menu", name: menuName }, (err, num) => {
-      if (num == 0) {
-        res.send({ menu: doc })
-      } else {
-        res.send({ message: "internal error : impossible to create menu" })
-      }
+    if (num == 0) {
+      res.send({ menu: doc })
+    } else {
+      res.send({ message: "internal error : impossible to create menu" })
+    }
   })
 })
 
@@ -138,6 +138,31 @@ router.get('/menu', (req, res) => {
 
       })
     })
+  }
+
+})
+
+router.get('/pages', (req, res) => {
+  console.log("GET /admin/pages")
+
+  // DEBUG
+  req.session.userId = "lFvBTABQpEluOzfv"
+
+  var userId = req.session.userId
+
+  if (userId) {
+
+    data.posts.find({ postType: "page" }, (err, pages) => {
+
+      data.users.findOne({ _id: userId }, (err, user) => {
+
+        res.render('admin/pages', { pages: pages, user: user })
+
+      })
+    })
+  } else {
+    res.send({ messsage: "forbidden: you must be logged to access admin" })
+
   }
 
 })

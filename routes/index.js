@@ -55,6 +55,20 @@ router.get('/:page', function (req, res, next) {
 
             } else if (menu.format == "page") {
 
+                Post.getPage(pageName, (err, page) => {
+
+                    if (page) {
+
+                        Post.getMenus((err, menus) => {
+
+                            res.render('page', { page: page, user: "user", menus: menus })
+                        })
+
+                    } else {
+                        res.send({ message: "internal error : no page found for name " + pageName })
+                    }
+
+                })
 
             } else if (menu.format == "posts") {
 
@@ -79,7 +93,7 @@ router.get('/:page', function (req, res, next) {
                         res.redirect("/posts/" + post._id)
 
                     } else {
-                        res.send({ message: "Internal error : no post found for name " + pageName })
+                        res.send({ message: "internal error : no post found for name " + pageName })
                     }
 
                 })
