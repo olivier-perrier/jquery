@@ -2,43 +2,101 @@
 
 {{> admin/header}}
 
-<input type="hidden" id="postId" name="postId" value="{{post._id}}">
-<input type="hidden" id="postType" name="postType" value="{{post.postType}}">
+<div class="container-fluid row">
 
 
-<div class="container">
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body d-flex flex-column align-items-start">
 
-            <!-- Title -->
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Title</span>
+
+    <div class="col-8">
+
+        <input type="hidden" id="postId" name="postId" value="{{post._id}}">
+
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body d-flex flex-column align-items-start">
+
+                <!-- Title -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Title</span>
+                    </div>
+                    <input type="text" class="form-control" id="postTitle" value="{{post.title}}">
                 </div>
-                <input type="text" class="form-control" id="postTitle" value="{{post.title}}">
-            </div>
 
-            <p class="mb-1 text-muted">{{post.createdAt}}</p>
+                <p class="mb-1 text-muted">{{post.createdAt}}</p>
 
-            <!-- Test area -->
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Content</span>
+                <!-- Test area -->
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Content</span>
+                    </div>
+                    <textarea id="postContent" rows="10" class="form-control">{{{post.content}}}</textarea>
                 </div>
-                <textarea id="postContent" rows="10" class="form-control">{{{post.content}}}</textarea>
-            </div>
 
+            </div>
         </div>
+
+
+        <br>
+
+        <a href="/admin/posts" class="btn btn-light">Return</a>
+        <button class="btn btn-primary" type="button" id="postSave">Save</button>
+        <a href="/posts/{{post._id}}" class="btn btn-light">View</a>
+
     </div>
 
+    <div class="col-3">
 
-    <br>
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                            aria-controls="collapseOne">Name</button>
+                    </h5>
+                </div>
 
-    <a href="/admin/posts" class="btn btn-light">Return</a>
-    <button class="btn btn-primary" type="button" id="postSave">Save</button>
-    <a href="/posts/{{post._id}}" class="btn btn-light">View</a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <label for="postName">Name</label>
+                        <input type="text" class="form-control" id="postName" value="{{post.name}}">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                            aria-expanded="false" aria-controls="collapseTwo">Categories</button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <label for="postCategory">Category</label>
+                        <input type="text" class="form-control" id="postCategory" value="{{post.category}}">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="false" aria-controls="collapseThree">Tags</button>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <label for="postName">Tags</label>
+                        <input type="text" class="form-control" id="postTags" value="{{post.tags}}">
+                        <small>Tags separeted with ;</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 </div>
+
 
 <a href="/posts">All posts</a>
 
@@ -50,10 +108,11 @@
 
             var postId = $('#postId').val()
             var postTitle = $('#postTitle').val()
-            var postName = postTitle.toLowerCase()
+            var postName = $('#postName').val()
             var postContent = $('#postContent').val()
+            var postCategory = $('#postCategory').val()
 
-            $.post(URL + "/posts/save/" + postId, { title: postTitle, name: postName, content: postContent }, (data, statut) => {
+            $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory}, (data, statut) => {
                 console.log(data)
 
             })
