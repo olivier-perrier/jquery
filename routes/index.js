@@ -74,7 +74,9 @@ router.get('/:page', function (req, res, next) {
 
                 var postCategory = menu.content
 
+                
                 Post.getPosts(postCategory, (err, posts) => {
+                    console.log(posts)
 
                     Post.getMenus((err, menus) => {
 

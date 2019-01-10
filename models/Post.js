@@ -9,7 +9,7 @@ function createPost(title, name, content, category, callback) {
 }
 
 function getPosts(category, callback) {
-    data.posts.findOne({ category: category, postType: "post" }, (err, posts) => {
+    data.posts.find({ category: category, postType: "post" }, (err, posts) => {
         callback(err, posts)
     })
 }
