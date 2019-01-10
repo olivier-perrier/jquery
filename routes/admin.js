@@ -18,14 +18,16 @@ router.get('/', (req, res) => {
 
   } else {
 
-    data.users.findOne({ _id: userId }, (err, doc) => {
+    data.users.findOne({ _id: userId }, (err, user) => {
 
-      if (doc == null) {
-        res.send({ messsage: "internal error : no user found for userId " + userId })
+      data.posts.find({ postType: "post" }).limit(5).exec((err, posts) => {
 
-      } else {
-        res.render('admin/index', { user: doc })
-      }
+        data.posts.find({ postType: "page" }).limit(5).exec((err, pages) => {
+
+          res.render('admin/index', { user: user, posts: posts, pages: pages})
+
+        })
+      })
     })
 
   }

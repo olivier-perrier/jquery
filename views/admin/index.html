@@ -2,7 +2,33 @@
 
 {{> admin/header}}
 
-This is admin home
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+    <div class="p-lg-5 mx-auto">
+        <h1 class="display-4 font-weight-normal">Posts</h1>
+        {{#posts}}
+        <a class="btn btn-outline-secondary" href="/posts/{{_id}}">{{name}}</a>
+        {{/posts}}
+    </div>
+</div>
+
+<div class="d-md-flex flex-md-equal my-3 pl-md-3">
+    <div class="bg-dark mr-3 pt-3 px-5 text-center text-white overflow-hidden">
+        <div class="py-3">
+            <h2 class="display-5"><a href="/admin/pages" class="text-white">Pages</a></h2>
+            <ul class="list-group  list-group-flush">
+                {{#pages}}
+                <li class="list-group-item bg-transparent"><a class="btn btn-link text-white" href="/admin/page/edit/{{_id}}">{{title}}</a></li>
+                {{/pages}}
+            </ul>
+        </div>
+    </div>
+    <div class="bg-light mr-3 pt-3 px-3 text-center overflow-hidden">
+        <div class="my-3 p-3">
+            <h2 class="display-5">Menus</h2>
+            <p class="lead">And an even wittier subheading.</p>
+        </div>
+    </div>
+</div>
 
 {{> includes/footer}}
 
