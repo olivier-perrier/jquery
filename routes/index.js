@@ -7,6 +7,7 @@ var User = data.model('User')
 var Setting = data.model('Setting')
 
 router.get('/', function (req, res) {
+    console.log("GET /")
 
     User.getUser(req.session.userId, (user) => {
 

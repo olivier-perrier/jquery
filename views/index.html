@@ -1,6 +1,4 @@
-{{> includes/base}}
-
-{{> includes/header}}
+{{> header}}
 
 <div class="container mb-10">
 
@@ -23,10 +21,9 @@
                             <h5 class="card-title">
                                 <a href="posts/{{_id}}">{{name}}</a>
                             </h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle {{simple date}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle {{date}}</h6>
                             <p class="card-text">{{contentPreview}}</p>
                             <a href="posts/{{_id}}" class="card-link">Continue reading</a>
-                            <!-- <a href="#" class="card-link">Another link</a> -->
                         </div>
 
                         <div class="col-3">
@@ -42,7 +39,7 @@
 
 </div>
 
-{{> includes/footer}}
+{{> footer}}
 
 <style>
     img {

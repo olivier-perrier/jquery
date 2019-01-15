@@ -28,21 +28,21 @@
             </ul>
 
             <!-- if user is login -->
-            {{ #user.name }}
+            {{#if user.name}}
             <a id="account" class="btn btn-link" href="/users/account" onClick="account()" role="button">{{ user.name
                 }}</a>
             <a id="logout" class="btn btn-link" href="/users/logout" role="button">Log out</a>
-            {{ /user.name }}
+            {{/if}}
 
 
             <!-- if user is not login -->
-            {{ ^user.name }}
+            {{#if user.name}}
 
-            {{> includes/login}}
+            {{> login}}
 
             <button class="btn btn-outline-primary" type="button" onClick="signup()">Sign up</button>
 
-            {{ /user.name }}
+            {{/if}}
 
             <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
 

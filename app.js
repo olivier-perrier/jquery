@@ -1,7 +1,8 @@
 
 var express = require('express')
 var session = require('express-session')
-var mustacheExpress = require('mustache-express')
+// var mustacheExpress = require('mustache-express')
+var exphbs  = require('express-handlebars')
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js')
@@ -12,7 +13,7 @@ var APIRouter = require('./routes/API.js')
 var app = express()
 
 
-app.engine('html', mustacheExpress());
+app.engine('html', exphbs({defaultLayout: 'main.html'}));
 app.set('view engine', 'html');
 
 
