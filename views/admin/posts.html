@@ -1,5 +1,3 @@
-{{> admin/base}}
-
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 {{> admin/header}}
@@ -16,9 +14,7 @@
             <li v-for="item in posts" class="list-group-item d-flex justify-content-between align-items-center">
                 <input type="hidden" id="postId" name="postId" value="post._id">
 
-                {{=%% %%=}}
-                <a :href="'/admin/posts/edit/' + item._id">{{item.title}}</a>
-                %%={{ }}=%%
+                <a :href="'/admin/posts/edit/' + item._id">\{{item.title}}</a>
                 <button v-on:click="deletePost(item)" class="btn btn-danger btn-sm" href="admin/posts">X</button>
                 <!-- <span class="badge badge-primary badge-pill">14</span> -->
             </li>
@@ -34,7 +30,7 @@
 </div>
 
 
-{{> includes/footer}}
+{{> footer}}
 
 <script>
 

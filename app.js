@@ -1,7 +1,6 @@
 
 var express = require('express')
 var session = require('express-session')
-// var mustacheExpress = require('mustache-express')
 var exphbs  = require('express-handlebars')
 
 var indexRouter = require('./routes/index.js');
