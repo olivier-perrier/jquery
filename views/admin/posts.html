@@ -1,12 +1,10 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-{{> admin/header}}
+{{#> admin/content}}
 
-{{> admin/nav}}
-
-<div id="app" class="container">
+<div id="app">
     
-    <div class="card">
+    <div class="card mt-3">
         <div class="card-header">
             Posts
         </div>
@@ -30,7 +28,7 @@
 </div>
 
 
-{{> footer}}
+{{/ admin/content}}
 
 <script>
 

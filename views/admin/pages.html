@@ -1,16 +1,9 @@
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+{{#> admin/content}}
 
-{{> admin/header}}
+<div id="app" class="pt-3 pb-5">
 
-{{> admin/nav}}
-
-
-<div id="app" class="container">
-
+    <h2>Pages</h2>
     <div class="card">
-        <div class="card-header">
-            Pages
-        </div>
         <ul class="list-group list-group-flush">
             {{# pages}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -42,9 +35,7 @@
 
 </div>
 
-<br>
-
-{{> footer}}
+{{/ admin/content}}
 
 <script>
 
