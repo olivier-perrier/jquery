@@ -74,7 +74,7 @@ router.get('/:page', function (req, res, next) {
 
                 var postCategory = menu.content
 
-                
+
                 Post.getPosts(postCategory, (err, posts) => {
                     console.log(posts)
 
@@ -106,6 +106,13 @@ router.get('/:page', function (req, res, next) {
             next()
         }
     })
+})
+
+// DEBUG 
+
+router.get('/test', (req, res) => {
+    console.log("GET /test")
+    res.render('test')
 })
 
 module.exports = router;

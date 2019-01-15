@@ -1,21 +1,18 @@
 <header>
 
     <nav class="navbar bg-light">
-        <a class="navbar-brand">OP Admin</a>
+        <a class="navbar-brand">
+            <img src="/img/icon.png" width="30" height="30" alt="">
+            OP Admin
+        </a>
 
         <div class="navbar-nav">
         </div>
-        <a id="admin" class="btn btn-link" href="admin" role="button">{{user.name}}</a>
-        <a id="admin" class="btn btn-light" href="/" role="button">View site</a>
-
+        <form class="form-inline">
+            <a id="admin" class="btn btn-link" href="admin" role="button">{{user.name}}</a>
+            <a id="admin" class="btn btn-light" href="/" role="button">View site</a>
+        </form>
 
     </nav>
 
 </header>
-
-<nav class="nav justify-content-center">
-    <a class="p-2" href="/admin">Home</a>
-    <a class="p-2" href="/admin/posts">Posts</a>
-    <a class="p-2" href="/admin/menu">Menu</a>
-    <a class="p-2" href="/admin/pages">Pages</a>
-</nav>
