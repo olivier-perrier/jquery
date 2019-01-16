@@ -184,4 +184,13 @@ router.get('/page/edit/:pageId', (req, res) => {
 
 })
 
+router.get('/users', (req, res) => {
+  console.log("GET /admin/users")
+
+  data.users.find({ }, (err, users) => {
+      res.render('admin/users', { users: users })
+  })
+
+})
+
 module.exports = router;

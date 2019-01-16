@@ -10,13 +10,16 @@ router.get('/', function (req, res) {
     console.log("GET /")
 
     User.getUser(req.session.userId, (user) => {
-
-        data.posts.find({ postType: "post" }, (err, posts) => {
-
-            data.posts.find({ postType: "menu" }, (err, menus) => {
-
-                res.render('index', { posts: posts, user: user, menus: menus })
-
+        Setting.getSettings(["siteName", "siteTitle"], (err, settings) => {
+            console.log(settings)
+            
+            data.posts.find({ postType: "post" }, (err, posts) => {
+                
+                data.posts.find({ postType: "menu" }, (err, menus) => {
+                    
+                    res.render('index', { posts: posts, user: user, menus: menus, settings : settings })
+                    
+                })
             })
         })
 
