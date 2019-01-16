@@ -4,7 +4,7 @@
 
 <div id="app" class="pt-3">
 
-    <h1 class="mb-3">Users</h1>
+    <h1 class="m-3">Users</h1>
 
     <table class="table table-striped table-hover">
         <thead>
@@ -19,7 +19,7 @@
         <tbody>
             {{# users}}
             <tr>
-                <th scope="row"><a href="admin/user/{{_id}}" class="btn btn-link">{{#if username}}{{username}}{{else}}-{{/if}}</a></th>
+                <th scope="row"><a href="/admin/user/{{_id}}" class="btn btn-link">{{#if username}}{{username}}{{else}}-{{/if}}</a></th>
                 <td><span>{{name}}</span></td>
                 <td><a href="mailto:{{email}}" class="btn btn-link">{{email}}</a></td>
                 <td><span>{{role}}</span></td>

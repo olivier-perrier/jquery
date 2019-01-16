@@ -184,11 +184,23 @@ router.get('/page/edit/:pageId', (req, res) => {
 
 })
 
+/*** Users ***/
 router.get('/users', (req, res) => {
   console.log("GET /admin/users")
 
   data.users.find({ }, (err, users) => {
       res.render('admin/users', { users: users })
+  })
+
+})
+
+router.get('/user/:userId', (req, res) => {
+  console.log("GET /admin/user/:userId")
+
+  var userId = req.params.userId
+
+  data.users.findOne({ _id: userId}, (err, user) => {
+      res.render('admin/user-edit', { user: user })
   })
 
 })
