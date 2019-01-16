@@ -4,7 +4,7 @@
 
 <div id="app" class="pt-3">
 
-    <h1 class="m-3">Users</h1>
+    <h2 class="m-3">Users</h2>
 
     <table class="table table-striped table-hover">
         <thead>
@@ -29,6 +29,11 @@
         </tbody>
     </table>
 
+    <hr>
+
+    <button onClick="createUser()" class="btn btn-primary mx-1">Create</button>
+
+
 </div>
 
 {{/ admin/content}}
@@ -36,34 +41,18 @@
 
 <script>
 
-    function addMenu() {
-        var menuTitle = $("#menuTitle").val()
-        var menuName = menuTitle.toLowerCase()
-        var menuContent = $("#menuContent").val()
-        var menuFormat = $('#inputGroupMenuFormat').val()
+    function createUser() {
+        window.location = "/admin/user/create"
+    }
 
-
-        $.post(URL + "/admin/menu/create", { title: menuTitle, name: menuName, content: menuContent, format: menuFormat }, (data, statut) => {
+    function deleteUser(menuName) {
+        $.post(URL + "/admin/users/delete", { name: menuName }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/menu"
+            window.location = "/admin/users"
         })
     }
 
-    function deleteMenu(menuName) {
-        $.post(URL + "/admin/menu/delete", { name: menuName }, (data, statut) => {
-            console.log(data)
-            window.location = "/admin/menu"
-        })
-    }
-
-    function saveMenu(title, name, content, format) {
-        name = title.toLowerCase()
-        $.post(URL + "/admin/menu/save", { title: title, name: name, content: content, format: format }, (data, statut) => {
-            console.log(data)
-            window.location = "/admin/menu"
-        })
-    }
-
+    
     $(() => {
 
         $(".postTypeSpan").click(function () {
