@@ -36,16 +36,35 @@ router.post('/post/save', (req, res) => {
   var postName = req.body.name
   var postContent = req.body.content
   var postCategory = req.body.category
+  var postTags = req.body.tags
 
-  data.posts.update({ _id: postId }, { $set: { title: postTitle, name: postName, content: postContent, category: postCategory } }, (err, num) => {
+  data.posts.update({ _id: postId }, { $set: { title: postTitle, name: postName, content: postContent, category: postCategory, tags: postTags } }, (err, num) => {
 
-    if (num) {
-      res.send({ message: "success : post updated", postId: postId, name: postName })
-    } else {
-      res.send({ message: "not found : no post found for id ", postId })
-    }
+    res.send({ message: "success : post updated " + num, postId: postId })
 
   })
+})
+
+router.post('/post/save2', (req, res) => {
+  console.log("POST /API/post/save2")
+
+  var postId = req.body.id
+  var postTitle = req.body.title
+  var postName = req.body.name
+  var postContent = req.body.content
+  var postCategory = req.body.category
+  var postTags = req.body.tags
+  
+  var post = {
+    tags : postTags
+  }
+
+  Post.updatePost(postId, post, (err, num) => {
+
+    res.send({ message: "success : post updated " + num, post: post })
+  
+  })
+
 })
 
 router.post('/posts/delete/:postId', (req, res) => {

@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 
         data.posts.find({ postType: "page" }).limit(5).exec((err, pages) => {
 
-          res.render('admin/index', { user: user, posts: posts, pages: pages})
+          res.render('admin/index', { user: user, posts: posts, pages: pages })
 
         })
       })
@@ -34,19 +34,7 @@ router.get('/', (req, res) => {
 
 })
 
-router.get('/posts/edit/:postId', (req, res) => {
-  console.log("GET /admin/posts/edit/:postId")
-  var postId = req.params.postId
 
-  data.posts.findOne({ _id: postId }, (err, doc) => {
-    if (doc == null) {
-      res.send({ message: "not found : no posts found" })
-    } else {
-      res.render('admin/post_edit', { post: doc })
-    }
-  })
-
-})
 
 router.post('/menu/create/', (req, res) => {
   console.log("POST /admin/menu/create")
@@ -97,6 +85,7 @@ router.post('/menu/delete/', (req, res) => {
   })
 })
 
+/*** Posts ***/
 router.get('/posts', (req, res) => {
   console.log("POST /admin/posts")
 
@@ -120,6 +109,29 @@ router.get('/posts', (req, res) => {
 
 })
 
+router.get('/post/create', (req, res, next) => {
+  console.log("GET /admin/post/create")
+
+  Post.createPost("", "", "", "", "", "", (err, post) => {
+    res.redirect("/admin/posts/edit/" + post._id)
+  })
+})
+
+router.get('/posts/edit/:postId', (req, res) => {
+  console.log("GET /admin/posts/edit/:postId")
+  var postId = req.params.postId
+
+  data.posts.findOne({ _id: postId }, (err, doc) => {
+    if (doc == null) {
+      res.send({ message: "not found : no posts found" })
+    } else {
+      res.render('admin/post_edit', { post: doc })
+    }
+  })
+
+})
+
+/*** Menus ***/
 router.get('/menu', (req, res) => {
   console.log("GET /admin/menu")
 
@@ -188,10 +200,15 @@ router.get('/page/edit/:pageId', (req, res) => {
 router.get('/users', (req, res) => {
   console.log("GET /admin/users")
 
-  data.users.find({ }, (err, users) => {
-      res.render('admin/users', { users: users })
+  data.users.find({}, (err, users) => {
+    res.render('admin/users', { users: users })
   })
 
+})
+
+router.get('/user/create', (req, res, next) => {
+  console.log("GET /admin/create")
+  next()
 })
 
 router.get('/user/:userId', (req, res) => {
@@ -199,8 +216,8 @@ router.get('/user/:userId', (req, res) => {
 
   var userId = req.params.userId
 
-  data.users.findOne({ _id: userId}, (err, user) => {
-      res.render('admin/user-edit', { user: user })
+  data.users.findOne({ _id: userId }, (err, user) => {
+    res.render('admin/user-edit', { user: user })
   })
 
 })

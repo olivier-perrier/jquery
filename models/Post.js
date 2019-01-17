@@ -2,8 +2,8 @@ var data = require('./data')
 
 var Post = {}
 
-function createPost(title, name, content, category, callback) {
-    create(title, name, content, "post", category, null, null, (err, doc) => {
+function createPost(title, name, content, category = null, tags = null, format = null, callback) {
+    create(title, name, content, "post", category, tags, format, (err, doc) => {
         callback(err, doc)
     })
 }
@@ -20,6 +20,15 @@ function getPost(name, callback) {
     })
 }
 
+function updatePost(postId, post, callback) {
+    console.log(post)
+    data.posts.update({ _id: postId }, {
+        $set: { post }
+    }, (err, num) => {
+        callback(err, num)
+    })
+}
+
 /*** Pages ***/
 function createPage(title, name, content, callback) {
     create(title, name, content, "page", null, null, null, (err, doc) => {
@@ -28,7 +37,7 @@ function createPage(title, name, content, callback) {
 }
 
 function deletePage(id, callback) {
-    data.posts.remove( {_id : id}, (err, num) => {
+    data.posts.remove({ _id: id }, (err, num) => {
         callback(err, num)
     })
 }
@@ -64,14 +73,14 @@ function getMenu(name, callback) {
     })
 }
 
-function create(title, name, content, postType, category, tag, format, callback) {
+function create(title, name, content, postType, category, tags, format, callback) {
     data.posts.insert({
         title: title,
         name: name,
         content: content,
         postType: postType,     // Define the type of post (post, menu, page)
         category: category,     // Define custom category
-        tag: tag,               // Define list of tags related to the post
+        tags: tags,             // Define list of tags related to the post
         format: format,         // Define the format of the post (audio, video, text, link, default...)
         createdAt: new Date(),
         updatedAt: new Date()
@@ -80,7 +89,7 @@ function create(title, name, content, postType, category, tag, format, callback)
     })
 }
 
-function update(title, name, content, postType, category, tag, format, callback) {
+function update(title, name, content, postType, category, tags, format, callback) {
     data.posts.update({ name: name }, {
         $set: {
             title: title,
@@ -88,7 +97,7 @@ function update(title, name, content, postType, category, tag, format, callback)
             content: content,
             postType: postType,     // Define the type of post (post, menu, page)
             category: category,     // Define custom category
-            tag: tag,               // Define list of tags related to the post
+            tags: tags,             // Define list of tags related to the post
             format: format,         // Define the format of the post (audio, video, text, link, default...)
             updatedAt: new Date()
         }
@@ -100,6 +109,7 @@ function update(title, name, content, postType, category, tag, format, callback)
 Post.createPost = createPost
 Post.getPosts = getPosts
 Post.getPost = getPost
+Post.updatePost = updatePost
 
 Post.createPage = createPage
 Post.getPage = getPage

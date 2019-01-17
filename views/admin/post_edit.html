@@ -108,8 +108,9 @@
             var postName = $('#postName').val()
             var postContent = $('#postContent').val()
             var postCategory = $('#postCategory').val()
+            var postTags = $('#postTags').val()
 
-            $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory}, (data, statut) => {
+            $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory, tags: postTags}, (data, statut) => {
                 console.log(data)
 
             })
