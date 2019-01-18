@@ -4,36 +4,39 @@
 
 <div id="app">
 
-    <div class="card mt-3">
-        <div class="card-header">
-            Posts
+    <div class="d-flex">
+        <h2 class="m-3">Posts</h2>
+        <div>
+            <button v-on:click="createPost()" onClick="createPost()" class="btn btn-light mt-3">Create</button>
         </div>
-
-
-
-
-
-        <ul class="list-group list-group-flush">
-            <li v-for="item in posts" class="list-group-item d-flex justify-content-between align-items-center">
-                <input type="hidden" id="postId" name="postId" value="post._id">
-
-                <a :href="'/posts/' + item._id">\{{item.title}}</a>
-                <input type="text" id="postTags" name="postTags" :value="item.tags">
-
-                <div>
-                    <button v-on:click="savePost(item)" class="btn btn-succeess btn-sm">Save</button>
-                    <a v-on:click="ediitPost(item)" class="btn btn-primary btn-sm mr-1" :href="'/admin/posts/edit/' + item._id">Edit</a>
-                    <button v-on:click="deletePost(item)" class="btn btn-danger btn-sm" href="admin/posts">Delete</button>
-                </div>
-            </li>
-        </ul>
-
     </div>
 
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Category</th>
+                <th scope="col">Tags</th>
+                <th scope="col">Comments</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="post in posts">
+                <th scope="row" class="to-hover"><a :href="'/posts/' + post._id" class="btn btn-link">\{{post.title}}</a> <a :href="'/posts/' + post._id" class="btn btn-link to-show">Delete</a></th>
+                <td><a :href="'/admin/user/' + post.userId">\{{post.userId}}</a></td>
+                <td>\{{post.category}}</td>
+                <td>\{{post.tags}}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>
+                    <button v-on:click="deletePost(post)" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-    <button v-on:click="createPost()" onClick="createPost()" class="btn btn-light my-2">Create</button>
-
-    <br>
 
 </div>
 
@@ -55,15 +58,7 @@
             this.getPosts()
         },
         methods: {
-            
-            savePost: function (post) {
-                
-                var postTags = $('#postTags').val()
 
-                $.post(URL + "/API/post/save2", { id: postId, tags: postTags }, (data, statut) => {
-                    console.log(data)
-                })
-            },
             getPosts: function () {
                 $.get(URL + "/API/posts", (data, statut) => {
                     console.log(data)
@@ -93,3 +88,12 @@
     })
 
 </script>
+
+<style>
+.to-show {
+    display: none;
+}
+.to-hover:hover > .to-show {
+    display: block; 
+}
+</style>

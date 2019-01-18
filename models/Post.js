@@ -20,11 +20,8 @@ function getPost(name, callback) {
     })
 }
 
-function updatePost(postId, post, callback) {
-    console.log(post)
-    data.posts.update({ _id: postId }, {
-        $set: { post }
-    }, (err, num) => {
+function updatePost(postId, title, name, content, category = null, tags = null, format = null, callback) {
+    update(title, name, content, "post", category, tags, format, (err, num) => {
         callback(err, num)
     })
 }

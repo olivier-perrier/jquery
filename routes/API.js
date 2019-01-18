@@ -31,40 +31,19 @@ router.post('/posts/create', (req, res) => {
 router.post('/post/save', (req, res) => {
   console.log("POST /API/post/save")
 
-  var postId = req.body.id
-  var postTitle = req.body.title
-  var postName = req.body.name
-  var postContent = req.body.content
-  var postCategory = req.body.category
-  var postTags = req.body.tags
+  var id = req.body.id
+  var name = req.body.title
+  var title = req.body.name
+  var content = req.body.content
+  var category = req.body.category
+  var tags = req.body.tags
+  var format = req.body.format
 
-  data.posts.update({ _id: postId }, { $set: { title: postTitle, name: postName, content: postContent, category: postCategory, tags: postTags } }, (err, num) => {
+  Post.updatePost(id, title, name, content, category, tags, format, (err, num) => {
 
-    res.send({ message: "success : post updated " + num, postId: postId })
+    res.send({ message: "success : post updated " + num, postId: id })
 
   })
-})
-
-router.post('/post/save2', (req, res) => {
-  console.log("POST /API/post/save2")
-
-  var postId = req.body.id
-  var postTitle = req.body.title
-  var postName = req.body.name
-  var postContent = req.body.content
-  var postCategory = req.body.category
-  var postTags = req.body.tags
-  
-  var post = {
-    tags : postTags
-  }
-
-  Post.updatePost(postId, post, (err, num) => {
-
-    res.send({ message: "success : post updated " + num, post: post })
-  
-  })
-
 })
 
 router.post('/posts/delete/:postId', (req, res) => {
