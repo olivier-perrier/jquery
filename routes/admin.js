@@ -109,23 +109,15 @@ router.get('/posts', (req, res) => {
 
 })
 
-router.get('/post/create', (req, res, next) => {
-  console.log("GET /admin/post/create")
-
-  Post.createPost("", "", "", "", "", "", (err, post) => {
-    res.redirect("/admin/posts/edit/" + post._id)
-  })
-})
-
 router.get('/posts/edit/:postId', (req, res) => {
   console.log("GET /admin/posts/edit/:postId")
   var postId = req.params.postId
 
-  data.posts.findOne({ _id: postId }, (err, doc) => {
-    if (doc == null) {
+  Post.getPost(postId, (err, post) => {
+    if (post == null) {
       res.send({ message: "not found : no posts found" })
     } else {
-      res.render('admin/post_edit', { post: doc })
+      res.render('admin/post_edit', { post: post })
     }
   })
 
@@ -156,6 +148,32 @@ router.get('/menu', (req, res) => {
 
 })
 
+router.get('/menu/edit/:menuId', (req, res) => {
+  console.log("GET /admin/menu/edit/:menuId")
+
+  // DEBUG
+  req.session.userId = "lFvBTABQpEluOzfv"
+
+  var menuId = req.params.menuId
+  var userId = req.session.userId
+
+  if (userId == null) {
+    res.send({ messsage: "forbidden: you must be logged to access admin" })
+
+  } else {
+    data.posts.findOne({ _id : menuId, postType: "menu" }, (err, menu) => {
+
+      data.users.findOne({ _id: userId }, (err, user) => {
+
+        res.render('admin/menu-edit', { menu: menu, user: user })
+
+      })
+    })
+  }
+
+})
+
+/*** Pages ***/
 router.get('/pages', (req, res) => {
   console.log("GET /admin/pages")
 

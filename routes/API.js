@@ -20,10 +20,8 @@ router.get('/posts', (req, res) => {
 router.post('/posts/create', (req, res) => {
   console.log("POST /API/posts/create")
 
-  Post.createPost("Lorem ipsum", "post_x", "zerzerzerze", "family", (err, doc) => {
-    if (doc) {
-      res.send({ post: doc })
-    }
+  Post.createPost("New post", "post-1", "Content", "", "", "", (err, doc) => {
+    res.send({ post: doc })
   })
 
 })
@@ -32,8 +30,8 @@ router.post('/post/save', (req, res) => {
   console.log("POST /API/post/save")
 
   var id = req.body.id
-  var name = req.body.title
-  var title = req.body.name
+  var title = req.body.title
+  var name = req.body.name
   var content = req.body.content
   var category = req.body.category
   var tags = req.body.tags

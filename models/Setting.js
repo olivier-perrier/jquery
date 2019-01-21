@@ -21,8 +21,8 @@ function getSetting(key, callback) {
 function getSettings(keys, callback) {
     data.settings.find({ name: { $in: keys } }, (err, sets) => {
         var setsReturn = {
-            siteName : sets.find(e => e.name="siteName").value,
-            siteTitle : sets.find(e => e.name="siteTitle").value,
+            siteName : sets.find(e => e.name="siteName") == null ? "" : sets.find(e => e.name="siteName").value,
+            siteTitle : sets.find(e => e.name="siteTitle") == null ? "" : sets.find(e => e.name="siteTitle").value,
         }
         callback(err, setsReturn)
     })

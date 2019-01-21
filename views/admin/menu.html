@@ -2,46 +2,54 @@
 
 {{#> admin/content}}
 
-<div id="app" class="pt-3">
+<div id="app" class="py-3">
 
     <div class="card">
+
         <div class="card-header">
             Menus
         </div>
-        <ul class="list-group list-group-flush">
-            {{# menus}}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                <input type="hidden" id="postId" name="postId" value="{{_id}}">
-                <input type="hidden" id="format" name="format" value="{{format}}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">value</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{# menus}}
+                <tr>
+                    <th scope="row"><a href="/admin/menu/edit/{{_id}}" class="btn btn-link">{{title}}</a></th>
+                    <td>{{format}}</td>
+                    <td>{{content}}</td>
+                    <td>
+                        <div>
+                            <button onClick="editMenu('{{_id}}')" class="btn btn-primary btn-sm mr-2">Edit</button>
+                            <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
+                        </div>
+                    </td>
 
-                <span class="mr-2">{{title}}</span>
-                <!-- <span class="mr-2">{{name}}</span> -->
+                </tr>
+                {{/ menus}}
+                <tr>
+                    <th scope="row"><input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title"></th>
+                    <td>
+                        <select class="custom-select mr-2" id="inputGroupMenuFormat">
+                            <option value="direct">Direct link</option>
+                            <option value="page">Page</option>
+                            <option value="post">Post</option>
+                            <option value="posts">Posts</option>
+                        </select>
+                    </td>
+                    <td><input type="text" id="menuContent" class="form-control mr-2" placeholder="Content"></td>
+                    <td><button onClick="addMenu()" class="btn btn-success btn-sm">Add</button></td>
 
-                <span class="mr-2">{{format}}</span>
-
-                <span class="mr-2">{{content}}</span>
-
-                <div>
-                    <button id="save" onClick="saveMenu('{{title}}', '{{name}}', '{{content}}', '{{format}}')" class="btn btn-success btn-sm saveMenu mr-2">Save</button>
-                    <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
-                </div>
-            </li>
-            {{/ menus}}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title">
-                <!-- <input type="text" id="menuName" class="form-control" placeholder="Name"> -->
-                <select class="custom-select mr-2" id="inputGroupMenuFormat">
-                    <option value="direct">Direct link</option>
-                    <option value="page">Page</option>
-                    <option value="post">Post</option>
-                    <option value="posts">Posts</option>
-                </select>
-                <input type="text" id="menuContent" class="form-control mr-2" placeholder="Content">
-                <button onClick="addMenu()" class="btn btn-success btn-sm">Add</button>
-            </li>
-
-        </ul>
+                </tr>
+            </tbody>
+        </table>
 
     </div>
 
@@ -79,22 +87,5 @@
             window.location = "/admin/menu"
         })
     }
-
-    $(() => {
-
-        $(".postTypeSpan").click(function () {
-            $(this).hide();
-            $(this).next(".postTypeInput").val($(this).text())
-            $(this).next(".postTypeInput").show()
-            $(this).next(".postTypeInput").focus()
-        })
-
-        $(".postTypeInput").focusout(function () {
-            $(this).hide();
-            $(this).prev().html($(this).val());
-            $(this).prev().show();
-        });
-
-    })
 
 </script>

@@ -1,0 +1,72 @@
+{{#> admin/content}}
+
+<div class=" my-3">
+
+    <h2 class="mb-3">Menu edit - {{menu.title}}</h2>
+
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th scope="col"><span class="input-group-text">Title</span></th>
+                <th scope="col"><input type="text" class="form-control" placeholder="Username" value="{{menu.title}}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row"><span class="input-group-text">Name</span></th>
+                <td><input type="text" class="form-control" placeholder="Nane" value="{{menu.name}}" readonly></td>
+            </tr>
+            <tr>
+                <th scope="row"><span class="input-group-text">Type</span></th>
+                <td><input type="text" class="form-control" placeholder="Administrator"></td>
+            </tr>
+            <tr>
+                <th scope="row"><span class="input-group-text">Target</span></th>
+                <td><input type="text" class="form-control" placeholder="Email" value="{{menu.content}}"></td>
+            </tr>
+            <tr>
+                <th scope="row"></th>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <button onClick="saveUser()" class="btn btn-success mx-3">Save</button>
+    <button onClick="deleteUser()" class="btn btn-danger">Delete</button>
+
+</div>
+
+{{/ admin/content}}
+
+
+<script>
+
+    function saveUser() {
+        window.location = "/admin/users"
+        console.log("Not implented yet")
+    }
+
+    function deleteUser() {
+        console.log("Not implented yet")
+    }
+
+    $(document).ready(function () {
+
+        $("#postSave").click(() => {
+
+            var postId = $('#postId').val()
+            var postTitle = $('#postTitle').val()
+            var postName = $('#postName').val()
+            var postContent = $('#postContent').val()
+            var postCategory = $('#postCategory').val()
+
+            $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory }, (data, statut) => {
+                console.log(data)
+
+            })
+
+        })
+
+    })
+
+</script>

@@ -14,14 +14,14 @@ function getPosts(category, callback) {
     })
 }
 
-function getPost(name, callback) {
-    data.posts.findOne({ name: name, postType: "post" }, (err, post) => {
+function getPost(postId, callback) {
+    data.posts.findOne({ _id: postId, postType: "post" }, (err, post) => {
         callback(err, post)
     })
 }
 
 function updatePost(postId, title, name, content, category = null, tags = null, format = null, callback) {
-    update(title, name, content, "post", category, tags, format, (err, num) => {
+    update(postId, title, name, content, "post", category, tags, format, (err, num) => {
         callback(err, num)
     })
 }
@@ -86,8 +86,8 @@ function create(title, name, content, postType, category, tags, format, callback
     })
 }
 
-function update(title, name, content, postType, category, tags, format, callback) {
-    data.posts.update({ name: name }, {
+function update(id, title, name, content, postType, category, tags, format, callback) {
+    data.posts.update({ _id: id }, {
         $set: {
             title: title,
             name: name,

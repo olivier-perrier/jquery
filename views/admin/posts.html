@@ -24,7 +24,10 @@
         </thead>
         <tbody>
             <tr v-for="post in posts">
-                <th scope="row" class="to-hover"><a :href="'/posts/' + post._id" class="btn btn-link">\{{post.title}}</a> <a :href="'/posts/' + post._id" class="btn btn-link to-show">Delete</a></th>
+                <th scope="row">
+                    <a :href="'/posts/' + post._id" class="btn btn-link">\{{post.title}}</a>
+                    <a :href="'/admin/posts/edit/' + post._id" class="btn btn-link"><small>Edit</small></a>
+                </th>
                 <td><a :href="'/admin/user/' + post.userId">\{{post.userId}}</a></td>
                 <td>\{{post.category}}</td>
                 <td>\{{post.tags}}</td>
@@ -46,7 +49,6 @@
 <script>
 
     function createPost() {
-        window.location = "/admin/post/create"
     }
 
     var app = new Vue({
@@ -68,6 +70,7 @@
             createPost: function () {
                 $.post(URL + "/API/posts/create", { name: "salut", content: "salut" }, (data, statut) => {
                     console.log(data)
+                    window.location = "/admin/posts/edit/" + data.post._id
                     this.posts.push(data.post)
                 })
             },
@@ -90,10 +93,11 @@
 </script>
 
 <style>
-.to-show {
-    display: none;
-}
-.to-hover:hover > .to-show {
-    display: block; 
-}
+    .to-show {
+        display: none;
+    }
+
+    .to-hover:hover>.to-show {
+        display: flex;
+    }
 </style>

@@ -34,7 +34,7 @@
         <br>
 
         <a href="/admin/posts" class="btn btn-light">Return</a>
-        <button class="btn btn-primary" type="button" id="postSave">Save</button>
+        <button class="btn btn-primary" type="button" onClick="postSave()">Save</button>
         <a href="/posts/{{post._id}}" class="btn btn-light">View</a>
 
     </div>
@@ -99,24 +99,22 @@
 
 
 <script>
-    $(document).ready(function () {
 
-        $("#postSave").click(() => {
+    function postSave() {
 
-            var postId = $('#postId').val()
-            var postTitle = $('#postTitle').val()
-            var postName = $('#postName').val()
-            var postContent = $('#postContent').val()
-            var postCategory = $('#postCategory').val()
-            var postTags = $('#postTags').val()
+        var postId = $('#postId').val()
+        var postTitle = $('#postTitle').val()
+        var postName = $('#postName').val()
+        var postContent = $('#postContent').val()
+        var postCategory = $('#postCategory').val()
+        var postTags = $('#postTags').val()
 
-            $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory, tags: postTags}, (data, statut) => {
-                console.log(data)
-
-            })
+        $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory, tags: postTags }, (data, statut) => {
+            console.log(data)
 
         })
 
-    })
+    }
+
 
 </script>
