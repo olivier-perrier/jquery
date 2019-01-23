@@ -2,6 +2,9 @@
 
 <div class=" my-3">
 
+    <input type="hidden" id="userId" name="userId" value="{{user._id}}">
+
+
     <h2 class="mb-3">User edit - {{user.username}}</h2>
 
     <table class="table table-borderless">
@@ -57,7 +60,13 @@
     }
 
     function deleteUser() {
-        console.log("Not implented yet")
+
+        var userId = $('#userId').val()
+
+        $.post(URL + "/API/user/delete", { id: userId }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/users"
+        })
     }
 
     $(document).ready(function () {

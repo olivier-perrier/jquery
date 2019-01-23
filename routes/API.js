@@ -77,7 +77,7 @@ router.post('/page/create', (req, res) => {
 
 })
 
-router.post('/page/save/', (req, res) => {
+router.post('/page/save', (req, res) => {
   console.log("POST /API/page/save/")
 
   var id = req.body.id
@@ -114,8 +114,27 @@ router.post('/page/delete', (req, res) => {
 })
 
 /*** Users ***/
-router.post('/user/save/', (req, res) => {
-  console.log("POST /API/page/save/")
+
+router.post('/user/create', (req, res) => {
+  console.log("POST /API/user/create")
+
+  var username = req.body.username
+  var role = req.body.role
+  var email = req.body.email
+  var password = req.body.password
+
+  User.createUser(username, role, email, password, (err, user) => {
+    if (user) {
+      res.send({ message: "success : user created", user: user })
+    } else {
+      res.send({ message: "internal error : impossible to create user" })
+    }
+  })
+
+})
+
+router.post('/user/save', (req, res) => {
+  console.log("POST /API/user/save")
 
   var id = req.body.id
   var username = req.body.username
@@ -127,10 +146,27 @@ router.post('/user/save/', (req, res) => {
     if (user) {
       res.send({ message: "success : user saved", user: user })
     } else {
-      res.send({ message: "internal error : impossible to save user for id " + id})
+      res.send({ message: "internal error : impossible to save user for id " + id })
     }
   })
 
 })
+
+router.post('/user/delete', (req, res) => {
+  console.log("POST /API/user/delete")
+
+  var id = req.body.id
+
+  User.deleteUser(id, (err, num) => {
+    if (num) {
+      res.send({ message: "success : user deleted" + num })
+    } else {
+      res.send({ message: "internal error : impossible to delete user for id " + id })
+    }
+  })
+
+})
+
+
 
 module.exports = router;

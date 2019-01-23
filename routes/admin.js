@@ -224,13 +224,8 @@ router.get('/users', (req, res) => {
 
 })
 
-router.get('/user/create', (req, res, next) => {
-  console.log("GET /admin/create")
-  next()
-})
-
-router.get('/user/:userId', (req, res) => {
-  console.log("GET /admin/user/:userId")
+router.get('/user/edit/:userId', (req, res) => {
+  console.log("GET /admin/user/edit/:userId")
 
   var userId = req.params.userId
 

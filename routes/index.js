@@ -111,11 +111,4 @@ router.get('/:page', function (req, res, next) {
     })
 })
 
-// DEBUG 
-
-router.get('/test', (req, res) => {
-    console.log("GET /test")
-    res.render('test')
-})
-
 module.exports = router;

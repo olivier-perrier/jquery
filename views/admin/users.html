@@ -2,11 +2,11 @@
 
 {{#> admin/content}}
 
-<div id="app" class="pt-3 ">
+<div id="app" class="pt-3">
 
     <h2 class="m-3">Users</h2>
 
-    <table class="table table-striped table-hover mb-5">
+    <table class="table table-striped table-hover pb-5">
         <thead>
             <tr>
                 <th scope="col">Username</th>
@@ -19,7 +19,8 @@
         <tbody>
             {{# users}}
             <tr>
-                <th scope="row"><a href="/admin/user/{{_id}}" class="btn btn-link">{{#if username}}{{username}}{{else}}-{{/if}}</a></th>
+                <th scope="row"><a href="/admin/user/edit/{{_id}}" class="btn btn-link">{{#if
+                        username}}{{username}}{{else}}-{{/if}}</a></th>
                 <td><span>{{name}}</span></td>
                 <td><a href="mailto:{{email}}" class="btn btn-link">{{email}}</a></td>
                 <td><span>{{role}}</span></td>
@@ -42,7 +43,19 @@
 <script>
 
     function createUser() {
-        window.location = "/admin/user/create"
+
+        var userId = $('#userId').val()
+        var username = $('#username').val()
+        var userRole = $('#userRole').val()
+        var userEmail = $('#userEmail').val()
+        var userPassword = $('#userPassword').val()
+
+        $.post(URL + "/API/user/create", { id: userId, username: username, role: userRole, email: userEmail, password: userPassword }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/user/edit/" + data.user._id
+        })
+
+
     }
 
     function deleteUser(menuName) {
@@ -52,7 +65,7 @@
         })
     }
 
-    
+
     $(() => {
 
         $(".postTypeSpan").click(function () {

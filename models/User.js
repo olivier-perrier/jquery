@@ -42,6 +42,12 @@ User.updateUser = function updateUser(userId, username, role, email, password, c
         })
 }
 
+User.deleteUser = function deleteUser(userId, callback) {
+    data.users.remove({ _id: userId }, (err, num) => {
+        callback(err, num)
+    })
+}
+
 // User.createUser("Peter", "Peter", "peter@gmail.com", "admin", (err, doc) => {})
 
 User.returnUser = function returnUser(username) {
