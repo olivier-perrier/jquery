@@ -2,7 +2,7 @@
 
 <div class=" my-3">
 
-    <h2 class="mb-3">Menu edit - {{menu.title}}</h2>
+    <h2 class="mb-3">Edit menu - {{menu.title}}</h2>
 
     <table class="table table-borderless">
         <thead>
@@ -13,12 +13,14 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row"><span class="input-group-text">Name</span></th>
-                <td><input type="text" class="form-control" placeholder="Nane" value="{{menu.name}}" readonly></td>
-            </tr>
-            <tr>
                 <th scope="row"><span class="input-group-text">Type</span></th>
-                <td><input type="text" class="form-control" placeholder="Administrator"></td>
+                <td>
+                    <select class="custom-select mr-2" id="selectTypeMenu">
+                        <option value="direct">Direct link</option>
+                        <option value="page">Page</option>
+                        <option value="post">Post</option>
+                        <option value="posts">Posts</option>
+                    </select>
             </tr>
             <tr>
                 <th scope="row"><span class="input-group-text">Target</span></th>
@@ -30,9 +32,10 @@
         </tbody>
     </table>
 
-
-    <button onClick="saveUser()" class="btn btn-success mx-3">Save</button>
-    <button onClick="deleteUser()" class="btn btn-danger">Delete</button>
+    <div class="pb-3">
+        <button onClick="saveMenu()" class="btn btn-success mx-3">Save</button>
+        <button onClick="deleteMenu()" class="btn btn-danger">Delete</button>
+    </div>
 
 </div>
 
@@ -41,12 +44,12 @@
 
 <script>
 
-    function saveUser() {
-        window.location = "/admin/users"
+    function saveMenu() {
+        window.location = "/admin/menu"
         console.log("Not implented yet")
     }
 
-    function deleteUser() {
+    function deleteMenu() {
         console.log("Not implented yet")
     }
 

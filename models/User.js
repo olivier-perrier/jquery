@@ -2,9 +2,9 @@ var data = require('./data')
 
 var User = {
     username: String,
-    name: String,
-    email: String,
     role: String,
+    email: String,
+    password: String,
 }
 
 User.getUser = function getUser(userId, callback) {
@@ -19,15 +19,27 @@ User.getUser = function getUser(userId, callback) {
     })
 }
 
-User.createUser = function createUser(username, name, email, role, callback) {
+User.createUser = function createUser(username, role, email, password, callback) {
     data.users.insert({
         username: username,
-        name: name,
-        email: email,
         role: role,
+        email: email,
+        password: password,
     }, (err, user) => {
         callback(err, user)
     })
+}
+
+User.updateUser = function updateUser(userId, username, role, email, password, callback) {
+    data.users.update({ _id: userId },
+        {
+            username: username,
+            role: role,
+            email: email,
+            password: password,
+        }, (err, user) => {
+            callback(err, user)
+        })
 }
 
 // User.createUser("Peter", "Peter", "peter@gmail.com", "admin", (err, doc) => {})

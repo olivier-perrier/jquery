@@ -1,0 +1,123 @@
+{{#> admin/content}}
+
+<div class="container-fluid row pt-3">
+
+    <div class="col-8">
+
+        <input type="hidden" id="postId" name="postId" value="{{page._id}}">
+
+        <div class="card mb-4 shadow-sm">
+
+            <div class="card-header">
+                <h3>Edit post</h3>
+            </div>
+
+            <div class="card-body d-flex flex-column align-items-start">
+
+                <!-- Title -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Title</span>
+                    </div>
+                    <input type="text" class="form-control" id="postTitle" value="{{page.title}}">
+                </div>
+
+
+                <!-- Test area -->
+                <textarea id="postContent" rows="15" class="form-control">{{{page.content}}}</textarea>
+
+                <div class="p-3">
+                    <p class="mb-1 text-muted">Created : {{page.createdAt}}</p>
+                    <p class="mb-1 text-muted">Updated : {{page.updatedAt}}</p>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <br>
+
+        <a href="/admin/pages" class="btn btn-light">Return</a>
+        <button class="btn btn-primary" type="button" onClick="pageSave()">Save</button>
+        <a href="/posts/{{post._id}}" class="btn btn-light">View</a>
+
+    </div>
+
+    <div class="col-4">
+
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                            aria-controls="collapseOne">Name</button>
+                    </h5>
+                </div>
+
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <label for="postName">Name</label>
+                        <input type="text" class="form-control" id="postName" value="{{page.name}}">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                            aria-expanded="false" aria-controls="collapseTwo">Categories</button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <label for="postCategory">Category</label>
+                        <input type="text" class="form-control" id="postCategory" value="{{page.category}}">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="false" aria-controls="collapseThree">Tags</button>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <label for="postName">Tags</label>
+                        <input type="text" class="form-control" id="postTags" value="{{page.tags}}">
+                        <small>Tags separeted with ;</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+{{/ admin/content}}
+
+
+<script>
+
+    function pageSave() {
+
+        var postId = $('#postId').val()
+        var postTitle = $('#postTitle').val()
+        var postName = $('#postName').val()
+        var postContent = $('#postContent').val()
+        var postCategory = $('#postCategory').val()
+        var postTags = $('#postTags').val()
+
+        $.post(URL + "/API/page/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory, tags: postTags }, (data, statut) => {
+            console.log(data)
+
+        })
+
+    }
+
+
+</script>

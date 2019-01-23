@@ -117,7 +117,7 @@ router.get('/posts/edit/:postId', (req, res) => {
     if (post == null) {
       res.send({ message: "not found : no posts found" })
     } else {
-      res.render('admin/post_edit', { post: post })
+      res.render('admin/post-edit', { post: post })
     }
   })
 

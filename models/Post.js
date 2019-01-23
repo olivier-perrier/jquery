@@ -33,6 +33,12 @@ function createPage(title, name, content, callback) {
     })
 }
 
+function updatePage(pagetId, title, name, content, category = null, tags = null, format = null, callback) {
+    update(pagetId, title, name, content, "page", category, tags, format, (err, num) => {
+        callback(err, num)
+    })
+}
+
 function deletePage(id, callback) {
     data.posts.remove({ _id: id }, (err, num) => {
         callback(err, num)
@@ -70,6 +76,7 @@ function getMenu(name, callback) {
     })
 }
 
+/*** Private ***/
 function create(title, name, content, postType, category, tags, format, callback) {
     data.posts.insert({
         title: title,
@@ -104,11 +111,12 @@ function update(id, title, name, content, postType, category, tags, format, call
 }
 
 Post.createPost = createPost
+Post.updatePost = updatePost
 Post.getPosts = getPosts
 Post.getPost = getPost
-Post.updatePost = updatePost
 
 Post.createPage = createPage
+Post.updatePage = updatePage
 Post.getPage = getPage
 Post.deletePage = deletePage
 

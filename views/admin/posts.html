@@ -11,34 +11,38 @@
         </div>
     </div>
 
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Author</th>
-                <th scope="col">Category</th>
-                <th scope="col">Tags</th>
-                <th scope="col">Comments</th>
-                <th scope="col">Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="post in posts">
-                <th scope="row">
-                    <a :href="'/posts/' + post._id" class="btn btn-link">\{{post.title}}</a>
-                    <a :href="'/admin/posts/edit/' + post._id" class="btn btn-link"><small>Edit</small></a>
-                </th>
-                <td><a :href="'/admin/user/' + post.userId">\{{post.userId}}</a></td>
-                <td>\{{post.category}}</td>
-                <td>\{{post.tags}}</td>
-                <td>-</td>
-                <td>-</td>
-                <td>
-                    <button v-on:click="deletePost(post)" class="btn btn-danger btn-sm">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="border rounded">
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Tags</th>
+                    <th scope="col">Comments</th>
+                    <th scope="col">Date</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="post in posts">
+                    <th scope="row">
+                        <a :href="'/posts/' + post._id" class="btn btn-link">\{{post.title}}</a>
+                        <a :href="'/admin/posts/edit/' + post._id" class="btn btn-link"><small>Edit</small></a>
+                    </th>
+                    <td><a :href="'/admin/user/' + post.userId">\{{post.userId}}</a></td>
+                    <td>\{{post.category}}</td>
+                    <td>\{{post.tags}}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
+                        <button v-on:click="deletePost(post)" class="btn btn-danger btn-sm">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
 </div>

@@ -3,6 +3,7 @@ var router = express.Router();
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
+var User = data.model('User')
 
 router.get('/posts', (req, res) => {
   console.log("GET /API/posts")
@@ -50,10 +51,10 @@ router.post('/posts/delete/:postId', (req, res) => {
   var postId = req.params.postId
 
   data.posts.remove({ _id: postId }, (err, num) => {
-    if (num == 0) {
-      res.send({ message: "not found : no post found to delete " + postId })
-    } else {
+    if (num) {
       res.send({ message: "success : post deleted" })
+    } else {
+      res.send({ message: "not found : no post found to delete for id " + postId })
     }
   })
 
@@ -62,8 +63,8 @@ router.post('/posts/delete/:postId', (req, res) => {
 router.post('/page/create', (req, res) => {
   console.log("POST /API/page/create")
 
-  var name = req.body.name
   var title = req.body.title
+  var name = String(title).toLowerCase().replace(" ", "-")
   var content = req.body.content
 
   Post.createPage(title, name, content, (err, page) => {
@@ -71,6 +72,27 @@ router.post('/page/create', (req, res) => {
       res.send({ message: "success : page created", menu: page })
     } else {
       res.send({ message: "internal error : impossible to create page" })
+    }
+  })
+
+})
+
+router.post('/page/save/', (req, res) => {
+  console.log("POST /API/page/save/")
+
+  var id = req.body.id
+  var title = req.body.title
+  var name = String(req.body.name).toLowerCase().replace(" ", "-")
+  var content = req.body.content
+  var category = req.body.category
+  var tags = req.body.tags
+  var format = req.body.format
+
+  Post.updatePage(id, title, name, content, category, tags, format, (err, page) => {
+    if (page) {
+      res.send({ message: "success : page saved", page: page })
+    } else {
+      res.send({ message: "internal error : impossible to save page" })
     }
   })
 
@@ -86,6 +108,26 @@ router.post('/page/delete', (req, res) => {
       res.send({ message: "success : page deleted" })
     } else {
       res.send({ message: "internal error : impossible to delete page" })
+    }
+  })
+
+})
+
+/*** Users ***/
+router.post('/user/save/', (req, res) => {
+  console.log("POST /API/page/save/")
+
+  var id = req.body.id
+  var username = req.body.username
+  var role = req.body.role
+  var email = req.body.email
+  var password = req.body.password
+
+  User.updateUser(id, username, role, email, password, (err, user) => {
+    if (user) {
+      res.send({ message: "success : user saved", user: user })
+    } else {
+      res.send({ message: "internal error : impossible to save user for id " + id})
     }
   })
 

@@ -26,7 +26,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <input type="text" id="pageTitle" class="form-control mr-2" placeholder="Title">
 
-                <button onClick="addPage()" class="btn btn-success btn-sm">Add</button>
+                <button onClick="createPage()" class="btn btn-success btn-sm">Add</button>
             </li>
 
         </ul>
@@ -39,12 +39,11 @@
 
 <script>
 
-    function addPage() {
+    function createPage() {
         var pageTitle = $("#pageTitle").val()
         var pageName = pageTitle.toLowerCase()
-        var pageContent = ""
 
-        $.post(URL + "/API/page/create", { title: pageTitle, name: pageName, content: pageContent }, (data, statut) => {
+        $.post(URL + "/API/page/create", { title: pageTitle, name: pageName}, (data, statut) => {
             console.log(data)
             window.location = "/admin/pages"
         })

@@ -8,24 +8,24 @@
         <thead>
             <tr>
                 <th scope="col"><span class="input-group-text">Username</span></th>
-                <th scope="col"><input type="text" class="form-control" placeholder="Username" value="{{user.username}}"></th>
+                <th scope="col"><input type="text" id="username" class="form-control" placeholder="Username" value="{{user.username}}"></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th scope="row"><span class="input-group-text">Role</span></th>
-                <td><input type="text" class="form-control" placeholder="Administrator"></td>
+                <td><input type="text" class="form-control" id="userRole" placeholder="Administrator"></td>
             </tr>
             <tr>
                 <th scope="row"><span class="input-group-text">Email</span></th>
-                <td><input type="text" class="form-control" placeholder="Email" value="{{user.email}}"></td>
+                <td><input type="text" class="form-control" id="userEmail" placeholder="Email" value="{{user.email}}"></td>
             </tr>
             <tr>
                 <th scope="row"></th>
             </tr>
             <tr>
                 <th scope="row"><span class="input-group-text">Password</span></th>
-                <td><input type="text" class="form-control" placeholder="Password"></td>
+                <td><input type="text" class="form-control" id="userPassword" placeholder="Password"></td>
             </tr>
         </tbody>
     </table>
@@ -42,8 +42,18 @@
 <script>
 
     function saveUser() {
-        window.location = "/admin/users"
-        console.log("Not implented yet")
+
+        var userId = $('#userId').val()
+        var username = $('#username').val()
+        var userRole = $('#userRole').val()
+        var userEmail = $('#userEmail').val()
+        var userPassword = $('#userPassword').val()
+
+        $.post(URL + "/API/user/save", { id: userId, username: username, role: userRole, email: userEmail, password: userPassword }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/users"
+        })
+
     }
 
     function deleteUser() {

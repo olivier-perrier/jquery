@@ -10,8 +10,7 @@ router.get('/', function (req, res) {
     console.log("GET /")
 
     User.getUser(req.session.userId, (user) => {
-        Setting.getSettings(["siteName", "siteTitle"], (err, settings) => {
-            console.log(settings)
+        Setting.getAllSettings((err, settings) => {
             
             data.posts.find({ postType: "post" }, (err, posts) => {
                 
