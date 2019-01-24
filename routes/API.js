@@ -173,14 +173,11 @@ router.post('/settings/save', (req, res) => {
 
   var settings = req.body.settings
 
-  console.log(settings)
-  // User.deleteUser(id, (err, num) => {
-  //   if (num) {
-  //     res.send({ message: "success : user deleted" + num })
-  //   } else {
-  //     res.send({ message: "internal error : impossible to delete user for id " + id })
-  //   }
-  // })
+  Object.entries(settings).forEach(([key, valeur]) => {
+    data.settings.update({ name: key }, { $set: { value: valeur } })
+  })
+
+  res.send({ message: "success : settings updated" })
 
 })
 
