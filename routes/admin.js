@@ -161,7 +161,7 @@ router.get('/menu/edit/:menuId', (req, res) => {
     res.send({ messsage: "forbidden: you must be logged to access admin" })
 
   } else {
-    data.posts.findOne({ _id : menuId, postType: "menu" }, (err, menu) => {
+    data.posts.findOne({ _id: menuId, postType: "menu" }, (err, menu) => {
 
       data.users.findOne({ _id: userId }, (err, user) => {
 
@@ -234,5 +234,13 @@ router.get('/user/edit/:userId', (req, res) => {
   })
 
 })
+
+router.get('/settings', (req, res) => {
+  console.log("GET /admin/settings")
+
+    res.render('admin/settings', {  })
+
+})
+
 
 module.exports = router;

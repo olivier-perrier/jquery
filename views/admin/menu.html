@@ -80,12 +80,5 @@
         })
     }
 
-    function saveMenu(title, name, content, format) {
-        name = title.toLowerCase()
-        $.post(URL + "/admin/menu/save", { title: title, name: name, content: content, format: format }, (data, statut) => {
-            console.log(data)
-            window.location = "/admin/menu"
-        })
-    }
 
 </script>

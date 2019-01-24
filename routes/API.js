@@ -167,6 +167,21 @@ router.post('/user/delete', (req, res) => {
 
 })
 
+/*** Settings ***/
+router.post('/settings/save', (req, res) => {
+  console.log("POST /API/settings/save")
 
+  var settings = req.body.settings
+
+  console.log(settings)
+  // User.deleteUser(id, (err, num) => {
+  //   if (num) {
+  //     res.send({ message: "success : user deleted" + num })
+  //   } else {
+  //     res.send({ message: "internal error : impossible to delete user for id " + id })
+  //   }
+  // })
+
+})
 
 module.exports = router;

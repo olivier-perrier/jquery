@@ -28,7 +28,7 @@
             <tbody>
                 <tr v-for="post in posts">
                     <th scope="row">
-                        <a :href="'/posts/' + post._id" class="btn btn-link">\{{post.title}}</a>
+                        <a :href="'/post/' + post._id" class="btn btn-link">\{{post.title}}</a>
                         <a :href="'/admin/posts/edit/' + post._id" class="btn btn-link"><small>Edit</small></a>
                     </th>
                     <td><a :href="'/admin/user/' + post.userId">\{{post.userId}}</a></td>

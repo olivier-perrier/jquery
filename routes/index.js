@@ -6,18 +6,27 @@ var Post = data.model('Post')
 var User = data.model('User')
 var Setting = data.model('Setting')
 
+//Add settings objects to all entry point of this rooter
+router.use((req, res, next) => {
+    Setting.getAllSettings((err, settings) => {
+        res.locals.settings = settings
+        next();
+    })
+})
+
+
 router.get('/', function (req, res) {
     console.log("GET /")
 
     User.getUser(req.session.userId, (user) => {
         Setting.getAllSettings((err, settings) => {
-            
+
             data.posts.find({ postType: "post" }, (err, posts) => {
-                
+
                 data.posts.find({ postType: "menu" }, (err, menus) => {
-                    
-                    res.render('index', { posts: posts, user: user, menus: menus, settings : settings })
-                    
+
+                    res.render('index', { posts: posts, user: user, menus: menus, settings: settings })
+
                 })
             })
         })
@@ -38,6 +47,22 @@ router.get('/posts', (req, res) => {
             })
         })
 
+    })
+
+})
+
+router.get('/post/:postId', (req, res) => {
+    console.log("GET /post/:postId")
+    var postId = req.params.postId
+
+    data.posts.findOne({ _id: postId }, (err, post) => {
+        if (post == null) {
+            res.send({ message: "not found : no posts found" })
+        } else {
+            data.posts.find({ postType: "menu" }, (err, menus) => {
+                res.render('post', { post: post, menus: menus })
+            })
+        }
     })
 
 })
@@ -79,7 +104,6 @@ router.get('/:page', function (req, res, next) {
 
 
                 Post.getPosts(postCategory, (err, posts) => {
-                    console.log(posts)
 
                     Post.getMenus((err, menus) => {
 
