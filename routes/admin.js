@@ -208,7 +208,7 @@ router.get('/page/edit/:pageId', (req, res) => {
     if (page) {
       res.render('admin/page-edit', { page: page })
     } else {
-      res.send({ message: "not found : page not found " + page.name })
+      res.send({ message: "not found : page not found for id" + pageId })
     }
   })
 

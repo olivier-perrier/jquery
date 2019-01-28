@@ -60,16 +60,17 @@ router.post('/posts/delete/:postId', (req, res) => {
 
 })
 
+/*** Pages ***/
 router.post('/page/create', (req, res) => {
   console.log("POST /API/page/create")
 
-  var title = req.body.title
-  var name = String(title).toLowerCase().replace(" ", "-")
+  var title = req.body.title || "title"
+  var name = String(title).toLowerCase().replace(" ", "-") || "name"
   var content = req.body.content
 
   Post.createPage(title, name, content, (err, page) => {
     if (page) {
-      res.send({ message: "success : page created", menu: page })
+      res.send({ message: "success : page created", page: page })
     } else {
       res.send({ message: "internal error : impossible to create page" })
     }

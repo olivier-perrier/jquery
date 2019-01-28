@@ -2,35 +2,38 @@
 
 {{#> admin/content}}
 
-<div id="app" class="pt-3">
+<div id="app" class="my-3">
 
     <h2 class="m-3">Users</h2>
 
-    <table class="table table-striped table-hover pb-5">
-        <thead>
-            <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-                <th scope="col">Posts</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{# users}}
-            <tr>
-                <th scope="row"><a href="/admin/user/edit/{{_id}}" class="btn btn-link">{{#if
-                        username}}{{username}}{{else}}-{{/if}}</a></th>
-                <td><span>{{name}}</span></td>
-                <td><a href="mailto:{{email}}" class="btn btn-link">{{email}}</a></td>
-                <td><span>{{role}}</span></td>
-                <td><span>{{postNumber}}</span></td>
-            </tr>
-            {{/ users}}
-        </tbody>
-    </table>
+    <div class="card">
 
-    <hr>
+        <table class="table table-striped table-hover pb-5">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Posts</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{# users}}
+                <tr>
+                    <th scope="row"><a href="/admin/user/edit/{{_id}}" class="btn btn-link">{{#if
+                            username}}{{username}}{{else}}-{{/if}}</a></th>
+                    <td><span>{{name}}</span></td>
+                    <td><a href="mailto:{{email}}" class="btn btn-link">{{email}}</a></td>
+                    <td><span>{{role}}</span></td>
+                    <td><span>{{postNumber}}</span></td>
+                </tr>
+                {{/ users}}
+            </tbody>
+        </table>
+
+    </div>
+
 
     <button onClick="createUser()" class="btn btn-primary mx-1">Create</button>
 
