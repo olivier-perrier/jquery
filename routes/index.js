@@ -18,6 +18,9 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     console.log("GET /")
 
+    var widgets = 
+        [{ name: 'widgets/posts' }, { name: 'widgets/widget' }]
+
     User.getUser(req.session.userId, (user) => {
         Setting.getAllSettings((err, settings) => {
 
@@ -25,7 +28,7 @@ router.get('/', function (req, res) {
 
                 data.posts.find({ postType: "menu" }, (err, menus) => {
 
-                    res.render('index', { posts: posts, user: user, menus: menus, settings: settings })
+                    res.render('index', { posts: posts, user: user, menus: menus, settings: settings, widgets: widgets })
 
                 })
             })

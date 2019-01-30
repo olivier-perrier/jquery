@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 
         data.posts.find({ postType: "page" }).limit(5).exec((err, pages) => {
 
-          res.render('admin/index', { user: user, posts: posts, pages: pages })
+          res.render('admin/index', { user: user, posts: posts, pages: pages})
 
         })
       })
