@@ -8,6 +8,14 @@ var Setting = data.model('Setting')
 
 //Add settings objects to all entry point of this rooter
 router.use((req, res, next) => {
+
+    var widgets =
+        [{ name: 'widgets/posts', data: { posts: [{ name: "post1" }, { name: "post2" }] } },
+        { name: 'widgets/widget', value: "ok" }]
+
+    res.locals.widgets = widgets
+
+
     Setting.getAllSettings((err, settings) => {
         res.locals.settings = settings
         next();
@@ -18,8 +26,9 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     console.log("GET /")
 
-    var widgets = 
-        [{ name: 'widgets/posts' }, { name: 'widgets/widget' }]
+    var widgets =
+        [{ name: 'widgets/posts', data: { posts: [{ name: "post1" }, { name: "post2" }] } },
+        { name: 'widgets/widget', value: "ok" }]
 
     User.getUser(req.session.userId, (user) => {
         Setting.getAllSettings((err, settings) => {
@@ -28,7 +37,7 @@ router.get('/', function (req, res) {
 
                 data.posts.find({ postType: "menu" }, (err, menus) => {
 
-                    res.render('index', { posts: posts, user: user, menus: menus, settings: settings, widgets: widgets })
+                    res.render('index', { posts: posts, user: user, menus: menus, settings: settings })
 
                 })
             })
