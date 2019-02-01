@@ -1,7 +1,18 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="/widget1.js"></script>
+
+
 <div class="widgets">
     {{# widgets}}
-        {{> (lookup . 'name') data=data }}
+    {{> (lookup . 'name') data=data }}
     {{/ widgets}}
+</div>
+
+<div id="app" class="widgets">
+    <div v-for="widget in vuewidgets">
+        {{!-- <widget1></widget1> --}}
+        <widget ></widget>
+        </div>
 </div>
 
 <footer class="mt-auto">
@@ -12,6 +23,16 @@
     </div>
 
 </footer>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        props: {
+            //componentName: { type: String, required: true }
+            widget: "widget1"
+        },
+    })
+</script>
 
 <style>
 

@@ -13,6 +13,7 @@ router.use((req, res, next) => {
         [{ name: 'widgets/posts', data: { posts: [{ name: "post1" }, { name: "post2" }] } },
         { name: 'widgets/widget', value: "ok" }]
 
+
     res.locals.widgets = widgets
 
 
