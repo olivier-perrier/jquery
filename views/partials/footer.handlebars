@@ -1,3 +1,4 @@
+<script src="/widgetposts.js"></script>
 
 <div id="app-widgets" class="container widgets ">
     <div v-for="widget in vuewidgets">
@@ -16,12 +17,12 @@
 
 <script type="module">
 
-    import widgetposts from '/widgetposts.js'
+    //import widgetposts from '/widgetposts.js'
 
     var app = new Vue({
         el: '#app-widgets',
         components: {
-            widgetposts
+            //widgetposts
         },
         data: {
             vuewidgets: ["widgetposts",]

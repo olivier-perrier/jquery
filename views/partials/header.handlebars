@@ -1,42 +1,41 @@
-<header class="mb-auto">
+<header class="mb-3">
 
-    <nav class="navbar navbar-expand-md navbar-light bg-light mb-3">
-        <a class="navbar-brand" href="/">{{settings.siteName}}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    {{!-- <img src="./img/banner.jpg" class="position-fixed" alt="opensourcecms" width="2000" height="1200"> --}}
 
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+    <div class="container">
+        <div class="p-3">
+            <h1 class=""><a href="/" rel="home">{{settings.siteName}}</a></h1>
+            <p class="site-description">website of the test</p>
+        </div>
+    </div>
 
-                <li class="nav-item">
-                    <!-- <button id="account" class="btn btn-outline-success" type="button">Account</button> -->
-                </li>
-                <li class="nav-item">
-                    <a class="nav-lik p-2" href="/">Home</a>
-                    <a class="p-2" href="/posts">Posts</a>
-                </li>
-                <li class="nav-item">
-                    {{#menus}}
-                    <a class="p-2" href="/{{name}}">{{title}}</a>
-                    {{/menus}}
-                </li>
-
-
-            </ul>
+    <nav class="site-header sticky-top py-1">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+            <a class="py-2" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+                    <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+                    <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+                    <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+                    <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+                    <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+                </svg>
+            </a>
+            <a class="nav-link p-2" href="/">Home</a>
+            <a class="p-2" href="/posts">Posts</a>
+            {{#menus}}
+            <a class="p-2 d-md-inline-block" href="/{{name}}">{{title}}</a>
+            {{/menus}}
 
             <!-- if user is login -->
             {{#if user.name}}
-            <a id="account" class="btn btn-link" href="/users/account" onClick="account()" role="button">{{ user.name
-                }}</a>
-            <a id="logout" class="btn btn-link" href="/users/logout" role="button">Log out</a>
-            {{/if}}
+            <a class="btn btn-link" href="/users/account" role="button">{{user.name}}</a>
+            <a class="btn btn-link" href="/users/logout" role="button">Log out</a>
 
-
-            <!-- if user is not login -->
-            {{#if user.name}}
+            {{else}}
 
             {{> login}}
 
@@ -45,9 +44,9 @@
             {{/if}}
 
             <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
-
         </div>
     </nav>
+
 
 </header>
 
@@ -60,3 +59,9 @@
     }
 
 </script>
+
+<style>
+    nav {
+        position: absolute
+    }
+</style>

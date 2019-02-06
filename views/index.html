@@ -1,38 +1,32 @@
 {{> header}}
 
 <div class="container mb-10">
-    <div class="row">
 
-        <div class="col-9">
-
-            {{#posts}}
-            <div class="card mb-3">
-
-                <div class="card-body">
-
-                    <div class="row">
-
-                        <div class="col-9">
-                            <h5 class="card-title">
-                                <a href="post/{{_id}}">{{name}}</a>
-                            </h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle {{date}}</h6>
-                            <p class="card-text">{{contentPreview}}</p>
-                            <a href="post/{{_id}}" class="card-link">Continue reading</a>
-                        </div>
-
-                        <div class="col-3">
-                            <img src="./img/card-286px180.svg" alt="Card image cap">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{/posts}}
-
+    <div class="text-center bg-light">
+        <div class="col-md-5 p-lg-5 mx-auto my-5">
+            <h1 class="display-4 font-weight-normal">Punny headline</h1>
+            <p class="lead font-weight-normal">And an even wittier subheading to boot. Jumpstart your marketing efforts
+                with this example based on Apple's marketing pages.</p>
+            <a class="btn btn-outline-secondary" href="#">Coming soon</a>
         </div>
+        <div class="product-device box-shadow d-none d-md-block"></div>
+        <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
+    </div>
 
-        <div class="col-3">
-            sidebar
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+        <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Another headline</h2>
+                <p class="lead">And an even wittier subheading.</p>
+            </div>
+            <div class="bg-light box-shadow mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+        </div>
+        <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Another headline</h2>
+                <p class="lead">And an even wittier subheading.</p>
+            </div>
+            <div class="bg-dark box-shadow mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
         </div>
     </div>
 
