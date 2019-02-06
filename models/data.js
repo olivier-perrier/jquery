@@ -2,6 +2,8 @@ console.log("Database managment loaded")
 
 var Datastore = require('nedb')
 
+var op = require('./OP')
+
 db = {}
 db.users = new Datastore({ filename: 'data/users.nedb' })
 db.posts = new Datastore({ filename: 'data/posts.nedb' })

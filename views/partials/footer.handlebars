@@ -1,21 +1,11 @@
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="/widget1.js"></script>
 
-
-<div class="widgets">
-    {{# widgets}}
-    {{> (lookup . 'name') data=data }}
-    {{/ widgets}}
-</div>
-
-<div id="app" class="widgets">
+<div id="app-widgets" class="container widgets ">
     <div v-for="widget in vuewidgets">
-        {{!-- <widget1></widget1> --}}
-        <widget ></widget>
-        </div>
+        <component v-bind:is="widget"></component>
+    </div>
 </div>
 
-<footer class="mt-auto">
+<footer class="mt-5">
 
     <div class="container-flud text-center bg-light">
         <p>CMS by OP</a> .</p>
@@ -24,14 +14,20 @@
 
 </footer>
 
-<script>
+<script type="module">
+
+    import widgetposts from '/widgetposts.js'
+
     var app = new Vue({
-        el: '#app',
-        props: {
-            //componentName: { type: String, required: true }
-            widget: "widget1"
+        el: '#app-widgets',
+        components: {
+            widgetposts
         },
-    })
+        data: {
+            vuewidgets: ["widgetposts",]
+        },
+    }
+    )
 </script>
 
 <style>

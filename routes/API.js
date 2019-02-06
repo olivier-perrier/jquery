@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var op = require('../models/OP.js')
+
 var data = require('../models/data.js')
 var Post = data.model('Post')
 var User = data.model('User')
@@ -14,6 +16,15 @@ router.get('/posts', (req, res) => {
     } else {
       res.send({ message: "success : posts found", posts: posts })
     }
+  })
+
+})
+
+router.post('/posts', (req, res) => {
+  console.log("POST /API/posts")
+
+  data.posts.find({ postType: "post" }, (err, posts) => {
+    res.send({ message: "success : posts found", posts: posts })
   })
 
 })
@@ -167,6 +178,18 @@ router.post('/user/delete', (req, res) => {
   })
 
 })
+
+/*** Widgets ***/
+// router.get('/widgets', (req, res) => {
+//   console.log("GET /API/widgets")
+
+//   Object.entries(settings).forEach(([key, valeur]) => {
+//     data.settings.update({ name: key }, { $set: { value: valeur } })
+//   })
+
+//   res.send({ message: "success : returned widgets", widgets : op.getWidgets() })
+
+// })
 
 /*** Settings ***/
 router.post('/settings/save', (req, res) => {

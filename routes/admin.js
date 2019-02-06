@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var op = require('../models/OP.js')
+
 var data = require('../models/data.js')
 var Post = data.model('Post')
 var Setting = data.model('Setting')
@@ -239,6 +241,13 @@ router.get('/settings', (req, res) => {
   console.log("GET /admin/settings")
 
     res.render('admin/settings', {  })
+
+})
+
+router.get('/widgets', (req, res) => {
+  console.log("GET /admin/widgets")
+
+    res.render('admin/widgets', { widgets : op.getWidgets() })
 
 })
 
