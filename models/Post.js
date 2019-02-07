@@ -1,16 +1,16 @@
 var data = require('./data')
 
 var Post = {
-    
-    postSchema = {
-        title: title,
-        name: name,
-        content: content,
-        description : description,
-        postType: postType,     // Define the type of post (post, menu, page)
-        category: category,     // Define custom category
-        tags: tags,             // Define list of tags related to the post
-        format: format,         // Define the format of the post (audio, video, text, link, default...)
+
+    postSchema: {
+        title: String,
+        name: String,
+        content: String,
+        description: String,
+        postType: String,     // Define the type of post (post, menu, page)
+        category: String,     // Define custom category
+        tags: String,         // Define list of tags related to the post
+        format: String,       // Define the format of the post (audio, video, text, link, default...)
         createdAt: new Date(),
         updatedAt: new Date()
     }
@@ -41,15 +41,9 @@ function getPostByName(postName, callback) {
     })
 }
 
-function updatePost(postId, title, name, content, category = null, tags = null, format = null, callback) {
-    update(postId, title, name, content, "post", category, tags, format, (err, num) => {
-        callback(err, num)
-    })
-}
-
-function updatePost2(post, callback) {
+function updatePost(post, callback) {
     post.postType = "post"
-    update2(post, (err, num) => {
+    update(post.id, post, (err, num) => {
         callback(err, num)
     })
 }
@@ -61,14 +55,15 @@ function createPage(title, name, content, callback) {
     })
 }
 
-function updatePage(pagetId, title, name, content, category = null, tags = null, format = null, callback) {
-    update(pagetId, title, name, content, "page", category, tags, format, (err, num) => {
+function updatePage(page, callback) {
+    page.postType = "page"
+    update(page.id, page, (err, num) => {
         callback(err, num)
     })
 }
 
 function deletePage(id, callback) {
-    data.posts.remove({ _id: id }, (err, num) => {
+    remove(id, (err, num) => {
         callback(err, num)
     })
 }
@@ -86,10 +81,11 @@ function createMenu(title, name, content, format, callback) {
     })
 }
 
-function updateMenu(title, name, content, format, callback) {
-    update(title, name, content, "menu", null, null, format, (err, num) => {
-        callback(err, num)
-    })
+function updateMenu(menu, callback) {
+    menu.postType = "menu",
+        update(menu, (err, num) => {
+            callback(err, num)
+        })
 }
 
 function getMenus(callback) {
@@ -121,36 +117,32 @@ function create(title, name, content, postType, category, tags, format, callback
     })
 }
 
-function update(id, title, name, content, postType, category, tags, format, callback) {
-    data.posts.update({ _id: id }, {
-        $set: {
-            title: title,
-            name: name,
-            content: content,
-            postType: postType,     // Define the type of post (post, menu, page)
-            category: category,     // Define custom category
-            tags: tags,             // Define list of tags related to the post
-            format: format,         // Define the format of the post (audio, video, text, link, default...)
-            updatedAt: new Date()
-        }
-    }, (err, num) => {
-        callback(err, num)
-    })
-}
+function update(id, post, callback) {
 
-function update2(post, callback) {
+    /* remove undifined properties */
+    Object.keys(post).forEach(key => {
+        if (post[key] === undefined) {
+            delete post[key];
+        }
+    })
+
     post.updatedAt = new Date()
 
-    data.posts.update({ _id: post._id }, {
+    data.posts.update({ _id: id }, {
         $set: post
     }, (err, num) => {
         callback(err, num)
     })
 }
 
+function remove(id, callback) {
+    data.posts.remove({ _id: id }, (err, num) => {
+        callback(err, num)
+    })
+}
+
 Post.createPost = createPost
 Post.updatePost = updatePost
-Post.updatePost2 = updatePost2
 Post.getPosts = getPosts
 Post.getPost = getPost
 Post.getPostByName = getPostByName
@@ -160,15 +152,9 @@ Post.updatePage = updatePage
 Post.getPage = getPage
 Post.deletePage = deletePage
 
-
 Post.createMenu = createMenu
 Post.updateMenu = updateMenu
 Post.getMenus = getMenus
 Post.getMenu = getMenu
-
-// data.posts.update({}, {$set: {createdAt: new Date()}})
-
-// createPost("Post 1", "Bla bla blabla blaaaaa <strong>strong</strong>")
-// createPost("Post 2", "Bla bla blabla blaaaaa <strong>strong</strong>")
 
 module.exports = Post

@@ -41,31 +41,20 @@ router.post('/posts/create', (req, res) => {
 router.post('/post/save', (req, res) => {
   console.log("POST /API/post/save")
 
-  var id = req.body.id
-  var title = req.body.title
-  var name = req.body.name
-  var content = req.body.content
-  var description = req.body.description
-  var category = req.body.category
-  var tags = req.body.tags
-  var format = req.body.format
-
-
   var post = {
-    _id: id,
-    title: title,
-    name: name,
-    content: content,
-    description: description,
-    category: category,
-    tags: tags,
-    format: format,
+    id: req.body.id,
+    title: req.body.title,
+    name: req.body.name,
+    content: req.body.content,
+    description: req.body.description,
+    category: req.body.category,
+    tags: req.body.tags,
+    format: req.body.format,
   }
 
-  // Post.updatePost(id, title, name, content, category, tags, format, (err, num) => {
-  Post.updatePost2(post, (err, num) => {
+  Post.updatePost(post, (err, num) => {
 
-    res.send({ message: "success : post updated " + num, postId: id })
+    res.send({ message: "success : post updated " + num, postId: post.id })
 
   })
 })
@@ -106,15 +95,17 @@ router.post('/page/create', (req, res) => {
 router.post('/page/save', (req, res) => {
   console.log("POST /API/page/save/")
 
-  var id = req.body.id
-  var title = req.body.title
-  var name = String(req.body.name).toLowerCase().replace(" ", "-")
-  var content = req.body.content
-  var category = req.body.category
-  var tags = req.body.tags
-  var format = req.body.format
+  var page = {
+    id: req.body.id,
+    title: req.body.title,
+    name: String(req.body.name).toLowerCase().replace(" ", "-"),
+    content: req.body.content,
+    category: req.body.category,
+    tags: req.body.tags,
+    format: req.body.format,
+  }
 
-  Post.updatePage(id, title, name, content, category, tags, format, (err, page) => {
+  Post.updatePage(page, (err, page) => {
     if (page) {
       res.send({ message: "success : page saved", page: page })
     } else {

@@ -40,7 +40,7 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     console.log("GET /")
 
-    data.posts.findOne({ postType: "post" }).sort({createdAt : -1 }).exec((err, mainPost) => {
+    data.posts.findOne({ postType: "post" }).sort({ createdAt: -1 }).exec((err, mainPost) => {
         data.posts.find({ postType: "post" }).limit(2).exec((err, posts) => {
 
             res.render('index', { mainPost: mainPost, posts: posts })
@@ -65,13 +65,17 @@ router.get('/post/:postId', (req, res) => {
     var postId = req.params.postId
 
     data.posts.findOne({ _id: postId }, (err, post) => {
-        if (post == null) {
-            res.send({ message: "not found : no posts found" })
-        } else {
-            data.posts.find({ postType: "menu" }, (err, menus) => {
-                res.render('post', { post: post, menus: menus })
-            })
-        }
+        res.render('post', { post: post })
+    })
+
+})
+
+router.get('/page/:pagetId', (req, res) => {
+    console.log("GET /page/:pagetId")
+    var pagetId = req.params.pagetId
+
+    data.posts.findOne({ _id: pagetId }, (err, page) => {
+        res.render('page', { page: page })
     })
 
 })
@@ -110,7 +114,7 @@ router.get('/:page', function (req, res, next) {
 
                 var postCategory = menu.content
 
-                Post.getPosts({category : postCategory}, (err, posts) => {
+                Post.getPosts({ category: postCategory }, (err, posts) => {
 
                     res.render('posts', { posts: posts })
 

@@ -1,0 +1,34 @@
+<script src="/widgetposts.js"></script>
+
+
+<aside>
+
+    sidebar
+
+    <div id="app-widgets" class="container widgets ">
+        <div v-for="widget in vuewidgets">
+            <component v-bind:is="widget"></component>
+        </div>
+    </div>
+
+</aside>
+
+
+<script>
+
+    var app = new Vue({
+        el: '#app-widgets',
+        components: {
+            //widgetposts
+        },
+        data: {
+            vuewidgets: ["widgetposts",]
+        },
+    })
+
+</script>
+
+
+
+<style>
+</style>

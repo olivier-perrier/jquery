@@ -59,12 +59,15 @@ router.post('/menu/create/', (req, res) => {
 router.post('/menu/save/', (req, res) => {
   console.log("POST /admin/menu/save")
 
-  var name = req.body.name
-  var title = req.body.title
-  var content = req.body.content
-  var format = req.body.format
+  var menu = {
+    id : req.body.id,
+    name : req.body.name,
+    title : req.body.title,
+    content : req.body.content,
+    format : req.body.format,
+  }
 
-  Post.updateMenu(title, name, content, format, (err, menu) => {
+  Post.updateMenu(menu, (err, menu) => {
     if (menu) {
       res.send({ message: "success : new menu created", menu: menu })
     } else {
