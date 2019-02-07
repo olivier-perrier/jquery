@@ -45,11 +45,25 @@ router.post('/post/save', (req, res) => {
   var title = req.body.title
   var name = req.body.name
   var content = req.body.content
+  var description = req.body.description
   var category = req.body.category
   var tags = req.body.tags
   var format = req.body.format
 
-  Post.updatePost(id, title, name, content, category, tags, format, (err, num) => {
+
+  var post = {
+    _id: id,
+    title: title,
+    name: name,
+    content: content,
+    description: description,
+    category: category,
+    tags: tags,
+    format: format,
+  }
+
+  // Post.updatePost(id, title, name, content, category, tags, format, (err, num) => {
+  Post.updatePost2(post, (err, num) => {
 
     res.send({ message: "success : post updated " + num, postId: id })
 

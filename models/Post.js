@@ -1,6 +1,20 @@
 var data = require('./data')
 
-var Post = {}
+var Post = {
+    
+    postSchema = {
+        title: title,
+        name: name,
+        content: content,
+        description : description,
+        postType: postType,     // Define the type of post (post, menu, page)
+        category: category,     // Define custom category
+        tags: tags,             // Define list of tags related to the post
+        format: format,         // Define the format of the post (audio, video, text, link, default...)
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }
+}
 
 function createPost(title, name, content, category = null, tags = null, format = null, callback) {
     create(title, name, content, "post", category, tags, format, (err, doc) => {
@@ -8,8 +22,9 @@ function createPost(title, name, content, category = null, tags = null, format =
     })
 }
 
-function getPosts(category, callback) {
-    data.posts.find({ category: category, postType: "post" }, (err, posts) => {
+function getPosts(query, callback) {
+    query.postType = "post"
+    data.posts.find(query, (err, posts) => {
         callback(err, posts)
     })
 }
@@ -28,6 +43,13 @@ function getPostByName(postName, callback) {
 
 function updatePost(postId, title, name, content, category = null, tags = null, format = null, callback) {
     update(postId, title, name, content, "post", category, tags, format, (err, num) => {
+        callback(err, num)
+    })
+}
+
+function updatePost2(post, callback) {
+    post.postType = "post"
+    update2(post, (err, num) => {
         callback(err, num)
     })
 }
@@ -116,8 +138,19 @@ function update(id, title, name, content, postType, category, tags, format, call
     })
 }
 
+function update2(post, callback) {
+    post.updatedAt = new Date()
+
+    data.posts.update({ _id: post._id }, {
+        $set: post
+    }, (err, num) => {
+        callback(err, num)
+    })
+}
+
 Post.createPost = createPost
 Post.updatePost = updatePost
+Post.updatePost2 = updatePost2
 Post.getPosts = getPosts
 Post.getPost = getPost
 Post.getPostByName = getPostByName

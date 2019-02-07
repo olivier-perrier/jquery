@@ -40,11 +40,10 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     console.log("GET /")
 
-    User.getUser(req.session.userId, (user) => {
+    data.posts.findOne({ postType: "post" }).sort({createdAt : -1 }).exec((err, mainPost) => {
+        data.posts.find({ postType: "post" }).limit(2).exec((err, posts) => {
 
-        data.posts.find({ postType: "post" }, (err, posts) => {
-
-            res.render('index', { posts: posts })
+            res.render('index', { mainPost: mainPost, posts: posts })
 
         })
 
@@ -55,12 +54,8 @@ router.get('/', function (req, res) {
 router.get('/posts', (req, res) => {
     console.log("GET /posts")
 
-    Post.getPost(pageName, (err, post) => {
-    })
-    data.posts.find({ postType: "post" }, (err, posts) => {
-
+    Post.getPosts({}, (err, posts) => {
         res.render('posts', { posts: posts })
-
     })
 
 })
@@ -115,7 +110,7 @@ router.get('/:page', function (req, res, next) {
 
                 var postCategory = menu.content
 
-                Post.getPosts(postCategory, (err, posts) => {
+                Post.getPosts({category : postCategory}, (err, posts) => {
 
                     res.render('posts', { posts: posts })
 

@@ -23,7 +23,7 @@
                 </div>
 
 
-                <!-- Test area -->
+                <!-- Content -->
                 <textarea id="postContent" rows="15" class="form-control">{{{page.content}}}</textarea>
 
                 <div class="p-3">
@@ -35,16 +35,16 @@
             </div>
         </div>
 
+        <div class="my-3">
 
-        <br>
-
-        <a href="/admin/pages" class="btn btn-light">Return</a>
-        <button class="btn btn-primary" type="button" onClick="pageSave()">Save</button>
-        <a href="/post/{{page._id}}" class="btn btn-light">View</a>
+            <a href="/admin/pages" class="btn btn-light">Return</a>
+            <button class="btn btn-primary" type="button" onClick="pageSave()">Save</button>
+            <a href="/post/{{page._id}}" class="btn btn-light">View</a>
+        </div>
 
     </div>
 
-    <div class="col-4">
+    <div class="col-3">
 
         <div class="accordion" id="accordionExample">
             <div class="card">
