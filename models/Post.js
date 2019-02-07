@@ -20,6 +20,12 @@ function getPost(postId, callback) {
     })
 }
 
+function getPostByName(postName, callback) {
+    data.posts.findOne({ name: postName, postType: "post" }, (err, post) => {
+        callback(err, post)
+    })
+}
+
 function updatePost(postId, title, name, content, category = null, tags = null, format = null, callback) {
     update(postId, title, name, content, "post", category, tags, format, (err, num) => {
         callback(err, num)
@@ -114,6 +120,7 @@ Post.createPost = createPost
 Post.updatePost = updatePost
 Post.getPosts = getPosts
 Post.getPost = getPost
+Post.getPostByName = getPostByName
 
 Post.createPage = createPage
 Post.updatePage = updatePage

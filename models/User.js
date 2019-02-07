@@ -8,14 +8,8 @@ var User = {
 }
 
 User.getUser = function getUser(userId, callback) {
-    data.users.findOne({ _id: userId }, (err, doc) => {
-        if (doc) {
-            // console.log("[INFO] user found for _id " + userId)
-            callback(doc)
-        } else {
-            // console.log("[WARNING] no user found for _id " + userId)
-            callback(doc)
-        }
+    data.users.findOne({ _id: userId }, (err, user) => {
+        callback(err, user)
     })
 }
 

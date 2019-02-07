@@ -30,20 +30,23 @@
             <a class="p-2 d-md-inline-block" href="/{{name}}">{{title}}</a>
             {{/menus}}
 
-            <!-- if user is login -->
-            {{#if user.name}}
-            <a class="btn btn-link" href="/users/account" role="button">{{user.name}}</a>
-            <a class="btn btn-link" href="/users/logout" role="button">Log out</a>
+            <div>
 
-            {{else}}
+                <!-- if user is login -->
+                {{#if user}}
+                <a class="btn btn-link" href="/user/account" role="button">{{user.username}}</a>
+                <a class="btn btn-link" href="/user/logout" role="button">Log out</a>
 
-            {{> login}}
+                {{else}}
 
-            <button class="btn btn-outline-primary" type="button" onClick="signup()">Sign up</button>
+                {{> login}}
 
-            {{/if}}
+                <button class="btn btn-outline-primary" type="button" onClick="signup()">Sign up</button>
 
-            <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
+                {{/if}}
+
+                <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
+            </div>
         </div>
     </nav>
 
