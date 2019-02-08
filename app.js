@@ -4,7 +4,6 @@ var session = require('express-session')
 var exphbs  = require('express-handlebars')
 
 var indexRouter = require('./routes/index.js');
-var usersRouter = require('./routes/users.js')
 var postsRouter = require('./routes/posts.js')
 var adminRouter = require('./routes/admin.js')
 var APIRouter = require('./routes/API.js')
@@ -33,7 +32,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/user', userRouter);
 app.use('/posts', postsRouter);
 app.use('/admin', adminRouter);
 app.use('/API', APIRouter);

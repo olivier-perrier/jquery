@@ -36,7 +36,7 @@ router.use((req, res, next) => {
 
 })
 
-
+/*** Index ***/
 router.get('/', function (req, res) {
     console.log("GET /")
 
@@ -51,6 +51,7 @@ router.get('/', function (req, res) {
 
 })
 
+/*** Posts ***/
 router.get('/posts', (req, res) => {
     console.log("GET /posts")
 
@@ -70,6 +71,7 @@ router.get('/post/:postId', (req, res) => {
 
 })
 
+/*** Page ***/
 router.get('/page/:pagetId', (req, res) => {
     console.log("GET /page/:pagetId")
     var pagetId = req.params.pagetId
@@ -80,6 +82,39 @@ router.get('/page/:pagetId', (req, res) => {
 
 })
 
+/*** User ***/
+router.get('/login', (req, res) => {
+    console.log("GET /login")
+
+    res.render('login', {})
+
+})
+
+router.get('/signup', (req, res) => {
+    console.log("GET /signup")
+
+    res.send("Signup not available yet")
+
+})
+
+router.get('/user/account', (req, res) => {
+    console.log("GET /user/account")
+
+    userId = req.session.userId
+
+    data.users.findOne({ _id: userId }, (err, user) => {
+
+        if (user == null) {
+            res.send({ message: "forbidden: You must be logged" })
+        } else {
+            res.send("Account not available yet")
+        }
+
+    })
+
+})
+
+/*** Dynamic menus ***/
 router.get('/:page', function (req, res, next) {
     console.log("GET /:page")
 

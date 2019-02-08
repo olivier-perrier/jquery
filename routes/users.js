@@ -4,27 +4,26 @@ var router = express.Router();
 var data = require('../models/data.js')
 var User = data.model('User')
 
+router.post('/login', (req, res) => {
+  console.log("GET /API/users/login")
 
-router.post('/loggin', (req, res) => {
-  console.log("GET /users/loggin")
+  var username = req.body.name
+  var password = req.body.password
 
-  var userName = req.body.name
-
-  data.users.findOne({ name: userName }, (err, user) => {
+  data.users.findOne({ username: username, password: password }, (err, user) => {
     if (user) {
       req.session.userId = user._id
-      res.redirect("/")
-      // res.send({ message: "success : loggin ", user: user })
+      res.send({ message: "success : loggin ", user: user })
     } else {
-      res.send({ message: "not found : unknow username" })
+      res.send({ message: "not found : unknow username or password" })
     }
   })
 
 })
 
-router.get('/logout', (req, res) => {
-  console.log("GET /users/logout")
-  
+router.post('/logout', (req, res) => {
+  console.log("GET /API/users/logout")
+
   req.session.userId = null
 
   res.redirect('/')
@@ -32,7 +31,7 @@ router.get('/logout', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-  console.log("POST /users/signup")
+  console.log("POST /user/signup")
   var userName = req.body.name
 
   data.users.findOne({ name: userName }, (err, doc) => {
@@ -56,22 +55,7 @@ router.post('/signup', (req, res) => {
 
 })
 
-router.get('/account', (req, res) => {
-  console.log("GET /users/account")
 
-  userId = req.session.userId
-
-  data.users.findOne({ _id: userId }, (err, user) => {
-
-    if (user == null) {
-      res.send({ message: "forbidden: You must be logged" })
-    } else {
-      res.send("This is account")
-    }
-
-  })
-
-})
 
 
 

@@ -35,18 +35,18 @@
                 <!-- if user is login -->
                 {{#if user}}
                 <a class="btn btn-link" href="/user/account" role="button">{{user.username}}</a>
-                <a class="btn btn-link" href="/user/logout" role="button">Log out</a>
+                <button class="btn btn-link" type="button" onClick="logout()">Log out</button>
 
                 {{else}}
 
-                {{> login}}
-
-                <button class="btn btn-outline-primary" type="button" onClick="signup()">Sign up</button>
+                <a class="btn btn-link" href="/login" role="button">Log in</a>
+                <a class="btn btn-link" href="/signup" role="button">Sign up</a>
 
                 {{/if}}
 
-                <a id="admin" class="btn btn-link" href="/admin" role="button">Admin</a>
+                <a class="btn btn-link" href="/admin" role="button">Admin</a>
             </div>
+
         </div>
     </nav>
 
@@ -58,6 +58,13 @@
     function signup() {
         $.post(URL + "/users/signup", { name: name }, (data, statut) => {
             console.log(data)
+        })
+    }
+
+    function logout(){
+        $.post(URL + "/API/users/logout", { name: name }, (data, statut) => {
+            console.log(data)
+            window.location = "/"
         })
     }
 

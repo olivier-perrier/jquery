@@ -1,11 +1,16 @@
 var express = require('express');
 var router = express.Router();
 
-var op = require('../models/OP.js')
+var usersRouter = require('./users.js')
+var postsRouter = require('./posts.js')
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
 var User = data.model('User')
+
+router.use('/users', usersRouter);
+router.use('/posts', postsRouter);
+
 
 router.get('/posts', (req, res) => {
   console.log("GET /API/posts")
