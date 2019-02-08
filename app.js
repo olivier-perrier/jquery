@@ -1,7 +1,7 @@
 
 var express = require('express')
 var session = require('express-session')
-var exphbs  = require('express-handlebars')
+var exphbs = require('express-handlebars')
 
 var indexRouter = require('./routes/index.js');
 var postsRouter = require('./routes/posts.js')
@@ -10,8 +10,15 @@ var APIRouter = require('./routes/API.js')
 
 var app = express()
 
+var hbs = exphbs.create({
+  defaultLayout: 'main.html',
+  helpers: {
+    toSimpleDate: function (date) { if(date) return date.toLocaleString() },
+  }
+})
 
-app.engine('html', exphbs({defaultLayout: 'main.html'}));
+
+app.engine('html', hbs.engine);
 app.set('view engine', 'html');
 
 

@@ -1,28 +1,41 @@
 {{> header}}
 
-
-<input type="hidden" id="postId" name="postId" value="{{post._id}}">
-
-
-<div class="container">
+<div class="container py-5">
 
     <div class="row">
 
         <div class="col-md-8">
 
-            <h4 class="mb-3">
-                <a href="/posts">All posts</a>
-            </h4>
+            <article>
 
-            <div class="card flex-md-row mb-4 shadow-sm h-md-250">
-                <div class="card-body d-flex flex-column align-items-start">
-                    <h3 class="mb-3">
-                        <a href="#">{{post.title}}</a>
-                    </h3>
-                    <div class="mb-1 text-muted">{{post.createdAt}}</div>
-                    <p id="postContent" class="card-text mb-auto">{{{post.content}}}</p>
+                <div class="thumbnail text-center">
+                    <img src="./img/card-286px180.svg" alt="Card image cap" class="rounded" width="800" height="300">
                 </div>
-            </div>
+
+                <header class="m-3 ml-5 mb-3">
+                    <h2><a href="post/{{_id}}">{{post.title}}</a></h2>
+                </header>
+
+                <div class="body ml-5 p-1 mb-3">
+                    <p class="card-text">{{post.content}}</p>
+                </div>
+
+                <footer class="pb-3 ml-5">
+                    <span class="text-muted">{{post.tags}}</span>
+
+                    <div class="text-muted">
+                        <span class="mr-5 text-muted">Olivier</span>
+                        <span class="mr-5 text-muted">{{toSimpleDate post.createdAt}}</span>
+                        <p class="text-muted text-right">{{post.category}}</p>
+                    </div>
+                </footer>
+
+                <h4 class="mb-3">
+                    <a href="/posts">All posts</a>
+                </h4>
+
+            </article>
+
         </div>
 
         <div class="col-md-3">
@@ -34,8 +47,6 @@
 
 
 {{> footer}}
-
-
 
 <script>
 

@@ -1,36 +1,15 @@
-<script src="/widgetposts.js"></script>
+<footer class="">
 
-<div id="app-widgets" class="container widgets ">
-    <div v-for="widget in vuewidgets">
-        <component v-bind:is="widget"></component>
-    </div>
-</div>
-
-<footer class="mt-5">
-
-    <div class="container-flud text-center bg-light">
-        <p>CMS by OP</a> .</p>
+    <div class="container text-center bg-light p-2">
+        <p>Powered by OP CMS</a> .</p>
         <a href="#">Back to top</a>
     </div>
 
 </footer>
 
-<script type="module">
+<script>
 
-    //import widgetposts from '/widgetposts.js'
-
-    var app = new Vue({
-        el: '#app-widgets',
-        components: {
-            //widgetposts
-        },
-        data: {
-            vuewidgets: ["widgetposts",]
-        },
-    }
-    )
 </script>
 
 <style>
-
 </style>

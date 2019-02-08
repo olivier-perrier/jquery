@@ -1,10 +1,14 @@
 Vue.component('widgetposts', {
   template: `
   <div>
-        <h3>Lastest posts</h3>
+        <h3>Recent posts</h3>
+        <ul class="list-group list-group-flush">
         <div v-for="post in posts">
-            <a :href="'post/' + post._id">{{post.title}}</a>
+            <li class="list-group-item">
+              <a :href="'post/' + post._id">{{post.title}}</a>
+            </li>
         </div>
+        </ul>
     </div>`,
 
   data() {
@@ -14,7 +18,7 @@ Vue.component('widgetposts', {
   },
 
   mounted: function () {
-    $.post(URL + "/API/posts", { "query": { "category": "post" }, "limit": { max: 3 } }, (data, statut) => {
+    $.post(URL + "/API/posts", { query: { "category": "post" }, limit: 5 }, (data, statut) => {
       console.log(data)
       this.posts = data.posts
     })

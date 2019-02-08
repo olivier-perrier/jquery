@@ -1,35 +1,45 @@
 {{> header}}
 
-<div class="container">
+<div class="container py-5">
 
+    <!-- for sidebar -->
     <div class="row">
 
         <div class="col-9">
 
             {{#posts}}
-            <div class="card mb-3">
+            <article class="mb-5 border-bottom">
 
-                <div class="card-body">
-
-                    <div class="row">
-
-                        <div class="col-9">
-                            <h5 class="card-title">
-                                <a href="post/{{_id}}">{{name}}</a>
-                            </h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle {{date}}</h6>
-                            <p class="card-text">{{contentPreview}}</p>
-                            <a href="post/{{_id}}" class="card-link">Continue reading</a>
-                            <p class="mb-1 text-muted text-right">{{category}}</p>
-
-                        </div>
-
-                        <div class="col-3">
-                            <img src="./img/card-286px180.svg" alt="Card image cap">
-                        </div>
-                    </div>
+                <div class="thumbnail text-center">
+                    <img src="./img/card-286px180.svg" alt="Card image cap" class="rounded" width="800" height="300">
                 </div>
-            </div>
+
+                <header class="m-3 ml-5 mb-3">
+                        <h2>
+                            <a href="post/{{_id}}">{{title}}</a>
+                        </h2>
+                </header>
+
+                <div class="body ml-5 p-1 mb-3">
+
+                    <p class="card-text">{{description}}</p>
+
+                    <a href="post/{{_id}}" class="card-link">Continue reading</a>
+
+                </div>
+
+                <footer class="pb-3 ml-5">
+                    <span class="text-muted">{{tags}}</span>
+
+                    <div class="text-muted">
+                        <span class="mr-5 text-muted">Olivier</span>
+                        <span class="mr-5 text-muted">{{toSimpleDate createdAt}}</span>
+                        <p class="text-muted text-right">{{category}}</p>
+                    </div>
+                </footer>
+
+            </article>
+
             {{/posts}}
 
         </div>
@@ -40,16 +50,12 @@
 
     </div>
 
-    {{> footer}}
+</div>
 
-    <script>
+{{> footer}}
 
+<script>
+</script>
 
-    </script>
-
-    <style>
-        img {
-            width: 100%;
-            height: auto;
-        }
-    </style>
+<style>
+</style>
