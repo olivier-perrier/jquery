@@ -5,7 +5,18 @@
     <div class="row">
 
         <div class="col-2 pl-0">
-            {{> admin/nav}}
+            <nav class="nav flex-column">
+                <a class="nav-item nav-link py-3 active" href="/admin"><i class="fas fa-home mr-1"></i>Home</a>
+                <a class="nav-item nav-link" href="/admin/posts"><i class="far fa-envelope-open mr-1"></i>Posts</a>
+                <a class="nav-item nav-link" href="/admin/menu"><i class="far fa-compass mr-1"></i>Menu</a>
+                <a class="nav-item nav-link" href="/admin/pages"><i class="far fa-file mr-1"></i>Pages</a>
+                <a class="nav-item nav-link" href="/admin/widgets"><i class="far fa-file mr-1"></i>Widgets</a>
+                <a class="nav-item nav-link" href="/admin/media"><i class="far fa-images mr-1"></i>Media</a>
+                <a class="nav-item nav-link" href=""><i class="far fa-comment mr-1"></i>Comments</a>
+                <a class="nav-item nav-link" href=""><i class="fas fa-puzzle-piece mr-1"></i>Plugins</a>
+                <a class="nav-item nav-link" href="/admin/users"><i class="far fa-user mr-1"></i>Users</a>
+                <a class="nav-item nav-link" href="/admin/settings"><i class="fas fa-sliders-h mr-1"></i>Settings</a>
+            </nav>
         </div>
 
         <div class="col-10 ">
@@ -17,3 +28,10 @@
 <footer class="text-center m-5">
     OP Admin by Olivier Perrier
 </footer>
+
+<style>
+    nav a:hover {
+        text-indent: 2px;
+        transition: all 0.3s ease;
+    }
+</style>

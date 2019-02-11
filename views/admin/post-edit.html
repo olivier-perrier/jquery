@@ -55,50 +55,46 @@
 
     <div class="col-3">
 
-        <div class="accordion" id="accordionExample">
-            <div class="card">
-                <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                            aria-controls="collapseOne">Name</button>
-                    </h5>
-                </div>
+        <div class="card mb-2">
+            <div class="card-header">
+                <button class="btn btn-link" type="button">Name</button>
+            </div>
 
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <label for="postName">Name</label>
-                        <input type="text" class="form-control" id="postName" value="{{post.name}}">
-                    </div>
-                </div>
+            <div class="card-body">
+                <label for="postName">Name</label>
+                <input type="text" class="form-control" id="postName" value="{{post.name}}">
             </div>
-            <div class="card">
-                <div class="card-header" id="headingTwo">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
-                            aria-expanded="false" aria-controls="collapseTwo">Categories</button>
-                    </h5>
-                </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <label for="postCategory">Category</label>
-                        <input type="text" class="form-control" id="postCategory" value="{{post.category}}">
-                    </div>
-                </div>
+        </div>
+
+        <div class="card mb-2">
+            <div class="card-header">
+                <button class="btn btn-link" type="button">Categories</button>
             </div>
-            <div class="card">
-                <div class="card-header" id="headingThree">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
-                            aria-expanded="false" aria-controls="collapseThree">Tags</button>
-                    </h5>
-                </div>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <label for="postName">Tags</label>
-                        <input type="text" class="form-control" id="postTags" value="{{post.tags}}">
-                        <small>Tags separeted with ;</small>
-                    </div>
-                </div>
+            <div class="card-body">
+                <label for="postCategory">Category</label>
+                <input type="text" class="form-control" id="postCategory" value="{{post.category}}">
+            </div>
+        </div>
+
+        <div class="card mb-2">
+            <div class="card-header">
+                <button class="btn btn-link" type="button">Tags</button>
+            </div>
+            <div class="card-body">
+                <label for="postName">Tags</label>
+                <input type="text" class="form-control" id="postTags" value="{{post.tags}}">
+                <small>Tags separeted with ;</small>
+            </div>
+        </div>
+
+        <div class="card mb-2">
+            <div class="card-header">
+                <button class="btn btn-link" type="button">Image</button>
+            </div>
+            <div class="card-body">
+                <label for="postName">Image</label>
+                <input type="text" class="form-control" id="postTags" value="{{post.tags}}">
+                <small>Tags separeted with ;</small>
             </div>
         </div>
 
@@ -130,3 +126,7 @@
 
 
 </script>
+
+<style>
+
+</style>

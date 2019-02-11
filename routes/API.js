@@ -1,4 +1,5 @@
 var express = require('express');
+var multer  = require('multer')
 var router = express.Router();
 
 var usersRouter = require('./users.js')
@@ -7,6 +8,8 @@ var postsRouter = require('./posts.js')
 var data = require('../models/data.js')
 var Post = data.model('Post')
 var User = data.model('User')
+
+var upload = multer({ dest: 'uploads/' })
 
 router.use('/users', usersRouter);
 router.use('/posts', postsRouter);
@@ -186,6 +189,36 @@ router.post('/user/delete', (req, res) => {
       res.send({ message: "internal error : impossible to delete user for id " + id })
     }
   })
+
+})
+
+router.post('/media/upload', upload.single('avatar'), (req, res) => {
+  console.log("POST /API/media/upload")
+
+  let sampleFile = req.file;
+
+  console.log(req.file)
+
+  
+  // sampleFile.mv('./public/media/' + sampleFile.name, function(err) {
+  //   if (err)
+  //     console.log("error uploading file")
+    
+    res.redirect("/admin/media")
+    // res.send('File uploaded!');
+  // });
+
+  // res.send({ message: "success : media created " })
+
+  // console.log(file)
+  // User.deleteUser(id, (err, num) => {
+  //   if (num) {
+  //     res.send({ message: "success : user deleted" + num })
+  //   } else {
+  //     res.send({ message: "internal error : impossible to delete user for id " + id })
+  //   }
+  // })
+
 
 })
 

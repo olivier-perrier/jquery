@@ -247,6 +247,14 @@ router.get('/settings', (req, res) => {
 
 })
 
+/*** Media ***/
+router.get('/media', (req, res) => {
+  console.log("GET /admin/media")
+
+    res.render('admin/media', {  })
+
+})
+
 router.get('/widgets', (req, res) => {
   console.log("GET /admin/widgets")
 
