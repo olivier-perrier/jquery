@@ -1,5 +1,5 @@
 var express = require('express');
-var multer  = require('multer')
+// var multer  = require('multer')
 var router = express.Router();
 
 var usersRouter = require('./users.js')
@@ -9,7 +9,7 @@ var data = require('../models/data.js')
 var Post = data.model('Post')
 var User = data.model('User')
 
-var upload = multer({ dest: 'uploads/' })
+// var upload = multer({ dest: 'uploads/' })
 
 router.use('/users', usersRouter);
 router.use('/posts', postsRouter);
@@ -192,21 +192,21 @@ router.post('/user/delete', (req, res) => {
 
 })
 
-router.post('/media/upload', upload.single('avatar'), (req, res) => {
+router.post('/media/upload', (req, res) => {
   console.log("POST /API/media/upload")
 
-  let sampleFile = req.file;
+  let sampleFile = req.files.sampleFile;
 
-  console.log(req.file)
+  console.log(sampleFile)
 
   
-  // sampleFile.mv('./public/media/' + sampleFile.name, function(err) {
-  //   if (err)
-  //     console.log("error uploading file")
+  sampleFile.mv('./public/media/' + sampleFile.name, function(err) {
+    if (err)
+      console.log("error uploading file")
     
     res.redirect("/admin/media")
     // res.send('File uploaded!');
-  // });
+  });
 
   // res.send({ message: "success : media created " })
 
