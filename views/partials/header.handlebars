@@ -1,54 +1,46 @@
 <header class="">
 
-    {{!-- <img src="./img/banner.jpg" class="position-fixed" alt="opensourcecms" width="2000" height="1200"> --}}
-
+    <div class="container p-0">
+        <img src="/img/banner.jpg" class="banner mb-1" alt="opensourcecms" width="1140" height="200">
+    </div>
 
     <div class="container">
-        <div class="p-3">
+
+        <div class="title p-5 pl-5">
             <h1 class=""><a href="/" rel="home">{{settings.siteName}}</a></h1>
             <p class="site-description">website of the test</p>
         </div>
-    </div>
 
-    <nav class="site-header sticky-top">
-        <div class="container d-flex flex-column flex-md-row justify-content-between">
-            <a class="py-2" href="/">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
-                    <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
-                    <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
-                    <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
-                    <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
-                    <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
-                </svg>
-            </a>
-            <a class="nav-link p-2" href="/">Home</a>
-            <a class="p-2" href="/posts">Posts</a>
-            {{#menus}}
-            <a class="p-2 d-md-inline-block" href="/{{name}}">{{title}}</a>
-            {{/menus}}
+        <nav class="site-header sticky-top pt-2">
+            <div class="d-flex flex-column flex-md-row justify-content-between">
+                <a class="p-2 rounded" href="/"><img src="/img/logo.svg" alt="logo"></a>
+                <a class="p-2 rounded" href="/">Home</a>
+                <a class="p-2 rounded" href="/posts">Posts</a>
+                {{#menus}}
+                <a class="p-2 rounded" href="/{{name}}">{{title}}</a>
+                {{/menus}}
 
-            <div>
+                <div>
 
-                <!-- if user is login -->
-                {{#if user}}
-                <a class="btn btn-link" href="/user/account" role="button">{{user.username}}</a>
-                <button class="btn btn-link" type="button" onClick="logout()">Log out</button>
+                    <!-- if user is login -->
+                    {{#if user}}
+                    <a class="btn btn-link" href="/user/account" role="button">{{user.username}}</a>
+                    <button class="btn btn-link" type="button" onClick="logout()">Log out</button>
 
-                {{else}}
+                    {{else}}
 
-                <a class="btn btn-link" href="/login" role="button">Log in</a>
-                <a class="btn btn-link" href="/signup" role="button">Sign up</a>
+                    <a class="btn btn-link" href="/login" role="button">Log in</a>
+                    <a class="btn btn-link" href="/signup" role="button">Sign up</a>
 
-                {{/if}}
+                    {{/if}}
 
-                <a class="btn btn-link" href="/admin" role="button">Admin</a>
+                    <a class="btn btn-link" href="/admin" role="button">Admin</a>
+                </div>
+
             </div>
+        </nav>
 
-        </div>
-    </nav>
+    </div>
 
 
 </header>
@@ -61,7 +53,7 @@
         })
     }
 
-    function logout(){
+    function logout() {
         $.post(URL + "/API/users/logout", { name: name }, (data, statut) => {
             console.log(data)
             window.location = "/"
@@ -71,4 +63,22 @@
 </script>
 
 <style>
+    nav a:hover {
+        background: lightgray;
+
+    }
+
+    nav a {
+        transition: all 0.3s ease;
+    }
+
+    img.banner {
+        object-fit: cover;
+        box-shadow: 0px 1px 5px gray
+    }
+
+    .title {
+        position: absolute;
+        top: 0px;
+    }
 </style>
