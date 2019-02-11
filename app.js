@@ -26,7 +26,10 @@ app.set('view engine', 'html');
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
-app.use(fileUpload());
+app.use(fileUpload({
+  useTempFiles:true,
+  tempFileDir : './tmp/'
+}));
 
 app.use(session({
   secret: 'srecetkeyop',
