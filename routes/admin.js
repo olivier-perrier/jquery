@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
 
         data.posts.find({ postType: "page" }).limit(5).exec((err, pages) => {
 
-          res.render('admin/index', { user: user, posts: posts, pages: pages})
+          res.render('admin/index', { user: user, posts: posts, pages: pages })
 
         })
       })
@@ -60,11 +60,11 @@ router.post('/menu/save/', (req, res) => {
   console.log("POST /admin/menu/save")
 
   var menu = {
-    id : req.body.id,
-    name : req.body.name,
-    title : req.body.title,
-    content : req.body.content,
-    format : req.body.format,
+    id: req.body.id,
+    name: req.body.name,
+    title: req.body.title,
+    content: req.body.content,
+    format: req.body.format,
   }
 
   Post.updateMenu(menu, (err, menu) => {
@@ -243,7 +243,7 @@ router.get('/user/edit/:userId', (req, res) => {
 router.get('/settings', (req, res) => {
   console.log("GET /admin/settings")
 
-    res.render('admin/settings', {  })
+  res.render('admin/settings', {})
 
 })
 
@@ -251,14 +251,17 @@ router.get('/settings', (req, res) => {
 router.get('/media', (req, res) => {
   console.log("GET /admin/media")
 
-    res.render('admin/media', {  })
+  data.posts.find({ postType: "media" }, (err, medias) => {
+    res.render('admin/media', { medias: medias })
+
+  })
 
 })
 
 router.get('/widgets', (req, res) => {
   console.log("GET /admin/widgets")
 
-    res.render('admin/widgets', { widgets : op.getWidgets() })
+  res.render('admin/widgets', { widgets: op.getWidgets() })
 
 })
 

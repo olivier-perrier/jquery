@@ -100,6 +100,14 @@ function getMenu(name, callback) {
     })
 }
 
+/*** Media ***/
+function createMedia(media, callback) {
+    media.postType = "media"
+    create2(media, (err, doc) => {
+        callback(err, doc)
+    })
+}
+
 /*** Private ***/
 function create(title, name, content, postType, category, tags, format, callback) {
     data.posts.insert({
@@ -113,6 +121,22 @@ function create(title, name, content, postType, category, tags, format, callback
         createdAt: new Date(),
         updatedAt: new Date()
     }, (err, doc) => {
+        callback(err, doc)
+    })
+}
+
+function create2(post, callback) {
+
+    /* remove undifined properties */
+    Object.keys(post).forEach(key => {
+        if (post[key] === undefined) {
+            delete post[key];
+        }
+    })
+
+    post.createdAt = new Date()
+
+    data.posts.insert(post, (err, doc) => {
         callback(err, doc)
     })
 }
@@ -156,5 +180,8 @@ Post.createMenu = createMenu
 Post.updateMenu = updateMenu
 Post.getMenus = getMenus
 Post.getMenu = getMenu
+
+Post.createMedia = createMedia
+
 
 module.exports = Post

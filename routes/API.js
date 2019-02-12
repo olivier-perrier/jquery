@@ -195,16 +195,26 @@ router.post('/user/delete', (req, res) => {
 router.post('/media/upload', (req, res) => {
   console.log("POST /API/media/upload")
 
+  console.log(req.files)
+
   let sampleFile = req.files.sampleFile;
 
-  console.log(sampleFile)
+  console.log(sampleFile.name)
 
-  
+  var media = {
+    name : sampleFile.name,
+    postType : "media"
+  }
+
+  Post.createMedia(media, (err, media) => {
+    res.send({message : "success : media created " + media})
+  })
+
   sampleFile.mv('./public/media/' + sampleFile.name, function(err) {
     if (err)
-      console.log("error uploading file")
+      console.log("[ERROR] moving uploaded file " + err)
     
-    res.redirect("/admin/media")
+    // res.redirect("/admin/media")
     // res.send('File uploaded!');
   });
 

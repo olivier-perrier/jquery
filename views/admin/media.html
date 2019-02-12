@@ -9,11 +9,11 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th scope="col">Title</th>
+                    <th scope="col">File</th>
+                    <th scope="col">Name</th>
                     <th scope="col">Author</th>
-                    <th scope="col">Date</th>
                     <th scope="col">Comments</th>
-                    <th scope="col">statut</th>
+                    <th scope="col">Date</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -21,14 +21,16 @@
                 {{# medias}}
                 <tr>
                     <th scope="row">
-                        <a href="/admin/page/edit/{{_id}}" class="btn btn-link">{{title}}</a>
+                        <img src="/media/{{name}}" alt="{{title}}" height="42" width="42">
                     </th>
-                    <td><a :href="/admin/user/{{userId}}">{{userId}}</a></td>
-                    <td>{{createdAt}}</td>
-                    <td>{{comments}}</td>
-                    <td>Online</td>
                     <td>
-                        <button onClick="deletePage('{{_id}}')" class="btn btn-danger btn-sm">Delete</button>
+                        <a href="/admin/madia/edit/{{_id}}" class="btn btn-link">{{name}}</a>
+                    </td>
+                    <td>{{authorId}}</td>
+                    <td>{{comments}}</td>
+                    <td>{{toElapsedTime createdAt}} ago</td>
+                    <td>
+                        <button onClick="deleteMedia('{{_id}}')" class="btn btn-danger btn-sm">Delete</button>
                     </td>
                 </tr>
                 {{/ medias}}
@@ -37,17 +39,9 @@
 
     </div>
 
-    <input type="file" id="file" accept="image/*">
-    <button onClick="addMedia()" class="btn btn-light mt-3">Add</button>
-
-    <form ref='uploadForm' id='uploadForm' action='/API/media/upload' method='post' encType="multipart/form-data">
-        <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload!' />
-    </form>
-
-    <form action="/API/media/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="avatar" />
-        <input type='submit' value='Upload!' />
+    <form>
+        <input type="file" name="file" id="file">
+        <input type="submit" id="addMedia" class="btn btn-light mt-3" value="Add" />
     </form>
 
 </div>
@@ -56,31 +50,31 @@
 
 <script>
 
+    $(function () {
+        $("#addMedia").click(function (event) {
+            event.preventDefault()
+
+            var formData = new FormData()
+
+            var files = $('#file')[0].files[0];
+
+            formData.append('sampleFile', files);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', "/API/media/upload", true);
+
+            xhr.onload = function (e) { console.log("uploading...") };
+
+            xhr.send(formData);
+
+            window.location = "/admin/media"
+
+        })
+
+    })
+
     function addMedia() {
-        var fd = new FormData()
-
-        var files = $('#file')[0].files[0];
-        // var files = $('#file')[0]
-
-        fd.append('file', files);
-
-        // console.log(fd)
-
-        // $.post(URL + "/API/media/upload", fd, (data, statut) => {
-        //     console.log(data)
-        // });
-        // window.location = "/admin/page/edit/" + data.page._id
-
-        // $.ajax({
-        //     url: "/API/media/upload",
-        //     data: { sampleFile: fd },
-        //     processData: false,
-        //     contentType: false,
-        //     type: 'POST',
-        //     success: function (data) {
-        //         console.log(data);
-        //     }
-        // })
 
         // var pageTitle = $("#pageTitle").val()
         // var pageName = $("#pageName").val()

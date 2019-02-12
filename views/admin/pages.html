@@ -24,7 +24,7 @@
                         <a href="/admin/page/edit/{{_id}}" class="btn btn-link">{{title}}</a>
                     </th>
                     <td><a :href="/admin/user/{{userId}}">{{userId}}</a></td>
-                    <td>{{createdAt}}</td>
+                    <td>{{toElapsedTime createdAt}} ago</td>
                     <td>{{comments}}</td>
                     <td>Online</td>
                     <td>

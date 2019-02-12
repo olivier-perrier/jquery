@@ -14,7 +14,15 @@ var app = express()
 var hbs = exphbs.create({
   defaultLayout: 'main.html',
   helpers: {
-    toSimpleDate: function (date) { if(date) return date.toLocaleString() },
+    toSimpleDate: function (date) { if (date) return date.toLocaleString() },
+    toElapsedTime: function (date) {
+      if (date) {
+        if (new Date().getDay() - date.getDay() > 0) return new Date().getDay() - date.getDay() + " days" 
+        if (new Date().getHours() - date.getHours() > 0) return new Date().getHours() - date.getHours() + " hours"
+        if (new Date().getMinutes() - date.getMinutes() > 0) return new Date().getMinutes() - date.getMinutes() + " minutes"
+        return new Date().getSeconds() - date.getSeconds() + " secondes"
+      }
+    },
   }
 })
 
@@ -27,8 +35,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 app.use(fileUpload({
-  useTempFiles:true,
-  tempFileDir : './tmp/'
+  useTempFiles: true,
+  tempFileDir: './tmp/'
 }));
 
 app.use(session({
