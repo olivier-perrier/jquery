@@ -93,7 +93,7 @@
             </div>
             <div class="card-body">
                 <label for="postName">Image</label>
-                <input type="text" class="form-control" id="postTags" value="{{post.tags}}">
+                <input type="text" class="form-control" id="postImage" value="{{post.image}}">
                 <small>Tags separeted with ;</small>
             </div>
         </div>
@@ -117,9 +117,11 @@
         var postDescription = $('#postDescription').val()
         var postCategory = $('#postCategory').val()
         var postTags = $('#postTags').val()
+        var postImage = $('#postImage').val()
 
-        $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, description: postDescription, category: postCategory, tags: postTags }, (data, statut) => {
+        $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, description: postDescription, category: postCategory, tags: postTags, image : postImage }, (data, statut) => {
             console.log(data)
+            window.location = "/admin/posts/edit/" + postId
         })
 
     }

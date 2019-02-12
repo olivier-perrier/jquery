@@ -58,6 +58,7 @@ router.post('/post/save', (req, res) => {
     category: req.body.category,
     tags: req.body.tags,
     format: req.body.format,
+    image: req.body.image,
   }
 
   Post.updatePost(post, (err, num) => {
