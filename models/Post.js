@@ -108,6 +108,18 @@ function createMedia(media, callback) {
     })
 }
 
+function deleteMedia(id, callback) {
+    remove(id, (err, num) => {
+        callback(err, num)
+    })
+}
+
+function getMedia(id, callback) {
+    get(id, (err, media) => {
+        callback(err, media)
+    })
+}
+
 /*** Private ***/
 function create(title, name, content, postType, category, tags, format, callback) {
     data.posts.insert({
@@ -165,6 +177,12 @@ function remove(id, callback) {
     })
 }
 
+function get(id, callback) {
+    data.posts.findOne({ _id: id }, (err, post) => {
+        callback(err, post)
+    })
+}
+
 Post.createPost = createPost
 Post.updatePost = updatePost
 Post.getPosts = getPosts
@@ -182,6 +200,9 @@ Post.getMenus = getMenus
 Post.getMenu = getMenu
 
 Post.createMedia = createMedia
+Post.deleteMedia = deleteMedia
+Post.getMedia = getMedia
+
 
 
 module.exports = Post

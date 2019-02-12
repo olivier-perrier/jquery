@@ -193,6 +193,7 @@ router.post('/user/delete', (req, res) => {
 
 })
 
+/*** Medias ***/
 router.post('/media/upload', (req, res) => {
   console.log("POST /API/media/upload")
 
@@ -203,33 +204,56 @@ router.post('/media/upload', (req, res) => {
   console.log(sampleFile.name)
 
   var media = {
-    name : sampleFile.name,
-    postType : "media"
+    name: sampleFile.name,
+    postType: "media"
   }
 
-  Post.createMedia(media, (err, media) => {
-    res.send({message : "success : media created " + media})
+  sampleFile.mv('./public/media/' + sampleFile.name, function (err) {
+    if (err) {
+      console.log("[ERROR] moving uploaded file " + err)
+      res.send({ message: "internal error : error moving the file " + sampleFile.name })
+
+    } else {
+
+      Post.createMedia(media, (err, media) => {
+        res.send({ message: "success : media created " + media })
+      })
+    }
+
   })
 
-  sampleFile.mv('./public/media/' + sampleFile.name, function(err) {
-    if (err)
-      console.log("[ERROR] moving uploaded file " + err)
-    
-    // res.redirect("/admin/media")
-    // res.send('File uploaded!');
-  });
+})
 
-  // res.send({ message: "success : media created " })
+router.post('/media/delete', (req, res) => {
+  console.log("POST /API/media/delete")
 
-  // console.log(file)
-  // User.deleteUser(id, (err, num) => {
-  //   if (num) {
-  //     res.send({ message: "success : user deleted" + num })
-  //   } else {
-  //     res.send({ message: "internal error : impossible to delete user for id " + id })
-  //   }
-  // })
+  var id = req.body.id
 
+  const fs = require('fs')
+
+  Post.getMedia(id, (err, media) => {
+
+    fs.unlink('./public/media/' + media.name, (err) => {
+
+      if (err) {
+        console.log("[ERROR] no file to delete " + media.name + " err:" + err)
+      
+      }else{
+        console.log("[SUCCESS] file deleted " + media.name)
+      }
+    })
+
+  })
+
+  Post.deleteMedia(id, (err, num) => {
+    if (num) {
+      res.send({ message: "success : media deleted" + num })
+    } else {
+      res.send({ message: "internal error : impossible to delete media for id " + id })
+    }
+  })
+
+  // Todo delete the file (not only the media post)
 
 })
 

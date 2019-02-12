@@ -86,10 +86,10 @@
         window.location = "/admin/page/edit/" + id
     }
 
-    function deletePage(pageId) {
-        $.post(URL + "/API/page/delete", { id: pageId }, (data, statut) => {
+    function deleteMedia(mediaId) {
+        $.post(URL + "/API/media/delete", { id: mediaId }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/pages"
+            window.location = "/admin/media"
         })
     }
 

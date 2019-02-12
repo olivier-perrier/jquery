@@ -8,6 +8,7 @@
     "express-fileupload": "^1.1.1-alpha.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
+    "fs": "0.0.1-security",
     "handlebars": "^4.0.12",
     "nedb": "^1.8.0",
     "nodemon": "^1.18.7"
