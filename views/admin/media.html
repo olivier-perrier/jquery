@@ -64,11 +64,11 @@
 
             xhr.open('POST', "/API/media/upload", true);
 
-            xhr.onload = function (e) { console.log("uploading...") };
+            xhr.onload = function (e) {
+                window.location = "/admin/media"
+            }
 
             xhr.send(formData);
-
-            window.location = "/admin/media"
 
         })
 
