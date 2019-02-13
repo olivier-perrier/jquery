@@ -205,7 +205,8 @@ router.post('/media/upload', (req, res) => {
 
   var media = {
     name: sampleFile.name,
-    postType: "media"
+    postType: "media",
+    format: "image"
   }
 
   sampleFile.mv('./public/media/' + sampleFile.name, function (err) {

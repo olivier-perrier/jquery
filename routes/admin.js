@@ -36,8 +36,6 @@ router.get('/', (req, res) => {
 
 })
 
-
-
 router.post('/menu/create/', (req, res) => {
   console.log("POST /admin/menu/create")
 
