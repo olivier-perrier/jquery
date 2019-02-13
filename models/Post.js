@@ -11,15 +11,18 @@ var Post = {
         category: String,     // Define custom category
         tags: String,         // Define list of tags related to the post
         format: String,       // Define the format of the post (audio, video, text, link, default...)
+        authorId: String,
         createdAt: new Date(),
         updatedAt: new Date()
     }
 }
 
-function createPost(title, name, content, category = null, tags = null, format = null, callback) {
-    create(title, name, content, "post", category, tags, format, (err, doc) => {
+function createPost(post, callback) {
+    post.postType = "post"
+    create2(post, (err, doc) => {
         callback(err, doc)
     })
+
 }
 
 function getPosts(query, callback) {

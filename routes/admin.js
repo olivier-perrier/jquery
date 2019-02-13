@@ -5,6 +5,7 @@ var op = require('../models/OP.js')
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
+var User = data.model('User')
 var Setting = data.model('Setting')
 
 router.get('/', (req, res) => {
@@ -36,6 +37,7 @@ router.get('/', (req, res) => {
 
 })
 
+/*** Menus ***/
 router.post('/menu/create/', (req, res) => {
   console.log("POST /admin/menu/create")
 
@@ -101,12 +103,17 @@ router.get('/posts', (req, res) => {
     res.send({ messsage: "forbidden: you must be logged to access admin" })
 
   } else {
-    data.posts.find({ postType: "post" }, (err, posts) => {
-      data.users.findOne({ _id: userId }, (err, user) => {
+    Post.getPosts({}, (err, posts) => {
 
-        res.render('admin/posts', { posts: posts, user: user })
+      posts.forEach(post => {
+        User.getUser(post.authorId, (err, user) => {
+          post.author = user
+        })
+      });
+      console.log(posts)
 
-      })
+      res.render('admin/posts', { posts: posts })
+
     })
   }
 

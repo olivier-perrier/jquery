@@ -40,8 +40,14 @@ router.post('/posts', (req, res) => {
 router.post('/posts/create', (req, res) => {
   console.log("POST /API/posts/create")
 
-  Post.createPost("New post", "post-1", "Content", "", "", "", (err, doc) => {
-    res.send({ post: doc })
+  var post = {
+    title : "Title",
+    name : "post-1",
+    authorId: req.session.userId,
+  }
+
+  Post.createPost(post, (err, post) => {
+    res.send({ message: "success : post created ", post: post })
   })
 
 })
