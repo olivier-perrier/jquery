@@ -34,7 +34,7 @@
                     </td>
                     <td>{{content}}</td>
                     <td>
-                        <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
+                        <button onClick="deleteMenu('{{_id}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
                     </td>
 
                 </tr>
@@ -80,16 +80,16 @@
         var menuFormat = $('#menuFormat').val()
 
 
-        $.post(URL + "/admin/menu/create", { title: menuTitle, name: menuName, content: menuContent, format: menuFormat }, (data, statut) => {
+        $.post(URL + "/API/menu/create", { title: menuTitle, name: menuName, content: menuContent, format: menuFormat }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/menu"
+            window.location = "/admin/menus"
         })
     }
 
-    function deleteMenu(menuName) {
-        $.post(URL + "/admin/menu/delete", { name: menuName }, (data, statut) => {
+    function deleteMenu(menuId) {
+        $.post(URL + "/API/menu/delete", { id: menuId }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/menu"
+            window.location = "/admin/menus"
         })
     }
 

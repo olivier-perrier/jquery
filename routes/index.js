@@ -24,6 +24,18 @@ router.use((req, res, next) => {
         res.locals.settings = settings
 
         Post.getMenus((err, menus) => {
+
+            menus.map(menu => {
+                if (menu.format == "direct")
+                    menu.link = menu.content
+                else if (menu.format == "posts")
+                    menu.link = "/posts/" + menu.content
+                else if (menu.format == "post")
+                    menu.link = "/post/" + menu.content
+                else if (menu.format == "page")
+                    menu.link = "/page/" + menu.content
+            })
+
             res.locals.menus = menus
 
             User.getUser(req.session.userId, (err, user) => {
@@ -61,22 +73,62 @@ router.get('/posts', (req, res) => {
 
 })
 
-router.get('/post/:postId', (req, res) => {
+router.get('/posts/:category', (req, res) => {
+    console.log("GET /posts/:category")
+
+    var category = req.params.category
+
+    Post.getPosts({ category: category }, (err, posts) => {
+        res.render('posts', { posts: posts })
+    })
+
+})
+
+/*** Post ***/
+router.get('/post/:postId', (req, res, next) => {
     console.log("GET /post/:postId")
+
     var postId = req.params.postId
 
-    data.posts.findOne({ _id: postId }, (err, post) => {
+    Post.getPost(postId, (err, post) => {
+        if (post)
+            res.render('post', { post: post })
+        else next()
+    })
+
+})
+
+router.get('/post/:postName', (req, res) => {
+    console.log("GET /post/:postName")
+
+    var postName = req.params.postName
+
+    Post.getPostByName(postName, (err, post) => {
         res.render('post', { post: post })
     })
 
 })
 
 /*** Page ***/
-router.get('/page/:pagetId', (req, res) => {
+router.get('/page/:pagetId', (req, res, next) => {
     console.log("GET /page/:pagetId")
     var pagetId = req.params.pagetId
 
     data.posts.findOne({ _id: pagetId }, (err, page) => {
+        if (page)
+            res.render('page', { page: page })
+        else
+            next()
+    })
+
+})
+
+router.get('/page/:pagetName', (req, res) => {
+    console.log("GET /page/:pagetName")
+
+    var pagetName = req.params.pagetName
+
+    data.posts.findOne({ name: pagetName }, (err, page) => {
         res.render('page', { page: page })
     })
 
@@ -115,69 +167,69 @@ router.get('/user/account', (req, res) => {
 })
 
 /*** Dynamic menus ***/
-router.get('/:page', function (req, res, next) {
-    console.log("GET /:page")
+// router.get('/:page', function (req, res, next) {
+//     console.log("GET /:page")
 
-    var menuName = req.params.page
+//     var menuName = req.params.page
 
-    console.log("page name : " + menuName)
+//     console.log("page name : " + menuName)
 
-    Post.getMenu(menuName, (err, menu) => {
+//     Post.getMenu(menuName, (err, menu) => {
 
-        if (menu) {
+//         if (menu) {
 
-            if (menu.format == "direct") {
-                res.redirect("http://" + menu.content)
+//             if (menu.format == "direct") {
+//                 res.redirect("http://" + menu.content)
 
-            } else if (menu.format == "page") {
+//             } else if (menu.format == "page") {
 
-                var pageName = menu.content
+//                 var pageName = menu.content
 
-                Post.getPage(pageName, (err, page) => {
+//                 Post.getPage(pageName, (err, page) => {
 
-                    if (page) {
+//                     if (page) {
 
-                        res.render('page', { page: page })
+//                         res.render('page', { page: page })
 
-                    } else {
-                        res.send({ message: "internal error : no page found for name " + pageName })
-                    }
+//                     } else {
+//                         res.send({ message: "internal error : no page found for name " + pageName })
+//                     }
 
-                })
+//                 })
 
-            } else if (menu.format == "posts") {
+//             } else if (menu.format == "posts") {
 
-                var postCategory = menu.content
+//                 var postCategory = menu.content
 
-                Post.getPosts({ category: postCategory }, (err, posts) => {
+//                 Post.getPosts({ category: postCategory }, (err, posts) => {
 
-                    res.render('posts', { posts: posts })
+//                     res.render('posts', { posts: posts })
 
-                })
+//                 })
 
-            } else if (menu.format == "post") {
+//             } else if (menu.format == "post") {
 
-                var postName = menu.content
+//                 var postName = menu.content
 
-                Post.getPostByName(postName, (err, post) => {
+//                 Post.getPostByName(postName, (err, post) => {
 
-                    if (post) {
+//                     if (post) {
 
-                        console.log("redirection to " + "/posts/" + post._id)
-                        res.redirect("/post/" + post._id)
+//                         console.log("redirection to " + "/posts/" + post._id)
+//                         res.redirect("/post/" + post._id)
 
-                    } else {
-                        res.send({ message: "internal error : no post found for name " + pageName })
-                    }
+//                     } else {
+//                         res.send({ message: "internal error : no post found for name " + pageName })
+//                     }
 
-                })
-            }
+//                 })
+//             }
 
-        } else {
-            console.log("No menu found for this menu " + menuName)
-            next()
-        }
-    })
-})
+//         } else {
+//             console.log("No menu found for this menu " + menuName)
+//             next()
+//         }
+//     })
+// })
 
 module.exports = router;

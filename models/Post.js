@@ -83,16 +83,23 @@ function getPage(name, callback) {
     })
 }
 
-/*** Menus ***/
-function createMenu(title, name, content, format, callback) {
-    create(title, name, content, "menu", null, null, format, (err, doc) => {
-        callback(err, doc)
+function getPageByName(PageName, callback) {
+    data.posts.findOne({ name: PageName, postType: "page" }, (err, page) => {
+        callback(err, page)
     })
 }
 
-function updateMenu(menu, callback) {
+/*** Menus ***/
+function createMenu(menu, callback) {
+    menu.postType = "menu"
+    create2(menu, (err, menu) => {
+        callback(err, menu)
+    })
+}
+
+function updateMenu(menuId, menu, callback) {
     menu.postType = "menu",
-        update(menu, (err, num) => {
+        update(menuId, menu, (err, num) => {
             callback(err, num)
         })
 }
@@ -106,6 +113,12 @@ function getMenus(callback) {
 function getMenu(name, callback) {
     data.posts.findOne({ name: name, postType: "menu" }, (err, menu) => {
         callback(err, menu)
+    })
+}
+
+function removeMenu(menuId, callback) {
+    remove(menuId, (err, num) => {
+        callback(err, num)
     })
 }
 
@@ -202,12 +215,14 @@ Post.removePost = removePost
 Post.createPage = createPage
 Post.updatePage = updatePage
 Post.getPage = getPage
+Post.getPageByName = getPageByName
 Post.deletePage = deletePage
 
 Post.createMenu = createMenu
 Post.updateMenu = updateMenu
 Post.getMenus = getMenus
 Post.getMenu = getMenu
+Post.removeMenu = removeMenu
 
 Post.createMedia = createMedia
 Post.deleteMedia = deleteMedia

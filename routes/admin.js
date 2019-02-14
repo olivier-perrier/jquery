@@ -16,79 +16,21 @@ router.get('/', (req, res) => {
 
   var userId = req.session.userId
 
-  if (userId == null) {
-    res.send({ messsage: "forbidden: you must be logged to access admin" })
+  data.users.findOne({ _id: userId }, (err, user) => {
 
-  } else {
+    data.posts.find({ postType: "post" }).limit(5).exec((err, posts) => {
 
-    data.users.findOne({ _id: userId }, (err, user) => {
+      data.posts.find({ postType: "page" }).limit(5).exec((err, pages) => {
 
-      data.posts.find({ postType: "post" }).limit(5).exec((err, posts) => {
+        res.render('admin/index', { user: user, posts: posts, pages: pages })
 
-        data.posts.find({ postType: "page" }).limit(5).exec((err, pages) => {
-
-          res.render('admin/index', { user: user, posts: posts, pages: pages })
-
-        })
       })
     })
-
-  }
-
-})
-
-/*** Menus ***/
-router.post('/menu/create/', (req, res) => {
-  console.log("POST /admin/menu/create")
-
-  var name = req.body.name
-  var title = req.body.title
-  var content = req.body.content
-  var format = req.body.format
-
-  Post.createMenu(title, name, content, format, (err, menu) => {
-    if (menu) {
-      res.send({ message: "success : new menu created", menu: menu })
-    } else {
-      res.send({ message: "internal error : impossible to create menu" })
-    }
   })
 
-})
-
-router.post('/menu/save/', (req, res) => {
-  console.log("POST /admin/menu/save")
-
-  var menu = {
-    id: req.body.id,
-    name: req.body.name,
-    title: req.body.title,
-    content: req.body.content,
-    format: req.body.format,
-  }
-
-  Post.updateMenu(menu, (err, menu) => {
-    if (menu) {
-      res.send({ message: "success : new menu created", menu: menu })
-    } else {
-      res.send({ message: "internal error : impossible to create menu" })
-    }
-  })
 
 })
 
-router.post('/menu/delete/', (req, res) => {
-  console.log("POST /admin/menu/delete")
-  var menuName = req.body.name
-
-  data.posts.remove({ postType: "menu", name: menuName }, (err, num) => {
-    if (num == 0) {
-      res.send({ menu: doc })
-    } else {
-      res.send({ message: "internal error : impossible to create menu" })
-    }
-  })
-})
 
 /*** Posts ***/
 router.get('/posts', (req, res) => {

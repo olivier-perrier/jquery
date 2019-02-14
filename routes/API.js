@@ -41,8 +41,8 @@ router.post('/posts/create', (req, res) => {
   console.log("POST /API/posts/create")
 
   var post = {
-    title : "Title",
-    name : "post-1",
+    title: "Title",
+    name: "post-1",
     authorId: req.session.userId,
   }
 
@@ -78,7 +78,7 @@ router.post('/posts/delete', (req, res) => {
   var postId = req.body.id
 
   Post.removePost(postId, (err, num) => {
-    res.send({ message: "success : post removed " + num})
+    res.send({ message: "success : post removed " + num })
   })
 
 })
@@ -137,6 +137,62 @@ router.post('/page/delete', (req, res) => {
     }
   })
 
+})
+
+/*** Menus ***/
+router.post('/menu/create/', (req, res) => {
+  console.log("POST /API/menu/create")
+
+  var menu = {
+    title: req.body.title,
+    content: req.body.content,
+    format: req.body.format
+  }
+
+  Post.createMenu(menu, (err, menu) => {
+    if (menu) {
+      res.send({ message: "success : menu created", menu: menu })
+    } else {
+      res.send({ message: "internal error : impossible to create menu" })
+    }
+  })
+
+})
+
+router.post('/menu/save/', (req, res) => {
+  console.log("POST /API/menu/save")
+
+  var menu = {
+    id: req.body.id,
+    title: req.body.title,
+    content: req.body.content,
+    format: req.body.format,
+  }
+
+  console.log(menu)
+
+  Post.updateMenu(menu.id, menu, (err, num) => {
+    if (num) {
+      res.send({ message: "success : new menu updated" })
+    } else {
+      res.send({ message: "internal error : impossible to update menu" })
+    }
+  })
+
+})
+
+router.post('/menu/delete/', (req, res) => {
+  console.log("POST /API/menu/delete")
+
+  var menuId = req.body.id
+
+  Post.removeMenu(menuId, (err, num) => {
+    if (num) {
+      res.send({ message: "success : menu removed" })
+    } else {
+      res.send({ message: "internal error : impossible to remove menu" })
+    }
+  })
 })
 
 /*** Users ***/
@@ -238,8 +294,8 @@ router.post('/media/delete', (req, res) => {
 
       if (err) {
         console.log("[ERROR] no file to delete " + media.name + " err:" + err)
-      
-      }else{
+
+      } else {
         console.log("[SUCCESS] file deleted " + media.name)
       }
     })

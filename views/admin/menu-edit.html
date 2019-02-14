@@ -1,21 +1,22 @@
 {{#> admin/content}}
 
 <div class="my-3">
+    
+    <input type="hidden" id="postId" name="postId" value="{{menu._id}}">
 
     <h2 class="mb-3">Edit menu - {{menu.title}}</h2>
-    {{menu.format}}
+    
     <table class="table table-borderless">
         <thead>
             <tr>
                 <th scope="col"><span class="input-group-text">Title</span></th>
-                <th scope="col"><input type="text" class="form-control" placeholder="Username" value="{{menu.title}}"></th>
+                <th scope="col"><input type="text" id="menuTitle" class="form-control" placeholder="Title" value="{{menu.title}}"></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th scope="row"><span class="input-group-text">Type</span></th>
                 <td>
-
                     <select id="menuFormat" class="custom-select" id="selectTypeMenu">
                         <option value="direct">Direct link</option>
                         <option value="page">Page</option>
@@ -25,17 +26,15 @@
             </tr>
             <tr>
                 <th scope="row"><span class="input-group-text">Target</span></th>
-                <td><input type="text" class="form-control" placeholder="Email" value="{{menu.content}}"></td>
-            </tr>
-            <tr>
-                <th scope="row"></th>
+                <td><input type="text" id="menuContent" class="form-control" placeholder="Target" value="{{menu.content}}"></td>
             </tr>
         </tbody>
     </table>
 
     <div class="pb-3">
-        <button onClick="saveMenu()" class="btn btn-success mx-3">Save</button>
-        <button onClick="deleteMenu()" class="btn btn-danger">Delete</button>
+        <a href="/admin/menus" class="btn btn-light mx-3">Return</a>
+        <button onClick="saveMenu('{{menu._id}}')" class="btn btn-success mx-3">Save</button>
+        <button onClick="deleteMenu('{{menu._id}}')" class="btn btn-danger">Delete</button>
     </div>
 
 </div>
@@ -51,15 +50,13 @@
         console.error("Not implented yet")
     }
 
-    function saveMenu() {
+    function saveMenu(menuId) {
 
-        var postId = $('#postId').val()
-        var postTitle = $('#postTitle').val()
-        var postName = $('#postName').val()
-        var postContent = $('#postContent').val()
+        var menuTitle = $('#menuTitle').val()
+        var menuContent = $('#menuContent').val()
         var menuFormat = $('#menuFormat').val()
 
-        $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, format: menuFormat }, (data, statut) => {
+        $.post(URL + "/API/menu/save", { id: menuId, title: menuTitle, content: menuContent, format: menuFormat }, (data, statut) => {
             console.log(data)
             window.location = "/admin/menus"
         })

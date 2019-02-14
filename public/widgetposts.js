@@ -5,7 +5,7 @@ Vue.component('widgetposts', {
         <ul class="list-group list-group-flush">
         <div v-for="post in posts">
             <li class="list-group-item">
-              <a :href="'post/' + post._id">{{post.title}}</a>
+              <a :href="'/post/' + post._id">{{post.title}}</a>
             </li>
         </div>
         </ul>
