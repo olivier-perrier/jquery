@@ -1,9 +1,9 @@
 {{#> admin/content}}
 
-<div class=" my-3">
+<div class="my-3">
 
     <h2 class="mb-3">Edit menu - {{menu.title}}</h2>
-
+    {{menu.format}}
     <table class="table table-borderless">
         <thead>
             <tr>
@@ -15,7 +15,8 @@
             <tr>
                 <th scope="row"><span class="input-group-text">Type</span></th>
                 <td>
-                    <select class="custom-select mr-2" id="selectTypeMenu">
+
+                    <select id="menuFormat" class="custom-select" id="selectTypeMenu">
                         <option value="direct">Direct link</option>
                         <option value="page">Page</option>
                         <option value="post">Post</option>
@@ -44,32 +45,25 @@
 
 <script>
 
-    function saveMenu() {
-        window.location = "/admin/menu"
-        console.log("Not implented yet")
-    }
+    $('#menuFormat option[value={{menu.format}}]').prop('selected', true)
 
     function deleteMenu() {
-        console.log("Not implented yet")
+        console.error("Not implented yet")
     }
 
-    $(document).ready(function () {
+    function saveMenu() {
 
-        $("#postSave").click(() => {
+        var postId = $('#postId').val()
+        var postTitle = $('#postTitle').val()
+        var postName = $('#postName').val()
+        var postContent = $('#postContent').val()
+        var menuFormat = $('#menuFormat').val()
 
-            var postId = $('#postId').val()
-            var postTitle = $('#postTitle').val()
-            var postName = $('#postName').val()
-            var postContent = $('#postContent').val()
-            var postCategory = $('#postCategory').val()
-
-            $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory }, (data, statut) => {
-                console.log(data)
-
-            })
-
+        $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, format: menuFormat }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/menus"
         })
 
-    })
+    }
 
 </script>

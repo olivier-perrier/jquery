@@ -135,27 +135,14 @@ router.get('/posts/edit/:postId', (req, res) => {
 })
 
 /*** Menus ***/
-router.get('/menu', (req, res) => {
-  console.log("GET /admin/menu")
+router.get('/menus', (req, res) => {
+  console.log("GET /admin/menus")
 
-  // DEBUG
-  req.session.userId = "lFvBTABQpEluOzfv"
+  data.posts.find({ postType: "menu" }, (err, menus) => {
 
-  var userId = req.session.userId
+    res.render('admin/menus', { menus: menus })
 
-  if (userId == null) {
-    res.send({ messsage: "forbidden: you must be logged to access admin" })
-
-  } else {
-    data.posts.find({ postType: "menu" }, (err, menus) => {
-
-      data.users.findOne({ _id: userId }, (err, user) => {
-
-        res.render('admin/menu', { menus: menus, user: user })
-
-      })
-    })
-  }
+  })
 
 })
 

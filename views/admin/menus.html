@@ -13,21 +13,28 @@
                 <tr>
                     <th scope="col">Title</th>
                     <th scope="col">Type</th>
-                    <th scope="col">Content</th>
+                    <th scope="col">Target</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {{# menus}}
                 <tr>
-                    <th scope="row"><a href="/admin/menu/edit/{{_id}}" class="btn btn-link">{{title}}</a></th>
-                    <td>{{format}}</td>
+                    <th scope="row">
+                        <a href="/admin/menu/edit/{{_id}}" class="btn btn-link">{{title}}</a>
+                    </th>
+                    <td>
+                        <select class="custom-select menuFormat" disabled>
+                            <option value="{{format}}" hidden="hidden"></option>
+                            <option value="direct">Direct link</option>
+                            <option value="page">Page</option>
+                            <option value="post">Post</option>
+                            <option value="posts">Posts</option>
+                        </select>
+                    </td>
                     <td>{{content}}</td>
                     <td>
-                        <div>
-                            <button onClick="editMenu('{{_id}}')" class="btn btn-primary btn-sm mr-2">Edit</button>
-                            <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
-                        </div>
+                        <button onClick="deleteMenu('{{name}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
                     </td>
 
                 </tr>
@@ -35,12 +42,13 @@
                 <tr>
                     <th scope="row"><input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title"></th>
                     <td>
-                        <select class="custom-select mr-2" id="inputGroupMenuFormat">
+                        <select class="custom-select" id="menuFormat" name="menuFormat">
                             <option value="direct">Direct link</option>
                             <option value="page">Page</option>
                             <option value="post">Post</option>
                             <option value="posts">Posts</option>
                         </select>
+
                     </td>
                     <td><input type="text" id="menuContent" class="form-control mr-2" placeholder="Content"></td>
                     <td><button onClick="addMenu()" class="btn btn-success btn-sm">Add</button></td>
@@ -58,11 +66,18 @@
 
 <script>
 
+    $(".menuFormat").map((i, e) => {
+        var format = 'page'
+        format = $(e).find("option[hidden='hidden']").val()
+        $(e).find("option[value=" + format + "]").prop('selected', true)    
+    })
+
+
     function addMenu() {
         var menuTitle = $("#menuTitle").val()
         var menuName = menuTitle.toLowerCase()
         var menuContent = $("#menuContent").val()
-        var menuFormat = $('#inputGroupMenuFormat').val()
+        var menuFormat = $('#menuFormat').val()
 
 
         $.post(URL + "/admin/menu/create", { title: menuTitle, name: menuName, content: menuContent, format: menuFormat }, (data, statut) => {
@@ -80,3 +95,6 @@
 
 
 </script>
+
+<style>
+</style>
