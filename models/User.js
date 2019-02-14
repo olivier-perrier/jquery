@@ -13,6 +13,12 @@ User.getUser = function getUser(userId, callback) {
     })
 }
 
+User.getUsers = function getUsers(usersId, callback) {
+    data.users.find({ _id: { $in: usersId } }, (err, user) => {
+        callback(err, user)
+    })
+}
+
 User.createUser = function createUser(username, role, email, password, callback) {
     data.users.insert({
         username: username,

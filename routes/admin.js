@@ -92,30 +92,31 @@ router.post('/menu/delete/', (req, res) => {
 
 /*** Posts ***/
 router.get('/posts', (req, res) => {
-  console.log("POST /admin/posts")
+  console.log("GET /admin/posts")
 
-  // DEBUG
-  req.session.userId = "lFvBTABQpEluOzfv"
+  Post.getPosts({}, (err, posts) => {
 
-  var userId = req.session.userId
+    var authorIds = posts.map(post => post.authorId)
 
-  if (userId == null) {
-    res.send({ messsage: "forbidden: you must be logged to access admin" })
+    User.getUsers(authorIds, (err, users) => {
 
-  } else {
-    Post.getPosts({}, (err, posts) => {
+      posts.forEach((post, i) => {
 
-      posts.forEach(post => {
-        User.getUser(post.authorId, (err, user) => {
-          post.author = user
+        var currentUser = users.find(user => {
+          return posts[i].authorId == user._id
         })
-      });
-      console.log(posts)
+
+        if (currentUser)
+          posts[i].authorUsername = currentUser.username
+
+      })
 
       res.render('admin/posts', { posts: posts })
 
     })
-  }
+
+  })
+
 
 })
 
