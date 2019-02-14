@@ -114,6 +114,8 @@ Cf post
 
 Corrections à faire
 
+- [ ] Base de données : la mise à jour d'un post qui ne contient pas certains champs à la creation ne se fait pas. La création doit respecté le schemas de données (la mise á jour aussi peut etre)
+
 - Réorganisation des API et routes
 - Réorganisation des modèles et base de données
 

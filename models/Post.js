@@ -19,7 +19,7 @@ var Post = {
 
 function createPost(post, callback) {
     post.postType = "post"
-    create2(post, (err, doc) => {
+    create(post, (err, doc) => {
         callback(err, doc)
     })
 
@@ -33,7 +33,7 @@ function getPosts(query, callback) {
 }
 
 function getPost(postId, callback) {
-    data.posts.findOne({ _id: postId, postType: "post" }, (err, post) => {
+    get(postId, (err, post) => {
         callback(err, post)
     })
 }
@@ -58,9 +58,10 @@ function removePost(postId, callback) {
 }
 
 /*** Pages ***/
-function createPage(title, name, content, callback) {
-    create(title, name, content, "page", null, null, null, (err, doc) => {
-        callback(err, doc)
+function createPage(page, callback) {
+    page.postType = "page"
+    create(page, (err, page) => {
+        callback(err, page)
     })
 }
 
@@ -71,7 +72,7 @@ function updatePage(page, callback) {
     })
 }
 
-function deletePage(id, callback) {
+function removePage(id, callback) {
     remove(id, (err, num) => {
         callback(err, num)
     })
@@ -92,7 +93,7 @@ function getPageByName(PageName, callback) {
 /*** Menus ***/
 function createMenu(menu, callback) {
     menu.postType = "menu"
-    create2(menu, (err, menu) => {
+    create(menu, (err, menu) => {
         callback(err, menu)
     })
 }
@@ -110,8 +111,8 @@ function getMenus(callback) {
     })
 }
 
-function getMenu(name, callback) {
-    data.posts.findOne({ name: name, postType: "menu" }, (err, menu) => {
+function getMenu(menuId, callback) {
+    get(menuId, (err, menu) => {
         callback(err, menu)
     })
 }
@@ -125,12 +126,12 @@ function removeMenu(menuId, callback) {
 /*** Media ***/
 function createMedia(media, callback) {
     media.postType = "media"
-    create2(media, (err, doc) => {
+    create(media, (err, doc) => {
         callback(err, doc)
     })
 }
 
-function deleteMedia(id, callback) {
+function removeMedia(id, callback) {
     remove(id, (err, num) => {
         callback(err, num)
     })
@@ -143,23 +144,8 @@ function getMedia(id, callback) {
 }
 
 /*** Private ***/
-function create(title, name, content, postType, category, tags, format, callback) {
-    data.posts.insert({
-        title: title,
-        name: name,
-        content: content,
-        postType: postType,     // Define the type of post (post, menu, page)
-        category: category,     // Define custom category
-        tags: tags,             // Define list of tags related to the post
-        format: format,         // Define the format of the post (audio, video, text, link, default...)
-        createdAt: new Date(),
-        updatedAt: new Date()
-    }, (err, doc) => {
-        callback(err, doc)
-    })
-}
 
-function create2(post, callback) {
+function create(post, callback) {
 
     /* remove undifined properties */
     Object.keys(post).forEach(key => {
@@ -169,6 +155,7 @@ function create2(post, callback) {
     })
 
     post.createdAt = new Date()
+    post.updatedAt = new Date()
 
     data.posts.insert(post, (err, doc) => {
         callback(err, doc)
@@ -207,27 +194,25 @@ function get(id, callback) {
 
 Post.createPost = createPost
 Post.updatePost = updatePost
+Post.removePost = removePost
 Post.getPosts = getPosts
 Post.getPost = getPost
 Post.getPostByName = getPostByName
-Post.removePost = removePost
 
 Post.createPage = createPage
 Post.updatePage = updatePage
+Post.removePage = removePage
 Post.getPage = getPage
 Post.getPageByName = getPageByName
-Post.deletePage = deletePage
 
 Post.createMenu = createMenu
 Post.updateMenu = updateMenu
+Post.removeMenu = removeMenu
 Post.getMenus = getMenus
 Post.getMenu = getMenu
-Post.removeMenu = removeMenu
 
 Post.createMedia = createMedia
-Post.deleteMedia = deleteMedia
+Post.removeMedia = removeMedia
 Post.getMedia = getMedia
-
-
 
 module.exports = Post

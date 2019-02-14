@@ -48,18 +48,10 @@
 
 <script>
 
-    function getPosts() {
-        $.get(URL + "/API/posts", (data, statut) => {
-            console.log(data)
-            this.posts = data.posts
-        })
-    }
-
     function createPost() {
-        $.post(URL + "/API/posts/create", { name: "salut", content: "salut" }, (data, statut) => {
+        $.post(URL + "/API/posts/create", {}, (data, statut) => {
             console.log(data)
             window.location = "/admin/posts/edit/" + data.post._id
-            this.posts.push(data.post)
         })
     }
 
@@ -69,10 +61,6 @@
             window.location = "/admin/posts"
         })
     }
-
-    $(() => {
-
-    })
 
 </script>
 

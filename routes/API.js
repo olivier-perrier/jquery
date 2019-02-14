@@ -1,5 +1,4 @@
 var express = require('express');
-// var multer  = require('multer')
 var router = express.Router();
 
 var usersRouter = require('./users.js')
@@ -9,24 +8,10 @@ var data = require('../models/data.js')
 var Post = data.model('Post')
 var User = data.model('User')
 
-// var upload = multer({ dest: 'uploads/' })
 
 router.use('/users', usersRouter);
 router.use('/posts', postsRouter);
 
-
-router.get('/posts', (req, res) => {
-  console.log("GET /API/posts")
-
-  data.posts.find({ postType: "post" }, (err, posts) => {
-    if (posts == null) {
-      res.send({ message: "not found : no posts found" })
-    } else {
-      res.send({ message: "success : posts found", posts: posts })
-    }
-  })
-
-})
 
 router.post('/posts', (req, res) => {
   console.log("POST /API/posts")
@@ -41,8 +26,8 @@ router.post('/posts/create', (req, res) => {
   console.log("POST /API/posts/create")
 
   var post = {
-    title: "Title",
-    name: "post-1",
+    title: req.body.title || "Post title",
+    name: String(req.body.title).toLowerCase().replace(" ", "-") || "post-name",
     authorId: req.session.userId,
   }
 
@@ -87,11 +72,13 @@ router.post('/posts/delete', (req, res) => {
 router.post('/page/create', (req, res) => {
   console.log("POST /API/page/create")
 
-  var title = req.body.title || "title"
-  var name = String(title).toLowerCase().replace(" ", "-") || "name"
-  var content = req.body.content
+  var page = {
+    title: req.body.title || "Page title",
+    name: String(req.body.title).toLowerCase().replace(" ", "-") || "page-name",
+    authorId: req.session.userId,
+  }
 
-  Post.createPage(title, name, content, (err, page) => {
+  Post.createPage(page, (err, page) => {
     if (page) {
       res.send({ message: "success : page created", page: page })
     } else {
@@ -129,7 +116,7 @@ router.post('/page/delete', (req, res) => {
 
   var id = req.body.id
 
-  Post.deletePage(id, (err, num) => {
+  Post.removePage(id, (err, num) => {
     if (num) {
       res.send({ message: "success : page deleted" })
     } else {
@@ -315,16 +302,7 @@ router.post('/media/delete', (req, res) => {
 })
 
 /*** Widgets ***/
-// router.get('/widgets', (req, res) => {
-//   console.log("GET /API/widgets")
 
-//   Object.entries(settings).forEach(([key, valeur]) => {
-//     data.settings.update({ name: key }, { $set: { value: valeur } })
-//   })
-
-//   res.send({ message: "success : returned widgets", widgets : op.getWidgets() })
-
-// })
 
 /*** Settings ***/
 router.post('/settings/save', (req, res) => {

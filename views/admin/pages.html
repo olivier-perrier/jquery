@@ -46,18 +46,15 @@
 <script>
 
     function createPage() {
-        var pageTitle = $("#pageTitle").val()
-        var pageName = $("#pageName").val()
-        var pageContent = $("#pageContent").val()
 
-        $.post(URL + "/API/page/create", { title: pageTitle, name: pageName, content: pageContent }, (data, statut) => {
+        $.post(URL + "/API/page/create", { }, (data, statut) => {
             console.log(data)
             window.location = "/admin/page/edit/" + data.page._id
         })
     }
 
-    function editPage(id) {
-        window.location = "/admin/page/edit/" + id
+    function editPage(pageId) {
+        window.location = "/admin/page/edit/" + pageId
     }
 
     function deletePage(pageId) {
@@ -66,24 +63,5 @@
             window.location = "/admin/pages"
         })
     }
-
-
-
-    $(() => {
-
-        $(".postTypeSpan").click(function () {
-            $(this).hide();
-            $(this).next(".postTypeInput").val($(this).text())
-            $(this).next(".postTypeInput").show()
-            $(this).next(".postTypeInput").focus()
-        })
-
-        $(".postTypeInput").focusout(function () {
-            $(this).hide();
-            $(this).prev().html($(this).val());
-            $(this).prev().show();
-        });
-
-    })
 
 </script>

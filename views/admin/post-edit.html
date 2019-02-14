@@ -37,8 +37,8 @@
                 </form>
 
                 <div class="py-3">
-                    <p class="mb-1 text-muted">Created : {{post.createdAt}}</p>
-                    <p class="mb-1 text-muted">Updated : {{post.updatedAt}}</p>
+                    <p class="mb-1 text-muted">Created {{toElapsedTime post.createdAt}}</p>
+                    <p class="mb-1 text-muted">Updated {{toElapsedTime post.updatedAt}}</p>
                 </div>
 
             </div>
