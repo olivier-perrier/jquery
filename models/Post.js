@@ -44,9 +44,15 @@ function getPostByName(postName, callback) {
     })
 }
 
-function updatePost(post, callback) {
+function updatePost(postId, post, callback) {
     post.postType = "post"
-    update(post.id, post, (err, num) => {
+    update(postId, post, (err, num) => {
+        callback(err, num)
+    })
+}
+
+function removePost(postId, callback) {
+    remove(postId, (err, num) => {
         callback(err, num)
     })
 }
@@ -191,6 +197,7 @@ Post.updatePost = updatePost
 Post.getPosts = getPosts
 Post.getPost = getPost
 Post.getPostByName = getPostByName
+Post.removePost = removePost
 
 Post.createPage = createPage
 Post.updatePage = updatePage

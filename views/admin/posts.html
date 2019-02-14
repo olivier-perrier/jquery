@@ -22,8 +22,8 @@
                 {{# posts}}
                 <tr>
                     <th scope="row">
-                        <a href="'/post/' + post._id" class="btn btn-link">{{title}}</a>
-                        <a href="'/admin/posts/edit/' + post._id" class="btn btn-link"><small>Edit</small></a>
+                        <a href="/post/'{{_id}}" class="btn btn-link">{{title}}</a>
+                        <a href="/admin/posts/edit/{{_id}}" class="btn btn-link"><small>Edit</small></a>
                     </th>
                     <td><a :href="'/admin/user/' + post.authorId">{{authorUsername}}</a></td>
                     <td>{{category}}</td>
@@ -31,7 +31,7 @@
                     <td>-</td>
                     <td>-</td>
                     <td>
-                        <button onClick="deletePost(post)" class="btn btn-danger btn-sm">Delete</button>
+                        <button onClick="deletePost('{{_id}}')" class="btn btn-danger btn-sm">Delete</button>
                     </td>
                 </tr>
                 {{/ posts}}
@@ -63,10 +63,10 @@
         })
     }
 
-    function deletePost(post) {
-        $.post(URL + "/API/posts/delete/" + post._id, {}, (data, statut) => {
+    function deletePost(postId) {
+        $.post(URL + "/API/posts/delete/", { id: postId }, (data, statut) => {
             console.log(data)
-            this.getPosts()
+            window.location = "/admin/posts"
         })
     }
 

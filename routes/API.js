@@ -67,24 +67,18 @@ router.post('/post/save', (req, res) => {
     image: req.body.image,
   }
 
-  Post.updatePost(post, (err, num) => {
-
+  Post.updatePost(post.id, post, (err, num) => {
     res.send({ message: "success : post updated " + num, postId: post.id })
-
   })
 })
 
-router.post('/posts/delete/:postId', (req, res) => {
-  console.log("POST /API/posts/delete/:postId")
+router.post('/posts/delete', (req, res) => {
+  console.log("POST /API/posts/delete")
 
-  var postId = req.params.postId
+  var postId = req.body.id
 
-  data.posts.remove({ _id: postId }, (err, num) => {
-    if (num) {
-      res.send({ message: "success : post deleted" })
-    } else {
-      res.send({ message: "not found : no post found to delete for id " + postId })
-    }
+  Post.removePost(postId, (err, num) => {
+    res.send({ message: "success : post removed " + num})
   })
 
 })

@@ -121,7 +121,7 @@
 
         $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, description: postDescription, category: postCategory, tags: postTags, image : postImage }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/posts/edit/" + postId
+            window.location = "/admin/posts/"
         })
 
     }
