@@ -8,12 +8,15 @@
 
             <article>
 
+                <input type="hidden" id="postId" name="postId" value="{{post._id}}">
+
+
                 <div class="thumbnail text-center">
                     <img src="/media/{{post.image}}" alt="Card image cap" class="rounded" width="100%" height="300">
                 </div>
 
                 <header class="m-3 ml-5 mb-3">
-                    <h2><a href="/post/{{post._id}}">{{post.title}}</a></h2>
+                    <h1><a href="/post/{{post._id}}">{{post.title}}</a></h1>
                 </header>
 
                 <div class="body ml-5 p-1 mb-3">
@@ -36,6 +39,35 @@
 
             </article>
 
+            <div id="comments">
+
+                <h2>Comments</h2>
+
+                <ul class="list-group list-group-flush">
+                    {{# comments}}
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{authorUsername}}</strong>
+                            <small>{{toElapsedTime createdAt}}</small>
+                        </div>
+                        <p>{{content}}</p>
+                        <div class="text-right">
+                            <button class="btn btn-sm btn-light" type="button" onClick="deleteComment('{{_id}}')">Delete</button>
+                        </div>
+                    </li>
+
+                    {{/ comments}}
+                </ul>
+
+                <br>
+                <div id="add-comment">
+                    <h3>Leave a comment</h3>
+                    <textarea class="form-control mb-1" id="commentContent" placeholder="content" rows="3"></textarea>
+                    <button class="btn btn-light" type="button" onClick="addComment()">Save</button>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="col-md-3">
@@ -49,5 +81,32 @@
 {{> footer}}
 
 <script>
+
+    function addComment() {
+
+        var postId = $('#postId').val()
+
+        var comment = {
+            content: $('#commentContent').val(),
+            postId: postId,
+        }
+
+        console.log(comment)
+
+        $.post(URL + "/API/comment/create", { comment: comment }, (data, statut) => {
+            console.log(data)
+            window.location.href = "/post/" + postId //+ "/#add-comment"
+        })
+    }
+
+    function deleteComment(commentId) {
+
+        var postId = $('#postId').val()
+
+        $.post(URL + "/API/comment/delete", { id: commentId }, (data, statut) => {
+            console.log(data)
+            window.location = "/post/" + postId //+ "/#comments"
+        })
+    }
 
 </script>

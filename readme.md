@@ -104,7 +104,7 @@ Cf post
 - [x] Gestion des menus
 - [x] Gestion des pages
 
-- [ ] Gestion des médias (en cours)
+- [x] Gestion des médias
 - [ ] Gestion de commentaires
 - [ ] Gestion des utilisateurs (en cours)
 
@@ -114,7 +114,8 @@ Cf post
 
 Corrections à faire
 
-- [ ] Base de données : la mise à jour d'un post qui ne contient pas certains champs à la creation ne se fait pas. La création doit respecté le schemas de données (la mise á jour aussi peut etre)
+- [x] Base de données respect un schema
+  - [ ] faire sur les autres bases que post 
 
 - Réorganisation des API et routes
 - Réorganisation des modèles et base de données

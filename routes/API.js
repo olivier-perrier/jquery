@@ -5,8 +5,9 @@ var usersRouter = require('./users.js')
 var postsRouter = require('./posts.js')
 
 var data = require('../models/data.js')
-var Post = data.model('Post')
 var User = data.model('User')
+var User = data.model('User')
+var Comment = data.model('Comment')
 
 
 router.use('/users', usersRouter);
@@ -317,6 +318,44 @@ router.post('/media/delete', (req, res) => {
   })
 
   // Todo delete the file (not only the media post)
+
+})
+
+
+/*** Commmets ***/
+
+router.post('/comment/create', (req, res) => {
+  console.log("POST /API/comment/create")
+
+  var comment = req.body.comment
+
+  comment.authorId = req.session.userId
+
+  console.log(comment)
+
+  Comment.create(comment, (err, comment) => {
+    if (comment) {
+      res.send({ message: "success : comment created", comment: comment })
+    } else {
+      res.send({ message: "internal error : impossible to create comment" })
+    }
+  })
+
+})
+
+
+router.post('/comment/delete', (req, res) => {
+  console.log("POST /API/comment/delete")
+
+  var commentId = req.body.id
+
+  Comment.remove(commentId, (err, num) => {
+    if (num) {
+      res.send({ message: "success : comment deleted" })
+    } else {
+      res.send({ message: "internal error : impossible to delete comment" })
+    }
+  })
 
 })
 
