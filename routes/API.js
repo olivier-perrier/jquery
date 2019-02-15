@@ -27,7 +27,7 @@ router.post('/posts/create', (req, res) => {
 
   var post = {
     title: req.body.title || "Post title",
-    name: String(req.body.title).toLowerCase().replace(" ", "-") || "post-name",
+    name: req.body.title ? req.body.title.toLowerCase().replace(" ", "-") : "post-name",
     authorId: req.session.userId,
   }
 
@@ -40,21 +40,18 @@ router.post('/posts/create', (req, res) => {
 router.post('/post/save', (req, res) => {
   console.log("POST /API/post/save")
 
-  var post = {
-    id: req.body.id,
-    title: req.body.title,
-    name: req.body.name,
-    content: req.body.content,
-    description: req.body.description,
-    category: req.body.category,
-    tags: req.body.tags,
-    format: req.body.format,
-    image: req.body.image,
-  }
+  var postId = req.body.id
+  var post = req.body.post
 
-  Post.updatePost(post.id, post, (err, num) => {
-    res.send({ message: "success : post updated " + num, postId: post.id })
-  })
+  post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "post-name",
+
+    Post.updatePost(postId, post, (err, num) => {
+      if (num)
+        res.send({ message: "success : post updated " })
+      else
+        res.send({ message: "internal error : impossible to save post" })
+
+    })
 })
 
 router.post('/posts/delete', (req, res) => {
@@ -74,7 +71,7 @@ router.post('/page/create', (req, res) => {
 
   var page = {
     title: req.body.title || "Page title",
-    name: String(req.body.title).toLowerCase().replace(" ", "-") || "page-name",
+    name: req.body.title ? req.body.title.toLowerCase().replace(" ", "-") : "page-name",
     authorId: req.session.userId,
   }
 
@@ -91,19 +88,14 @@ router.post('/page/create', (req, res) => {
 router.post('/page/save', (req, res) => {
   console.log("POST /API/page/save/")
 
-  var page = {
-    id: req.body.id,
-    title: req.body.title,
-    name: String(req.body.name).toLowerCase().replace(" ", "-"),
-    content: req.body.content,
-    category: req.body.category,
-    tags: req.body.tags,
-    format: req.body.format,
-  }
+  var pageId = req.body.id
+  var page = req.body.page
 
-  Post.updatePage(page, (err, page) => {
-    if (page) {
-      res.send({ message: "success : page saved", page: page })
+  page.name = page.name ? String(page.name).toLowerCase().replace(" ", "-") : "page-name"
+
+  Post.updatePage(pageId, page, (err, num) => {
+    if (num) {
+      res.send({ message: "success : page updated" })
     } else {
       res.send({ message: "internal error : impossible to save page" })
     }
@@ -114,9 +106,9 @@ router.post('/page/save', (req, res) => {
 router.post('/page/delete', (req, res) => {
   console.log("POST /API/page/delete")
 
-  var id = req.body.id
+  var pageId = req.body.id
 
-  Post.removePage(id, (err, num) => {
+  Post.removePage(pageId, (err, num) => {
     if (num) {
       res.send({ message: "success : page deleted" })
     } else {
@@ -149,18 +141,17 @@ router.post('/menu/create/', (req, res) => {
 router.post('/menu/save/', (req, res) => {
   console.log("POST /API/menu/save")
 
+  var menuId = req.body.id
+
   var menu = {
-    id: req.body.id,
     title: req.body.title,
     content: req.body.content,
     format: req.body.format,
   }
 
-  console.log(menu)
-
-  Post.updateMenu(menu.id, menu, (err, num) => {
+  Post.updateMenu(menuId, menu, (err, num) => {
     if (num) {
-      res.send({ message: "success : new menu updated" })
+      res.send({ message: "success : menu updated" })
     } else {
       res.send({ message: "internal error : impossible to update menu" })
     }
@@ -206,14 +197,15 @@ router.post('/user/save', (req, res) => {
   console.log("POST /API/user/save")
 
   var id = req.body.id
+
   var username = req.body.username
   var role = req.body.role
   var email = req.body.email
   var password = req.body.password
 
-  User.updateUser(id, username, role, email, password, (err, user) => {
-    if (user) {
-      res.send({ message: "success : user saved", user: user })
+  User.updateUser(id, username, role, email, password, (err, num) => {
+    if (num) {
+      res.send({ message: "success : user updated" })
     } else {
       res.send({ message: "internal error : impossible to save user for id " + id })
     }
@@ -247,6 +239,7 @@ router.post('/media/upload', (req, res) => {
   console.log(sampleFile.name)
 
   var media = {
+    title: sampleFile.name,
     name: sampleFile.name,
     postType: "media",
     format: "image"
@@ -260,11 +253,37 @@ router.post('/media/upload', (req, res) => {
     } else {
 
       Post.createMedia(media, (err, media) => {
-        res.send({ message: "success : media created " + media })
+        if (media)
+          res.send({ message: "success : media created " + media })
+        else
+          res.send({ message: "internal error : impossible to save create " + media })
+
       })
     }
 
   })
+
+})
+
+router.post('/media/save', (req, res) => {
+  console.log("POST /API/media/upload")
+
+  var mediaId = req.body.id
+
+  var media = {
+    title: req.body.title,
+    name: req.body.name,
+  }
+
+
+  Post.updateMedia(mediaId, media, (err, num) => {
+    if (num)
+      res.send({ message: "success : media updated" })
+    else
+      res.send({ message: "internal error : impossible to updated media " + media })
+
+  })
+
 
 })
 

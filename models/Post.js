@@ -11,6 +11,7 @@ var Post = {
         category: String,     // Define custom category
         tags: String,         // Define list of tags related to the post
         format: String,       // Define the format of the post (audio, video, text, link, default...)
+        image: String,
         authorId: String,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -65,9 +66,9 @@ function createPage(page, callback) {
     })
 }
 
-function updatePage(page, callback) {
+function updatePage(pageId, page, callback) {
     page.postType = "page"
-    update(page.id, page, (err, num) => {
+    update(pageId, page, (err, num) => {
         callback(err, num)
     })
 }
@@ -78,14 +79,14 @@ function removePage(id, callback) {
     })
 }
 
-function getPage(name, callback) {
-    data.posts.findOne({ name: name, postType: "page" }, (err, page) => {
+function getPage(pageId, callback) {
+    get(pageId, (err, page) => {
         callback(err, page)
     })
 }
 
-function getPageByName(PageName, callback) {
-    data.posts.findOne({ name: PageName, postType: "page" }, (err, page) => {
+function getPageByName(pageName, callback) {
+    data.posts.findOne({ name: pageName, postType: "page" }, (err, page) => {
         callback(err, page)
     })
 }
@@ -147,15 +148,27 @@ function getMedia(id, callback) {
 
 function create(post, callback) {
 
-    /* remove undifined properties */
-    Object.keys(post).forEach(key => {
-        if (post[key] === undefined) {
-            delete post[key];
+    // Remove property that are not into the schema
+    for (var key in post) {
+        // if property doesn't exist in the schema
+        if (!Post.postSchema[key]) {
+            console.warn("[WARNING] property '" + key + "' do not existe in the post schema")
+            delete post[key]
         }
-    })
+    }
 
+    // Add missed property from the schema
+    for (var k in Post.postSchema) {
+        // if property doesn't exist
+        if (!post[k]) {
+            post[k] = ""
+        }
+    }
+
+    // Add creation date
     post.createdAt = new Date()
-    post.updatedAt = new Date()
+
+    // console.log(post)
 
     data.posts.insert(post, (err, doc) => {
         callback(err, doc)
@@ -164,14 +177,18 @@ function create(post, callback) {
 
 function update(id, post, callback) {
 
-    /* remove undifined properties */
-    Object.keys(post).forEach(key => {
-        if (post[key] === undefined) {
-            delete post[key];
+    // Remove not existing properties into the schema
+    for (var key in post) {
+        if (!Post.postSchema[key]) {
+            console.warn("[WARNING] property '" + key + "' do not existe in the post schema")
+            delete post[key]
         }
-    })
+    }
 
+    // Set updated date
     post.updatedAt = new Date()
+
+    // console.log(post)
 
     data.posts.update({ _id: id }, {
         $set: post

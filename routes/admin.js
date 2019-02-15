@@ -62,8 +62,8 @@ router.get('/posts', (req, res) => {
 
 })
 
-router.get('/posts/edit/:postId', (req, res) => {
-  console.log("GET /admin/posts/edit/:postId")
+router.get('/post/edit/:postId', (req, res) => {
+  console.log("GET /admin/post/edit/:postId")
   var postId = req.params.postId
 
   Post.getPost(postId, (err, post) => {

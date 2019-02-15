@@ -22,8 +22,7 @@
                 {{# posts}}
                 <tr>
                     <th scope="row">
-                        <a href="/post/'{{_id}}" class="btn btn-link">{{title}}</a>
-                        <a href="/admin/posts/edit/{{_id}}" class="btn btn-link"><small>Edit</small></a>
+                        <a href="/admin/post/edit/{{_id}}" class="btn btn-link">{{title}}</a>
                     </th>
                     <td><a :href="'/admin/user/' + post.authorId">{{authorUsername}}</a></td>
                     <td>{{category}}</td>
