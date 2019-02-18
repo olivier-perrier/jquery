@@ -1,7 +1,7 @@
 Vue.component('widgetposts', {
   template: `
   <div>
-        <h3>Recent posts</h3>
+        <h3 class="text-center mb-3">Recent posts</h3>
         <ul class="list-group list-group-flush">
         <div v-for="post in posts">
             <li class="list-group-item">

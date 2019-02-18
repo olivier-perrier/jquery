@@ -1,59 +1,42 @@
 {{#> admin/content}}
 
-<div class="row pt-3">
+<div class="row">
+
+    <input type="hidden" id="postId" name="postId" value="{{post._id}}">
 
     <div class="col-8">
 
-        <input type="hidden" id="postId" name="postId" value="{{post._id}}">
+        <div class="mb-4">
 
-        <div class="border rounded mb-4 shadow-sm">
-
-            <div class="card-header">
-                <h3>Edit post</h3>
+            <!-- Title -->
+            <div class="my-3">
+                <input type="text" class="form-control border-0" id="postTitle" value="{{post.title}}" placeholder="Title">
             </div>
 
-            <div class="card-body p-3">
-
-                <!-- Title -->
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Title</span>
-                    </div>
-                    <input type="text" class="form-control" id="postTitle" value="{{post.title}}">
-                </div>
-
-                <!-- Content -->
-                <textarea id="postContent" rows="15" class="form-control">{{{post.content}}}</textarea>
+            <!-- Content -->
+            <textarea id="postContent" rows="20" class="form-control border-0" placeholder="Content">{{{post.content}}}</textarea>
 
 
-
-                <form>
-                    <div class="form-group py-3">
-                        <label for="postDescription">Description</label>
-                        <textarea class="form-control" id="postDescription" rows="3">{{post.description}}</textarea>
-                        <small id="postDescription" class="form-text text-muted">Sum up description of the post for the
-                            previews</small>
-                    </div>
-                </form>
-
-                <div class="py-3">
-                    <p class="mb-1 text-muted">Created {{toElapsedTime post.createdAt}}</p>
-                    <p class="mb-1 text-muted">Updated {{toElapsedTime post.updatedAt}}</p>
-                </div>
-
+            <div class="py-3">
+                <p class="mb-1 text-muted">Created {{toElapsedTime post.createdAt}}</p>
+                <p class="mb-1 text-muted">Updated {{toElapsedTime post.updatedAt}}</p>
             </div>
+
         </div>
 
 
         <div class="my-3">
             <a href="/admin/posts" class="btn btn-light">Return</a>
-            <button class="btn btn-primary" type="button" onClick="postSave()">Save</button>
-            <a href="/post/{{post._id}}" class="btn btn-light">View</a>
+            <button class="btn btn-success mx-3" type="button" onClick="postSave()">Save</button>
+            <a href="/post/{{post._id}}" class="btn btn-primary">View</a>
         </div>
 
     </div>
 
-    <div class="col-4">
+    <div class="col-4 pt-3">
+
+        {{> admin/edit-status}}
+
 
         <div class="card mb-2">
             <div class="card-header">
@@ -83,20 +66,11 @@
             <div class="card-body">
                 <label for="postTags">Tags</label>
                 <input type="text" class="form-control" id="postTags" value="{{post.tags}}">
-                <small>Tags separeted with ;</small>
+                <small>Tags separeted with spaces</small>
             </div>
         </div>
 
-        <div class="card mb-2">
-            <div class="card-header">
-                <button class="btn btn-link" type="button">Format</button>
-            </div>
-            <div class="card-body">
-                <label for="postFormat">Format</label>
-                <input type="text" class="form-control" id="postFormat" value="{{post.format}}">
-                <small>audio, video, text, link, default</small>
-            </div>
-        </div>
+
 
         <div class="card mb-2">
             <div class="card-header">
@@ -108,6 +82,19 @@
                 <small>Tags separeted with ;</small>
             </div>
         </div>
+
+        <!-- Description -->
+        <div class="card mb-2">
+            <div class="card-header">
+                <button class="btn btn-link" type="button">Description</button>
+            </div>
+            <div class="card-body">
+
+                <small class="form-text text-muted">Write a description (optional)</small>
+                <textarea class="form-control" id="postDescription" rows="3">{{post.description}}</textarea>
+            </div>
+        </div>
+
 
     </div>
 
@@ -141,9 +128,20 @@
 
     }
 
+    function deletePost(postId) {
+        $.post(URL + "/API/posts/delete/", { id: postId }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/posts"
+        })
+    }
+
 
 </script>
 
 <style>
-
+    table th,
+    td {
+        padding-bottom: .75rem;
+        padding-right: .75rem
+    }
 </style>

@@ -1,0 +1,39 @@
+<div class="card mb-2">
+    <div class="card-header">
+        <button class="btn btn-link" type="button">Status and Visibility</button>
+    </div>
+    <div class="card-body">
+
+        <table>
+            <tr>
+                <th>Status</th>
+                <td>Online {{post.status}}</td>
+            </tr>
+
+            <tr>
+                <th>Publish</th>
+                <td>{{toSimpleDate post.updatedAt}}</td>
+            </tr>
+
+            <tr>
+                <th>Format</th>
+                <td>
+                    <select class="custom-select">
+                        <option value="default">Default</option>
+                        <option value="audio">Audio</option>
+                        <option value="video">Video</option>
+                        <option value="text">Text</option>
+                        <option value="link">Link</option>
+                    </select>
+                </td>
+
+            </tr>
+
+        </table>
+
+        <div class="text-right">
+            <button onClick="deletePost('{{post._id}}')" class="btn btn-danger btn-sm">Delete</button>
+        </div>
+
+    </div>
+</div>

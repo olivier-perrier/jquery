@@ -22,8 +22,16 @@
     </div>
     <div class="bg-light mr-3 pt-3 px-3 text-center overflow-hidden">
         <div class="my-3 p-3">
-            <h2 class="display-5">Users</h2>
-            <p class="lead">Olivier</p>
+            <h2 class="display-5"><a href="/admin/users">Users</a></h2>
+
+            <ul class="list-group  list-group-flush">
+                {{# users}}
+                <li class="list-group-item bg-transparent">
+                    <a href="/admin/user/edit/{{_id}}" class="lead">{{username}}</a>
+                </li>
+                {{/ users}}
+            </ul>
+
         </div>
     </div>
 </div>

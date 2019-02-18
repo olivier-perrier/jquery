@@ -5,7 +5,7 @@ var usersRouter = require('./users.js')
 var postsRouter = require('./posts.js')
 
 var data = require('../models/data.js')
-var User = data.model('User')
+var Post = data.model('Post')
 var User = data.model('User')
 var Comment = data.model('Comment')
 
@@ -27,8 +27,8 @@ router.post('/posts/create', (req, res) => {
   console.log("POST /API/posts/create")
 
   var post = {
-    title: req.body.title || "Post title",
-    name: req.body.title ? req.body.title.toLowerCase().replace(" ", "-") : "post-name",
+    title: req.body.title,
+    name: "post-name",
     authorId: req.session.userId,
   }
 
@@ -45,6 +45,7 @@ router.post('/post/save', (req, res) => {
   var post = req.body.post
 
   post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "post-name",
+  post.description = post.description || post.content.substring(0, 100)
 
     Post.updatePost(postId, post, (err, num) => {
       if (num)
@@ -179,12 +180,14 @@ router.post('/menu/delete/', (req, res) => {
 router.post('/user/create', (req, res) => {
   console.log("POST /API/user/create")
 
-  var username = req.body.username
-  var role = req.body.role
-  var email = req.body.email
-  var password = req.body.password
+  var user = {
+    username: req.body.username,
+    role: req.body.role,
+    email: req.body.email,
+    password: req.body.password,
+  }
 
-  User.createUser(username, role, email, password, (err, user) => {
+  User.create(user, (err, user) => {
     if (user) {
       res.send({ message: "success : user created", user: user })
     } else {
@@ -199,12 +202,14 @@ router.post('/user/save', (req, res) => {
 
   var id = req.body.id
 
-  var username = req.body.username
-  var role = req.body.role
-  var email = req.body.email
-  var password = req.body.password
+  var user = {
+    username: req.body.username,
+    role: req.body.role,
+    email: req.body.email,
+    password: req.body.password,
+  }
 
-  User.updateUser(id, username, role, email, password, (err, num) => {
+  User.update(id, user, (err, num) => {
     if (num) {
       res.send({ message: "success : user updated" })
     } else {

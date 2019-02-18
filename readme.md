@@ -105,7 +105,7 @@ Cf post
 - [x] Gestion des pages
 
 - [x] Gestion des médias
-- [ ] Gestion de commentaires
+- [x] Gestion de commentaires
 - [ ] Gestion des utilisateurs (en cours)
 
 - [ ] Gestion des Widgets (en cours)
@@ -115,7 +115,9 @@ Cf post
 Corrections à faire
 
 - [x] Base de données respect un schema
-  - [ ] faire sur les autres bases que post 
+  - [x] faire sur les autres bases que post 
+
+- [x] jointure generique pour les posts et les utilisateurs
 
 - Réorganisation des API et routes
 - Réorganisation des modèles et base de données

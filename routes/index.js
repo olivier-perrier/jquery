@@ -30,7 +30,7 @@ router.use((req, res, next) => {
                 if (menu.format == "direct")
                     menu.link = menu.content
                 else if (menu.format == "posts")
-                    menu.link = "/posts/" + menu.content
+                    menu.link = "/category/" + menu.content
                 else if (menu.format == "post")
                     menu.link = "/post/" + menu.content
                 else if (menu.format == "page")
@@ -85,6 +85,18 @@ router.get('/posts/:category', (req, res) => {
 
 })
 
+/*** category ***/
+router.get('/category/:category', (req, res) => {
+    console.log("GET /category/:category")
+
+    var category = req.params.category
+
+    Post.getPosts({ category: category }, (err, posts) => {
+        res.render('posts', { posts: posts })
+    })
+
+})
+
 /*** Post ***/
 router.get('/post/:postId', (req, res, next) => {
     console.log("GET /post/:postId")
@@ -94,7 +106,6 @@ router.get('/post/:postId', (req, res, next) => {
     Post.getPost(postId, (err, post) => {
         if (post)
             Comment.getByPost(postId, (err, comments) => {
-                console.log(comments)
                 res.render('post', { post: post, comments: comments })
             })
         else next()
@@ -166,6 +177,20 @@ router.get('/user/account', (req, res) => {
             res.send("Account not available yet")
         }
 
+    })
+
+})
+
+/*** Search ***/
+router.get('/search/:query', (req, res) => {
+    console.log("GET /search/:query")
+
+    var query = req.params.query
+    console.log(query)
+
+    data.posts.find({ title: { $regex: ".*" + query + "*." } }, (err, posts) => {
+        console.log(posts)
+        res.render('posts', { posts: posts })
     })
 
 })

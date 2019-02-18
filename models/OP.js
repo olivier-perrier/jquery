@@ -1,10 +1,11 @@
+var data = require('./data')
 
 OP = {
 
-    widgets : [],
+    widgets: [],
 
     addWidget(name) {
-        this.widgets.push({name})
+        this.widgets.push({ name })
     },
 
     getWidgets() {

@@ -1,10 +1,11 @@
 <script src="/widgetposts.js"></script>
+<script src="/widgetsearch.js"></script>
 
 
 <aside>
 
     <div id="app-widgets" class="container widgets ">
-        <div v-for="widget in vuewidgets">
+        <div v-for="widget in vuewidgets" class="mb-5">
             <component v-bind:is="widget"></component>
         </div>
     </div>
@@ -20,7 +21,7 @@
             //widgetposts
         },
         data: {
-            vuewidgets: ["widgetposts",]
+            vuewidgets: ["widgetposts","widgetsearch"]
         },
     })
 

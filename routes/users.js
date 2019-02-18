@@ -40,14 +40,10 @@ router.post('/signup', (req, res) => {
       res.send({ message: "forbidden : user not available" })
 
     } else {
-      //Create the user
-      var newUser = User.returnUser(userName)
 
-      data.users.insert(newUser, (err, docUser) => {
-        console.log(docUser)
-        var userId = docUser._id
+      User.create({ user: { unsername: userName } }, (err, user) => {
 
-        res.send({ message: "sigup success", user: docUser })
+        res.send({ message: "success : user created", user: user })
 
       })
     }

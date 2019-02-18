@@ -16,13 +16,13 @@ router.get('/', (req, res) => {
 
   var userId = req.session.userId
 
-  data.users.findOne({ _id: userId }, (err, user) => {
+  data.users.find({}).limit(5).exec((err, users) => {
 
     data.posts.find({ postType: "post" }).limit(5).exec((err, posts) => {
 
       data.posts.find({ postType: "page" }).limit(5).exec((err, pages) => {
 
-        res.render('admin/index', { user: user, posts: posts, pages: pages })
+        res.render('admin/index', { users: users, posts: posts, pages: pages })
 
       })
     })

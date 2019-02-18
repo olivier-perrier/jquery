@@ -2,14 +2,12 @@
 
 <div class="container py-5">
 
-    <div class="text-center bg-light">
+    <div class="text-center bg-light mb-3">
         <div class="col-5 p-5 mx-auto">
             <h1 class="">{{mainPost.title}}</h1>
             <p class="lead font-weight-normal">{{mainPost.description}}</p>
             <a class="btn btn-outline-secondary" href="/post/{{mainPost._id}}">Read more</a>
         </div>
-        <div class="product-device box-shadow d-none d-md-block"></div>
-        <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
     </div>
 
     <div class="row">
@@ -17,8 +15,8 @@
         {{#posts}}
         <div class="col-md-6">
             <div class="bg-dark pt-3 px-3 py-3 text-center text-white overflow-hidden">
-                <h2 class="display-5">{{title}}</h2>
-                <p class="lead">description</p>
+                <h2><a href="/post/{{_id}}" class="text-white">{{title}}</a></h2>
+                <p class="lead">{{description}}</p>
             </div>
         </div>
         {{/posts}}

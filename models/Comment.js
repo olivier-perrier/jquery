@@ -15,14 +15,29 @@ var Comment = {
 }
 
 function create(comment, callback) {
+
+    schemaCleaning(comment)
+
+    // Add missed property from the schema
+    for (var key in Comment.commentSchema) {
+        if (!comment[key]) {
+            comment[key] = ""
+        }
+    }
+
     comment.createdAt = new Date()
+
     data.comments.insert(comment, (err, comment) => {
         callback(err, comment)
     })
 }
 
 function update(commentId, comment, callback) {
+
+    schemaCleaning(comment)
+
     comment.updatedAt = new Date()
+
     data.comments.update({ _id: commentId }, comment, (err, num) => {
         callback(err, num)
     })
@@ -40,34 +55,25 @@ function get(commentId, callback) {
     })
 }
 
-function getJoinedUsers(comments, callback) {
-    var authorIds = comments.map(comment => comment.authorId)
-
-    User.getUsers(authorIds, (err, users) => {
-
-        comments.forEach((comment, i) => {
-
-            var currentUser = users.find(user => {
-                return comments[i].authorId == user._id
-            })
-
-            if (currentUser)
-                comments[i].authorUsername = currentUser.username
-
-        })
-
-        callback(err, comments)
-    })
-}
-
 function getByPost(postId, callback) {
 
     data.comments.find({ postId: postId }, (err, comments) => {
 
-        getJoinedUsers(comments, (err, comments) => {
+        User.getJoinedUsers(comments, (err, comments) => {
             callback(err, comments)
         })
     })
+}
+
+/*** Schema ***/
+function schemaCleaning(comment) {
+    // Remove property that are not into the schema
+    for (var key in comment) {
+        if (!Comment.commentSchema[key]) {
+            console.warn("[WARNING] property '" + key + "' do not existe in the comment schema")
+            delete comment[key]
+        }
+    }
 }
 
 Comment.create = create

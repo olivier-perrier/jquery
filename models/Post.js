@@ -1,5 +1,7 @@
 var data = require('./data')
 
+var User = data.model('User')
+
 var Post = {
 
     postSchema: {
@@ -35,7 +37,9 @@ function getPosts(query, callback) {
 
 function getPost(postId, callback) {
     get(postId, (err, post) => {
-        callback(err, post)
+        User.getJoinedUser(post, (err, post) => {
+            callback(err, post)
+        })
     })
 }
 
@@ -118,6 +122,12 @@ function getMenu(menuId, callback) {
     })
 }
 
+function getMenuByName(name, callback) {
+    data.posts.findOne({ name: name, postType: "menu" }, (err, doc) => {
+        callback(err, doc)
+    })
+}
+
 function removeMenu(menuId, callback) {
     remove(menuId, (err, num) => {
         callback(err, num)
@@ -148,20 +158,12 @@ function getMedia(id, callback) {
 
 function create(post, callback) {
 
-    // Remove property that are not into the schema
-    for (var key in post) {
-        // if property doesn't exist in the schema
-        if (!Post.postSchema[key]) {
-            console.warn("[WARNING] property '" + key + "' do not existe in the post schema")
-            delete post[key]
-        }
-    }
+    schemaCleaning(post)
 
     // Add missed property from the schema
-    for (var k in Post.postSchema) {
-        // if property doesn't exist
-        if (!post[k]) {
-            post[k] = ""
+    for (var key in Post.postSchema) {
+        if (!post[key]) {
+            post[key] = ""
         }
     }
 
@@ -177,22 +179,12 @@ function create(post, callback) {
 
 function update(id, post, callback) {
 
-    // Remove not existing properties into the schema
-    for (var key in post) {
-        if (!Post.postSchema[key]) {
-            console.warn("[WARNING] property '" + key + "' do not existe in the post schema")
-            delete post[key]
-        }
-    }
+    schemaCleaning(post)
 
     // Set updated date
     post.updatedAt = new Date()
 
-    // console.log(post)
-
-    data.posts.update({ _id: id }, {
-        $set: post
-    }, (err, num) => {
+    data.posts.update({ _id: id }, { $set: post }, (err, num) => {
         callback(err, num)
     })
 }
@@ -207,6 +199,17 @@ function get(id, callback) {
     data.posts.findOne({ _id: id }, (err, post) => {
         callback(err, post)
     })
+}
+
+/*** Schema ***/
+function schemaCleaning(post) {
+    // Remove not existing properties into the schema
+    for (var key in post) {
+        if (!Post.postSchema[key]) {
+            console.warn("[WARNING] property '" + key + "' do not existe in the post schema")
+            delete post[key]
+        }
+    }
 }
 
 Post.createPost = createPost
@@ -227,9 +230,55 @@ Post.updateMenu = updateMenu
 Post.removeMenu = removeMenu
 Post.getMenus = getMenus
 Post.getMenu = getMenu
+Post.getMenuByName = getMenuByName
 
 Post.createMedia = createMedia
 Post.removeMedia = removeMedia
 Post.getMedia = getMedia
+
+var aboutPage = require('../plugins/aboutPage')
+var helloPost = require('../plugins/helloPost')
+
+/*** Create default datas ***/
+
+getPageByName("about", (err, page) => {
+
+    if (!page)
+        Post.createPage(aboutPage, (err, page) => {
+            console.log("[INFO] default page created")
+        })
+})
+
+getPostByName("hello-world", (err, post) => {
+
+    if (!post)
+        Post.createPost(helloPost, (err, post) => {
+            console.log("[INFO] default post created")
+        })
+})
+
+getMenuByName("google", (err, menu) => {
+
+    if (!menu)
+        Post.createMenu({ title: "Google", name: "google", format: "direct", content: "www.google.fr" }, (err, menu) => {
+            console.log("[INFO] default menu created")
+        })
+})
+
+getMenuByName("about", (err, menu) => {
+
+    if (!menu)
+        Post.createMenu({ title: "About", name: "about", format: "page", content: "about" }, (err, menu) => {
+            console.log("[INFO] default menu created")
+        })
+})
+
+getMenuByName("hello-world", (err, menu) => {
+
+    if (!menu)
+        Post.createMenu({ title: "Hello World", name: "hello-world", format: "post", content: "hello-world" }, (err, menu) => {
+            console.log("[INFO] default menu created")
+        })
+})
 
 module.exports = Post
