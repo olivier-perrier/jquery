@@ -49,6 +49,12 @@ function remove(commentId, callback) {
     })
 }
 
+function getAll(callback) {
+    data.comments.find({}, (err, comments) => {
+        callback(err, comments)
+    })
+}
+
 function get(commentId, callback) {
     data.comments.findOne({ _id: commentId }, (err, comment) => {
         callback(err, comment)
@@ -79,6 +85,7 @@ function schemaCleaning(comment) {
 Comment.create = create
 Comment.update = update
 Comment.remove = remove
+Comment.getAll = getAll
 Comment.get = get
 Comment.getByPost = getByPost
 

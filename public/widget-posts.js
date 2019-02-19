@@ -1,4 +1,4 @@
-Vue.component('widgetposts', {
+Vue.component('widget-posts', {
   template: `
   <div>
         <h3 class="text-center mb-3">Recent posts</h3>
@@ -19,7 +19,7 @@ Vue.component('widgetposts', {
 
   mounted: function () {
     $.post(URL + "/API/posts", { query: { "category": "post" }, limit: 5 }, (data, statut) => {
-      console.log(data)
+      // console.log(data)
       this.posts = data.posts
     })
   },

@@ -16,8 +16,9 @@ router.use((req, res, next) => {
 
     res.locals.widgets = widgets
 
+    // DEBUG USER AUTO LOGGIN
     if (req.session.userId == null) {
-        req.session.userId = "ON7eEA8H65dQVT8u"
+        // req.session.userId = "ON7eEA8H65dQVT8u"
     }
 
     /*** Inserting global site datas ***/
@@ -40,6 +41,9 @@ router.use((req, res, next) => {
             res.locals.menus = menus
 
             User.getUser(req.session.userId, (err, user) => {
+                if (user)
+                    user.accessAdmin = user.role == "admin" || user.role == "author"
+
                 res.locals.user = user
 
                 next();
@@ -119,7 +123,10 @@ router.get('/post/:postName', (req, res) => {
     var postName = req.params.postName
 
     Post.getPostByName(postName, (err, post) => {
-        res.render('post', { post: post })
+        Comment.getByPost(post._id, (err, comments) => {
+            res.render('post', { post: post, comments })
+        })
+
     })
 
 })

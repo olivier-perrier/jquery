@@ -109,6 +109,16 @@ Cf post
 - [ ] Gestion des utilisateurs (en cours)
 
 - [ ] Gestion des Widgets (en cours)
+  - [x] Posts recents
+  - [x] Recherche
+  - [x] facebook
+  - [ ] instagram
+  - [x] cathegories
+  - [x] commentaires recents
+  - [x] meta
+
+- [ ] Status des posts et pages
+- [ ] Parents des posts, pages, menu etc 
 
 # Correction
 

@@ -1,5 +1,10 @@
-<script src="/widgetposts.js"></script>
-<script src="/widgetsearch.js"></script>
+<script src="/widget-posts.js"></script>
+<script src="/widget-search.js"></script>
+<script src="/widget-facebook.js"></script>
+<script src="/widget-instagram.js"></script>
+<script src="/widget-categories.js"></script>
+<script src="/widget-comments.js"></script>
+<script src="/widget-meta.js"></script>
 
 
 <aside>
@@ -18,10 +23,15 @@
     var app = new Vue({
         el: '#app-widgets',
         components: {
-            //widgetposts
         },
         data: {
-            vuewidgets: ["widgetposts","widgetsearch"]
+            vuewidgets: ["widget-posts",
+                "widget-search",
+                "widget-facebook",
+                "widget-categories",
+                "widget-comments",
+                "widget-meta"
+            ]
         },
     })
 

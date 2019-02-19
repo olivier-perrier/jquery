@@ -45,15 +45,15 @@ router.post('/post/save', (req, res) => {
   var post = req.body.post
 
   post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "post-name",
-  post.description = post.description || post.content.substring(0, 100)
+    post.description = post.description || post.content.substring(0, 100)
 
-    Post.updatePost(postId, post, (err, num) => {
-      if (num)
-        res.send({ message: "success : post updated " })
-      else
-        res.send({ message: "internal error : impossible to save post" })
+  Post.updatePost(postId, post, (err, num) => {
+    if (num)
+      res.send({ message: "success : post updated " })
+    else
+      res.send({ message: "internal error : impossible to save post" })
 
-    })
+  })
 })
 
 router.post('/posts/delete', (req, res) => {
@@ -327,7 +327,7 @@ router.post('/media/delete', (req, res) => {
 })
 
 
-/*** Commmets ***/
+/*** Commments ***/
 
 router.post('/comment/create', (req, res) => {
   console.log("POST /API/comment/create")
@@ -364,8 +364,30 @@ router.post('/comment/delete', (req, res) => {
 
 })
 
+router.post('/comments', (req, res) => {
+  console.log("POST /API/comments")
+
+  data.comments.find({}).limit(10).exec((err, comments) => {
+    res.send({ message: "success : posts found", comments: comments })
+  })
+
+})
+
 /*** Widgets ***/
 
+router.post('/categories', (req, res) => {
+  console.log("POST /API/categories")
+
+  data.posts.find({ postType: "post" }, { category: 1, _id: 0 }, (err, categories) => {
+
+    categories = categories.map(value => value.category)
+
+    const uniqueCategories = [...new Set(categories)]
+
+    res.send({ message: "success : posts found", categories: uniqueCategories })
+  })
+
+})
 
 /*** Settings ***/
 router.post('/settings/save', (req, res) => {

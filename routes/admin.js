@@ -11,9 +11,6 @@ var Setting = data.model('Setting')
 router.get('/', (req, res) => {
   console.log("GET /admin")
 
-  // DEBUG
-  req.session.userId = "lFvBTABQpEluOzfv"
-
   var userId = req.session.userId
 
   data.users.find({}).limit(5).exec((err, users) => {
@@ -91,9 +88,6 @@ router.get('/menus', (req, res) => {
 router.get('/menu/edit/:menuId', (req, res) => {
   console.log("GET /admin/menu/edit/:menuId")
 
-  // DEBUG
-  req.session.userId = "lFvBTABQpEluOzfv"
-
   var menuId = req.params.menuId
   var userId = req.session.userId
 
@@ -116,9 +110,6 @@ router.get('/menu/edit/:menuId', (req, res) => {
 /*** Pages ***/
 router.get('/pages', (req, res) => {
   console.log("GET /admin/pages")
-
-  // DEBUG
-  req.session.userId = "lFvBTABQpEluOzfv"
 
   var userId = req.session.userId
 

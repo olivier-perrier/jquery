@@ -1,7 +1,7 @@
-Vue.component('widgetsearch', {
+Vue.component('widget-search', {
   template: `
   <form class="" v-on:submit.prevent="search">
-  <input class="form-control mr-sm-2" v-model="toSearch" type="search" placeholder="Search..." aria-label="Search" >
+    <input class="form-control mr-sm-2" v-model="toSearch" type="search" placeholder="Search..." aria-label="Search" >
   </form>
   `,
 
