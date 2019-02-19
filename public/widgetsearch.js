@@ -1,9 +1,8 @@
 Vue.component('widgetsearch', {
   template: `
-  <form class="form-inline" v-on:submit.prevent="search">
-    <input class="form-control mr-sm-2" v-model="toSearch" type="search" placeholder="Search..." aria-label="Search" >
+  <form class="" v-on:submit.prevent="search">
+  <input class="form-control mr-sm-2" v-model="toSearch" type="search" placeholder="Search..." aria-label="Search" >
   </form>
-  
   `,
 
   data() {
@@ -15,7 +14,8 @@ Vue.component('widgetsearch', {
   methods: {
     search: function (event) {
       event.preventDefault()
-      window.location = "/search/" + this.toSearch
+      if (this.toSearch)
+        window.location = "/search/" + this.toSearch
     }
   }
 

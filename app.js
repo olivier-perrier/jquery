@@ -17,7 +17,7 @@ var hbs = exphbs.create({
     toSimpleDate: function (date) { if (date) return date.toLocaleString() },
     toElapsedTime: function (date) {
       if (date) {
-        if (Math.abs(new Date().getDay() - date.getDay()) > 0) return (7 + (new Date().getDay() - date.getDay()) % 7) + " days"
+        if (Math.abs(new Date().getDay() - date.getDay()) > 0) return (7 + (new Date().getDay() - date.getDay())) % 7 + " days"
         if (new Date().getHours() - date.getHours() > 0) return new Date().getHours() - date.getHours() + " hours"
         if (new Date().getMinutes() - date.getMinutes() > 0) return new Date().getMinutes() - date.getMinutes() + " minutes"
         return new Date().getSeconds() - date.getSeconds() + " secondes"

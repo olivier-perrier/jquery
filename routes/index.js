@@ -186,9 +186,8 @@ router.get('/search/:query', (req, res) => {
     console.log("GET /search/:query")
 
     var query = req.params.query
-    console.log(query)
 
-    data.posts.find({ title: { $regex: ".*" + query + "*." } }, (err, posts) => {
+    data.posts.find({ $or: [{ title: new RegExp(query, 'i') }, { content: new RegExp(query, 'i') }] }, (err, posts) => {
         console.log(posts)
         res.render('posts', { posts: posts })
     })
