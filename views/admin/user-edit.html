@@ -17,7 +17,15 @@
         <tbody>
             <tr>
                 <th scope="row"><span class="input-group-text">Role</span></th>
-                <td><input type="text" class="form-control" id="userRole" placeholder="Administrator" value="{{user.role}}"></td>
+                <td>
+                    <input type="text" class="form-control" id="userRole" placeholder="Administrator" value="{{user.role}}">
+                    <select id="userRole" class="custom-select">
+                        <option value="admin">Administrator</option>
+                        <option value="author">Author</option>
+                        <option value="contributor">Contributor</option>
+                        <option value="subscriber">Subscriber</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <th scope="row"><span class="input-group-text">Email</span></th>

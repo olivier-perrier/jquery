@@ -89,21 +89,12 @@ router.get('/menu/edit/:menuId', (req, res) => {
   console.log("GET /admin/menu/edit/:menuId")
 
   var menuId = req.params.menuId
+
   var userId = req.session.userId
 
-  if (userId == null) {
-    res.send({ messsage: "forbidden: you must be logged to access admin" })
-
-  } else {
-    data.posts.findOne({ _id: menuId, postType: "menu" }, (err, menu) => {
-
-      data.users.findOne({ _id: userId }, (err, user) => {
-
-        res.render('admin/menu-edit', { menu: menu, user: user })
-
-      })
-    })
-  }
+  data.posts.findOne({ _id: menuId, postType: "menu" }, (err, menu) => {
+    res.render('admin/menu-edit', { menu: menu })
+  })
 
 })
 
