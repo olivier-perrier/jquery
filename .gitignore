@@ -65,3 +65,6 @@ typings/
 data/posts.nedb
 data/settings.nedb
 data/users.nedb
+data/comments.nedb
+
+tmp/
