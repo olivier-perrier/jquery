@@ -18,7 +18,7 @@ Vue.component('widget-posts', {
   },
 
   mounted: function () {
-    $.post(URL + "/API/posts", { query: { "category": "post" }, limit: 5 }, (data, statut) => {
+    $.get(URL + "/API/posts", { query: { "category": "post" }, limit: 5 }, (data, statut) => {
       // console.log(data)
       this.posts = data.posts
     })

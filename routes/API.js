@@ -14,8 +14,53 @@ router.use('/users', usersRouter);
 router.use('/posts', postsRouter);
 
 
-router.post('/posts', (req, res) => {
-  console.log("POST /API/posts")
+router.use((req, res, next) => {
+
+  if (req.method != "POST")
+    next()
+
+  console.log(req.method + " " + req.originalUrl)
+
+  var defineRouteAccess = [
+    { route: "/posts", autorisation: ["admin"] },
+    { route: "/page", autorisation: ["admin"] },
+    { route: "/menu", autorisation: ["admin"] },
+    { route: "/user", autorisation: ["admin"] },
+    { route: "/media", autorisation: ["admin"] },
+    { route: "/comment", autorisation: ["subscriber"] },
+
+    { route: "/posts/create", autorisation: ["admin", "author"] },
+    { route: "/posts/save", autorisation: ["admin", "author"] },
+    { route: "/comment/delete", autorisation: ["admin", "author"] },
+    { route: "/settings/save", autorisation: ["admin"] },
+  ]
+
+  var routeAccess = defineRouteAccess.find(routeAccess => routeAccess.route == req.path)
+  if (routeAccess == null)
+    routeAccess = defineRouteAccess.find(routeAccess => req.path.includes(routeAccess.route))
+
+
+  if (routeAccess) {
+
+    console.log("[DEBUG] route access autorisation " + routeAccess.route + " " + routeAccess.autorisation)
+
+    data.users.findOne({ _id: req.session.userId }, (err, user) => {
+      if (user)
+        if (routeAccess.autorisation.includes(user.role))
+          next()
+        else res.send({ message: "forbidden : you do not have the autorisation" })
+    })
+
+  } else {
+    console.log("[WARNING] no security route autorisation for " + req.path)
+    //DEBUG autorise la route si elle n'est pas definit
+    next()
+  }
+
+})
+
+router.get('/posts', (req, res) => {
+  console.log("GET /API/posts")
 
   data.posts.find({ postType: "post" }, (err, posts) => {
     res.send({ message: "success : posts found", posts: posts })
@@ -24,7 +69,6 @@ router.post('/posts', (req, res) => {
 })
 
 router.post('/posts/create', (req, res) => {
-  console.log("POST /API/posts/create")
 
   var post = {
     title: req.body.title,
@@ -39,7 +83,6 @@ router.post('/posts/create', (req, res) => {
 })
 
 router.post('/post/save', (req, res) => {
-  console.log("POST /API/post/save")
 
   var postId = req.body.id
   var post = req.body.post
@@ -57,7 +100,6 @@ router.post('/post/save', (req, res) => {
 })
 
 router.post('/posts/delete', (req, res) => {
-  console.log("POST /API/posts/delete")
 
   var postId = req.body.id
 
@@ -348,7 +390,6 @@ router.post('/comment/create', (req, res) => {
 
 })
 
-
 router.post('/comment/delete', (req, res) => {
   console.log("POST /API/comment/delete")
 
@@ -373,10 +414,19 @@ router.post('/comments', (req, res) => {
 
 })
 
-/*** Widgets ***/
+/*** Categories ***/
 
-router.post('/categories', (req, res) => {
-  console.log("POST /API/categories")
+router.get('/posts2', (req, res) => {
+  console.log("GET /API/posts")
+
+  data.posts.find({ postType: "post" }, (err, posts) => {
+    res.send({ message: "success : posts found", categories: posts })
+  })
+
+})
+
+router.get('/categories', (req, res) => {
+  console.log("GET /API/categories")
 
   data.posts.find({ postType: "post" }, { category: 1, _id: 0 }, (err, categories) => {
 
@@ -388,6 +438,8 @@ router.post('/categories', (req, res) => {
   })
 
 })
+
+/*** Widgets ***/
 
 /*** Settings ***/
 router.post('/settings/save', (req, res) => {

@@ -20,8 +20,8 @@ router.use((req, res, next) => {
     if (process.env.NODE_ENV == 'dev') {
         if (!req.session.userId) {
             User.getByName("Olivier", (err, user) => {
-                // console.log("[DEBUG] set default login")
-                // req.session.userId = user._id
+                console.log("[DEBUG] set default login")
+                req.session.userId = user._id
             })
         }
     }
@@ -172,7 +172,7 @@ router.get('/login', (req, res) => {
 router.get('/signup', (req, res) => {
     console.log("GET /signup")
 
-    res.send("Signup not available yet")
+    res.render('signup')
 
 })
 

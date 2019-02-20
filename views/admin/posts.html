@@ -50,7 +50,8 @@
     function createPost() {
         $.post(URL + "/API/posts/create", {}, (data, statut) => {
             console.log(data)
-            window.location = "/admin/post/edit/" + data.post._id
+            if (data.post)
+                window.location = "/admin/post/edit/" + data.post._id
         })
     }
 

@@ -18,10 +18,14 @@ Vue.component('widget-categories', {
   },
 
   mounted: function () {
-    $.post(URL + "/API/categories", { query: { }, limit: 5 }, (data, statut) => {
-      console.log(data)
+    $.get(URL + "/API/posts2", { query: { "category": "post" }, limit: 5 }, (data, statut) => {
+      // console.log(data)
       this.categories = data.categories
     })
+    // $.get(URL + "/API/categories", { query: {}, limit: 5 }, (data, statut) => {
+    //   console.log(data)
+    //   this.categories = data.categories
+    // })
   },
 
 
