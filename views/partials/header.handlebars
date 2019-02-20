@@ -11,40 +11,35 @@
 
     <div class="container">
 
+        <nav class="navbar navbar-light bg-light justify-content-around">
+            <a class="nav-link rounded" href="/">Home</a>
+            <a class="nav-link rounded" href="/posts">Posts</a>
+            {{#menus}}
+            <a class="nav-link rounded" href="{{link}}">{{title}}</a>
+            {{/menus}}
+
+            <div class="border rounded">
+
+                <!-- if user is login -->
+                {{#if user}}
+
+                <a class="btn btn-link" href="/user/account" role="button">{{user.username}}</a>
+                <button class="btn btn-link" type="button" onClick="logout()">Log out</button>
+
+                {{#if user.accessAdmin}}
+                <a class="btn btn-link" href="/admin" role="button">Admin</a>
+                {{/if}}
 
 
-        <nav class="site-header sticky-top pt-2">
-            <div class="d-flex flex-column flex-md-row justify-content-between">
-                <a class="p-2 rounded" href="/"><img src="/img/logo.svg" alt="logo"></a>
-                <a class="p-2 rounded" href="/">Home</a>
-                <a class="p-2 rounded" href="/posts">Posts</a>
-                {{#menus}}
-                <a class="p-2 rounded" href="{{link}}">{{title}}</a>
-                {{/menus}}
+                {{else}}
 
-                <div>
+                <a class="btn btn-link" href="/login" role="button">Log in</a>
+                <a class="btn btn-link" href="/signup" role="button">Sign up</a>
 
-                    <!-- if user is login -->
-                    {{#if user}}
-                    <a class="btn btn-link" href="/user/account" role="button">{{user.username}}</a>
-                    <button class="btn btn-link" type="button" onClick="logout()">Log out</button>
-
-                    {{else}}
-
-                    <a class="btn btn-link" href="/login" role="button">Log in</a>
-                    <a class="btn btn-link" href="/signup" role="button">Sign up</a>
-
-                    {{/if}}
-
-                    {{#if user.accessAdmin}}
-
-                    <a class="btn btn-link" href="/admin" role="button">Admin</a>
-
-                    {{/if}}
-
-                </div>
+                {{/if}}
 
             </div>
+            
         </nav>
 
     </div>
