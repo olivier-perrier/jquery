@@ -34,7 +34,9 @@ function createPost(post, callback) {
 function getPosts(query, callback) {
     query.postType = "post"
     data.posts.find(query, (err, posts) => {
-        callback(err, posts)
+        User.getJoinedUsers(posts, (err, post) => {
+            callback(err, posts)
+        })
     })
 }
 

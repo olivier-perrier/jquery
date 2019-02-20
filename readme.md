@@ -129,6 +129,8 @@ Corrections à faire
 
 - [x] jointure generique pour les posts et les utilisateurs
 
+Utilisateur par default
+
 - Réorganisation des API et routes
 - Réorganisation des modèles et base de données
 

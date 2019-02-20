@@ -17,6 +17,12 @@ function getUser(userId, callback) {
     })
 }
 
+function getByName(username, callback) {
+    data.users.findOne({ username: username }, (err, user) => {
+        callback(err, user)
+    })
+}
+
 function getUsers(usersId, callback) {
     data.users.find({ _id: { $in: usersId } }, (err, user) => {
         callback(err, user)
@@ -113,6 +119,7 @@ User.update = update
 User.remove = remove
 User.getUser = getUser
 User.getUsers = getUsers
+User.getByName = getByName
 
 User.getJoinedUser = getJoinedUser
 User.getJoinedUsers = getJoinedUsers

@@ -17,8 +17,13 @@ router.use((req, res, next) => {
     res.locals.widgets = widgets
 
     // DEBUG USER AUTO LOGGIN
-    if (req.session.userId == null) {
-        // req.session.userId = "ON7eEA8H65dQVT8u"
+    if (process.env.NODE_ENV == 'dev') {
+        if (!req.session.userId) {
+            User.getByName("Olivier", (err, user) => {
+                // console.log("[DEBUG] set default login")
+                // req.session.userId = user._id
+            })
+        }
     }
 
     /*** Inserting global site datas ***/

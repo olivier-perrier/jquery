@@ -26,7 +26,6 @@ var hbs = exphbs.create({
   }
 })
 
-
 app.engine('html', hbs.engine);
 app.set('view engine', 'html');
 

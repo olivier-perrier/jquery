@@ -34,28 +34,8 @@ router.get('/posts', (req, res) => {
   console.log("GET /admin/posts")
 
   Post.getPosts({}, (err, posts) => {
-
-    var authorIds = posts.map(post => post.authorId)
-
-    User.getUsers(authorIds, (err, users) => {
-
-      posts.forEach((post, i) => {
-
-        var currentUser = users.find(user => {
-          return posts[i].authorId == user._id
-        })
-
-        if (currentUser)
-          posts[i].authorUsername = currentUser.username
-
-      })
-
-      res.render('admin/posts', { posts: posts })
-
-    })
-
+    res.render('admin/posts', { posts: posts })
   })
-
 
 })
 
