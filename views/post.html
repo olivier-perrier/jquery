@@ -90,10 +90,9 @@
             postId: postId,
         }
 
-        console.log(comment)
-
         $.post(URL + "/API/comment/create", { comment: comment }, (data, statut) => {
             console.log(data)
+            console.log(statut)
             window.location.href = "/post/" + postId //+ "/#add-comment"
         })
     }

@@ -18,7 +18,7 @@ Vue.component('widget-comments', {
   },
 
   mounted: function () {
-    $.post(URL + "/API/comments", { query: { }, limit: 10 }, (data, statut) => {
+    $.get(URL + "/API/comments", { query: { }, limit: 10 }, (data, statut) => {
       console.log(data)
       this.comments = data.comments
     })

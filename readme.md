@@ -95,6 +95,19 @@ Cf post
 
 ## Widgets
 
+# Systeme
+
+## Autorisations
+Chacune des routes fait l'objet d'une autorisation. Elles sont définit au chargement de l'application.
+A la demande d'une page ou resources via l'API les autorisations sont vérifiées.
+Une ressources est accessible à un utilisateur en fonction de sont niveau de role.
+Les différentes niveaux de roles doivent etre définit (il n'y a pas de ysteme de hierarchie des roles).
+Une resources ou API peut etre déclarée comme public donc toujours accessible.
+
+Si une route n'est pas définit alors une sous route est recherchée comme définition de l'autorisation. Ainsi il est possible de définir une autorisation commune à toutes les routes /posts et une sous route spécifique à /posts/delete
+
+En production si une route n'est pas définit d'atorisation alors la route est refusée.
+En developpement si une route n'est pas définit d'autorisation alors la route est autorisé
 
 # Evolutions
 

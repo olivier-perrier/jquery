@@ -16,53 +16,70 @@ router.use('/posts', postsRouter);
 
 router.use((req, res, next) => {
 
-  if (req.method != "POST")
-    next()
+  if (req.method == "POST") {
 
-  console.log(req.method + " " + req.originalUrl)
+    console.log(req.method + " " + req.originalUrl)
 
-  var defineRouteAccess = [
-    { route: "/posts", autorisation: ["admin"] },
-    { route: "/page", autorisation: ["admin"] },
-    { route: "/menu", autorisation: ["admin"] },
-    { route: "/user", autorisation: ["admin"] },
-    { route: "/media", autorisation: ["admin"] },
-    { route: "/comment", autorisation: ["subscriber"] },
+    var defineRouteAccess = [
+      { method: "POST", route: "/posts", autorisation: ["admin"] },
+      { method: "POST", route: "/page", autorisation: ["admin"] },
+      { method: "POST", route: "/menu", autorisation: ["admin"] },
+      { method: "POST", route: "/user", autorisation: ["admin"] },
+      { method: "POST", route: "/media", autorisation: ["admin"] },
+      { method: "POST", route: "/comment", autorisation: ["admin", "author", "subscriber"] },
 
-    { route: "/posts/create", autorisation: ["admin", "author"] },
-    { route: "/posts/save", autorisation: ["admin", "author"] },
-    { route: "/comment/delete", autorisation: ["admin", "author"] },
-    { route: "/settings/save", autorisation: ["admin"] },
-  ]
+      { method: "POST", route: "/posts/create", autorisation: ["admin", "author"] },
+      { method: "POST", route: "/posts/save", autorisation: ["admin", "author"] },
+      { method: "POST", route: "/comment/delete", autorisation: ["admin", "author"] },
+      { method: "POST", route: "/settings/save", autorisation: ["admin"] },
 
-  var routeAccess = defineRouteAccess.find(routeAccess => routeAccess.route == req.path)
-  if (routeAccess == null)
-    routeAccess = defineRouteAccess.find(routeAccess => req.path.includes(routeAccess.route))
+      { method: "GET", route: "/posts", autorisation: ["public"] },
+      { method: "GET", route: "/categories", autorisation: ["public"] },
+      { method: "GET", route: "/comments", autorisation: ["public"] },
+    ]
 
-
-  if (routeAccess) {
-
-    console.log("[DEBUG] route access autorisation " + routeAccess.route + " " + routeAccess.autorisation)
-
-    data.users.findOne({ _id: req.session.userId }, (err, user) => {
-      if (user)
-        if (routeAccess.autorisation.includes(user.role))
-          next()
-        else res.send({ message: "forbidden : you do not have the autorisation" })
+    var routeAccess = defineRouteAccess.find(routeAccess => {
+      routeAccess.method == req.method && routeAccess.route == req.path
     })
+    if (routeAccess == null)
+      routeAccess = defineRouteAccess.find(routeAccess => routeAccess.method == req.method && req.path.includes(routeAccess.route))
+
+
+    if (routeAccess) {
+
+      console.log("[DEBUG] route access autorisation " +
+        routeAccess.method + " " +
+        routeAccess.route + " " +
+        routeAccess.autorisation
+      )
+
+      data.users.findOne({ _id: req.session.userId }, (err, user) => {
+        if (user)
+          if (routeAccess.autorisation == "public" || routeAccess.autorisation.includes(user.role)) {
+            next()
+          } else {
+            console.log("[WARNING] attenting access not autorised API " + req.path)
+            res.status(403).send({ message: "forbidden : you do not have the autorisation" })
+          }
+      })
+
+    } else {
+      console.log("[WARNING] no security route autorisation difined for " + req.path)
+      //DEBUG autorise la route si elle n'est pas definit
+      next()
+    }
 
   } else {
-    console.log("[WARNING] no security route autorisation for " + req.path)
-    //DEBUG autorise la route si elle n'est pas definit
     next()
   }
+
 
 })
 
 router.get('/posts', (req, res) => {
   console.log("GET /API/posts")
 
-  data.posts.find({ postType: "post" }, (err, posts) => {
+  data.posts.find({ postType: "post" }).limit(10).exec((err, posts) => {
     res.send({ message: "success : posts found", posts: posts })
   })
 
@@ -405,25 +422,16 @@ router.post('/comment/delete', (req, res) => {
 
 })
 
-router.post('/comments', (req, res) => {
-  console.log("POST /API/comments")
+router.get('/comments', (req, res) => {
+  console.log("GET /API/comments")
 
   data.comments.find({}).limit(10).exec((err, comments) => {
-    res.send({ message: "success : posts found", comments: comments })
+    res.send({ message: "success : comments found", comments: comments })
   })
 
 })
 
 /*** Categories ***/
-
-router.get('/posts2', (req, res) => {
-  console.log("GET /API/posts")
-
-  data.posts.find({ postType: "post" }, (err, posts) => {
-    res.send({ message: "success : posts found", categories: posts })
-  })
-
-})
 
 router.get('/categories', (req, res) => {
   console.log("GET /API/categories")
@@ -432,9 +440,9 @@ router.get('/categories', (req, res) => {
 
     categories = categories.map(value => value.category)
 
-    const uniqueCategories = [...new Set(categories)]
+    var uniqueCategories = [...new Set(categories)]
 
-    res.send({ message: "success : posts found", categories: uniqueCategories })
+    res.send({ message: "success : categories found", categories: uniqueCategories })
   })
 
 })
