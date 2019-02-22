@@ -9,6 +9,7 @@ var adminRouter = require('./routes/admin.js')
 var APIRouter = require('./routes/API.js')
 
 var authorizations = require('./core/authorizations')
+var componentTest = require('./core/components/test')
 
 var app = express()
 
@@ -52,7 +53,9 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.all("*", authorizations.checkAuthorizations)
+componentTest.load(app)
+
+// app.all("*", authorizations.checkAuthorizations)
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
