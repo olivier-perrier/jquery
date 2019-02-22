@@ -1,5 +1,73 @@
 
-console.log("Authorizations defining...")
+var data = require('../models/data')
+var User = data.model('User')
+
+exports.requireAuthentication = (req, res, next) => {
+
+  console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path)
+
+  var routeAccess = defineRouteAccess.find(routeAccess => {
+    return routeAccess.method == req.method && routeAccess.route == req.baseUrl + req.path
+  })
+
+  if (routeAccess == null) {
+    routeAccess = defineRouteAccess.find(routeAccess => {
+      return routeAccess.route.includes(":") &&
+        routeAccess.method == req.method &&
+        req.originalUrl.includes(routeAccess.route.replace(":", ""))
+    })
+  }
+
+  if (routeAccess) {
+
+    // console.log("[DEBUG] route access autorisation " + routeAccess.method + " " + routeAccess.route + " " + routeAccess.autorisation)
+
+    if (routeAccess.autorisation == "public") {
+      next()
+
+    } else {
+
+      var userRole = req.session.userRole
+
+      if (userRole) {
+        if (routeAccess.autorisation.includes(userRole)) {
+          next()
+        } else {
+          console.log("[WARNING] attenting access not autorised API " + req.baseUrl + req.path)
+          res.status(403).send({ message: "forbidden : you do not have the autorisation" })
+        }
+      } else {
+        console.log("[WARNING] no user role defined")
+        res.redirect("/login")
+      }
+    }
+
+  } else {
+    console.log("[WARNING] no security route autorisation defined for " + req.baseUrl + req.path)
+    //DEBUG autorise la route si elle n'est pas definit
+    next()
+  }
+
+}
+
+exports.loadUser = (req, res, next) => {
+
+  // DEBUG USER AUTO LOGGIN
+  if (process.env.NODE_ENV == 'dev') {
+    if (!req.session.userId) {
+      User.getByName("Olivier", (err, user) => {
+        if (user) {
+          console.log("[DEBUG] auto login")
+          req.session.userId = user._id
+          req.session.userRole = user.role
+        }
+      })
+    }
+  }
+
+  next()
+}
+
 
 var defineRouteAccess = [
 
@@ -61,52 +129,3 @@ var defineRouteAccess = [
   { method: "GET", route: "/API/categories", autorisation: ["public"] },
   { method: "GET", route: "/API/comments", autorisation: ["public"] },
 ]
-
-exports.checkAuthorizations = (req, res, next) => {
-
-  console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path)
-
-  // DEBUG AUTO DEFINE ADMIN ROLE
-  if (process.env.NODE_ENV == 'dev') {
-    console.log("[DEBUG] set default role admin")
-    req.session.userRole = "admin"
-  }
-
-  var routeAccess = defineRouteAccess.find(routeAccess => {
-    return routeAccess.method == req.method && routeAccess.route == req.baseUrl + req.path
-  })
-
-  if (routeAccess == null) {
-    routeAccess = defineRouteAccess.find(routeAccess => {
-      return routeAccess.route.includes(":") &&
-        routeAccess.method == req.method &&
-        req.originalUrl.includes(routeAccess.route.replace(":", ""))
-    })
-  }
-
-  if (routeAccess) {
-
-    console.log("[DEBUG] route access autorisation " + routeAccess.method + " " + routeAccess.route + " " + routeAccess.autorisation)
-
-    var userRole = req.session.userRole
-
-    if (userRole) {
-      if (routeAccess.autorisation == "public" || routeAccess.autorisation.includes(userRole)) {
-        next()
-      } else {
-        console.log("[WARNING] attenting access not autorised API " + req.baseUrl + req.path)
-        res.status(403).send({ message: "forbidden : you do not have the autorisation" })
-      }
-    } else {
-      console.log("[WARNING] no user role defined")
-      res.redirect("/login")
-    }
-
-  } else {
-    console.log("[WARNING] no security route autorisation defined for " + req.baseUrl + req.path)
-    //DEBUG autorise la route si elle n'est pas definit
-    next()
-  }
-
-
-}

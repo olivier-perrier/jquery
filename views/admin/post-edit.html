@@ -121,7 +121,7 @@
             image: $('#postImage').val(),
         }
 
-        $.post(URL + "/API/post/save", { id: postId, post: post }, (data, statut) => {
+        $.post(URL + "/API/posts/save", { id: postId, post: post }, (data, statut) => {
             console.log(data)
             window.location = "/admin/posts/edit/" + postId
         })

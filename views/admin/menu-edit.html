@@ -56,7 +56,7 @@
         var menuContent = $('#menuContent').val()
         var menuFormat = $('#menuFormat').val()
 
-        $.post(URL + "/API/menu/save", { id: menuId, title: menuTitle, content: menuContent, format: menuFormat }, (data, statut) => {
+        $.post(URL + "/API/menus/save", { id: menuId, title: menuTitle, content: menuContent, format: menuFormat }, (data, statut) => {
             console.log(data)
             window.location = "/admin/menus"
         })

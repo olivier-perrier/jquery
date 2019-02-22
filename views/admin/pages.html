@@ -47,7 +47,7 @@
 
     function createPage() {
 
-        $.post(URL + "/API/page/create", {}, (data, statut) => {
+        $.post(URL + "/API/pages/create", {}, (data, statut) => {
             console.log(data)
             window.location = "/admin/pages/edit/" + data.page._id
         })
@@ -58,7 +58,7 @@
     }
 
     function deletePage(pageId) {
-        $.post(URL + "/API/page/delete", { id: pageId }, (data, statut) => {
+        $.post(URL + "/API/pages/delete", { id: pageId }, (data, statut) => {
             console.log(data)
             window.location = "/admin/pages"
         })

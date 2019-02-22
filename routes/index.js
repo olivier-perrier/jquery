@@ -16,17 +16,6 @@ router.use((req, res, next) => {
 
     res.locals.widgets = widgets
 
-    // DEBUG USER AUTO LOGGIN
-    if (process.env.NODE_ENV == 'dev') {
-        if (!req.session.userId) {
-            User.getByName("Olivier", (err, user) => {
-                console.log("[DEBUG] set default login")
-                req.session.userId = user._id
-                req.session.userRole = user.role
-            })
-        }
-    }
-
     /*** Inserting global site datas ***/
     Setting.getAllSettings((err, settings) => {
         res.locals.settings = settings
@@ -61,7 +50,6 @@ router.use((req, res, next) => {
 
 /*** Index ***/
 router.get('/', function (req, res) {
-    console.log("GET /")
 
     data.posts.findOne({ postType: "post" }).sort({ createdAt: -1 }).exec((err, mainPost) => {
         data.posts.find({ postType: "post" }).limit(2).exec((err, posts) => {
@@ -74,9 +62,21 @@ router.get('/', function (req, res) {
 
 })
 
+/*** Direct ***/
+router.get('/login', (req, res) => {
+
+    res.render('login', {})
+
+})
+
+router.get('/signup', (req, res) => {
+
+    res.render('signup')
+
+})
+
 /*** Posts ***/
 router.get('/posts', (req, res) => {
-    console.log("GET /posts")
 
     Post.getPosts({}, (err, posts) => {
         res.render('posts', { posts: posts })
@@ -85,7 +85,6 @@ router.get('/posts', (req, res) => {
 })
 
 router.get('/posts/:category', (req, res) => {
-    console.log("GET /posts/:category")
 
     var category = req.params.category
 
@@ -97,7 +96,6 @@ router.get('/posts/:category', (req, res) => {
 
 /*** category ***/
 router.get('/category/:category', (req, res) => {
-    console.log("GET /category/:category")
 
     var category = req.params.category
 
@@ -109,7 +107,6 @@ router.get('/category/:category', (req, res) => {
 
 /*** Post ***/
 router.get('/post/:postId', (req, res, next) => {
-    console.log("GET /post/:postId")
 
     var postId = req.params.postId
 
@@ -124,7 +121,6 @@ router.get('/post/:postId', (req, res, next) => {
 })
 
 router.get('/post/:postName', (req, res) => {
-    console.log("GET /post/:postName")
 
     var postName = req.params.postName
 
@@ -139,7 +135,6 @@ router.get('/post/:postName', (req, res) => {
 
 /*** Page ***/
 router.get('/page/:pagetId', (req, res, next) => {
-    console.log("GET /page/:pagetId")
     var pagetId = req.params.pagetId
 
     data.posts.findOne({ _id: pagetId }, (err, page) => {
@@ -152,7 +147,6 @@ router.get('/page/:pagetId', (req, res, next) => {
 })
 
 router.get('/page/:pagetName', (req, res) => {
-    console.log("GET /page/:pagetName")
 
     var pagetName = req.params.pagetName
 
@@ -162,23 +156,8 @@ router.get('/page/:pagetName', (req, res) => {
 
 })
 
-/*** User ***/
-router.get('/login', (req, res) => {
-    console.log("GET /login")
-
-    res.render('login', {})
-
-})
-
-router.get('/signup', (req, res) => {
-    console.log("GET /signup")
-
-    res.render('signup')
-
-})
-
-router.get('/user/account', (req, res) => {
-    console.log("GET /user/account")
+/*** Users ***/
+router.get('/users/account', (req, res) => {
 
     userId = req.session.userId
 
@@ -196,7 +175,6 @@ router.get('/user/account', (req, res) => {
 
 /*** Search ***/
 router.get('/search/:query', (req, res) => {
-    console.log("GET /search/:query")
 
     var query = req.params.query
 

@@ -8,11 +8,10 @@ var indexRouter = require('./routes/index.js');
 var adminRouter = require('./routes/admin.js')
 var APIRouter = require('./routes/API.js')
 
-var authorizations = require('./core/authorizations')
-var componentTest = require('./core/components/test')
+var authorizations = require('./components/authorizations')
+var test = require('./components/test')
 
 var app = express()
-
 
 var hbs = exphbs.create({
   defaultLayout: 'main.html',
@@ -53,9 +52,10 @@ app.use(function (req, res, next) {
   next();
 });
 
-componentTest.load(app)
+test.load(app)
 
-// app.all("*", authorizations.checkAuthorizations)
+app.all("*", authorizations.requireAuthentication)
+app.all("*", authorizations.loadUser)
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);

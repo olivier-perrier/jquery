@@ -38,7 +38,7 @@ router.post('/posts/create', (req, res) => {
 
 })
 
-router.post('/post/save', (req, res) => {
+router.post('/posts/save', (req, res) => {
 
   var postId = req.body.id
   var post = req.body.post

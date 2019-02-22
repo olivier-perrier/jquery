@@ -53,7 +53,7 @@
         var userEmail = $('#userEmail').val()
         var userPassword = $('#userPassword').val()
 
-        $.post(URL + "/API/user/create", { id: userId, username: username, role: userRole, email: userEmail, password: userPassword }, (data, statut) => {
+        $.post(URL + "/API/users/create", { id: userId, username: username, role: userRole, email: userEmail, password: userPassword }, (data, statut) => {
             console.log(data)
             window.location = "/admin/users/edit/" + data.user._id
         })
@@ -69,21 +69,5 @@
     }
 
 
-    $(() => {
-
-        $(".postTypeSpan").click(function () {
-            $(this).hide();
-            $(this).next(".postTypeInput").val($(this).text())
-            $(this).next(".postTypeInput").show()
-            $(this).next(".postTypeInput").focus()
-        })
-
-        $(".postTypeInput").focusout(function () {
-            $(this).hide();
-            $(this).prev().html($(this).val());
-            $(this).prev().show();
-        });
-
-    })
 
 </script>

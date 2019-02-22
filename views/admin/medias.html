@@ -87,9 +87,9 @@
     }
 
     function deleteMedia(mediaId) {
-        $.post(URL + "/API/media/delete", { id: mediaId }, (data, statut) => {
+        $.post(URL + "/API/medias/delete", { id: mediaId }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/media"
+            window.location = "/admin/medias"
         })
     }
 

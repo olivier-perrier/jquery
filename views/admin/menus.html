@@ -81,14 +81,14 @@
         var menuFormat = $('#menuFormat').val()
 
 
-        $.post(URL + "/API/menu/create", { title: menuTitle, name: menuName, content: menuContent, format: menuFormat }, (data, statut) => {
+        $.post(URL + "/API/menus/create", { title: menuTitle, name: menuName, content: menuContent, format: menuFormat }, (data, statut) => {
             console.log(data)
             window.location = "/admin/menus"
         })
     }
 
     function deleteMenu(menuId) {
-        $.post(URL + "/API/menu/delete", { id: menuId }, (data, statut) => {
+        $.post(URL + "/API/menus/delete", { id: menuId }, (data, statut) => {
             console.log(data)
             window.location = "/admin/menus"
         })

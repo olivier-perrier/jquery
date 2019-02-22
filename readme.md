@@ -153,8 +153,4 @@ Utilisateur par default
 - Amélioration de l'interface
 
 Autorisations :
-  Définir toutes les autorisations et tester
-  Regouper les autorisations dans un objet générique
-  Organiser un systeme d'autorisation
   rendre les routes plus générique (pas de "s" ou non en fonction des routes. /posts et /posts/edit...)
-  Organiser un systeme d'authetification

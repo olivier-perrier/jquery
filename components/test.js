@@ -1,9 +1,11 @@
 
 
-var data = require('../../models/data')
+var data = require('../models/data')
 var User = data.model('User')
 
-exports.load = (app) => {
+exports.load = load
+
+function load (app) {
     console.log("Loading Component")
 
     // Define my routes
@@ -15,5 +17,4 @@ exports.load = (app) => {
             res.send("component test success " + user.username)
         })
     })
-    // Call my models
 }

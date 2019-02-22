@@ -123,7 +123,7 @@
             tags: $('#postTags').val(),
         }
 
-        $.post(URL + "/API/page/save", { id: postId, page: page }, (data, statut) => {
+        $.post(URL + "/API/pages/save", { id: postId, page: page }, (data, statut) => {
             console.log(data)
             window.location = "/admin/pages/edit/" + postId
         })

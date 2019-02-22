@@ -62,7 +62,7 @@
         var userEmail = $('#userEmail').val()
         var userPassword = $('#userPassword').val()
 
-        $.post(URL + "/API/user/save", { id: userId, username: username, role: userRole, email: userEmail, password: userPassword }, (data, statut) => {
+        $.post(URL + "/API/users/save", { id: userId, username: username, role: userRole, email: userEmail, password: userPassword }, (data, statut) => {
             console.log(data)
             window.location = "/admin/users"
         })
@@ -73,29 +73,11 @@
 
         var userId = $('#userId').val()
 
-        $.post(URL + "/API/user/delete", { id: userId }, (data, statut) => {
+        $.post(URL + "/API/users/delete", { id: userId }, (data, statut) => {
             console.log(data)
             window.location = "/admin/users"
         })
     }
 
-    $(document).ready(function () {
-
-        $("#postSave").click(() => {
-
-            var postId = $('#postId').val()
-            var postTitle = $('#postTitle').val()
-            var postName = $('#postName').val()
-            var postContent = $('#postContent').val()
-            var postCategory = $('#postCategory').val()
-
-            $.post(URL + "/API/post/save", { id: postId, title: postTitle, name: postName, content: postContent, category: postCategory }, (data, statut) => {
-                console.log(data)
-
-            })
-
-        })
-
-    })
 
 </script>
