@@ -9,82 +9,14 @@ var Post = data.model('Post')
 var User = data.model('User')
 var Comment = data.model('Comment')
 
-
 router.use('/users', usersRouter);
 router.use('/posts', postsRouter);
 
-
 router.use((req, res, next) => {
-
-  console.log(req.method + " " + req.baseUrl + req.path)
-
-  var defineRouteAccess = [
-    { method: "POST", route: "/API/posts/:", autorisation: ["admin"] },
-    { method: "POST", route: "/API/pages/:", autorisation: ["admin"] },
-    { method: "POST", route: "/API/menus/:", autorisation: ["admin"] },
-    { method: "POST", route: "/API/users/:", autorisation: ["admin"] },
-    { method: "POST", route: "/API/medias/:", autorisation: ["admin"] },
-    { method: "POST", route: "/API/comments/:", autorisation: ["admin", "author", "subscriber"] },
-
-    { method: "POST", route: "/API/posts/create", autorisation: ["admin", "author"] },
-    { method: "POST", route: "/API/posts/save", autorisation: ["admin", "author"] },
-    { method: "POST", route: "/API/posts/delete", autorisation: ["admin"] },
-
-    { method: "POST", route: "/API/pages/create", autorisation: ["admin"] },
-    { method: "POST", route: "/API/pages/save", autorisation: ["admin"] },
-    { method: "POST", route: "/API/pages/delete", autorisation: ["admin"] },
-
-
-    { method: "POST", route: "/API/comments/delete", autorisation: ["admin", "author"] },
-    { method: "POST", route: "/API/settings/save", autorisation: ["admin"] },
-
-    { method: "GET", route: "/API/posts", autorisation: ["public"] },
-    { method: "GET", route: "/API/categories", autorisation: ["public"] },
-    { method: "GET", route: "/API/comments", autorisation: ["public"] },
-  ]
-
-  var routeAccess = defineRouteAccess.find(routeAccess => {
-    return routeAccess.method == req.method && routeAccess.route == req.baseUrl + req.path
-  })
-
-  if (routeAccess == null) {
-    routeAccess = defineRouteAccess.find(routeAccess => {
-      return routeAccess.route.includes(":") &&
-        routeAccess.method == req.method &&
-        req.originalUrl.includes(routeAccess.route.replace(":", ""))
-    })
-  }
-
-  if (routeAccess) {
-
-    console.log("[DEBUG] route access autorisation " +
-      routeAccess.method + " " +
-      routeAccess.route + " " +
-      routeAccess.autorisation
-    )
-
-    data.users.findOne({ _id: req.session.userId }, (err, user) => {
-      if (user)
-        if (routeAccess.autorisation == "public" || routeAccess.autorisation.includes(user.role)) {
-          next()
-        } else {
-          console.log("[WARNING] attenting access not autorised API " + req.baseUrl + req.path)
-          res.status(403).send({ message: "forbidden : you do not have the autorisation" })
-        }
-    })
-
-  } else {
-    console.log("[WARNING] no security route autorisation defined for " + req.baseUrl + req.path)
-    //DEBUG autorise la route si elle n'est pas definit
-    next()
-  }
-
-
-
+  next()
 })
 
 router.get('/posts', (req, res) => {
-  console.log("GET /API/posts")
 
   data.posts.find({ postType: "post" }).limit(10).exec((err, posts) => {
     res.send({ message: "success : posts found", posts: posts })
@@ -389,8 +321,6 @@ router.post('/comment/create', (req, res) => {
 
   comment.authorId = req.session.userId
 
-  console.log(comment)
-
   Comment.create(comment, (err, comment) => {
     if (comment) {
       res.send({ message: "success : comment created", comment: comment })
@@ -416,7 +346,6 @@ router.post('/comment/delete', (req, res) => {
 })
 
 router.get('/comments', (req, res) => {
-  console.log("GET /API/comments")
 
   data.comments.find({}).limit(10).exec((err, comments) => {
     res.send({ message: "success : comments found", comments: comments })
@@ -427,7 +356,6 @@ router.get('/comments', (req, res) => {
 /*** Categories ***/
 
 router.get('/categories', (req, res) => {
-  console.log("GET /API/categories")
 
   data.posts.find({ postType: "post" }, { category: 1, _id: 0 }, (err, categories) => {
 

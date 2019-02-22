@@ -22,6 +22,7 @@ router.use((req, res, next) => {
             User.getByName("Olivier", (err, user) => {
                 console.log("[DEBUG] set default login")
                 req.session.userId = user._id
+                req.session.userRole = user.role
             })
         }
     }
@@ -34,7 +35,7 @@ router.use((req, res, next) => {
 
             menus.map(menu => {
                 if (menu.format == "direct")
-                    menu.link = menu.content
+                    menu.link = "http://" + menu.content
                 else if (menu.format == "posts")
                     menu.link = "/category/" + menu.content
                 else if (menu.format == "post")

@@ -13,6 +13,7 @@ router.post('/login', (req, res) => {
   data.users.findOne({ username: username, password: password }, (err, user) => {
     if (user) {
       req.session.userId = user._id
+      req.session.userRole = user.role
       res.send({ message: "success : loggin ", user: user })
     } else {
       res.send({ message: "not found : unknow username or password" })
