@@ -120,6 +120,9 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
 - [x] Gestion des médias
 - [x] Gestion de commentaires
 - [ ] Gestion des utilisateurs (en cours)
+  - [x] Autorisations dans API
+  - [ ] Autorisations dans l'administration
+  - [ ] Autorisations dans l'interface
 
 - [ ] Gestion des Widgets (en cours)
   - [x] Posts recents
@@ -148,3 +151,10 @@ Utilisateur par default
 - Réorganisation des modèles et base de données
 
 - Amélioration de l'interface
+
+Autorisations :
+  Définir toutes les autorisations et tester
+  Regouper les autorisations dans un objet générique
+  Organiser un systeme d'autorisation
+  rendre les routes plus générique (pas de "s" ou non en fonction des routes. /posts et /posts/edit...)
+  Organiser un systeme d'authetification

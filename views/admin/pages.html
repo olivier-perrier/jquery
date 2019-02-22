@@ -21,7 +21,7 @@
                 {{# pages}}
                 <tr>
                     <th scope="row">
-                        <a href="/admin/page/edit/{{_id}}" class="btn btn-link">{{title}}</a>
+                        <a href="/admin/pages/edit/{{_id}}" class="btn btn-link">{{title}}</a>
                     </th>
                     <td><a :href="/admin/user/{{userId}}">{{userId}}</a></td>
                     <td>{{toElapsedTime createdAt}} ago</td>
@@ -47,14 +47,14 @@
 
     function createPage() {
 
-        $.post(URL + "/API/page/create", { }, (data, statut) => {
+        $.post(URL + "/API/page/create", {}, (data, statut) => {
             console.log(data)
-            window.location = "/admin/page/edit/" + data.page._id
+            window.location = "/admin/pages/edit/" + data.page._id
         })
     }
 
     function editPage(pageId) {
-        window.location = "/admin/page/edit/" + pageId
+        window.location = "/admin/pages/edit/" + pageId
     }
 
     function deletePage(pageId) {

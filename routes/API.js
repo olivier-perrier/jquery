@@ -16,62 +16,69 @@ router.use('/posts', postsRouter);
 
 router.use((req, res, next) => {
 
-  if (req.method == "POST") {
+  console.log(req.method + " " + req.baseUrl + req.path)
 
-    console.log(req.method + " " + req.originalUrl)
+  var defineRouteAccess = [
+    { method: "POST", route: "/API/posts/:", autorisation: ["admin"] },
+    { method: "POST", route: "/API/pages/:", autorisation: ["admin"] },
+    { method: "POST", route: "/API/menus/:", autorisation: ["admin"] },
+    { method: "POST", route: "/API/users/:", autorisation: ["admin"] },
+    { method: "POST", route: "/API/medias/:", autorisation: ["admin"] },
+    { method: "POST", route: "/API/comments/:", autorisation: ["admin", "author", "subscriber"] },
 
-    var defineRouteAccess = [
-      { method: "POST", route: "/posts", autorisation: ["admin"] },
-      { method: "POST", route: "/page", autorisation: ["admin"] },
-      { method: "POST", route: "/menu", autorisation: ["admin"] },
-      { method: "POST", route: "/user", autorisation: ["admin"] },
-      { method: "POST", route: "/media", autorisation: ["admin"] },
-      { method: "POST", route: "/comment", autorisation: ["admin", "author", "subscriber"] },
+    { method: "POST", route: "/API/posts/create", autorisation: ["admin", "author"] },
+    { method: "POST", route: "/API/posts/save", autorisation: ["admin", "author"] },
+    { method: "POST", route: "/API/posts/delete", autorisation: ["admin"] },
 
-      { method: "POST", route: "/posts/create", autorisation: ["admin", "author"] },
-      { method: "POST", route: "/posts/save", autorisation: ["admin", "author"] },
-      { method: "POST", route: "/comment/delete", autorisation: ["admin", "author"] },
-      { method: "POST", route: "/settings/save", autorisation: ["admin"] },
+    { method: "POST", route: "/API/pages/create", autorisation: ["admin"] },
+    { method: "POST", route: "/API/pages/save", autorisation: ["admin"] },
+    { method: "POST", route: "/API/pages/delete", autorisation: ["admin"] },
 
-      { method: "GET", route: "/posts", autorisation: ["public"] },
-      { method: "GET", route: "/categories", autorisation: ["public"] },
-      { method: "GET", route: "/comments", autorisation: ["public"] },
-    ]
 
-    var routeAccess = defineRouteAccess.find(routeAccess => {
-      routeAccess.method == req.method && routeAccess.route == req.path
+    { method: "POST", route: "/API/comments/delete", autorisation: ["admin", "author"] },
+    { method: "POST", route: "/API/settings/save", autorisation: ["admin"] },
+
+    { method: "GET", route: "/API/posts", autorisation: ["public"] },
+    { method: "GET", route: "/API/categories", autorisation: ["public"] },
+    { method: "GET", route: "/API/comments", autorisation: ["public"] },
+  ]
+
+  var routeAccess = defineRouteAccess.find(routeAccess => {
+    return routeAccess.method == req.method && routeAccess.route == req.baseUrl + req.path
+  })
+
+  if (routeAccess == null) {
+    routeAccess = defineRouteAccess.find(routeAccess => {
+      return routeAccess.route.includes(":") &&
+        routeAccess.method == req.method &&
+        req.originalUrl.includes(routeAccess.route.replace(":", ""))
     })
-    if (routeAccess == null)
-      routeAccess = defineRouteAccess.find(routeAccess => routeAccess.method == req.method && req.path.includes(routeAccess.route))
+  }
 
+  if (routeAccess) {
 
-    if (routeAccess) {
+    console.log("[DEBUG] route access autorisation " +
+      routeAccess.method + " " +
+      routeAccess.route + " " +
+      routeAccess.autorisation
+    )
 
-      console.log("[DEBUG] route access autorisation " +
-        routeAccess.method + " " +
-        routeAccess.route + " " +
-        routeAccess.autorisation
-      )
-
-      data.users.findOne({ _id: req.session.userId }, (err, user) => {
-        if (user)
-          if (routeAccess.autorisation == "public" || routeAccess.autorisation.includes(user.role)) {
-            next()
-          } else {
-            console.log("[WARNING] attenting access not autorised API " + req.path)
-            res.status(403).send({ message: "forbidden : you do not have the autorisation" })
-          }
-      })
-
-    } else {
-      console.log("[WARNING] no security route autorisation difined for " + req.path)
-      //DEBUG autorise la route si elle n'est pas definit
-      next()
-    }
+    data.users.findOne({ _id: req.session.userId }, (err, user) => {
+      if (user)
+        if (routeAccess.autorisation == "public" || routeAccess.autorisation.includes(user.role)) {
+          next()
+        } else {
+          console.log("[WARNING] attenting access not autorised API " + req.baseUrl + req.path)
+          res.status(403).send({ message: "forbidden : you do not have the autorisation" })
+        }
+    })
 
   } else {
+    console.log("[WARNING] no security route autorisation defined for " + req.baseUrl + req.path)
+    //DEBUG autorise la route si elle n'est pas definit
     next()
   }
+
 
 
 })
@@ -128,7 +135,6 @@ router.post('/posts/delete', (req, res) => {
 
 /*** Pages ***/
 router.post('/page/create', (req, res) => {
-  console.log("POST /API/page/create")
 
   var page = {
     title: req.body.title || "Page title",
@@ -147,7 +153,6 @@ router.post('/page/create', (req, res) => {
 })
 
 router.post('/page/save', (req, res) => {
-  console.log("POST /API/page/save/")
 
   var pageId = req.body.id
   var page = req.body.page
@@ -165,7 +170,6 @@ router.post('/page/save', (req, res) => {
 })
 
 router.post('/page/delete', (req, res) => {
-  console.log("POST /API/page/delete")
 
   var pageId = req.body.id
 
@@ -181,7 +185,6 @@ router.post('/page/delete', (req, res) => {
 
 /*** Menus ***/
 router.post('/menu/create/', (req, res) => {
-  console.log("POST /API/menu/create")
 
   var menu = {
     title: req.body.title,
@@ -200,7 +203,6 @@ router.post('/menu/create/', (req, res) => {
 })
 
 router.post('/menu/save/', (req, res) => {
-  console.log("POST /API/menu/save")
 
   var menuId = req.body.id
 
@@ -221,7 +223,6 @@ router.post('/menu/save/', (req, res) => {
 })
 
 router.post('/menu/delete/', (req, res) => {
-  console.log("POST /API/menu/delete")
 
   var menuId = req.body.id
 
@@ -237,7 +238,6 @@ router.post('/menu/delete/', (req, res) => {
 /*** Users ***/
 
 router.post('/user/create', (req, res) => {
-  console.log("POST /API/user/create")
 
   var user = {
     username: req.body.username,
@@ -257,7 +257,6 @@ router.post('/user/create', (req, res) => {
 })
 
 router.post('/user/save', (req, res) => {
-  console.log("POST /API/user/save")
 
   var id = req.body.id
 
@@ -279,11 +278,10 @@ router.post('/user/save', (req, res) => {
 })
 
 router.post('/user/delete', (req, res) => {
-  console.log("POST /API/user/delete")
 
   var id = req.body.id
 
-  User.deleteUser(id, (err, num) => {
+  User.remove(id, (err, num) => {
     if (num) {
       res.send({ message: "success : user deleted" + num })
     } else {
@@ -295,7 +293,6 @@ router.post('/user/delete', (req, res) => {
 
 /*** Medias ***/
 router.post('/media/upload', (req, res) => {
-  console.log("POST /API/media/upload")
 
   console.log(req.files)
 
@@ -331,7 +328,6 @@ router.post('/media/upload', (req, res) => {
 })
 
 router.post('/media/save', (req, res) => {
-  console.log("POST /API/media/upload")
 
   var mediaId = req.body.id
 
@@ -353,7 +349,6 @@ router.post('/media/save', (req, res) => {
 })
 
 router.post('/media/delete', (req, res) => {
-  console.log("POST /API/media/delete")
 
   var id = req.body.id
 
@@ -373,7 +368,7 @@ router.post('/media/delete', (req, res) => {
 
   })
 
-  Post.deleteMedia(id, (err, num) => {
+  Post.removeMedia(id, (err, num) => {
     if (num) {
       res.send({ message: "success : media deleted" + num })
     } else {
@@ -389,7 +384,6 @@ router.post('/media/delete', (req, res) => {
 /*** Commments ***/
 
 router.post('/comment/create', (req, res) => {
-  console.log("POST /API/comment/create")
 
   var comment = req.body.comment
 
@@ -408,7 +402,6 @@ router.post('/comment/create', (req, res) => {
 })
 
 router.post('/comment/delete', (req, res) => {
-  console.log("POST /API/comment/delete")
 
   var commentId = req.body.id
 
@@ -451,7 +444,6 @@ router.get('/categories', (req, res) => {
 
 /*** Settings ***/
 router.post('/settings/save', (req, res) => {
-  console.log("POST /API/settings/save")
 
   var settings = req.body.settings
 

@@ -21,7 +21,7 @@
             <tbody>
                 {{# users}}
                 <tr>
-                    <th scope="row"><a href="/admin/user/edit/{{_id}}" class="btn btn-link">{{#if
+                    <th scope="row"><a href="/admin/users/edit/{{_id}}" class="btn btn-link">{{#if
                             username}}{{username}}{{else}}-{{/if}}</a></th>
                     <td><span>{{name}}</span></td>
                     <td><a href="mailto:{{email}}" class="btn btn-link">{{email}}</a></td>
@@ -55,7 +55,7 @@
 
         $.post(URL + "/API/user/create", { id: userId, username: username, role: userRole, email: userEmail, password: userPassword }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/user/edit/" + data.user._id
+            window.location = "/admin/users/edit/" + data.user._id
         })
 
 

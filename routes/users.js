@@ -5,7 +5,7 @@ var data = require('../models/data.js')
 var User = data.model('User')
 
 router.post('/login', (req, res) => {
-  console.log("GET /API/users/login")
+  console.log("POST /API/users/login")
 
   var username = req.body.name
   var password = req.body.password

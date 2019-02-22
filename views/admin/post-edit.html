@@ -123,7 +123,7 @@
 
         $.post(URL + "/API/post/save", { id: postId, post: post }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/post/edit/" + postId
+            window.location = "/admin/posts/edit/" + postId
         })
 
     }

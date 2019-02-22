@@ -21,7 +21,7 @@
                 {{# menus}}
                 <tr>
                     <th scope="row">
-                        <a href="/admin/menu/edit/{{_id}}" class="btn btn-link">{{title}}</a>
+                        <a href="/admin/menus/edit/{{_id}}" class="btn btn-link">{{title}}</a>
                     </th>
                     <td>
                         <select class="custom-select menuFormat" disabled>
@@ -40,7 +40,8 @@
                 </tr>
                 {{/ menus}}
                 <tr>
-                    <th scope="row"><input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title"></th>
+                    <th scope="row"><input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title">
+                    </th>
                     <td>
                         <select class="custom-select" id="menuFormat" name="menuFormat">
                             <option value="direct">Direct link</option>
@@ -69,7 +70,7 @@
     $(".menuFormat").map((i, e) => {
         var format = 'page'
         format = $(e).find("option[hidden='hidden']").val()
-        $(e).find("option[value=" + format + "]").prop('selected', true)    
+        $(e).find("option[value=" + format + "]").prop('selected', true)
     })
 
 

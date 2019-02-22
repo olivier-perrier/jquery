@@ -38,9 +38,9 @@ router.use((req, res, next) => {
                 else if (menu.format == "posts")
                     menu.link = "/category/" + menu.content
                 else if (menu.format == "post")
-                    menu.link = "/post/" + menu.content
+                    menu.link = "/posts/" + menu.content
                 else if (menu.format == "page")
-                    menu.link = "/page/" + menu.content
+                    menu.link = "/pages/" + menu.content
             })
 
             res.locals.menus = menus

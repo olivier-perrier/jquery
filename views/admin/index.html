@@ -15,7 +15,7 @@
             <h2 class="display-5"><a href="/admin/pages" class="text-white">Pages</a></h2>
             <ul class="list-group  list-group-flush">
                 {{#pages}}
-                <li class="list-group-item bg-transparent"><a class="btn btn-link text-white" href="/admin/page/edit/{{_id}}">{{title}}</a></li>
+                <li class="list-group-item bg-transparent"><a class="btn btn-link text-white" href="/admin/pages/edit/{{_id}}">{{title}}</a></li>
                 {{/pages}}
             </ul>
         </div>
@@ -27,7 +27,7 @@
             <ul class="list-group  list-group-flush">
                 {{# users}}
                 <li class="list-group-item bg-transparent">
-                    <a href="/admin/user/edit/{{_id}}" class="lead">{{username}}</a>
+                    <a href="/admin/users/edit/{{_id}}" class="lead">{{username}}</a>
                 </li>
                 {{/ users}}
             </ul>

@@ -8,9 +8,84 @@ var Post = data.model('Post')
 var User = data.model('User')
 var Setting = data.model('Setting')
 
-router.get('/', (req, res) => {
-  console.log("GET /admin")
+router.all("*", (req, res, next) => {
+  console.log("router all")
+  next()
+})
 
+router.use((req, res, next) => {
+
+  console.log(req.method + " " + req.baseUrl + req.path)
+
+  var defineRouteAccess = [
+    { method: "GET", route: "/admin/", autorisation: ["admin"] },
+
+    { method: "GET", route: "/admin/posts", autorisation: ["admin"] },
+    { method: "GET", route: "/admin/posts/edit/:", autorisation: ["admin"] },
+
+    { method: "GET", route: "/admin/pages", autorisation: ["admin"] },
+    { method: "GET", route: "/admin/pages/edit/:", autorisation: ["admin"] },
+
+    { method: "GET", route: "/admin/menus", autorisation: ["admin", "author"] },
+    { method: "GET", route: "/admin/menus/edit/:", autorisation: ["admin"] },
+
+    { method: "GET", route: "/admin/users", autorisation: ["admin"] },
+    { method: "GET", route: "/admin/users/edit/:", autorisation: ["admin"] },
+
+    { method: "GET", route: "/admin/medias", autorisation: ["author"] },
+
+    { method: "GET", route: "/admin/comments", autorisation: ["admin", "author", "subscriber"] },
+    { method: "GET", route: "/admin/comments/edit/:", autorisation: ["admin", "author", "subscriber"] },
+
+    { method: "GET", route: "/admin/widgets", autorisation: ["admin"] },
+
+    { method: "GET", route: "/admin/settings", autorisation: ["admin"] },
+
+  ]
+
+  var routeAccess = defineRouteAccess.find(routeAccess => {
+    return routeAccess.method == req.method && routeAccess.route == req.baseUrl + req.path
+  })
+
+  if (routeAccess == null) {
+    routeAccess = defineRouteAccess.find(routeAccess => {
+      return routeAccess.route.includes(":") &&
+        routeAccess.method == req.method &&
+        req.originalUrl.includes(routeAccess.route.replace(":", ""))
+    })
+  }
+
+  if (routeAccess) {
+
+    console.log("[DEBUG] route access autorisation " +
+      routeAccess.method + " " +
+      routeAccess.route + " " +
+      routeAccess.autorisation
+    )
+
+    data.users.findOne({ _id: req.session.userId }, (err, user) => {
+      if (user) {
+        if (routeAccess.autorisation == "public" || routeAccess.autorisation.includes(user.role)) {
+          next()
+        } else {
+          console.log("[WARNING] attenting access not autorised route " + req.baseUrl + req.path)
+          res.status(403).send({ message: "forbidden : you do not have the autorisation" })
+        }
+      } else {
+        console.log("[WARNING] no user found for your id " + req.session.userId)
+        res.redirect("/login")
+      }
+    })
+
+  } else {
+    console.log("[WARNING] no security route autorisation defined for " + req.baseUrl + req.path)
+    //DEBUG autorise la route si elle n'est pas definit
+    next()
+  }
+
+})
+
+router.get('/', (req, res) => {
   var userId = req.session.userId
 
   data.users.find({}).limit(5).exec((err, users) => {
@@ -28,7 +103,6 @@ router.get('/', (req, res) => {
 
 })
 
-
 /*** Posts ***/
 router.get('/posts', (req, res) => {
   console.log("GET /admin/posts")
@@ -39,8 +113,9 @@ router.get('/posts', (req, res) => {
 
 })
 
-router.get('/post/edit/:postId', (req, res) => {
-  console.log("GET /admin/post/edit/:postId")
+router.get('/posts/edit/:postId', (req, res) => {
+  console.log("GET /admin/posts/edit/:postId")
+
   var postId = req.params.postId
 
   Post.getPost(postId, (err, post) => {
@@ -65,7 +140,7 @@ router.get('/menus', (req, res) => {
 
 })
 
-router.get('/menu/edit/:menuId', (req, res) => {
+router.get('/menus/edit/:menuId', (req, res) => {
   console.log("GET /admin/menu/edit/:menuId")
 
   var menuId = req.params.menuId
@@ -101,8 +176,8 @@ router.get('/pages', (req, res) => {
 
 })
 
-router.get('/page/edit/:pageId', (req, res) => {
-  console.log("GET /admin/page/edit/:pageId")
+router.get('/pages/edit/:pageId', (req, res) => {
+  console.log("GET /admin/pages/edit/:pageId")
 
   var pageId = req.params.pageId
 
@@ -126,8 +201,8 @@ router.get('/users', (req, res) => {
 
 })
 
-router.get('/user/edit/:userId', (req, res) => {
-  console.log("GET /admin/user/edit/:userId")
+router.get('/users/edit/:userId', (req, res) => {
+  console.log("GET /admin/users/edit/:userId")
 
   var userId = req.params.userId
 
@@ -145,11 +220,11 @@ router.get('/settings', (req, res) => {
 })
 
 /*** Media ***/
-router.get('/media', (req, res) => {
-  console.log("GET /admin/media")
+router.get('/medias', (req, res) => {
+  console.log("GET /admin/medias")
 
   data.posts.find({ postType: "media" }, (err, medias) => {
-    res.render('admin/media', { medias: medias })
+    res.render('admin/medias', { medias: medias })
 
   })
 
