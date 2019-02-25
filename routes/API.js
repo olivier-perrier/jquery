@@ -45,6 +45,8 @@ router.post('/posts/save', (req, res) => {
 
   post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "post-name"
   post.contentPreview = post.content.substring(0, 100)
+  post.tags = post.tags.split(",")
+
 
   Post.updatePost(postId, post, (err, num) => {
     if (num)
