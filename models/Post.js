@@ -8,10 +8,11 @@ var Post = {
         title: String,
         name: String,
         content: String,
+        contentPreview: String,
         description: String,
         postType: String,     // Define the type of post (post, menu, page)
         category: String,     // Define custom category
-        tags: String,         // Define list of tags related to the post
+        tags: [String],       // Define list of tags related to the post
         format: String,       // Define the format of the post (audio, video, text, link, default...)
         image: String,
         authorId: String,

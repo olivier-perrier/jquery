@@ -21,7 +21,7 @@
                 {{# medias}}
                 <tr>
                     <th scope="row">
-                        <img src="/media/{{name}}" alt="{{title}}" height="42" width="42">
+                        <img src="/medias/{{name}}" alt="{{title}}" height="42" width="42">
                     </th>
                     <td>
                         <a href="/admin/madias/edit/{{_id}}" class="btn btn-link">{{name}}</a>
@@ -62,7 +62,7 @@
 
             var xhr = new XMLHttpRequest();
 
-            xhr.open('POST', "/API/media/upload", true);
+            xhr.open('POST', "/API/medias/upload", true);
 
             xhr.onload = function (e) {
                 window.location = "/admin/media"

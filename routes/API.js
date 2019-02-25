@@ -43,8 +43,8 @@ router.post('/posts/save', (req, res) => {
   var postId = req.body.id
   var post = req.body.post
 
-  post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "post-name",
-    post.description = post.description || post.content.substring(0, 100)
+  post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "post-name"
+  post.contentPreview = post.content.substring(0, 100)
 
   Post.updatePost(postId, post, (err, num) => {
     if (num)
@@ -90,6 +90,8 @@ router.post('/pages/save', (req, res) => {
   var page = req.body.page
 
   page.name = page.name ? String(page.name).toLowerCase().replace(" ", "-") : "page-name"
+  page.contentPreview = page.content.substring(0, 100)
+  page.tags = page.tags.split(",")
 
   Post.updatePage(pageId, page, (err, num) => {
     if (num) {
@@ -239,7 +241,7 @@ router.post('/medias/upload', (req, res) => {
     format: "image"
   }
 
-  sampleFile.mv('./public/media/' + sampleFile.name, function (err) {
+  sampleFile.mv('./public/medias/' + sampleFile.name, function (err) {
     if (err) {
       console.log("[ERROR] moving uploaded file " + err)
       res.send({ message: "internal error : error moving the file " + sampleFile.name })
@@ -288,7 +290,7 @@ router.post('/medias/delete', (req, res) => {
 
   Post.getMedia(id, (err, media) => {
 
-    fs.unlink('./public/media/' + media.name, (err) => {
+    fs.unlink('./public/medias/' + media.name, (err) => {
 
       if (err) {
         console.log("[ERROR] no file to delete " + media.name + " err:" + err)

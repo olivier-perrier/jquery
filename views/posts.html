@@ -21,9 +21,9 @@
 
                 <div class="body ml-5 p-1 mb-3">
 
-                    <p class="card-text">{{description}}</p>
+                    <p class="card-text">{{contentPreview}}</p>
 
-                    <a href="post/{{_id}}" class="card-link">Continue reading</a>
+                    <a href="posts/{{_id}}" class="card-link">Continue reading</a>
 
                 </div>
 
@@ -33,8 +33,8 @@
                         <small>{{toElapsedTime createdAt}} ago</small>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <a href="/tag/{{tags}}" class="text-muted text-right">{{tags}}</a>
-                        <a href="/category/{{category}}" class="text-muted text-right">{{category}}</a>
+                        <a href="/tags/{{tags}}" class="text-muted text-right">{{tags}}</a>
+                        <a href="/categories/{{category}}" class="text-muted text-right">{{category}}</a>
                     </div>
                 </footer>
 

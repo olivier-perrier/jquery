@@ -3,10 +3,17 @@
 <div class="container py-5">
 
     <div class="text-center bg-light mb-3">
-        <div class="col-5 p-5 mx-auto">
-            <h1 class="">{{mainPost.title}}</h1>
-            <p class="lead font-weight-normal">{{mainPost.description}}</p>
-            <a class="btn btn-outline-secondary" href="/post/{{mainPost._id}}">Read more</a>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="/medias/{{mainPost.image}}" alt="Card image cap" class="rounded" width="100%" height="300">
+            </div>
+            <div class="col-md-8">
+                <div class="p-lg-5 mx-auto">
+                    <h1 class="">{{mainPost.title}}</h1>
+                    <p class="lead font-weight-normal">{{mainPost.contentPreview}}</p>
+                    <a class="btn btn-outline-secondary" href="/post/{{mainPost._id}}">Read more</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -14,9 +21,14 @@
 
         {{#posts}}
         <div class="col-md-6">
-            <div class="bg-dark pt-3 px-3 py-3 text-center text-white overflow-hidden">
-                <h2><a href="/post/{{_id}}" class="text-white">{{title}}</a></h2>
-                <p class="lead">{{description}}</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="/medias/{{image}}" alt="Card image cap" class="rounded" width="150" height="100%">
+                </div>
+                <div class="col-md-8 bg-dark pt-3 px-3 py-3 text-center text-white">
+                    <h2><a href="/post/{{_id}}" class="text-white">{{title}}</a></h2>
+                    <p class="lead">{{contentPreview}}</p>
+                </div>
             </div>
         </div>
         {{/posts}}
@@ -28,8 +40,6 @@
 {{> footer}}
 
 <script>
-
-
 </script>
 
 <style>
