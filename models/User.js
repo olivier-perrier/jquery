@@ -50,9 +50,16 @@ function create(user, callback) {
     // Add creation date
     user.createdAt = new Date()
 
-    data.users.insert(user, (err, user) => {
-        callback(err, user)
+    getByName(user.username, (err, doc) => {
+        if (doc)
+            callback("user name already exist", null)
+        else
+            data.users.insert(user, (err, doc) => {
+                callback(err, doc)
+            })
     })
+
+
 }
 
 function update(id, user, callback) {

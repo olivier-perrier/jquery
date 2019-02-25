@@ -25,11 +25,11 @@ router.use((req, res, next) => {
             menus.map(menu => {
                 if (menu.format == "direct")
                     menu.link = "http://" + menu.content
+                else if (menu.format == "categories")
+                    menu.link = "/categories/" + menu.content
                 else if (menu.format == "posts")
-                    menu.link = "/category/" + menu.content
-                else if (menu.format == "post")
                     menu.link = "/posts/" + menu.content
-                else if (menu.format == "page")
+                else if (menu.format == "pages")
                     menu.link = "/pages/" + menu.content
             })
 
@@ -84,18 +84,8 @@ router.get('/posts', (req, res) => {
 
 })
 
-router.get('/posts/:category', (req, res) => {
-
-    var category = req.params.category
-
-    Post.getPosts({ category: category }, (err, posts) => {
-        res.render('posts', { posts: posts })
-    })
-
-})
-
 /*** category ***/
-router.get('/category/:category', (req, res) => {
+router.get('/categories/:category', (req, res) => {
 
     var category = req.params.category
 
@@ -106,7 +96,7 @@ router.get('/category/:category', (req, res) => {
 })
 
 /*** Post ***/
-router.get('/post/:postId', (req, res, next) => {
+router.get('/posts/:postId', (req, res, next) => {
 
     var postId = req.params.postId
 
@@ -120,13 +110,13 @@ router.get('/post/:postId', (req, res, next) => {
 
 })
 
-router.get('/post/:postName', (req, res) => {
+router.get('/posts/:postName', (req, res) => {
 
     var postName = req.params.postName
 
     Post.getPostByName(postName, (err, post) => {
         Comment.getByPost(post._id, (err, comments) => {
-            res.render('post', { post: post, comments })
+            res.render('post', { post, comments })
         })
 
     })
@@ -134,7 +124,7 @@ router.get('/post/:postName', (req, res) => {
 })
 
 /*** Page ***/
-router.get('/page/:pagetId', (req, res, next) => {
+router.get('/pages/:pagetId', (req, res, next) => {
     var pagetId = req.params.pagetId
 
     data.posts.findOne({ _id: pagetId }, (err, page) => {
@@ -146,7 +136,7 @@ router.get('/page/:pagetId', (req, res, next) => {
 
 })
 
-router.get('/page/:pagetName', (req, res) => {
+router.get('/pages/:pagetName', (req, res) => {
 
     var pagetName = req.params.pagetName
 

@@ -25,8 +25,14 @@ var Post = {
 
 function createPost(post, callback) {
     post.postType = "post"
-    create(post, (err, doc) => {
-        callback(err, doc)
+
+    getPostByName(post.name, (err, doc) => {
+        if (doc)
+            callback("post name already exist", null)
+        else
+            create(post, (err, doc) => {
+                callback(err, doc)
+            })
     })
 
 }
@@ -70,8 +76,14 @@ function removePost(postId, callback) {
 /*** Pages ***/
 function createPage(page, callback) {
     page.postType = "page"
-    create(page, (err, page) => {
-        callback(err, page)
+
+    getPageByName(page.name, (err, doc) => {
+        if (doc)
+            callback("page name already exist", null)
+        else
+            create(page, (err, doc) => {
+                callback(err, doc)
+            })
     })
 }
 
@@ -103,8 +115,13 @@ function getPageByName(pageName, callback) {
 /*** Menus ***/
 function createMenu(menu, callback) {
     menu.postType = "menu"
-    create(menu, (err, menu) => {
-        callback(err, menu)
+    getMenuByName(menu.name, (err, doc) => {
+        if (doc)
+            callback("menu name already exist", null)
+        else
+            create(menu, (err, doc) => {
+                callback(err, doc)
+            })
     })
 }
 
@@ -240,50 +257,5 @@ Post.getMenuByName = getMenuByName
 Post.createMedia = createMedia
 Post.removeMedia = removeMedia
 Post.getMedia = getMedia
-
-var aboutPage = require('../plugins/aboutPage')
-var helloPost = require('../plugins/helloPost')
-
-/*** Create default datas ***/
-
-getPageByName("about", (err, page) => {
-
-    if (!page)
-        Post.createPage(aboutPage, (err, page) => {
-            console.log("[INFO] default page created")
-        })
-})
-
-getPostByName("hello-world", (err, post) => {
-
-    if (!post)
-        Post.createPost(helloPost, (err, post) => {
-            console.log("[INFO] default post created")
-        })
-})
-
-getMenuByName("google", (err, menu) => {
-
-    if (!menu)
-        Post.createMenu({ title: "Google", name: "google", format: "direct", content: "www.google.fr" }, (err, menu) => {
-            console.log("[INFO] default menu created")
-        })
-})
-
-getMenuByName("about", (err, menu) => {
-
-    if (!menu)
-        Post.createMenu({ title: "About", name: "about", format: "page", content: "about" }, (err, menu) => {
-            console.log("[INFO] default menu created")
-        })
-})
-
-getMenuByName("hello-world", (err, menu) => {
-
-    if (!menu)
-        Post.createMenu({ title: "Hello World", name: "hello-world", format: "post", content: "hello-world" }, (err, menu) => {
-            console.log("[INFO] default menu created")
-        })
-})
 
 module.exports = Post

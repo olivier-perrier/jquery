@@ -5,7 +5,7 @@ Vue.component('widget-categories', {
         <ul class="list-group list-group-flush">
         <div v-for="category in categories">
             <li class="list-group-item">
-              <a :href="'/category/' + category">{{category}}</a>
+              <a :href="'/categories/' + category">{{category}}</a>
             </li>
         </div>
         </ul>

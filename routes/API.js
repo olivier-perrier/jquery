@@ -66,7 +66,7 @@ router.post('/posts/delete', (req, res) => {
 })
 
 /*** Pages ***/
-router.post('/page/create', (req, res) => {
+router.post('/pages/create', (req, res) => {
 
   var page = {
     title: req.body.title || "Page title",
@@ -84,7 +84,7 @@ router.post('/page/create', (req, res) => {
 
 })
 
-router.post('/page/save', (req, res) => {
+router.post('/pages/save', (req, res) => {
 
   var pageId = req.body.id
   var page = req.body.page
@@ -101,7 +101,7 @@ router.post('/page/save', (req, res) => {
 
 })
 
-router.post('/page/delete', (req, res) => {
+router.post('/pages/delete', (req, res) => {
 
   var pageId = req.body.id
 
@@ -116,7 +116,7 @@ router.post('/page/delete', (req, res) => {
 })
 
 /*** Menus ***/
-router.post('/menu/create/', (req, res) => {
+router.post('/menus/create/', (req, res) => {
 
   var menu = {
     title: req.body.title,
@@ -134,7 +134,7 @@ router.post('/menu/create/', (req, res) => {
 
 })
 
-router.post('/menu/save/', (req, res) => {
+router.post('/menus/save/', (req, res) => {
 
   var menuId = req.body.id
 
@@ -154,7 +154,7 @@ router.post('/menu/save/', (req, res) => {
 
 })
 
-router.post('/menu/delete/', (req, res) => {
+router.post('/menus/delete/', (req, res) => {
 
   var menuId = req.body.id
 
@@ -169,7 +169,7 @@ router.post('/menu/delete/', (req, res) => {
 
 /*** Users ***/
 
-router.post('/user/create', (req, res) => {
+router.post('/users/create', (req, res) => {
 
   var user = {
     username: req.body.username,
@@ -188,7 +188,7 @@ router.post('/user/create', (req, res) => {
 
 })
 
-router.post('/user/save', (req, res) => {
+router.post('/users/save', (req, res) => {
 
   var id = req.body.id
 
@@ -209,7 +209,7 @@ router.post('/user/save', (req, res) => {
 
 })
 
-router.post('/user/delete', (req, res) => {
+router.post('/users/delete', (req, res) => {
 
   var id = req.body.id
 
@@ -224,7 +224,7 @@ router.post('/user/delete', (req, res) => {
 })
 
 /*** Medias ***/
-router.post('/media/upload', (req, res) => {
+router.post('/medias/upload', (req, res) => {
 
   console.log(req.files)
 
@@ -259,7 +259,7 @@ router.post('/media/upload', (req, res) => {
 
 })
 
-router.post('/media/save', (req, res) => {
+router.post('/medias/save', (req, res) => {
 
   var mediaId = req.body.id
 
@@ -280,7 +280,7 @@ router.post('/media/save', (req, res) => {
 
 })
 
-router.post('/media/delete', (req, res) => {
+router.post('/medias/delete', (req, res) => {
 
   var id = req.body.id
 
@@ -315,7 +315,7 @@ router.post('/media/delete', (req, res) => {
 
 /*** Commments ***/
 
-router.post('/comment/create', (req, res) => {
+router.post('/comments/create', (req, res) => {
 
   var comment = req.body.comment
 
@@ -331,7 +331,7 @@ router.post('/comment/create', (req, res) => {
 
 })
 
-router.post('/comment/delete', (req, res) => {
+router.post('/comments/delete', (req, res) => {
 
   var commentId = req.body.id
 

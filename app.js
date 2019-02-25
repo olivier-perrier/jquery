@@ -9,7 +9,7 @@ var adminRouter = require('./routes/admin.js')
 var APIRouter = require('./routes/API.js')
 
 var authorizations = require('./components/authorizations')
-var test = require('./components/test')
+var installation = require('./components/installation/installation')
 
 var app = express()
 
@@ -52,7 +52,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-test.load(app)
+installation.createModels()
 
 app.all("*", authorizations.requireAuthentication)
 app.all("*", authorizations.loadUser)
