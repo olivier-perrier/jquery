@@ -4,19 +4,28 @@
     </div>
     <div class="card-body">
 
-        <table>
+        <table class="table table-sm">
             <tr>
-                <th>Status</th>
-                <td>Online {{post.status}}</td>
+                <td>Status</td>
+                <td>{{post.status}}</td>
             </tr>
 
             <tr>
-                <th>Publish</th>
+                <td><span class="text-muted">Created</span></td>
+                <td><span class="text-muted">{{toElapsedTime post.createdAt}} ago</span></td>
+            </tr>
+
+            <tr>
+                <td><span class="text-muted">Updated</span></td>
+                <td><span class="text-muted">{{toElapsedTime post.updatedAt}} ago</span></td>
+            </tr>
+            <tr>
+                <td>Publish</td>
                 <td>{{toSimpleDate post.updatedAt}}</td>
             </tr>
 
             <tr>
-                <th>Format</th>
+                <td>Format</td>
                 <td>
                     <select class="custom-select">
                         <option value="default">Default</option>
@@ -28,12 +37,24 @@
                 </td>
 
             </tr>
+            <tr>
+                <td><input type="checkbox" value="1" id="postDraft" {{#ifeq post.status "draft"}}checked{{/ifeq}}></td>
+                <td><label>Save as draft</label></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><button onClick="deletePost('{{post._id}}')" class="btn btn-danger btn-sm">Delete</button></td>
+            </tr>
+
 
         </table>
 
-        <div class="text-right">
-            <button onClick="deletePost('{{post._id}}')" class="btn btn-danger btn-sm">Delete</button>
-        </div>
-
     </div>
 </div>
+
+<style>
+    .table td {
+        border-top: 0px
+    }
+</style>

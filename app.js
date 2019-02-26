@@ -25,6 +25,11 @@ var hbs = exphbs.create({
         return new Date().getSeconds() - date.getSeconds() + " secondes"
       }
     },
+    ifeq: function (var1, var2, options) {
+      if (var1 == var2) return options.fn(this)
+      else
+        return options.inverse(this)
+    }
   }
 })
 

@@ -133,6 +133,7 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
   - [x] commentaires recents
   - [x] meta
 
+- [x] Ordre dans les menus
 - [ ] Status des posts et pages
 - [ ] Parents des posts, pages, menu etc 
 
@@ -145,12 +146,8 @@ Corrections à faire
 
 - [x] jointure generique pour les posts et les utilisateurs
 
-Utilisateur par default
-
-- Réorganisation des API et routes
-- Réorganisation des modèles et base de données
+- Réorganisation par coposants (à voir comment faire)
 
 - Amélioration de l'interface
 
 Autorisations :
-  rendre les routes plus générique (pas de "s" ou non en fonction des routes. /posts et /posts/edit...)
