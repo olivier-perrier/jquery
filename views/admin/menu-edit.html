@@ -1,21 +1,22 @@
 {{#> admin/content}}
 
 <div class="my-3">
-    
+
     <input type="hidden" id="postId" name="postId" value="{{menu._id}}">
 
     <h2 class="mb-3">Edit menu - {{menu.title}}</h2>
-    
+
     <table class="table table-borderless">
         <thead>
             <tr>
-                <th scope="col"><span class="input-group-text">Title</span></th>
-                <th scope="col"><input type="text" id="menuTitle" class="form-control" placeholder="Title" value="{{menu.title}}"></th>
+                <td scope="row"><span class="input-group-text">Title</span></th>
+                <td><input type="text" id="menuTitle" class="form-control" placeholder="Title" value="{{menu.title}}">
+                    </th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th scope="row"><span class="input-group-text">Type</span></th>
+                <td scope="row"><span class="input-group-text">Type</span></th>
                 <td>
                     <select id="menuFormat" class="custom-select">
                         <option value="direct">Direct link</option>
@@ -25,8 +26,14 @@
                     </select>
             </tr>
             <tr>
-                <th scope="row"><span class="input-group-text">Target</span></th>
-                <td><input type="text" id="menuContent" class="form-control" placeholder="Target" value="{{menu.content}}"></td>
+                <td scope="row"><span class="input-group-text">Target</span></th>
+                <td><input type="text" id="menuContent" class="form-control" placeholder="Target"
+                        value="{{menu.content}}"></td>
+            </tr>
+            <tr>
+                <td scope="row"><span class="input-group-text">Order</span></th>
+                <td><input type="number" id="menuOrder" class="form-control" placeholder="1" min="0"
+                        value="{{menu.order}}"></td>
             </tr>
         </tbody>
     </table>
@@ -52,11 +59,14 @@
 
     function saveMenu(menuId) {
 
-        var menuTitle = $('#menuTitle').val()
-        var menuContent = $('#menuContent').val()
-        var menuFormat = $('#menuFormat').val()
+        var menu = {
+            title: $('#menuTitle').val(),
+            content: $('#menuContent').val(),
+            format: $('#menuFormat').val(),
+            order: $('#menuOrder').val(),
+        }
 
-        $.post(URL + "/API/menus/save", { id: menuId, title: menuTitle, content: menuContent, format: menuFormat }, (data, statut) => {
+        $.post(URL + "/API/menus/save", { id: menuId, menu: menu }, (data, statut) => {
             console.log(data)
             window.location = "/admin/menus"
         })

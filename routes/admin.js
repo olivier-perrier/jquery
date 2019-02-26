@@ -60,10 +60,8 @@ router.get('/posts/edit/:postId', (req, res) => {
 /*** Menus ***/
 router.get('/menus', (req, res) => {
 
-  data.posts.find({ postType: "menu" }, (err, menus) => {
-
+  Post.getMenus((err, menus) => {
     res.render('admin/menus', { menus: menus })
-
   })
 
 })

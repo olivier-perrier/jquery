@@ -134,7 +134,7 @@ function updateMenu(menuId, menu, callback) {
 }
 
 function getMenus(callback) {
-    data.posts.find({ postType: "menu" }, (err, menus) => {
+    data.posts.find({ postType: "menu" }).sort({ order: 1 }).exec((err, menus) => {
         callback(err, menus)
     })
 }
@@ -191,6 +191,7 @@ function create(post, callback) {
     }
 
     // Add creation date
+    post.order = Number(post.order)
     post.createdAt = new Date()
 
     // console.log(post)
@@ -205,6 +206,7 @@ function update(id, post, callback) {
     schemaCleaning(post)
 
     // Set updated date
+    post.order = Number(post.order)
     post.updatedAt = new Date()
 
     data.posts.update({ _id: id }, { $set: post }, (err, num) => {

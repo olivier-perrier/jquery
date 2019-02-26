@@ -14,6 +14,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">Type</th>
                     <th scope="col">Target</th>
+                    <th scope="col">Order</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -27,12 +28,13 @@
                         <select class="custom-select menuFormat" disabled>
                             <option value="{{format}}" hidden="hidden"></option>
                             <option value="direct">Direct link</option>
-                            <option value="page">Page</option>
-                            <option value="post">Post</option>
+                            <option value="pages">Pages</option>
                             <option value="posts">Posts</option>
+                            <option value="categories">Categories</option>
                         </select>
                     </td>
                     <td>{{content}}</td>
+                    <td>{{order}}</td>
                     <td>
                         <button onClick="deleteMenu('{{_id}}')" class="btn btn-danger btn-sm deleteMenu">Delete</button>
                     </td>
@@ -40,13 +42,14 @@
                 </tr>
                 {{/ menus}}
                 <tr>
-                    <th scope="row"><input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title">
+                    <th scope="row">
+                        <input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title">
                     </th>
                     <td>
                         <select class="custom-select" id="menuFormat" name="menuFormat">
                             <option value="direct">Direct link</option>
-                            <option value="page">Page</option>
-                            <option value="post">Post</option>
+                            <option value="pages">Pages</option>
+                            <option value="categories">Categories</option>
                             <option value="posts">Posts</option>
                         </select>
 
@@ -68,8 +71,7 @@
 <script>
 
     $(".menuFormat").map((i, e) => {
-        var format = 'page'
-        format = $(e).find("option[hidden='hidden']").val()
+        var format = $(e).find("option[hidden='hidden']").val()
         $(e).find("option[value=" + format + "]").prop('selected', true)
     })
 

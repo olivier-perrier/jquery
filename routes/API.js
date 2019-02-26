@@ -141,12 +141,7 @@ router.post('/menus/create/', (req, res) => {
 router.post('/menus/save/', (req, res) => {
 
   var menuId = req.body.id
-
-  var menu = {
-    title: req.body.title,
-    content: req.body.content,
-    format: req.body.format,
-  }
+  var menu = req.body.menu
 
   Post.updateMenu(menuId, menu, (err, num) => {
     if (num) {
