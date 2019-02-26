@@ -52,10 +52,12 @@ app.use(function (req, res, next) {
   next();
 });
 
+console.log("[DEBUG] NODE_ENV " + process.env.NODE_ENV)
+
 installation.createModels()
 
-app.all("*", authorizations.requireAuthentication)
 app.all("*", authorizations.loadUser)
+app.all("*", authorizations.requireAuthentication)
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);

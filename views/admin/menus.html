@@ -14,7 +14,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">Type</th>
                     <th scope="col">Target</th>
-                    <th scope="col">Order</th>
+                    <th scope="col" style="width: 15%">Order</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -43,7 +43,7 @@
                 {{/ menus}}
                 <tr>
                     <th scope="row">
-                        <input type="text" id="menuTitle" class="form-control mr-2" placeholder="Title">
+                        <input type="text" id="menuTitle" class="form-control" placeholder="Title">
                     </th>
                     <td>
                         <select class="custom-select" id="menuFormat" name="menuFormat">
@@ -54,7 +54,8 @@
                         </select>
 
                     </td>
-                    <td><input type="text" id="menuContent" class="form-control mr-2" placeholder="Content"></td>
+                    <td><input type="text" id="menuContent" class="form-control" placeholder="Content"></td>
+                    <td><input type="number" id="menuOrder" class="form-control" placeholder="1"></td>
                     <td><button onClick="addMenu()" class="btn btn-success btn-sm">Add</button></td>
 
                 </tr>
@@ -77,13 +78,14 @@
 
 
     function addMenu() {
-        var menuTitle = $("#menuTitle").val()
-        var menuName = menuTitle.toLowerCase()
-        var menuContent = $("#menuContent").val()
-        var menuFormat = $('#menuFormat').val()
+        var menu = {
+            title: $("#menuTitle").val(),
+            content: $("#menuContent").val(),
+            format: $('#menuFormat').val(),
+            order: $('#menuOrder').val(),
+        }
 
-
-        $.post(URL + "/API/menus/create", { title: menuTitle, name: menuName, content: menuContent, format: menuFormat }, (data, statut) => {
+        $.post(URL + "/API/menus/create", { menu: menu }, (data, statut) => {
             console.log(data)
             window.location = "/admin/menus"
         })

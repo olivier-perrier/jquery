@@ -79,24 +79,6 @@ exports.createModels = (req, res, next) => {
 
 }
 
-exports.loadUser = (req, res, next) => {
-
-  // DEBUG USER AUTO LOGGIN
-  if (process.env.NODE_ENV == 'dev') {
-    if (!req.session.userId) {
-      User.getByName("Olivier", (err, user) => {
-        if (user) {
-          console.log("[DEBUG] auto login")
-          req.session.userId = user._id
-          req.session.userRole = user.role
-        }
-      })
-    }
-  }
-
-  next()
-}
-
 
 var defineRouteAccess = [
 

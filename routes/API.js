@@ -122,11 +122,7 @@ router.post('/pages/delete', (req, res) => {
 /*** Menus ***/
 router.post('/menus/create/', (req, res) => {
 
-  var menu = {
-    title: req.body.title,
-    content: req.body.content,
-    format: req.body.format
-  }
+  var menu = req.body.menu
 
   Post.createMenu(menu, (err, menu) => {
     if (menu) {
