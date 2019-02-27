@@ -16,8 +16,8 @@ var Post = {
         format: String,       // Define the format of the post (audio, video, text, link, default...)
         image: String,
         authorId: String,
-        parentId: String,
         order: Number,
+        parentId: String,       // Define id of the parent for menu
         status: String,
         createdAt: new Date(),
         updatedAt: new Date()

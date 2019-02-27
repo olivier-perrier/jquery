@@ -134,8 +134,8 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
   - [x] meta
 
 - [x] Ordre dans les menus
-- [ ] Status des posts et pages
-- [ ] Parents des posts, pages, menu etc 
+- [x] Status des posts et pages
+- [ ] Parents des ~~posts~~, ~~pages~~, menu etc
 
 # Correction
 
