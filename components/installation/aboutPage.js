@@ -1,6 +1,7 @@
 var AboutPage = {
         title: "About",
         name: "about",
+        status:"publish",
         content : `
         
         <div class="entry-content">

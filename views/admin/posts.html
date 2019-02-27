@@ -13,9 +13,9 @@
                     <th scope="col">Author</th>
                     <th scope="col">Category</th>
                     <th scope="col">Tags</th>
-                    <th scope="col">Comments</th>
+                    <th scope="col"><i class="far fa-comment mr-1"></th>
                     <th scope="col">Date</th>
-                    <th scope="col"></th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,9 +26,9 @@
                     </th>
                     <td><a :href="'/admin/user/' + post.authorId">{{authorUsername}}</a></td>
                     <td>{{category}}</td>
-                    <td>{{tags}}</td>
-                    <td>-</td>
-                    <td>-</td>
+                    <td><small>{{tags}}</small></td>
+                    <td>{{comments}}</td>
+                    <td><small>{{toDate createdAt}}</small></td>
                     <td>
                         <button onClick="deletePost('{{_id}}')" class="btn btn-danger btn-sm">Delete</button>
                     </td>

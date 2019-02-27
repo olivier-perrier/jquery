@@ -29,11 +29,10 @@ function createPost(post, callback) {
 
     getPostByName(post.name, (err, doc) => {
         if (doc)
-            callback("post name already exist", null)
-        else
-            create(post, (err, doc) => {
-                callback(err, doc)
-            })
+            post.name = post.name + "-1"
+        create(post, (err, doc) => {
+            callback(err, doc)
+        })
     })
 
 }
@@ -80,11 +79,10 @@ function createPage(page, callback) {
 
     getPageByName(page.name, (err, doc) => {
         if (doc)
-            callback("page name already exist", null)
-        else
-            create(page, (err, doc) => {
-                callback(err, doc)
-            })
+            page.name = page.name + "-1"
+        create(page, (err, doc) => {
+            callback(err, doc)
+        })
     })
 }
 
@@ -118,11 +116,10 @@ function createMenu(menu, callback) {
     menu.postType = "menu"
     getMenuByName(menu.name, (err, doc) => {
         if (doc)
-            callback("menu name already exist", null)
-        else
-            create(menu, (err, doc) => {
-                callback(err, doc)
-            })
+            menu.name = menu.name + "-1"
+        create(menu, (err, doc) => {
+            callback(err, doc)
+        })
     })
 }
 

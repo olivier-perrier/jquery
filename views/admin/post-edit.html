@@ -3,39 +3,33 @@
 <div class="border rounded mt-3 p-1 d-flex justify-content-between">
     <a href="/admin/posts" class="btn btn-light">Return</a>
     <div>
-        <button class="btn btn-success mx-3" type="button" onClick="postSave()">Save</button>
+        <button class="btn btn-success mx-3" type="button" onClick="postSave('{{post._id}}')">Save</button>
         <a href="/posts/{{post._id}}" class="btn btn-primary">View</a>
-        <!-- <button onClick="deletePost('{{post._id}}')" class="btn btn-danger btn-sm">Delete</button> -->
     </div>
 </div>
 
+<div class="row my-3">
 
-<div class="row">
+    <div class="col-md-8 mb-2">
 
-    <input type="hidden" id="postId" name="postId" value="{{post._id}}">
-
-
-    <div class="col-8">
-
-        <div class="mb-4">
-
-            <!-- Title -->
-            <div class="my-3">
-                <input type="text" class="form-control border-0" id="postTitle" value="{{post.title}}"
-                    placeholder="Title">
-            </div>
-
-            <!-- Content -->
-            <textarea id="postContent" rows="20" class="form-control border-0"
-                placeholder="Content">{{{post.content}}}</textarea>
-
+        <!-- Title -->
+        <div class="input-group input-group-lg mb-3">
+            <input type="text" class="form-control border-0" id="postTitle" value="{{post.title}}"
+                placeholder="Post title">
         </div>
+
+        <!-- Content -->
+        <textarea id="postContent" rows="20" class="form-control border-0"
+            placeholder="Content">{{post.content}}</textarea>
+
 
     </div>
 
-    <div class="col-4 pt-3">
+    <div class="col-md-4">
 
+        {{#post}}
         {{> admin/edit-status}}
+        {{/post}}
 
 
         <div class="card mb-2">
@@ -63,7 +57,7 @@
             </div>
             <div class="card-body">
                 <input type="text" class="form-control" id="postTags" value="{{post.tags}}">
-                <small>Tags separeted with spaces</small>
+                <small>Tags separeted with ","</small>
             </div>
         </div>
 
@@ -75,7 +69,6 @@
             </div>
             <div class="card-body">
                 <input type="text" class="form-control" id="postImage" value="{{post.image}}">
-                <small>Tags separeted with ;</small>
             </div>
         </div>
 
@@ -101,9 +94,7 @@
 
 <script>
 
-    function postSave() {
-
-        var postId = $('#postId').val()
+    function postSave(postId) {
 
         var post = {
             title: $('#postTitle').val(),

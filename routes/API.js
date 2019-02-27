@@ -45,8 +45,7 @@ router.post('/posts/save', (req, res) => {
 
   post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "post-name"
   post.contentPreview = post.content.substring(0, 100)
-  post.tags = post.tags.split(",")
-
+  post.tags = post.tags ? post.tags.split(",") : ""
 
   Post.updatePost(postId, post, (err, num) => {
     if (num)
@@ -92,8 +91,9 @@ router.post('/pages/save', (req, res) => {
   var page = req.body.page
 
   page.name = page.name ? String(page.name).toLowerCase().replace(" ", "-") : "page-name"
+  page.content = page.content ? page.content.replace(/  /g, " ") : ""
   page.contentPreview = page.content.substring(0, 100)
-  page.tags = page.tags.split(",")
+  page.tags = page.tags ? page.tags.split(",") : ""
 
   Post.updatePage(pageId, page, (err, num) => {
     if (num) {

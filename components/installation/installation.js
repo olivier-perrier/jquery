@@ -11,22 +11,28 @@ exports.createModels = (req, res, next) => {
   console.log("[INFO] Installation...")
 
   // Create default user
-  User.create({
-    username: "Olivier",
-    role: "admin",
-    email: "leperenoel38@hotmail.fr",
-    password: "123"
-  }, (err, user) => {
-    if (user) console.log("[INFO] default user created")
+  User.getByName("Olivier", (err, user) => {
+    if (!user)
+      User.create({
+        username: "Olivier",
+        role: "admin",
+        email: "leperenoel38@hotmail.fr",
+        password: "123"
+      }, (err, user) => {
+        console.log("[INFO] default user created")
+      })
   })
 
   // Create default page About
   User.getByName("Olivier", (err, user) => {
     if (user) {
       aboutPage.authorId = user._id
-      Post.createPage(aboutPage, (err, page) => {
-        if (page)
-          console.log("[INFO] default page created")
+      Post.getPageByName(aboutPage.name, (err, post) => {
+        if (!post)
+          Post.createPage(aboutPage, (err, page) => {
+            if (page)
+              console.log("[INFO] default page created")
+          })
       })
     }
   })
@@ -35,44 +41,58 @@ exports.createModels = (req, res, next) => {
   User.getByName("Olivier", (err, user) => {
     if (user) {
       helloPost.authorId = user._id
-      Post.createPost(helloPost, (err, post) => {
-        if (post)
-          console.log("[INFO] default post created")
+
+      Post.getPostByName(helloPost.name, (err, post) => {
+        if (!post)
+          Post.createPost(helloPost, (err, post) => {
+            console.log("[INFO] default post created")
+          })
       })
     }
   })
 
   // Create default menu Google
-  Post.createMenu({
-    title: "Google",
-    name: "google",
-    format: "direct",
-    content: "www.google.fr"
-  }, (err, menu) => {
-    if (menu)
-      console.log("[INFO] default menu created")
+  Post.getMenuByName("google", (err, menu) => {
+    if (!menu)
+      Post.createMenu({
+        title: "Google",
+        name: "google",
+        format: "direct",
+        content: "www.google.fr",
+        order: 3
+      }, (err, menu) => {
+        if (menu)
+          console.log("[INFO] default menu created")
+      })
   })
 
-  // Create default menu About
-  Post.createMenu({
-    title: "About",
-    name: "about",
-    format: "pages",
-    content: "about"
-  }, (err, menu) => {
-    if (menu)
-      console.log("[INFO] default menu created")
+  // Create default menu  About
+  Post.getMenuByName("about", (err, menu) => {
+    if (!menu)
+      Post.createMenu({
+        title: "About",
+        name: "about",
+        format: "pages",
+        content: "about",
+        order: 10
+      }, (err, menu) => {
+        console.log("[INFO] default menu created")
+      })
   })
 
   // Create default menu Hello World
-  Post.createMenu({
-    title: "Hello World",
-    name: "hello-world",
-    format: "posts",
-    content: "hello-world"
-  }, (err, menu) => {
-    if (menu)
-      console.log("[INFO] default menu created")
+  Post.getMenuByName("hello-world", (err, menu) => {
+    if (!menu)
+      Post.createMenu({
+        title: "Hello World",
+        name: "hello-world",
+        format: "posts",
+        content: "hello-world",
+        order: 1,
+      }, (err, menu) => {
+        if (menu)
+          console.log("[INFO] default menu created")
+      })
   })
 
 

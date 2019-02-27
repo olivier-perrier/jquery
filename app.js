@@ -16,6 +16,11 @@ var app = express()
 var hbs = exphbs.create({
   defaultLayout: 'main.html',
   helpers: {
+    toDate: function (date) {
+      var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+      if (date)
+        return date.toLocaleDateString('en-EN', options)
+    },
     toSimpleDate: function (date) { if (date) return date.toLocaleString() },
     toElapsedTime: function (date) {
       if (date) {

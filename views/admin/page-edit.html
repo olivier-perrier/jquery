@@ -1,50 +1,41 @@
 {{#> admin/content}}
 
+<div class="border rounded mt-3 p-1 d-flex justify-content-between">
+    <a href="/admin/pages" class="btn btn-light">Return</a>
+    <div>
+        <button class="btn btn-success mx-3" type="button" onClick="pageSave('{{page._id}}')">Save</button>
+        <a href="/pages/{{page._id}}" class="btn btn-primary">View</a>
+    </div>
+</div>
+
 <div class="row my-3">
 
-    <div class="col-8">
+    <div class="col-md-8 mb-2">
 
-        <input type="hidden" id="postId" name="postId" value="{{page._id}}">
-
-        <div class="card shadow-sm">
-
-            <div class="card-header">
-                <h3>Edit page</h3>
-            </div>
-
-            <div class="card-body d-flex flex-column align-items-start">
-
-                <!-- Title -->
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Title</span>
-                    </div>
-                    <input type="text" class="form-control" id="postTitle" value="{{page.title}}">
-                </div>
-
-
-                <!-- Content -->
-                <textarea id="postContent" rows="15" class="form-control">{{{page.content}}}</textarea>
-
-                <div class="p-3">
-                    <p class="mb-1 text-muted">Created : {{page.createdAt}}</p>
-                    <p class="mb-1 text-muted">Updated : {{page.updatedAt}}</p>
-                </div>
-
-
-            </div>
+        <!-- Title -->
+        <div class="input-group input-group-lg mb-3">
+            <input type="text" class="form-control border-0" id="postTitle" value="{{page.title}}"
+                placeholder="Page title">
         </div>
 
-        <div class="my-3">
+        <!-- Content -->
+        <textarea id="postContent" rows="30" class="form-control border-0"
+            placeholder="Content">{{page.content}}</textarea>
 
-            <a href="/admin/pages" class="btn btn-light">Return</a>
-            <button class="btn btn-primary" type="button" onClick="pageSave()">Save</button>
-            <a href="/pages/{{page._id}}" class="btn btn-light">View</a>
+        <div class="p-3">
+            <p class="mb-1 text-muted">Created : {{page.createdAt}}</p>
+            <p class="mb-1 text-muted">Updated : {{page.updatedAt}}</p>
         </div>
+
+
 
     </div>
 
-    <div class="col-4">
+    <div class="col-md-4">
+
+        {{#page}}
+        {{> admin/edit-status}}
+        {{/page}}
 
         <div class="card mb-2">
             <div class="card-header">
@@ -52,7 +43,6 @@
             </div>
 
             <div class="card-body">
-                <label for="postName">Name</label>
                 <input type="text" class="form-control" id="postName" value="{{page.name}}">
             </div>
         </div>
@@ -62,30 +52,7 @@
                 <button class="btn btn-link" type="button">Parent page</button>
             </div>
             <div class="card-body">
-                <label for="postCategory">Parent page</label>
                 <input type="text" class="form-control" id="postParent" value="{{page.parent}}">
-            </div>
-        </div>
-
-        <div class="card mb-2">
-            <div class="card-header">
-                <button class="btn btn-link" type="button">Tags</button>
-            </div>
-            <div class="card-body">
-                <label for="postTags">Tags</label>
-                <input type="text" class="form-control" id="postTags" value="{{page.tags}}">
-                <small>Tags separeted with ;</small>
-            </div>
-        </div>
-
-        <div class="card mb-2">
-            <div class="card-header">
-                <button class="btn btn-link" type="button">Format</button>
-            </div>
-            <div class="card-body">
-                <label for="postFormat">Format</label>
-                <input type="text" class="form-control" id="postFormat" value="{{page.format}}">
-                <small>audio, video, text, link, default</small>
             </div>
         </div>
 
@@ -94,9 +61,7 @@
                 <button class="btn btn-link" type="button">Image</button>
             </div>
             <div class="card-body">
-                <label for="postName">Image</label>
                 <input type="text" class="form-control" id="postImage" value="{{page.image}}">
-                <small>Tags separeted with ;</small>
             </div>
         </div>
 
@@ -110,22 +75,19 @@
 
 <script>
 
-    function pageSave() {
-
-        var postId = $('#postId').val()
+    function pageSave(pageId) {
 
         var page = {
             title: $('#postTitle').val(),
             name: $('#postName').val(),
             content: $('#postContent').val(),
-            category: $('#postCategory').val(),
-            format: $('#postFormat').val(),
-            tags: $('#postTags').val(),
+            image: $('#postImage').val(),
+            status: $('#postDraft').prop("checked") ? "draft" : "publish",
         }
 
-        $.post(URL + "/API/pages/save", { id: postId, page: page }, (data, statut) => {
+        $.post(URL + "/API/pages/save", { id: pageId, page: page }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/pages/edit/" + postId
+            window.location = "/admin/pages/edit/" + pageId
         })
 
     }

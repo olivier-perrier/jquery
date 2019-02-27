@@ -7,23 +7,18 @@
         <table class="table table-sm">
             <tr>
                 <td>Status</td>
-                <td>{{post.status}}</td>
+                <td>{{status}}</td>
             </tr>
 
             <tr>
                 <td><span class="text-muted">Created</span></td>
-                <td><span class="text-muted">{{toElapsedTime post.createdAt}} ago</span></td>
+                <td><span class="text-muted">{{toElapsedTime createdAt}}</span></td>
             </tr>
 
             <tr>
                 <td><span class="text-muted">Updated</span></td>
-                <td><span class="text-muted">{{toElapsedTime post.updatedAt}} ago</span></td>
+                <td><span class="text-muted">{{toElapsedTime updatedAt}}</span></td>
             </tr>
-            <tr>
-                <td>Publish</td>
-                <td>{{toSimpleDate post.updatedAt}}</td>
-            </tr>
-
             <tr>
                 <td>Format</td>
                 <td>
@@ -38,13 +33,13 @@
 
             </tr>
             <tr>
-                <td><input type="checkbox" value="1" id="postDraft" {{#ifeq post.status "draft"}}checked{{/ifeq}}></td>
+                <td><input type="checkbox" value="1" id="postDraft" {{#ifeq status "draft"}}checked{{/ifeq}}></td>
                 <td><label>Save as draft</label></td>
             </tr>
 
             <tr>
                 <td></td>
-                <td><button onClick="deletePost('{{post._id}}')" class="btn btn-danger btn-sm">Delete</button></td>
+                <td><button onClick="deletePost('{{_id}}')" class="btn btn-danger btn-sm">Delete</button></td>
             </tr>
 
 
