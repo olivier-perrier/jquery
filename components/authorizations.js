@@ -84,7 +84,7 @@ var defineRouteAccess = [
   { method: "GET", route: "/signup", autorisation: ["public"] },
 
   // Admin
-  { method: "GET", route: "/admin/", autorisation: ["admin"] },
+  { method: "GET", route: "/admin", autorisation: ["admin"] },
 
   { method: "GET", route: "/admin/posts", autorisation: ["admin"] },
   { method: "GET", route: "/admin/posts/edit/:", autorisation: ["admin"] },
@@ -98,7 +98,7 @@ var defineRouteAccess = [
   { method: "GET", route: "/admin/users", autorisation: ["admin"] },
   { method: "GET", route: "/admin/users/edit/:", autorisation: ["admin"] },
 
-  { method: "GET", route: "/admin/medias", autorisation: ["author"] },
+  { method: "GET", route: "/admin/medias", autorisation: ["admin", "author"] },
 
   { method: "GET", route: "/admin/comments", autorisation: ["admin", "author", "subscriber"] },
   { method: "GET", route: "/admin/comments/edit/:", autorisation: ["admin", "author", "subscriber"] },
