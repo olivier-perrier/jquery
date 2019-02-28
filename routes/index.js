@@ -38,7 +38,7 @@ router.use((req, res, next) => {
 
                 var menuChildren = menus.filter(menuChild => menuParent._id == menuChild.parentId)
 
-                if(menuChildren){
+                if (menuChildren) {
                     menuParent.menuChildren = menuChildren
                 }
             })
@@ -62,7 +62,6 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
 
     data.posts.findOne({ postType: "post" }).sort({ createdAt: -1 }).exec((err, mainPost) => {
-        console.log(mainPost)
         data.posts.find({ postType: "post" }).limit(2).exec((err, posts) => {
 
             res.render('index', { mainPost: mainPost, posts: posts })
@@ -89,7 +88,7 @@ router.get('/signup', (req, res) => {
 /*** Posts ***/
 router.get('/posts', (req, res) => {
 
-    Post.getPosts({}, (err, posts) => {
+    Post.getPosts({ status: "publish" }, (err, posts) => {
         res.render('posts', { posts: posts })
     })
 
@@ -100,7 +99,7 @@ router.get('/categories/:category', (req, res) => {
 
     var category = req.params.category
 
-    Post.getPosts({ category: category }, (err, posts) => {
+    Post.getPosts({ category: category, status: "publish" }, (err, posts) => {
         res.render('posts', { posts: posts })
     })
 

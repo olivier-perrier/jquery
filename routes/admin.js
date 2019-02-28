@@ -37,7 +37,9 @@ router.get('/', (req, res) => {
 /*** Posts ***/
 router.get('/posts', (req, res) => {
 
-  Post.getPosts({}, (err, posts) => {
+  var query = req.query
+
+  Post.getPosts(query, (err, posts) => {
     res.render('admin/posts', { posts: posts })
   })
 

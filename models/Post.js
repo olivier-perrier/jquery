@@ -63,7 +63,7 @@ function getPostByName(postName, callback) {
 
 function updatePost(postId, post, callback) {
     post.postType = "post"
-    post.contentPreview = post.content.substring(0, 100)
+    post.contentPreview = post.content ? post.content.substring(0, 100) : ""
 
     update(postId, post, (err, num) => {
         callback(err, num)

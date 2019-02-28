@@ -60,6 +60,20 @@ router.post('/posts/save', (req, res) => {
   })
 })
 
+router.post('/posts/trash', (req, res) => {
+
+  var postId = req.body.id
+
+  var post = {
+    status : "trash"
+  }
+
+  Post.updatePost(postId, post, (err, num) => {
+    res.send({ message: "success : post removed " + num })
+  })
+
+})
+
 router.post('/posts/delete', (req, res) => {
 
   var postId = req.body.id

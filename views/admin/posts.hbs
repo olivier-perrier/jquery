@@ -3,6 +3,13 @@
 <div id="appp" class="my-3">
 
     <h2 class="m-3">Posts</h2>
+    
+    <div class="m-1">
+        <span><a href="/admin/posts">All</a></span> - 
+        <span><a href="/admin/posts?status=draft">Draft</a></span> - 
+        <span><a href="/admin/posts?authorId={{user._id}}">Mine</a></span> - 
+        <span><a href="/admin/posts?status=trash">Trash</a></span>
+    </div>
 
     <div class="border rounded">
 
@@ -56,7 +63,7 @@
     }
 
     function deletePost(postId) {
-        $.post(URL + "/API/posts/delete/", { id: postId }, (data, statut) => {
+        $.post(URL + "/API/posts/trash", { id: postId }, (data, statut) => {
             console.log(data)
             window.location = "/admin/posts"
         })
