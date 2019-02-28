@@ -35,6 +35,16 @@
                 <td><input type="number" id="menuOrder" class="form-control" placeholder="1" min="0"
                         value="{{menu.order}}"></td>
             </tr>
+            <tr>
+                <td scope="row"><span class="input-group-text">Parent</span></th>
+                <td>
+                    <select id="menuParent" class="custom-select">
+                        {{#menus}}
+                        <option value="{{_id}}">{{title}}</option>
+                        {{/menus}}
+                    </select>
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -51,10 +61,19 @@
 
 <script>
 
-    $('#menuFormat option[value={{menu.format}}]').prop('selected', true)
+    // Set values to select options 
+    if ('{{menu.format}}')
+        $('#menuFormat option[value={{menu.format}}]').prop('selected', true)
 
-    function deleteMenu() {
-        console.error("Not implented yet")
+    if ('{{menu.parentId}}')
+        $('#menuParent option[value={{menu.parentId}}]').prop('selected', true)
+
+
+    function deleteMenu(menuId) {
+        $.post(URL + "/API/menus/delete", { id: menuId }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/menus"
+        })
     }
 
     function saveMenu(menuId) {
@@ -64,6 +83,7 @@
             content: $('#menuContent').val(),
             format: $('#menuFormat').val(),
             order: $('#menuOrder').val(),
+            parentId: $('#menuParent').val(),
         }
 
         $.post(URL + "/API/menus/save", { id: menuId, menu: menu }, (data, statut) => {

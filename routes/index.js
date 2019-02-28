@@ -33,6 +33,16 @@ router.use((req, res, next) => {
                     menu.link = "/pages/" + menu.content
             })
 
+            menus.map(menu => {
+                if (menu.parentId){
+                    var menuChild = menus.find(menuChild => menuChild._id == menu.parentId)
+                    
+                    if(menuChild){
+                        menu.menuChild = menuChild
+                    }
+                }
+            })
+
             res.locals.menus = menus
 
             User.getUser(req.session.userId, (err, user) => {

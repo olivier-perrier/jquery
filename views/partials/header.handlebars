@@ -14,8 +14,23 @@
         <nav class="navbar navbar-light bg-light justify-content-around">
             <a class="nav-link rounded" href="/">Home</a>
             <a class="nav-link rounded" href="/posts">Posts</a>
+
             {{#menus}}
-            <a class="nav-link rounded" href="{{link}}">{{title}}</a>
+
+            <div class="dropdown">
+                <a class="nav-link rounded" href="{{link}}">{{title}}</a>
+                {{#if menuChild}}
+                {{!-- <button type="button" class="btn btn-link dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span> --}}
+                </button>
+                <div class="dropdown-menu">
+                    {{#menuChild}}
+                    <a class="dropdown-item" href="{{link}}">{{title}}</a>
+                    {{/menuChild}}
+                </div>
+                {{/if}}
+            </div>
             {{/menus}}
 
             <div class="border rounded text-right">
@@ -39,7 +54,7 @@
                 {{/if}}
 
             </div>
-            
+
         </nav>
 
     </div>
@@ -65,6 +80,11 @@
 </script>
 
 <style>
+
+    nav div.dropdown:hover > .dropdown-menu {
+        display: block;
+    }
+
     nav a:hover {
         background: lightgray;
     }
