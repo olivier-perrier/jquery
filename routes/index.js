@@ -62,6 +62,7 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
 
     data.posts.findOne({ postType: "post" }).sort({ createdAt: -1 }).exec((err, mainPost) => {
+        console.log(mainPost)
         data.posts.find({ postType: "post" }).limit(2).exec((err, posts) => {
 
             res.render('index', { mainPost: mainPost, posts: posts })
