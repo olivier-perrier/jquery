@@ -137,6 +137,8 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
 - [x] Status des posts et pages
 - [x] Parents menu
 
+- [ ] Handlebars organisation and short extention
+
 # Correction
 
 Corrections à faire

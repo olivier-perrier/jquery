@@ -14,7 +14,8 @@ var installation = require('./components/installation/installation')
 var app = express()
 
 var hbs = exphbs.create({
-  defaultLayout: 'main.html',
+  extname: '.hbs',
+  defaultLayout: 'main',
   helpers: {
     toDate: function (date) {
       var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
@@ -38,8 +39,8 @@ var hbs = exphbs.create({
   }
 })
 
-app.engine('html', hbs.engine);
-app.set('view engine', 'html');
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'hbs');
 
 
 app.use(express.json())
