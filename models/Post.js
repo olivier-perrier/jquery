@@ -26,6 +26,7 @@ var Post = {
 
 function createPost(post, callback) {
     post.postType = "post"
+    post.contentPreview = post.content.substring(0, 100)
 
     getPostByName(post.name, (err, doc) => {
         if (doc)
@@ -62,6 +63,8 @@ function getPostByName(postName, callback) {
 
 function updatePost(postId, post, callback) {
     post.postType = "post"
+    post.contentPreview = post.content.substring(0, 100)
+
     update(postId, post, (err, num) => {
         callback(err, num)
     })

@@ -43,8 +43,12 @@ router.post('/posts/save', (req, res) => {
   var postId = req.body.id
   var post = req.body.post
 
-  post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "post-name"
-  post.contentPreview = post.content.substring(0, 100)
+  if (post.name)
+    post.name = String(post.name).toLowerCase().replace(" ", "-")
+  else if (post.title)
+    post.name = String(post.title).toLowerCase().replace(" ", "-")
+  else
+    post.name = "post-name"
   post.tags = post.tags ? post.tags.split(",") : ""
 
   Post.updatePost(postId, post, (err, num) => {

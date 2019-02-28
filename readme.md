@@ -135,7 +135,7 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
 
 - [x] Ordre dans les menus
 - [x] Status des posts et pages
-- [ ] Parents des ~~posts~~, ~~pages~~, menu etc
+- [x] Parents menu
 
 # Correction
 
