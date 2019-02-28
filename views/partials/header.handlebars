@@ -19,15 +19,12 @@
 
             <div class="dropdown">
                 <a class="nav-link rounded" href="{{link}}">{{title}}</a>
-                {{#if menuChild}}
-                {{!-- <button type="button" class="btn btn-link dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span> --}}
+                {{#if menuChildren}}
                 </button>
                 <div class="dropdown-menu">
-                    {{#menuChild}}
+                    {{#menuChildren}}
                     <a class="dropdown-item" href="{{link}}">{{title}}</a>
-                    {{/menuChild}}
+                    {{/menuChildren}}
                 </div>
                 {{/if}}
             </div>
@@ -83,6 +80,7 @@
 
     nav div.dropdown:hover > .dropdown-menu {
         display: block;
+        margin-top: 0.05rem;
     }
 
     nav a:hover {

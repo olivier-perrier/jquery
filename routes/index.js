@@ -33,13 +33,13 @@ router.use((req, res, next) => {
                     menu.link = "/pages/" + menu.content
             })
 
-            menus.map(menu => {
-                if (menu.parentId){
-                    var menuChild = menus.find(menuChild => menuChild._id == menu.parentId)
-                    
-                    if(menuChild){
-                        menu.menuChild = menuChild
-                    }
+            // Map the sub menus
+            menus.map(menuParent => {
+
+                var menuChildren = menus.filter(menuChild => menuParent._id == menuChild.parentId)
+
+                if(menuChildren){
+                    menuParent.menuChildren = menuChildren
                 }
             })
 
