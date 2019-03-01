@@ -36,7 +36,7 @@
                             <a href="/tags/{{this}}" class="text-muted text-right">{{this}}</a>
                             {{/ post.tags}}
                         </div>
-                        <a href="/category/{{post.category}}" class="text-muted text-right">{{post.category}}</a>
+                        <a href="/categories/{{post.category}}" class="text-muted text-right">{{post.category}}</a>
                     </div>
                 </footer>
 
@@ -95,10 +95,10 @@
             postId: postId,
         }
 
-        $.post(URL + "/API/comment/create", { comment: comment }, (data, statut) => {
+        $.post(URL + "/API/comments/create", { comment: comment }, (data, statut) => {
             console.log(data)
             console.log(statut)
-            window.location.href = "/post/" + postId //+ "/#add-comment"
+            window.location.href = "/posts/" + postId //+ "/#add-comment"
         })
     }
 
@@ -106,9 +106,9 @@
 
         var postId = $('#postId').val()
 
-        $.post(URL + "/API/comment/delete", { id: commentId }, (data, statut) => {
+        $.post(URL + "/API/comments/delete", { id: commentId }, (data, statut) => {
             console.log(data)
-            window.location = "/post/" + postId //+ "/#comments"
+            window.location = "/posts/" + postId //+ "/#comments"
         })
     }
 

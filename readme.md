@@ -140,9 +140,11 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
 - [ ] Handlebars organisation and short extention
 
 - [ ] Organisation admin keystone
-  - [ ] Simplifier ihm admin pour post et page en enlevant la colonne de droite
+  - [x] Simplifier ihm admin pour post et page en enlevant la colonne de droite
   - [ ] Rendre generique la generation de l'ihm admin de post avec la declaration du model
   - [ ] Apprendre plus sur le framwork keystone pour prendre des idées sur 
+
+  -- TODO route comments edit ajouter les valeurs a ce qui est renvoyé au client
 
 # Correction
 

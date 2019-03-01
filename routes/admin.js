@@ -6,6 +6,7 @@ var op = require('../models/OP.js')
 var data = require('../models/data.js')
 var Post = data.model('Post')
 var User = data.model('User')
+var Comment = data.model('Comment')
 var Setting = data.model('Setting')
 
 router.all("*", (req, res, next) => {
@@ -154,6 +155,41 @@ router.get('/medias', (req, res) => {
 router.get('/widgets', (req, res) => {
 
   res.render('admin/widgets', { widgets: op.getWidgets() })
+
+})
+
+/*** Comments ***/
+router.get('/comments', (req, res) => {
+
+  data.comments.find({}, (err, comments) => {
+    res.render('admin/comments', { comments: comments })
+
+  })
+
+})
+
+router.get('/comments/edit/:commentId', (req, res) => {
+
+  var commentId = req.params.commentId
+
+  var commentSchema = Comment.commentSchema
+
+  data.comments.findOne({ _id: commentId }, (err, comment) => {
+
+    // for (var index in commentSchema) {
+
+      commentSchema.map(entry => {
+        console.log(entry)
+
+        // entry.value = comment.find(property => po)
+
+        console.log(entry.value)
+      })
+    // }
+
+      res.render('admin/comments-edit', { comment: comment, commentSchema: commentSchema })
+
+    })
 
 })
 

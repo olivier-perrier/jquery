@@ -2,16 +2,16 @@ var data = require('./data')
 
 var User = data.model('User')
 
-var Comment = {
+var Comment = {}
 
-    commentSchema: {
-        title: String,
-        content: String,
-        authorId: String,
-        postId: String,
-        createdAt: Date,
-        updatedAt: Date,
-    }
+Comment.commentSchema = {
+    title: { type: String, title: "Title", comment: "", main: true },
+    content: { type: String, title: "Content", comment: "", textarea: true },
+    status: { type: String, title: "Status", comment: "" },
+    authorId: { type: String, title: "Author", comment: "" },
+    postId: { type: String, title: "Post", comment: "" },
+    createdAt: { type: Date, title: "Created", comment: "", disabled: "disabled" },
+    updatedAt: { type: Date, title: "Updated", comment: "", disabled: "disabled" },
 }
 
 function create(comment, callback) {
