@@ -8,54 +8,22 @@
     </div>
 </div>
 
-<div class="row my-3">
+<div class="my-3">
 
-    <div class="col-md-8 mb-2">
-
-        <!-- Title -->
-        <div class="input-group input-group-lg mb-3">
-            <input type="text" class="form-control border-0" id="postTitle" value="{{page.title}}"
-                placeholder="Page title">
-        </div>
-
-        <!-- Content -->
-        <textarea id="postContent" rows="30" class="form-control border-0"
-            placeholder="Content">{{page.content}}</textarea>
-
-        <div class="p-3">
-            <p class="mb-1 text-muted">Created : {{page.createdAt}}</p>
-            <p class="mb-1 text-muted">Updated : {{page.updatedAt}}</p>
-        </div>
-
-
-
+    <!-- Title -->
+    <div class="input-group input-group-lg mb-3">
+        <input type="text" class="form-control" id="postTitle" value="{{page.title}}" placeholder="Post title">
     </div>
 
-    <div class="col-md-4">
+    <!-- Content -->
+    <div class="form-group">
+        <label>Content</label>
+        <textarea id="postContent" rows="30" class="form-control" placeholder="Content">{{page.content}}</textarea>
+    </div>
 
-        {{#page}}
-        {{> admin/edit-status}}
-        {{/page}}
-
-        <div class="card mb-2">
-            <div class="card-header">
-                <button class="btn btn-link" type="button">Name</button>
-            </div>
-
-            <div class="card-body">
-                <input type="text" class="form-control" id="postName" value="{{page.name}}">
-            </div>
-        </div>
-
-        <div class="card mb-2">
-            <div class="card-header">
-                <button class="btn btn-link" type="button">Image</button>
-            </div>
-            <div class="card-body">
-                <input type="text" class="form-control" id="postImage" value="{{page.image}}">
-            </div>
-        </div>
-
+    <div class="p-3">
+        <p class="mb-1 text-muted">Created : {{page.createdAt}}</p>
+        <p class="mb-1 text-muted">Updated : {{page.updatedAt}}</p>
     </div>
 
 </div>
