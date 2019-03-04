@@ -8,10 +8,11 @@ Comment.commentSchema = {
     title: { type: String, title: "Title", comment: "", main: true },
     content: { type: String, title: "Content", comment: "", textarea: true },
     status: { type: String, title: "Status", comment: "" },
-    authorId: { type: String, title: "Author", comment: "" },
-    postId: { type: String, title: "Post", comment: "" },
+    authorId: { type: String, title: "Author", comment: "", relationship: true, ref: 'User', disabled: "disabled" },
+    postId: { type: String, title: "Post", comment: "", relationship: true, ref: 'Post', disabled: "disabled" },
     createdAt: { type: Date, title: "Created", comment: "", disabled: "disabled" },
     updatedAt: { type: Date, title: "Updated", comment: "", disabled: "disabled" },
+    test: { type: String, title: "Test", comment: "", relationship: true, ref: 'posts'},
 }
 
 function create(comment, callback) {

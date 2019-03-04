@@ -22,6 +22,6 @@
   "author": "",
   "license": "ISC",
   "nodemonConfig": {
-    "ext": "html, js, hbs"
+    "ext": "js"
   }
 }

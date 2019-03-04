@@ -3,9 +3,9 @@
 <div class="border rounded mt-3 p-1 d-flex justify-content-between">
     <a href="/admin/posts" class="btn btn-light">Return</a>
     <div>
-        <button class="btn btn-success mx-3" type="button" onClick="postSave('{{post._id}}')">Save</button>
+        <button class="btn btn-success mx-3" type="button" onClick="postSave('{{comment._id}}')">Save</button>
         <a href="/posts/{{post._id}}" class="btn btn-primary mr-3">View</a>
-        <button onClick="deletePost('{{_id}}')" class="btn btn-danger btn-sm">Delete</button>
+        <button onClick="deletePost('{{comment._id}}')" class="btn btn-danger btn-sm">Delete</button>
     </div>
 </div>
 
@@ -46,29 +46,45 @@
 
     function postSave(postId) {
 
-        var post = {
-            title: $('#postTitle').val(),
-            name: $('#postName').val(),
-            image: $('#postImage').val(),
-            content: $('#postContent').val(),
-            description: $('#postDescription').val(),
-            category: $('#postCategory').val(),
-            format: $('#postFormat').val(),
-            tags: $('#postTags').val(),
-            status: $('#postStatus').val(),
+        /*** Generate generic object for attributs to send to the server ***/
+        var genericPost = {}
+
+        $('[id^="post-"]').each(function (index, key) {
+            var protected = $(this).attr("disabled")
+            if (!protected) {
+                var key = $(this).attr("id").split("-")[1]
+                var value = $(this).val()
+                genericPost[key] = value
+            }
+        })
+
+        console.log(genericPost)
+
+        var comment = {
+            title: $('#post-title').val(),
+            name: $('#post-name').val(),
+            image: $('#post-image').val(),
+            content: $('#post-content').val(),
+            description: $('#post-description').val(),
+            category: $('#post-category').val(),
+            format: $('#post-format').val(),
+            tags: $('#post-tags').val(),
+            status: $('#post-status').val(),
         }
 
-        $.post(URL + "/API/posts/save", { id: postId, post: post }, (data, statut) => {
+        // console.log(comment)
+
+        $.post(URL + "/API/comments/save", { id: postId, comment: genericPost }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/posts/edit/" + postId
+            window.location = "/admin/comments/edit/" + postId
         })
 
     }
 
     function deletePost(postId) {
-        $.post(URL + "/API/posts/delete/", { id: postId }, (data, statut) => {
+        $.post(URL + "/API/comments/delete/", { id: postId }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/posts"
+            window.location = "/admin/comments"
         })
     }
 

@@ -47,6 +47,12 @@ function getPosts(query, callback) {
     })
 }
 
+function getPostsByIds(postIds, callback) {
+    data.posts.find({ _id: { $in: postIds }, postType: "post" }, (err, posts) => {
+        callback(err, posts)
+    })
+}
+
 function getPost(postId, callback) {
     get(postId, (err, post) => {
         User.getJoinedUser(post, (err, post) => {
@@ -241,6 +247,7 @@ Post.createPost = createPost
 Post.updatePost = updatePost
 Post.removePost = removePost
 Post.getPosts = getPosts
+Post.getPostsByIds = getPostsByIds
 Post.getPost = getPost
 Post.getPostByName = getPostByName
 

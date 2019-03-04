@@ -125,6 +125,7 @@ User.create = create
 User.update = update
 User.remove = remove
 User.getUser = getUser
+User.getAll = getAll
 User.getUsers = getUsers
 User.getByName = getByName
 

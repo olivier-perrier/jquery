@@ -65,7 +65,7 @@ router.post('/posts/trash', (req, res) => {
   var postId = req.body.id
 
   var post = {
-    status : "trash"
+    status: "trash"
   }
 
   Post.updatePost(postId, post, (err, num) => {
@@ -339,6 +339,21 @@ router.post('/comments/create', (req, res) => {
       res.send({ message: "success : comment created", comment: comment })
     } else {
       res.send({ message: "internal error : impossible to create comment" })
+    }
+  })
+
+})
+
+router.post('/comments/save', (req, res) => {
+
+  var id = req.body.id
+  var comment = req.body.comment
+
+  Comment.update(id, comment, (err, num) => {
+    if (num) {
+      res.send({ message: "success : comment updated" })
+    } else {
+      res.send({ message: "internal error : impossible to save comment" })
     }
   })
 
