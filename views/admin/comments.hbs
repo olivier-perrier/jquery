@@ -3,13 +3,32 @@
 <div id="appp" class="my-3">
 
     <h2 class="m-3">Comments</h2>
-    
+
     <div class="m-1">
-        <span><a href="/admin/posts">All</a></span> - 
-        <span><a href="/admin/posts?status=draft">Draft</a></span> - 
-        <span><a href="/admin/posts?authorId={{user._id}}">Mine</a></span> - 
-        <span><a href="/admin/posts?status=trash">Trash</a></span>
+        <span><a href="/admin/comments">All</a></span> -
+        <span><a href="/admin/comments?status=draft">Draft</a></span> -
+        <span><a href="/admin/comments?authorId={{user._id}}">Mine</a></span> -
+        <span><a href="/admin/comments?status=trash">Trash</a></span>
     </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                {{#columns}}
+                <th>{{this}}</th>
+                {{/columns}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each comments as |comment commentKey|}}
+            <tr>
+                {{#each comment as |commentVal commentValKey|}}
+                <td>{{commentVal}}</td>
+                {{/each}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 
     <div class="border rounded">
 
@@ -22,6 +41,7 @@
                     <th scope="col">Post</th>
                     <th scope="col">Created</th>
                     <th scope="col">state</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -55,15 +75,15 @@
 <script>
 
     function createPost() {
-        $.post(URL + "/API/posts/create", {}, (data, statut) => {
+        $.post(URL + "/API/comments/create", {}, (data, statut) => {
             console.log(data)
             if (data.post)
-                window.location = "/admin/posts/edit/" + data.post._id
+                window.location = "/admin/comments/edit/" + data.post._id
         })
     }
 
     function deletePost(postId) {
-        $.post(URL + "/API/posts/trash", { id: postId }, (data, statut) => {
+        $.post(URL + "/API/comments/delete", { id: postId }, (data, statut) => {
             console.log(data)
             window.location = "/admin/posts"
         })

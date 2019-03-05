@@ -12,8 +12,10 @@ Comment.commentSchema = {
     postId: { type: String, title: "Post", comment: "", relationship: true, ref: 'Post', disabled: "disabled" },
     createdAt: { type: Date, title: "Created", comment: "", disabled: "disabled" },
     updatedAt: { type: Date, title: "Updated", comment: "", disabled: "disabled" },
-    test: { type: String, title: "Test", comment: "", relationship: true, ref: 'posts'},
+    test: { type: String, title: "Test", comment: "", relationship: true, ref: 'posts' },
 }
+
+Comment.defaultColumns = ['title', '_id', 'authorId', 'postId', 'status', 'createdAt']
 
 function create(comment, callback) {
 
