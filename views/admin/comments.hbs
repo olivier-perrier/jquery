@@ -2,70 +2,49 @@
 
 <div id="appp" class="my-3">
 
-    <h2 class="m-3">Comments</h2>
+    <h2 class="m-3">{{properties.title}}</h2>
 
     <div class="m-1">
-        <span><a href="/admin/comments">All</a></span> -
-        <span><a href="/admin/comments?status=draft">Draft</a></span> -
-        <span><a href="/admin/comments?authorId={{user._id}}">Mine</a></span> -
-        <span><a href="/admin/comments?status=trash">Trash</a></span>
+        <span><a href="/admin/{{properties.name}}">All</a></span> -
+        <span><a href="/admin/{{properties.name}}?status=draft">Draft</a></span> -
+        <span><a href="/admin/{{properties.name}}?authorId={{user._id}}">Mine</a></span> -
+        <span><a href="/admin/{{properties.name}}?status=trash">Trash</a></span>
     </div>
 
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                {{#columns}}
-                <th>{{this}}</th>
-                {{/columns}}
-            </tr>
-        </thead>
-        <tbody>
-            {{#each comments as |comment commentKey|}}
-            <tr>
-                {{#each comment as |commentVal commentValKey|}}
-                <td>{{commentVal}}</td>
-                {{/each}}
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
 
     <div class="border rounded">
 
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Id</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Post</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">state</th>
-                    <th scope="col"></th>
+                    {{#columns}}
+                    <th>{{this}}</th>
+                    {{/columns}}
                 </tr>
             </thead>
             <tbody>
-                {{# comments}}
+                {{#each comments as |comment|}}
                 <tr>
-                    <td scope="row">{{title}}</td>
-                    <th>
-                        <a href="/admin/comments/edit/{{_id}}" class="btn btn-link">{{_id}}</a>
-                    </th>
-                    <td><a :href="'/admin/user/' + post.authorId">{{authorUsername}}</a></td>
-                    <td>{{category}}</td>
-                    <td><small>{{tags}}</small></td>
-                    <td>{{comments}}</td>
-                    <td><small>{{toDate createdAt}}</small></td>
+                    {{#each comment as |commentVal|}}
+                    {{#ifeq commentVal.view "link"}}
                     <td>
-                        <button onClick="deletePost('{{_id}}')" class="btn btn-danger btn-sm">Delete</button>
+                        <a href="/admin/{{commentVal.ref}}/edit/{{commentVal.link}}"
+                            class="btn btn-link">{{commentVal.value}}</a>
                     </td>
+                    {{else}}
+                    <td>{{commentVal.value}}</td>
+                    {{/ifeq}}
+                    {{/each}}
                 </tr>
-                {{/ comments}}
+                {{/each}}
             </tbody>
         </table>
+
+
+
     </div>
 
-    <button onClick="createPost()" class="btn btn-light mt-3">Create</button>
+    <button onClick="createPost('{{properties.name}}')" class="btn btn-light mt-3">Create</button>
 
 </div>
 
@@ -74,11 +53,11 @@
 
 <script>
 
-    function createPost() {
-        $.post(URL + "/API/comments/create", {}, (data, statut) => {
+    function createPost(modelName) {
+        $.post(URL + "/API/" + modelName + "/create", (data, statut) => {
             console.log(data)
             if (data.post)
-                window.location = "/admin/comments/edit/" + data.post._id
+                window.location = "/admin/" + modelName + "/edit/" + data.post._id
         })
     }
 

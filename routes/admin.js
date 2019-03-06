@@ -166,48 +166,13 @@ router.get('/comments', (req, res) => {
   var commentSchema = Comment.commentSchema
   var commentColumns = Comment.defaultColumns
 
-  /*** set proper columns names ***/
+  data.comments.find({}, Comment.getProjection(), (err, comments) => {
 
-  // For every column name we get the title in the schema
-  var columnsDisplay = []
-  commentColumns.map(column => {
-    console.log(column)
-    console.log(commentSchema[column])
-    if (commentSchema[column]) {
-      // column.title = commentSchema[column]
-      columnsDisplay.push(commentSchema[column].title)
-    } else {
-      console.log("[WARNING] property " + column + " is on the columns name but not in the Schema")
-      columnsDisplay.push(column)
-    }
+    var postsBuilt = Comment.getBuildRequest(comments)
 
-  })
+    console.log(postsBuilt)
 
-  console.log("columnsDisplay")
-  console.log(columnsDisplay)
-
-  data.comments.find({}, (err, comments) => {
-
-    /*** create the post result to return ***/
-    var postsToReturn = []
-
-    // For every posts
-    for (var commentKey in comments) {
-      var comment = comments[commentKey]
-
-      var commentToReturn = {}
-
-      commentColumns.forEach(column => {
-        commentToReturn[column] = comment[column]
-      })
-
-      postsToReturn.push(commentToReturn)
-
-    }
-
-    console.log(postsToReturn)
-
-    res.render('admin/comments', { comments: postsToReturn, columns : columnsDisplay })
+    res.render('admin/comments', { comments: postsBuilt, columns: Comment.getColumnsTitles(), properties: Comment.properties })
 
   })
 

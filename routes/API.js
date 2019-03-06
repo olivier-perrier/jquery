@@ -330,13 +330,13 @@ router.post('/medias/delete', (req, res) => {
 
 router.post('/comments/create', (req, res) => {
 
-  var comment = req.body.comment
+  var comment = req.body.comment || {}
 
   comment.authorId = req.session.userId
 
   Comment.create(comment, (err, comment) => {
     if (comment) {
-      res.send({ message: "success : comment created", comment: comment })
+      res.send({ message: "success : comment created", post: comment })
     } else {
       res.send({ message: "internal error : impossible to create comment" })
     }
