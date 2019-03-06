@@ -170,7 +170,7 @@ router.get('/comments', (req, res) => {
 
     var postsBuilt = Comment.getBuildPosts(comments)
 
-    console.log(postsBuilt)
+    // console.log(postsBuilt)
 
     res.render('admin/comments', { comments: postsBuilt, columns: Comment.getColumnsTitles(), properties: Comment.properties })
 
@@ -186,11 +186,20 @@ router.get('/comments/edit/:commentId', (req, res) => {
 
   data.comments.findOne({ _id: commentId }, (err, post) => {
 
-    var postToReturn = Comment.getBuildPost(post)
+    async.series({
 
-    console.log(postToReturn)
+      post: function (callback) {
+        var postToReturn = Comment.getBuildPost(post)
+        callback(null, postToReturn);
+      }
+    },
 
-    res.render('admin/comments-edit', { post: postToReturn, commentSchema: commentSchema, properties: Comment.properties })
+      function (err, results) {
+        // console.log(results)
+
+        res.render('admin/comments-edit', { post: results.post, commentSchema: commentSchema, properties: Comment.properties })
+      })
+
 
   })
 

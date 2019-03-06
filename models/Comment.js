@@ -50,6 +50,7 @@ Comment.getColumnsTitles = function () {
  * @param post post object of the database
  */
 Comment.getBuildPost = function (post) {
+
     var postToReturn = {}
 
     for (var key in this.commentSchema) {
@@ -62,6 +63,8 @@ Comment.getBuildPost = function (post) {
         postToReturn[key].disabled = this.commentSchema[key].protected ? "disabled" : ""
         postToReturn[key].relationship = this.commentSchema[key].relationship
 
+
+
         if (this.commentSchema[key] && this.commentSchema[key].relationship) {
 
             postToReturn[key].link = post[key]
@@ -70,21 +73,23 @@ Comment.getBuildPost = function (post) {
             var ref = this.commentSchema[key].ref
             var path = this.commentSchema[key].path
 
-            console.log("relationship found for " + post[key] + " ref: " + ref)
-            data[ref].findOne({ _id: post[key] }, (err, docpost) => {
-                if (docpost)
-                    postToReturn[key].value = docpost[path]
-                else {
-                    postToReturn[key].value = post[key]
-                    console.log("[WARNING] not post found for " + post[key] + " in " + ref)
-                }
-            })
+            if (post[key])
+                data[ref].findOne({ _id: post[key] }, (err, docpost) => {
+                    if (docpost) {
+                        postToReturn[key].value = docpost[path]
+                    } else {
+                        postToReturn[key].value = post[key]
+                        console.log("[WARNING] not post found for " + post[key] + " in " + ref)
+                    }
+                })
+
 
         }
 
     }
 
     return postToReturn
+
 }
 
 
@@ -115,6 +120,13 @@ Comment.getBuildPosts = function (posts) {
                 postToReturn[column].disabled = this.commentSchema[column].protected ? "disabled" : ""
                 postToReturn[column].relationship = this.commentSchema[column].relationship
 
+                // if date type
+
+                if (this.commentSchema[column].type == Date) {
+                    if (post[column])
+                        postToReturn[column].value = toDate(post[column])
+                }
+
                 // if relationship
                 if (this.commentSchema[column] && this.commentSchema[column].relationship) {
                     postToReturn[column].link = post[column]
@@ -123,15 +135,15 @@ Comment.getBuildPosts = function (posts) {
                     var ref = this.commentSchema[column].ref
                     var path = this.commentSchema[column].path
 
-                    console.log("relationship found for " + post[column] + " ref: " + ref)
-                    data[ref].findOne({ _id: post[column] }, (err, docpost) => {
-                        if (docpost)
-                            postToReturn[column].value = docpost[path]
-                        else {
-                            postToReturn[column].value = post[column]
-                            console.log("[WARNING] not post found for " + post[column] + " in " + ref)
-                        }
-                    })
+                    if (post[column])
+                        data[ref].findOne({ _id: post[column] }, (err, docpost) => {
+                            if (docpost)
+                                postToReturn[column].value = docpost[path]
+                            else {
+                                postToReturn[column].value = post[column]
+                                console.log("[WARNING] not post found for " + post[column] + " in " + ref)
+                            }
+                        })
                 }
 
 
@@ -146,6 +158,12 @@ Comment.getBuildPosts = function (posts) {
     })
 
     return postsBuilt
+}
+
+function toDate(date) {
+    var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    if (date)
+        return date.toLocaleDateString('en-EN', options)
 }
 
 function create(comment, callback) {
