@@ -168,7 +168,7 @@ router.get('/comments', (req, res) => {
 
   data.comments.find({}, Comment.getProjection(), (err, comments) => {
 
-    var postsBuilt = Comment.getBuildRequest(comments)
+    var postsBuilt = Comment.getBuildPosts(comments)
 
     console.log(postsBuilt)
 
@@ -184,64 +184,13 @@ router.get('/comments/edit/:commentId', (req, res) => {
 
   var commentSchema = Comment.commentSchema
 
-  data.comments.findOne({ _id: commentId }, (err, comment) => {
+  data.comments.findOne({ _id: commentId }, (err, post) => {
 
-    for (var key in commentSchema) {
+    var postToReturn = Comment.getBuildPost(post)
 
-      // Add the default value
-      for (var keyComment in comment) {
-        if (keyComment == key) {
+    console.log(postToReturn)
 
-          commentSchema[key].value = comment[keyComment]
-
-        }
-      }
-    }
-
-    /*** Format relationships ***/
-
-    async function myFunction(commentProp) {
-      await data.posts.findOne({ _id: commentProp.value }, (err, post) => {
-        if (post)
-          commentProp.value = post.name
-      })
-    }
-
-    async function myFunctionUser(commentProp) {
-      await data.users.findOne({ _id: commentProp.value }, (err, user) => {
-        if (user)
-          commentProp.value = user.username
-      })
-    }
-
-    async function myFunctionGeneric(database, commentProp) {
-      database.findOne({ _id: commentProp.value }, (err, post) => {
-        if (post)
-          commentProp.value = post.name
-      })
-    }
-
-
-    Object.values(commentSchema).map(commentProp => {
-
-      if (commentProp.relationship)
-
-        if (commentProp.ref == 'Post') {
-          myFunction(commentProp)
-        } else if (commentProp.ref == 'User') {
-          myFunctionUser(commentProp)
-        } else {
-          commentProp.value = "QQTpZFtagjVrXqno"
-          myFunctionGeneric(data[commentProp.ref], commentProp)
-          data[commentProp.ref].findOne({ _id: commentProp.value }, (err, post) => {
-            console.log(post)
-          })
-        }
-    })
-
-
-    res.render('admin/comments-edit', { comment: comment, commentSchema: commentSchema })
-
+    res.render('admin/comments-edit', { post: postToReturn, commentSchema: commentSchema, properties: Comment.properties })
 
   })
 

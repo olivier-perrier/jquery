@@ -1,35 +1,35 @@
 {{#> admin/content}}
 
 <div class="border rounded mt-3 p-1 d-flex justify-content-between">
-    <a href="/admin/comments" class="btn btn-light">Return</a>
+    <a href="/admin/{{properties.name}}" class="btn btn-light">Return</a>
     <div>
-        <button class="btn btn-success mx-3" type="button" onClick="postSave('{{comment._id}}')">Save</button>
-        <a href="/posts/{{post._id}}" class="btn btn-primary mr-3">View</a>
-        <button onClick="deletePost('{{comment._id}}')" class="btn btn-danger btn-sm">Delete</button>
+        <button class="btn btn-success mx-3" type="button" onClick="postSave('{{post._id}}')">Save</button>
+        <a href="/{{properties.name}}/{{post._id.value}}" class="btn btn-primary mr-3">View</a>
+        <button onClick="deletePost('{{post._id.value}}')" class="btn btn-danger btn-sm">Delete</button>
     </div>
 </div>
 
 <div class="my-3">
 
-    {{#each commentSchema}}
+    {{#each post}}
 
-    {{#if this.main}}
+    {{#if main}}
     <div class="form-group">
-        <input type="text" class="form-control form-control-lg" id="post-{{@key}}" value="{{this.value}}"
-            placeholder="Post title">
+        <input type="text" class="form-control form-control-lg" id="post-{{@key}}" value="{{value}}"
+            placeholder="Post title" {{disabled}}>
     </div>
 
     {{else}}
 
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label">{{this.title}}</label>
+        <label class="col-sm-2 col-form-label">{{title}}</label>
         <div class="col-sm-10">
-            {{#if this.textarea}}
-            <textarea id="post-{{@key}}" class="form-control" placeholder="Content">{{this.value}}</textarea>
+            {{#if textarea}}
+            <textarea id="post-{{@key}}" class="form-control" placeholder="Content">{{value}}</textarea>
             {{else}}
-            <input type="text" class="form-control" id="post-{{@key}}" value="{{this.value}}" {{this.disabled}}>
+            <input type="text" class="form-control" id="post-{{@key}}" value="{{value}}" {{disabled}}>
             {{/if}}
-            <small id="emailHelp" class="form-text text-muted">{{this.comment}}</small>
+            <small id="emailHelp" class="form-text text-muted">{{comment}}</small>
         </div>
     </div>
     {{/if}}

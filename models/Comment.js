@@ -10,15 +10,13 @@ Comment.properties = {
 }
 
 Comment.commentSchema = {
-    _id: { type: String, title: "Id", view: "link" },
-    title: { type: String, title: "Title", comment: "", main: true },
-    content: { type: String, title: "Content", comment: "", textarea: true },
-    status: { type: String, title: "Status", comment: "" },
-    authorId: { type: String, title: "Author", comment: "", view: "link", relationship: true, ref: 'users', path: "username", disabled: "disabled" },
-    postId: { type: String, title: "Post", comment: "", view: "link", relationship: true, ref: 'posts', path: "name", disabled: "disabled" },
-    createdAt: { type: Date, title: "Created", comment: "", disabled: "disabled" },
-    updatedAt: { type: Date, title: "Updated", comment: "", disabled: "disabled" },
-    test: { type: String, title: "Test", comment: "", relationship: true, ref: 'posts' },
+    _id: { type: String, title: "Id", main: true, protected: true, relationship: true, ref: 'comments', path: "_id", protected: true },
+    content: { type: String, title: "Content", textarea: true },
+    status: { type: String, title: "Status" },
+    authorId: { type: String, title: "Author", relationship: true, ref: 'users', path: "username", protected: true },
+    postId: { type: String, title: "Post", relationship: true, ref: 'posts', path: "name", protected: true },
+    createdAt: { type: Date, title: "Created", protected: true },
+    updatedAt: { type: Date, title: "Updated", protected: true },
 }
 Comment.defaultColumns = ['_id', 'authorId', 'postId', 'status', 'createdAt']
 
@@ -46,15 +44,62 @@ Comment.getColumnsTitles = function () {
     return columnsDisplay
 }
 
-/***
- * Return the result of the request formated with entries for the generic view
+/**
+ * Built and return the post object for the client
+ * Only use for the tabs
+ * @param post post object of the database
  */
-Comment.getBuildRequest = function (posts) {
+Comment.getBuildPost = function (post) {
+    var postToReturn = {}
+
+    for (var key in this.commentSchema) {
+        postToReturn[key] = {}
+
+        postToReturn[key].main = this.commentSchema[key].main
+        postToReturn[key].name = this.commentSchema[key].name
+        postToReturn[key].title = this.commentSchema[key].title
+        postToReturn[key].value = post[key]
+        postToReturn[key].disabled = this.commentSchema[key].protected ? "disabled" : ""
+        postToReturn[key].relationship = this.commentSchema[key].relationship
+
+        if (this.commentSchema[key] && this.commentSchema[key].relationship) {
+
+            postToReturn[key].link = post[key]
+            postToReturn[key].ref = this.commentSchema[key].ref
+
+            var ref = this.commentSchema[key].ref
+            var path = this.commentSchema[key].path
+
+            console.log("relationship found for " + post[key] + " ref: " + ref)
+            data[ref].findOne({ _id: post[key] }, (err, docpost) => {
+                if (docpost)
+                    postToReturn[key].value = docpost[path]
+                else {
+                    postToReturn[key].value = post[key]
+                    console.log("[WARNING] not post found for " + post[key] + " in " + ref)
+                }
+            })
+
+        }
+
+    }
+
+    return postToReturn
+}
+
+
+/**
+ * Built and return the posts objects array for the client
+ * Only use for the single post
+ * @param post posts object array from the database
+ */
+Comment.getBuildPosts = function (posts) {
 
     var postsBuilt = []
 
     // For every posts
     posts.forEach(post => {
+
         var postToReturn = {} // object formated like a post { _id: xxx, author: xxx }
 
         // for every property in the columns to display
@@ -64,8 +109,14 @@ Comment.getBuildRequest = function (posts) {
             if (this.commentSchema[column]) {
                 postToReturn[column] = {}
 
+                postToReturn[column].name = this.commentSchema[column].name
+                postToReturn[column].title = this.commentSchema[column].title
+                postToReturn[column].value = post[column]
+                postToReturn[column].disabled = this.commentSchema[column].protected ? "disabled" : ""
+                postToReturn[column].relationship = this.commentSchema[column].relationship
+
                 // if relationship
-                if (this.commentSchema[column].relationship) {
+                if (this.commentSchema[column] && this.commentSchema[column].relationship) {
                     postToReturn[column].link = post[column]
                     postToReturn[column].ref = this.commentSchema[column].ref
 
@@ -81,9 +132,6 @@ Comment.getBuildRequest = function (posts) {
                             console.log("[WARNING] not post found for " + post[column] + " in " + ref)
                         }
                     })
-                } else {
-
-                    postToReturn[column].value = post[column]
                 }
 
 
@@ -104,16 +152,14 @@ function create(comment, callback) {
 
     schemaCleaning(comment)
 
-    // Add missed property from the schema
-    for (var key in Comment.commentSchema) {
-        if (!comment[key]) {
-            comment[key] = ""
-        }
-    }
+    schemaCompleting(comment)
 
     comment.createdAt = new Date()
 
+    console.log(comment)
+
     data.comments.insert(comment, (err, comment) => {
+        console.log(err)
         callback(err, comment)
     })
 }
@@ -164,6 +210,18 @@ function schemaCleaning(comment) {
         if (!Comment.commentSchema[key]) {
             console.warn("[WARNING] property '" + key + "' do not existe in the comment schema")
             delete comment[key]
+        }
+    }
+}
+
+/**
+ * Formet the post with the schema by adding missing entries.
+ * _id entry is not added
+ */
+function schemaCompleting(post) {
+    for (var key in this.commentSchema) {
+        if (!post[key] && key != "_id") {
+            post[key] = ""
         }
     }
 }

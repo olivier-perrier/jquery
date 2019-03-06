@@ -26,14 +26,14 @@
                 {{#each comments as |comment|}}
                 <tr>
                     {{#each comment as |commentVal|}}
-                    {{#ifeq commentVal.view "link"}}
+                    {{#if commentVal.relationship }}
                     <td>
                         <a href="/admin/{{commentVal.ref}}/edit/{{commentVal.link}}"
                             class="btn btn-link">{{commentVal.value}}</a>
                     </td>
                     {{else}}
                     <td>{{commentVal.value}}</td>
-                    {{/ifeq}}
+                    {{/if}}
                     {{/each}}
                 </tr>
                 {{/each}}
