@@ -7,6 +7,7 @@ var op = require('../models/OP.js')
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
+var Page = data.model('Page')
 var User = data.model('User')
 var Comment = data.model('Comment')
 var Setting = data.model('Setting')
@@ -86,22 +87,18 @@ router.get('/menus/edit/:menuId', (req, res) => {
 /*** Pages ***/
 router.get('/pages', (req, res) => {
 
-  var userId = req.session.userId
-
-  if (userId) {
-
     data.posts.find({ postType: "page" }, (err, pages) => {
 
-      data.users.findOne({ _id: userId }, (err, user) => {
+      var postsBuilt = Page.getBuildPosts(pages)
 
-        res.render('admin/pages', { pages: pages, user: user })
+      console.log(postsBuilt)
 
-      })
+      res.render('admin/comments', { comments: postsBuilt, columns: Page.getColumnsTitles(), properties: Page.properties })
+
+      // res.render('admin/pages', { pages: pages, user: user })
+
     })
-  } else {
-    res.send({ messsage: "forbidden: you must be logged to access admin" })
-
-  }
+  
 
 })
 
@@ -162,9 +159,6 @@ router.get('/widgets', (req, res) => {
 
 /*** Comments ***/
 router.get('/comments', (req, res) => {
-
-  var commentSchema = Comment.commentSchema
-  var commentColumns = Comment.defaultColumns
 
   data.comments.find({}, Comment.getProjection(), (err, comments) => {
 

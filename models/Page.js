@@ -1,27 +1,27 @@
 var data = require('./data')
+var opkey = require('./opkey')
 
 var User = data.model('User')
 
-var Comment = {}
+var Page = {}
 
-Comment.properties = {
-    title: "Comments",
-    name: "comments"
+Page.properties = {
+    title: "Page",
+    name: "pages"
 }
 
-Comment.commentSchema = {
-    _id: { type: String, title: "Id", main: true, protected: true, relationship: true, ref: 'comments', path: "_id" },
-    content: { type: String, title: "Content", textarea: true },
-    status: { type: String, title: "Status" },
+Page.commentSchema = {
+    title: { type: String, title: "Title", main: true, protected: false, relationship: true, ref: 'pages', path: "_id" },
     authorId: { type: String, title: "Author", relationship: true, ref: 'users', path: "username", protected: true },
-    postId: { type: String, title: "Post", relationship: true, ref: 'posts', path: "name", protected: true },
     createdAt: { type: Date, title: "Created", protected: true },
-    updatedAt: { type: Date, title: "Updated", protected: true },
+    status: { type: String, title: "Status" },
+    // comment: { type: String, title: "Post", relationship: true, ref: 'posts', path: "name", protected: true },
 }
-Comment.defaultColumns = ['_id', 'authorId', 'postId', 'status', 'createdAt']
+
+Page.defaultColumns = ['title', 'authorId', 'createdAt', 'status']
 
 /*** return the projection object of the columns to projection by database ***/
-Comment.getProjection = function () {
+Page.getProjection = function () {
     return this.defaultColumns.reduce((acc, val, index) => {
         acc[val] = 1
         return acc
@@ -29,7 +29,7 @@ Comment.getProjection = function () {
 }
 
 /*** return the titles of the columns names to display ***/
-Comment.getColumnsTitles = function () {
+Page.getColumnsTitles = function () {
     var columnsDisplay = []
     this.defaultColumns.map(column => {
         if (this.commentSchema[column]) {
@@ -49,7 +49,7 @@ Comment.getColumnsTitles = function () {
  * Only use for the tabs
  * @param post post object of the database
  */
-Comment.getBuildPost = function (post) {
+Page.getBuildPost = function (post) {
 
     var postToReturn = {}
 
@@ -98,7 +98,7 @@ Comment.getBuildPost = function (post) {
  * Only use for the single post
  * @param post posts object array from the database
  */
-Comment.getBuildPosts = function (posts) {
+Page.getBuildPosts = function (posts) {
 
     var postsBuilt = []
 
@@ -244,11 +244,11 @@ function schemaCompleting(post) {
     }
 }
 
-Comment.create = create
-Comment.update = update
-Comment.remove = remove
-Comment.getAll = getAll
-Comment.get = get
-Comment.getByPost = getByPost
+Page.create = create
+Page.update = update
+Page.remove = remove
+Page.getAll = getAll
+Page.get = get
+Page.getByPost = getByPost
 
-module.exports = Comment
+module.exports = Page
