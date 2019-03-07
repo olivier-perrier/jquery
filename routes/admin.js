@@ -152,7 +152,7 @@ function sendGenericPosts(res, model) {
     var postsRes = model.getBuildPosts(posts)
     console.log(postsRes)
 
-    res.render('admin/comments', { posts: postsRes, columns: model.getColumnsTitles(), properties: model.properties })
+    res.render('admin/comments', { schema: model.schema, test:"test", posts: postsRes, columns: model.getColumnsTitles(), properties: model.properties })
 
   })
 }

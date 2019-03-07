@@ -109,12 +109,7 @@ router.post('/pages/save', (req, res) => {
   var postId = req.body.id
   var post = req.body.post
 
-  console.log(postId)
-
-  post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "page-name"
-  post.content = post.content ? post.content.replace(/  /g, " ") : ""
-  post.contentPreview = post.content.substring(0, 100)
-  post.tags = post.tags ? post.tags.split(",") : ""
+  console.log(post)
 
   Page.update(postId, post, (err, num) => {
     if (num) {

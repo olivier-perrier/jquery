@@ -26,43 +26,40 @@ class Model {
      * @param post post object format to display for the model
      */
     getBuildPost(post) {
-        var postToReturn = {}
+
+        // Add the id
+        this.schema._id = {}
+        this.schema._id.value = post._id
+        this.schema._id.viewType = "hidden"
 
         for (var key in this.schema) {
-            postToReturn[key] = {}
 
-            postToReturn[key].main = this.schema[key].main
-            postToReturn[key].name = this.schema[key].name
-            postToReturn[key].title = this.schema[key].title
-            postToReturn[key].value = post[key]
-            postToReturn[key].disabled = this.schema[key].protected ? "disabled" : ""
-            postToReturn[key].relationship = this.schema[key].relationship
-            postToReturn[key].viewType = this.schema[key].viewType
+            // Copy the brut value
+            this.schema[key].value = post[key]
 
-            if (this.schema[key] && this.schema[key].relationship) {
+            // Some helper for the interface
+            this.schema[key].disabled = this.schema[key].protected ? "disabled" : ""
 
-                postToReturn[key].link = post[key]
-                postToReturn[key].ref = this.schema[key].ref
+            // if relationship
+            if (this.schema[key].viewType == "relationship") {
 
                 var ref = this.schema[key].ref
                 var path = this.schema[key].path
 
-                if (post[key])
-                    data[ref].findOne({ _id: post[key] }, (err, docpost) => {
-                        if (docpost) {
-                            postToReturn[key].value = docpost[path]
-                        } else {
-                            postToReturn[key].value = post[key]
-                            console.log("[WARNING] not post found for " + post[key] + " in " + ref)
-                        }
-                    })
+                data[ref].findOne({ _id: post[key] }, (err, docpost) => {
+                    if (docpost) {
+                        this.schema[key].link = docpost[path]
+                    } else {
+                        console.log("[WARNING] not post found for key: " + key + " " + post[key] + " in " + ref)
+                    }
+                })
 
 
             }
 
         }
 
-        return postToReturn
+        return this.schema
     }
 
     /**
@@ -91,24 +88,20 @@ class Model {
                 if (this.schema[column]) {
                     postToReturn[column] = {}
 
-                    postToReturn[column].name = this.schema[column].name
-                    postToReturn[column].title = this.schema[column].title
+                    // postToReturn[column].title = this.schema[column].title
                     postToReturn[column].value = post[column]
-                    postToReturn[column].disabled = this.schema[column].protected ? "disabled" : ""
-                    postToReturn[column].relationship = this.schema[column].relationship
-                    
                     postToReturn[column].viewType = this.schema[column].viewType
-
-                    // if autokey
-                    if (this.schema[column].viewType = "autokey") {
-                        postToReturn[column].value = post[column]
-                        postToReturn[column].link = post["_id"]
-                        postToReturn[column].ref = this.schema[column].ref
-                    }
 
                     // if date type
                     if (this.schema[column].type == Date) {
                         if (post[column]) postToReturn[column].value = this.toDate(post[column])
+                    }
+
+                    // if autokey for the tab
+                    if (this.schema[column].viewType == "link") {
+                        console.log("adding link" + post._id)
+                        postToReturn[column].ref = this.properties.name
+                        postToReturn[column].link = post._id
                     }
 
                     // if relationship
@@ -121,21 +114,16 @@ class Model {
 
                         // console.log("[DEBUG] looking for relationship " + column + " " + post[column] + " in ref: " + ref + " path: " + path)
 
-                        if (post[column])
-                            data[ref].findOne({ _id: post[column] }, (err, docpost) => {
-                                if (docpost) {
-                                    postToReturn[column].value = docpost[path]
-                                    // console.log("[DEBUG] relationship found " + post[column] + " in ref: " + ref + " path: " + path)
-
-                                } else {
-                                    postToReturn[column].value = post[column]
-                                    console.log("[WARNING] not post found for " + post[column] + " in " + ref)
-                                }
-                            })
+                        data[ref].findOne({ _id: post[column] }, (err, docpost) => {
+                            if (docpost) {
+                                postToReturn[column].link = docpost[path]
+                                // console.log("[DEBUG] relationship found " + post[column] + " in ref: " + ref + " path: " + path)
+                            } else {
+                                console.log("[WARNING] not post found for " + post[column] + " in " + ref)
+                            }
+                        })
                     }
 
-
-                    postToReturn[column].view = this.schema[column].view
                 } else
                     console.log("[WARNING] property " + column + " not defined in the schema")
 
@@ -189,8 +177,8 @@ class Model {
      */
     schemaCleaning(post) {
         for (var key in post) {
-            if (!this.schema[key]) {
-                console.warn("[WARNING] property '" + key + "' do not existe in the comment schema")
+            if (!this.schema[key] || this.schema[key].protected) {
+                console.warn("[WARNING] property '" + key + "' do not existe in the comment schema or protected")
                 delete post[key]
             }
         }

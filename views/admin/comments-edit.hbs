@@ -47,9 +47,14 @@
 
 
     {{#ifeq viewType "string" }}
-        {{postVal.value}}
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">{{title}}</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="post-{{@key}}" value="{{value}}" {{disabled}}>
+            <small id="emailHelp" class="form-text text-muted">{{comment}}</small>
+        </div>
+    </div>
     {{/ifeq}}
-
 
     {{/each}}
 
@@ -63,7 +68,7 @@
 
     function postSave(postId) {
 
-        console.log(postId)
+        console.log("postId " + postId)
 
         /*** Generate generic object for attributs to send to the server ***/
         var genericPost = {}
@@ -89,9 +94,9 @@
     }
 
     function deletePost(postId) {
-        $.post(URL + "/API/comments/delete/", { id: postId }, (data, statut) => {
+        $.post(URL + "/API/{{ properties.name }}/delete/", { id: postId }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/comments"
+            window.location = "/admin/{{ properties.name }}"
         })
     }
 

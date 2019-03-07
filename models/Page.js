@@ -4,7 +4,7 @@ var opkey = require('./opkey')
 var Page = new opkey.Model("Pages", "pages")
 
 Page.add({
-    title: { type: String, title: "Title", main: true, viewType: "autokey", ref: "pages" },
+    title: { type: String, title: "Title", main: true, viewType: "link"},
     content: { type: String, title: "Content", viewType: "textarea" },
     authorId: { type: String, title: "Author", viewType: "relationship", ref: 'users', path: "username", protected: true },
     createdAt: { type: Date, title: "Created", viewType: "string", protected: true },
@@ -12,7 +12,6 @@ Page.add({
 })
 
 Page.defaultColumns = ['title', 'authorId', 'createdAt', 'status']
-
 
 function create(page, callback) {
 
