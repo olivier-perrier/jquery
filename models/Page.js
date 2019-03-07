@@ -4,11 +4,11 @@ var opkey = require('./opkey')
 var Page = new opkey.Model("Pages", "pages")
 
 Page.add({
-    title: { type: String, title: "Title", main: true, protected: false, autokey: true, ref: "pages" },
-    authorId: { type: String, title: "Author", relationship: true, ref: 'users', path: "username", protected: true },
-    createdAt: { type: Date, title: "Created", protected: true },
-    status: { type: String, title: "Status" },
-    // comment: { type: String, title: "Post", relationship: true, ref: 'posts', path: "name", protected: true },
+    title: { type: String, title: "Title", main: true, viewType: "autokey", ref: "pages" },
+    content: { type: String, title: "Content", viewType: "textarea" },
+    authorId: { type: String, title: "Author", viewType: "relationship", ref: 'users', path: "username", protected: true },
+    createdAt: { type: Date, title: "Created", viewType: "string", protected: true },
+    status: { type: String, title: "Status", viewType: "string", },
 })
 
 Page.defaultColumns = ['title', 'authorId', 'createdAt', 'status']
@@ -16,27 +16,27 @@ Page.defaultColumns = ['title', 'authorId', 'createdAt', 'status']
 
 function create(page, callback) {
 
-    PageKey.schemaCleaning(page)
+    Page.schemaCleaning(page)
 
-    PageKey.schemaCompleting(page)
+    Page.schemaCompleting(page)
 
     page.createdAt = new Date()
 
     console.log(page)
 
-    data.pages.insert(comment, (err, page) => {
+    data.pages.insert(page, (err, page) => {
         console.log(err)
         callback(err, page)
     })
 }
 
-function update(pageId, page, callback) {
+function update(postId, post, callback) {
 
-    PageKey.schemaCleaning(page)
+    Page.schemaCleaning(post)
 
-    page.updatedAt = new Date()
+    post.updatedAt = new Date()
 
-    data.comments.update({ _id: pageId }, page, (err, num) => {
+    data.pages.update({ _id: postId }, post, (err, num) => {
         callback(err, num)
     })
 }

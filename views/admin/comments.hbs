@@ -17,6 +17,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
+                    <th></th>
                     {{#columns}}
                     <th>{{this}}</th>
                     {{/columns}}
@@ -25,23 +26,29 @@
             <tbody>
                 {{#each posts as |post|}}
                 <tr>
-                    {{#each post as |postVal|}}
+                    {{#each post as |postVal postKey|}}
 
-                    {{#if postVal.autokey }}
+                    {{#ifeq viewType "delete" }}
+                    <td>
+                        <button onClick="deletePost('{{postVal.value}}')" class="btn btn-danger btn-sm">x</button>
+                    </td>
+                    {{/ifeq}}
+
+                    {{#ifeq viewType "autokey" }}
                     <td>
                         <a href="/admin/{{postVal.ref}}/edit/{{postVal.link}}"
                             class="btn btn-link">{{postVal.value}}</a>
                     </td>
-                    {{/if}}
+                    {{/ifeq}}
 
-                    {{#if postVal.relationship }}
+                    {{#ifeq viewType "relationship" }}
                     <td>
                         <a href="/admin/{{postVal.ref}}/edit/{{postVal.link}}"
                             class="btn btn-link">{{postVal.value}}</a>
                     </td>
-                    {{else}}
-                    <td>{{postVal.value}}</td>
-                    {{/if}}
+                    {{/ifeq}}
+
+
                     {{/each}}
                 </tr>
                 {{/each}}
@@ -70,9 +77,10 @@
     }
 
     function deletePost(postId) {
-        $.post(URL + "/API/comments/delete", { id: postId }, (data, statut) => {
+        console.log(postId)
+        $.post(URL + "/API/{{properties.name}}/delete", { id: postId }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/posts"
+            window.location = "/admin/{{properties.name}}"
         })
     }
 

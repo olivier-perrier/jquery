@@ -3,7 +3,7 @@
 <div class="border rounded mt-3 p-1 d-flex justify-content-between">
     <a href="/admin/{{properties.name}}" class="btn btn-light">Return</a>
     <div>
-        <button class="btn btn-success mx-3" type="button" onClick="postSave('{{post._id}}')">Save</button>
+        <button class="btn btn-success mx-3" type="button" onClick="postSave('{{post._id.value}}')">Save</button>
         <a href="/{{properties.name}}/{{post._id.value}}" class="btn btn-primary mr-3">View</a>
         <button onClick="deletePost('{{post._id.value}}')" class="btn btn-danger btn-sm">Delete</button>
     </div>
@@ -13,26 +13,43 @@
 
     {{#each post}}
 
+    {{#ifeq viewType "hidden"}}
+    {{!-- display nothing --}}
+    {{/ifeq}}
+
     {{#if main}}
     <div class="form-group">
         <input type="text" class="form-control form-control-lg" id="post-{{@key}}" value="{{value}}"
             placeholder="Post title" {{disabled}}>
     </div>
+    {{/if}}
 
-    {{else}}
 
+    {{#ifeq viewType "relationship"}}
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">{{title}}</label>
         <div class="col-sm-10">
-            {{#if textarea}}
-            <textarea id="post-{{@key}}" class="form-control" placeholder="Content">{{value}}</textarea>
-            {{else}}
             <input type="text" class="form-control" id="post-{{@key}}" value="{{value}}" {{disabled}}>
-            {{/if}}
             <small id="emailHelp" class="form-text text-muted">{{comment}}</small>
         </div>
     </div>
-    {{/if}}
+    {{/ifeq}}
+
+    {{#ifeq viewType "textarea"}}
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">{{title}}</label>
+        <div class="col-sm-10">
+            <textarea id="post-{{@key}}" class="form-control" placeholder="Content">{{value}}</textarea>
+            <small id="emailHelp" class="form-text text-muted">{{comment}}</small>
+        </div>
+    </div>
+    {{/ifeq}}
+
+
+    {{#ifeq viewType "string" }}
+        {{postVal.value}}
+    {{/ifeq}}
+
 
     {{/each}}
 
@@ -45,6 +62,8 @@
 <script>
 
     function postSave(postId) {
+
+        console.log(postId)
 
         /*** Generate generic object for attributs to send to the server ***/
         var genericPost = {}
@@ -60,23 +79,11 @@
 
         console.log(genericPost)
 
-        var comment = {
-            title: $('#post-title').val(),
-            name: $('#post-name').val(),
-            image: $('#post-image').val(),
-            content: $('#post-content').val(),
-            description: $('#post-description').val(),
-            category: $('#post-category').val(),
-            format: $('#post-format').val(),
-            tags: $('#post-tags').val(),
-            status: $('#post-status').val(),
-        }
-
         // console.log(comment)
 
-        $.post(URL + "/API/comments/save", { id: postId, comment: genericPost }, (data, statut) => {
+        $.post(URL + "/API/{{ properties.name }}/save", { id: postId, post: genericPost }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/comments/edit/" + postId
+            window.location = "/admin/{{ properties.name }}/edit/" + postId
         })
 
     }

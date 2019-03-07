@@ -21,9 +21,9 @@ Comment.defaultColumns = ['_id', 'authorId', 'postId', 'status', 'createdAt']
 
 function create(comment, callback) {
 
-    schemaCleaning(comment)
+    Comment.schemaCleaning(comment)
 
-    schemaCompleting(comment)
+    Comment.schemaCompleting(comment)
 
     comment.createdAt = new Date()
 
@@ -37,7 +37,7 @@ function create(comment, callback) {
 
 function update(commentId, comment, callback) {
 
-    schemaCleaning(comment)
+    Comment.schemaCleaning(comment)
 
     comment.updatedAt = new Date()
 

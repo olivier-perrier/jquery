@@ -3,8 +3,6 @@ var router = express.Router();
 
 var async = require("async");
 
-var op = require('../models/OP.js')
-
 var data = require('../models/data.js')
 var Post = data.model('Post')
 var Page = data.model('Page')
@@ -131,7 +129,7 @@ router.get('/medias', (req, res) => {
 
 router.get('/widgets', (req, res) => {
 
-  res.render('admin/widgets', { widgets: op.getWidgets() })
+  // res.render('admin/widgets', { widgets: op.getWidgets() })
 
 })
 
@@ -151,7 +149,10 @@ function sendGenericPosts(res, model) {
 
   data[properties.name].find({}, model.getProjection(), (err, posts) => {
 
-    res.render('admin/comments', { posts: model.getBuildPosts(posts), columns: Comment.getColumnsTitles(), properties: Comment.properties })
+    var postsRes = model.getBuildPosts(posts)
+    console.log(postsRes)
+
+    res.render('admin/comments', { posts: postsRes, columns: model.getColumnsTitles(), properties: model.properties })
 
   })
 }
@@ -169,6 +170,7 @@ function sendGenericPost(res, model, postId) {
     },
 
       function (err, results) {
+        console.log(results.post)
         res.render('admin/comments-edit', { post: results.post, properties: properties })
       })
   })

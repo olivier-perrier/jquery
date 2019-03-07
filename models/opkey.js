@@ -37,8 +37,7 @@ class Model {
             postToReturn[key].value = post[key]
             postToReturn[key].disabled = this.schema[key].protected ? "disabled" : ""
             postToReturn[key].relationship = this.schema[key].relationship
-
-
+            postToReturn[key].viewType = this.schema[key].viewType
 
             if (this.schema[key] && this.schema[key].relationship) {
 
@@ -80,6 +79,11 @@ class Model {
 
             var postToReturn = {} // object formated like a post { _id: xxx, author: xxx }
 
+            // Add the id
+            postToReturn._id = {}
+            postToReturn._id.value = post._id
+            postToReturn._id.viewType = "delete"
+
             // for every property in the columns to display
             this.defaultColumns.forEach(column => {
 
@@ -93,10 +97,10 @@ class Model {
                     postToReturn[column].disabled = this.schema[column].protected ? "disabled" : ""
                     postToReturn[column].relationship = this.schema[column].relationship
                     
-                    postToReturn[column].autokey = this.schema[column].autokey
+                    postToReturn[column].viewType = this.schema[column].viewType
 
                     // if autokey
-                    if (this.schema[column].autokey) {
+                    if (this.schema[column].viewType = "autokey") {
                         postToReturn[column].value = post[column]
                         postToReturn[column].link = post["_id"]
                         postToReturn[column].ref = this.schema[column].ref
@@ -108,20 +112,20 @@ class Model {
                     }
 
                     // if relationship
-                    if (this.schema[column].relationship) {
+                    if (this.schema[column].viewType == "relationship") {
                         postToReturn[column].link = post[column]
                         postToReturn[column].ref = this.schema[column].ref
 
                         var ref = this.schema[column].ref
                         var path = this.schema[column].path
 
-                        console.log("[DEBUG] looking for relationship " + post[column] + " in ref: " + ref + " path: " + path)
+                        // console.log("[DEBUG] looking for relationship " + column + " " + post[column] + " in ref: " + ref + " path: " + path)
 
                         if (post[column])
                             data[ref].findOne({ _id: post[column] }, (err, docpost) => {
                                 if (docpost) {
                                     postToReturn[column].value = docpost[path]
-                                    console.log("[DEBUG] relationship found " + post[column] + " in ref: " + ref + " path: " + path)
+                                    // console.log("[DEBUG] relationship found " + post[column] + " in ref: " + ref + " path: " + path)
 
                                 } else {
                                     postToReturn[column].value = post[column]
@@ -185,7 +189,7 @@ class Model {
      */
     schemaCleaning(post) {
         for (var key in post) {
-            if (!Comment.schema[key]) {
+            if (!this.schema[key]) {
                 console.warn("[WARNING] property '" + key + "' do not existe in the comment schema")
                 delete post[key]
             }

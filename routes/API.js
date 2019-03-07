@@ -96,7 +96,7 @@ router.post('/pages/create', (req, res) => {
 
   Page.create(page, (err, page) => {
     if (page) {
-      res.send({ message: "success : page created", page: page })
+      res.send({ message: "success : page created", post: page })
     } else {
       res.send({ message: "internal error : impossible to create page" })
     }
@@ -106,15 +106,17 @@ router.post('/pages/create', (req, res) => {
 
 router.post('/pages/save', (req, res) => {
 
-  var pageId = req.body.id
-  var page = req.body.page
+  var postId = req.body.id
+  var post = req.body.post
 
-  page.name = page.name ? String(page.name).toLowerCase().replace(" ", "-") : "page-name"
-  page.content = page.content ? page.content.replace(/  /g, " ") : ""
-  page.contentPreview = page.content.substring(0, 100)
-  page.tags = page.tags ? page.tags.split(",") : ""
+  console.log(postId)
 
-  Post.updatePage(pageId, page, (err, num) => {
+  post.name = post.name ? String(post.name).toLowerCase().replace(" ", "-") : "page-name"
+  post.content = post.content ? post.content.replace(/  /g, " ") : ""
+  post.contentPreview = post.content.substring(0, 100)
+  post.tags = post.tags ? post.tags.split(",") : ""
+
+  Page.update(postId, post, (err, num) => {
     if (num) {
       res.send({ message: "success : page updated" })
     } else {
@@ -126,9 +128,9 @@ router.post('/pages/save', (req, res) => {
 
 router.post('/pages/delete', (req, res) => {
 
-  var pageId = req.body.id
+  var postId = req.body.id
 
-  Post.removePage(pageId, (err, num) => {
+  Page.remove(postId, (err, num) => {
     if (num) {
       res.send({ message: "success : page deleted" })
     } else {
@@ -348,7 +350,7 @@ router.post('/comments/create', (req, res) => {
 router.post('/comments/save', (req, res) => {
 
   var id = req.body.id
-  var comment = req.body.comment
+  var comment = req.body.post
 
   Comment.update(id, comment, (err, num) => {
     if (num) {
