@@ -23,16 +23,24 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each comments as |comment|}}
+                {{#each posts as |post|}}
                 <tr>
-                    {{#each comment as |commentVal|}}
-                    {{#if commentVal.relationship }}
+                    {{#each post as |postVal|}}
+
+                    {{#if postVal.autokey }}
                     <td>
-                        <a href="/admin/{{commentVal.ref}}/edit/{{commentVal.link}}"
-                            class="btn btn-link">{{commentVal.value}}</a>
+                        <a href="/admin/{{postVal.ref}}/edit/{{postVal.link}}"
+                            class="btn btn-link">{{postVal.value}}</a>
+                    </td>
+                    {{/if}}
+
+                    {{#if postVal.relationship }}
+                    <td>
+                        <a href="/admin/{{postVal.ref}}/edit/{{postVal.link}}"
+                            class="btn btn-link">{{postVal.value}}</a>
                     </td>
                     {{else}}
-                    <td>{{commentVal.value}}</td>
+                    <td>{{postVal.value}}</td>
                     {{/if}}
                     {{/each}}
                 </tr>

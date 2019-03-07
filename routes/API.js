@@ -6,6 +6,7 @@ var postsRouter = require('./posts.js')
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
+var Page = data.model('Page')
 var User = data.model('User')
 var Comment = data.model('Comment')
 
@@ -93,7 +94,7 @@ router.post('/pages/create', (req, res) => {
     authorId: req.session.userId,
   }
 
-  Post.createPage(page, (err, page) => {
+  Page.create(page, (err, page) => {
     if (page) {
       res.send({ message: "success : page created", page: page })
     } else {

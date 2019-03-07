@@ -1,247 +1,62 @@
 var data = require('./data')
 var opkey = require('./opkey')
 
-var User = data.model('User')
+var Page = new opkey.Model("Pages", "pages")
 
-var Page = {}
-
-Page.properties = {
-    title: "Page",
-    name: "pages"
-}
-
-Page.commentSchema = {
-    title: { type: String, title: "Title", main: true, protected: false, relationship: true, ref: 'pages', path: "_id" },
+Page.add({
+    title: { type: String, title: "Title", main: true, protected: false, autokey: true, ref: "pages" },
     authorId: { type: String, title: "Author", relationship: true, ref: 'users', path: "username", protected: true },
     createdAt: { type: Date, title: "Created", protected: true },
     status: { type: String, title: "Status" },
     // comment: { type: String, title: "Post", relationship: true, ref: 'posts', path: "name", protected: true },
-}
+})
 
 Page.defaultColumns = ['title', 'authorId', 'createdAt', 'status']
 
-/*** return the projection object of the columns to projection by database ***/
-Page.getProjection = function () {
-    return this.defaultColumns.reduce((acc, val, index) => {
-        acc[val] = 1
-        return acc
-    }, {})
-}
 
-/*** return the titles of the columns names to display ***/
-Page.getColumnsTitles = function () {
-    var columnsDisplay = []
-    this.defaultColumns.map(column => {
-        if (this.commentSchema[column]) {
-            columnsDisplay.push(this.commentSchema[column].title)
-        } else {
-            console.log("[WARNING] column " + column + " is not in the Schema")
-            columnsDisplay.push(column)
-        }
+function create(page, callback) {
 
-    })
+    PageKey.schemaCleaning(page)
 
-    return columnsDisplay
-}
+    PageKey.schemaCompleting(page)
 
-/**
- * Built and return the post object for the client
- * Only use for the tabs
- * @param post post object of the database
- */
-Page.getBuildPost = function (post) {
+    page.createdAt = new Date()
 
-    var postToReturn = {}
+    console.log(page)
 
-    for (var key in this.commentSchema) {
-        postToReturn[key] = {}
-
-        postToReturn[key].main = this.commentSchema[key].main
-        postToReturn[key].name = this.commentSchema[key].name
-        postToReturn[key].title = this.commentSchema[key].title
-        postToReturn[key].value = post[key]
-        postToReturn[key].disabled = this.commentSchema[key].protected ? "disabled" : ""
-        postToReturn[key].relationship = this.commentSchema[key].relationship
-
-
-
-        if (this.commentSchema[key] && this.commentSchema[key].relationship) {
-
-            postToReturn[key].link = post[key]
-            postToReturn[key].ref = this.commentSchema[key].ref
-
-            var ref = this.commentSchema[key].ref
-            var path = this.commentSchema[key].path
-
-            if (post[key])
-                data[ref].findOne({ _id: post[key] }, (err, docpost) => {
-                    if (docpost) {
-                        postToReturn[key].value = docpost[path]
-                    } else {
-                        postToReturn[key].value = post[key]
-                        console.log("[WARNING] not post found for " + post[key] + " in " + ref)
-                    }
-                })
-
-
-        }
-
-    }
-
-    return postToReturn
-
-}
-
-
-/**
- * Built and return the posts objects array for the client
- * Only use for the single post
- * @param post posts object array from the database
- */
-Page.getBuildPosts = function (posts) {
-
-    var postsBuilt = []
-
-    // For every posts
-    posts.forEach(post => {
-
-        var postToReturn = {} // object formated like a post { _id: xxx, author: xxx }
-
-        // for every property in the columns to display
-        this.defaultColumns.forEach(column => {
-
-            // get the corresponding line in the Schema
-            if (this.commentSchema[column]) {
-                postToReturn[column] = {}
-
-                postToReturn[column].name = this.commentSchema[column].name
-                postToReturn[column].title = this.commentSchema[column].title
-                postToReturn[column].value = post[column]
-                postToReturn[column].disabled = this.commentSchema[column].protected ? "disabled" : ""
-                postToReturn[column].relationship = this.commentSchema[column].relationship
-
-                // if date type
-
-                if (this.commentSchema[column].type == Date) {
-                    if (post[column])
-                        postToReturn[column].value = toDate(post[column])
-                }
-
-                // if relationship
-                if (this.commentSchema[column] && this.commentSchema[column].relationship) {
-                    postToReturn[column].link = post[column]
-                    postToReturn[column].ref = this.commentSchema[column].ref
-
-                    var ref = this.commentSchema[column].ref
-                    var path = this.commentSchema[column].path
-
-                    if (post[column])
-                        data[ref].findOne({ _id: post[column] }, (err, docpost) => {
-                            if (docpost)
-                                postToReturn[column].value = docpost[path]
-                            else {
-                                postToReturn[column].value = post[column]
-                                console.log("[WARNING] not post found for " + post[column] + " in " + ref)
-                            }
-                        })
-                }
-
-
-                postToReturn[column].view = this.commentSchema[column].view
-            } else
-                console.log("[WARNING] property " + column + " not defined in the schema")
-
-        })
-
-        postsBuilt.push(postToReturn)
-
-    })
-
-    return postsBuilt
-}
-
-function toDate(date) {
-    var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    if (date)
-        return date.toLocaleDateString('en-EN', options)
-}
-
-function create(comment, callback) {
-
-    schemaCleaning(comment)
-
-    schemaCompleting(comment)
-
-    comment.createdAt = new Date()
-
-    console.log(comment)
-
-    data.comments.insert(comment, (err, comment) => {
+    data.pages.insert(comment, (err, page) => {
         console.log(err)
-        callback(err, comment)
+        callback(err, page)
     })
 }
 
-function update(commentId, comment, callback) {
+function update(pageId, page, callback) {
 
-    schemaCleaning(comment)
+    PageKey.schemaCleaning(page)
 
-    comment.updatedAt = new Date()
+    page.updatedAt = new Date()
 
-    data.comments.update({ _id: commentId }, comment, (err, num) => {
+    data.comments.update({ _id: pageId }, page, (err, num) => {
         callback(err, num)
     })
 }
 
-function remove(commentId, callback) {
-    data.comments.remove({ _id: commentId }, (err, num) => {
+function remove(pageId, callback) {
+    data.pages.remove({ _id: pageId }, (err, num) => {
         callback(err, num)
     })
 }
 
 function getAll(callback) {
-    data.comments.find({}, (err, comments) => {
+    data.pages.find({}, (err, comments) => {
         callback(err, comments)
     })
 }
 
-function get(commentId, callback) {
-    data.comments.findOne({ _id: commentId }, (err, comment) => {
+function get(pageId, callback) {
+    data.pages.findOne({ _id: pageId }, (err, comment) => {
         callback(err, comment)
     })
-}
-
-function getByPost(postId, callback) {
-
-    data.comments.find({ postId: postId }, (err, comments) => {
-
-        User.getJoinedUsers(comments, (err, comments) => {
-            callback(err, comments)
-        })
-    })
-}
-
-/*** Schema ***/
-function schemaCleaning(comment) {
-    // Remove property that are not into the schema
-    for (var key in comment) {
-        if (!Comment.commentSchema[key]) {
-            console.warn("[WARNING] property '" + key + "' do not existe in the comment schema")
-            delete comment[key]
-        }
-    }
-}
-
-/**
- * Formet the post with the schema by adding missing entries.
- * _id entry is not added
- */
-function schemaCompleting(post) {
-    for (var key in this.commentSchema) {
-        if (!post[key] && key != "_id") {
-            post[key] = ""
-        }
-    }
 }
 
 Page.create = create
@@ -249,6 +64,5 @@ Page.update = update
 Page.remove = remove
 Page.getAll = getAll
 Page.get = get
-Page.getByPost = getByPost
 
 module.exports = Page

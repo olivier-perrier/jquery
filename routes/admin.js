@@ -86,34 +86,12 @@ router.get('/menus/edit/:menuId', (req, res) => {
 
 /*** Pages ***/
 router.get('/pages', (req, res) => {
-
-    data.posts.find({ postType: "page" }, (err, pages) => {
-
-      var postsBuilt = Page.getBuildPosts(pages)
-
-      console.log(postsBuilt)
-
-      res.render('admin/comments', { comments: postsBuilt, columns: Page.getColumnsTitles(), properties: Page.properties })
-
-      // res.render('admin/pages', { pages: pages, user: user })
-
-    })
-  
-
+  sendGenericPosts(res, Page)
 })
 
 router.get('/pages/edit/:pageId', (req, res) => {
-
   var pageId = req.params.pageId
-
-  data.posts.findOne({ _id: pageId }, (err, page) => {
-    if (page) {
-      res.render('admin/page-edit', { page: page })
-    } else {
-      res.send({ message: "not found : page not found for id" + pageId })
-    }
-  })
-
+  sendGenericPost(res, Page, pageId)
 })
 
 /*** Users ***/
@@ -159,45 +137,42 @@ router.get('/widgets', (req, res) => {
 
 /*** Comments ***/
 router.get('/comments', (req, res) => {
-
-  data.comments.find({}, Comment.getProjection(), (err, comments) => {
-
-    var postsBuilt = Comment.getBuildPosts(comments)
-
-    // console.log(postsBuilt)
-
-    res.render('admin/comments', { comments: postsBuilt, columns: Comment.getColumnsTitles(), properties: Comment.properties })
-
-  })
-
+  sendGenericPosts(res, Comment)
 })
 
 router.get('/comments/edit/:commentId', (req, res) => {
-
   var commentId = req.params.commentId
+  sendGenericPost(res, Comment, commentId)
 
-  var commentSchema = Comment.commentSchema
+})
 
-  data.comments.findOne({ _id: commentId }, (err, post) => {
+function sendGenericPosts(res, model) {
+  var properties = model.getProperties()
+
+  data[properties.name].find({}, model.getProjection(), (err, posts) => {
+
+    res.render('admin/comments', { posts: model.getBuildPosts(posts), columns: Comment.getColumnsTitles(), properties: Comment.properties })
+
+  })
+}
+
+function sendGenericPost(res, model, postId) {
+  var properties = model.getProperties()
+
+  data[properties.name].findOne({ _id: postId }, (err, post) => {
 
     async.series({
 
       post: function (callback) {
-        var postToReturn = Comment.getBuildPost(post)
-        callback(null, postToReturn);
+        callback(null, model.getBuildPost(post));
       }
     },
 
       function (err, results) {
-        // console.log(results)
-
-        res.render('admin/comments-edit', { post: results.post, commentSchema: commentSchema, properties: Comment.properties })
+        res.render('admin/comments-edit', { post: results.post, properties: properties })
       })
-
-
   })
-
-})
+}
 
 
 module.exports = router;
