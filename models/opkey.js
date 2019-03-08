@@ -28,9 +28,11 @@ class Model {
     async getBuildPost(post) {
 
         // Add the id
-        this.schema._id = {}
-        this.schema._id.value = post._id
-        this.schema._id.viewType = "hidden"
+        if (!this.schema._id) {
+            this.schema._id = {}
+            this.schema._id.value = post._id
+            this.schema._id.viewType = "hidden"
+        }
 
         for (var key in this.schema) {
 
@@ -73,6 +75,7 @@ class Model {
                 postToReturn._id = {}
                 postToReturn._id.value = post._id
                 postToReturn._id.viewType = "delete"
+                console.log("[DEBUG] adding id to the result")
             }
 
             // for every property in the columns to display
@@ -206,6 +209,65 @@ class Model {
                 post[key] = ""
             }
         }
+    }
+
+    create(post, callback) {
+        console.log("[DEBUG] generic create")
+
+        this.schemaCleaning(post)
+        this.schemaCompleting(post)
+
+        post.createdAt = new Date()
+
+        data[this.properties.name].insert(post, (err, post) => {
+            callback(err, post)
+        })
+    }
+
+    update(postId, post, callback) {
+        console.log("[DEBUG] generic update")
+
+        this.schemaCleaning(post)
+        this.schemaChecking(post)
+
+        post.updatedAt = new Date()
+
+        data[this.properties.name].update({ _id: postId }, { $set: post }, (err, num) => {
+            callback(err, num)
+        })
+
+    }
+
+    remove(postId, callback) {
+        console.log("[DEBUG] generic remove")
+
+        data[this.properties.name].remove({ _id: postId }, (err, num) => {
+            callback(err, num)
+        })
+    }
+
+    get(postId, callback) {
+        console.log("[DEBUG] generic get")
+
+        data[this.properties.name].findOne({ _id: postId }, (err, post) => {
+            callback(err, post)
+        })
+    }
+
+    getAll(callback) {
+        console.log("[DEBUG] generic get all")
+
+        data[this.properties.name].find({}, (err, posts) => {
+            callback(err, posts)
+        })
+    }
+
+    getByQuery(query, sort, limit, callback) {
+        console.log("[DEBUG] generic get by query *** not tested ***")
+
+        data[this.properties.name].find(query).short(sort).limit(limit).exec((err, posts) => {
+            callback(err, posts)
+        })
     }
 
     /**

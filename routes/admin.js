@@ -128,32 +128,6 @@ router.get('/medias', (req, res) => {
 })
 
 router.get('/widgets', (req, res) => {
-  var isDone = false
-
-  function call() {
-    return new Promise(resolve => {
-      console.log("toi 1")
-      data.users.find({}, (err, user) => {
-        console.log(user[0].username)
-        isDone = true
-        resolve(2)
-      })
-      console.log("toi 2")
-    })
-
-  }
-  async function main() {
-    // isDone = "middle 1";
-    await [1, 2, 3].forEach(async e => {
-      console.log(await call())
-    })
-    // isDone = "middle 2"
-  }
-
-  main().then(() => {
-    console.log("done " + isDone)
-  })
-
   // res.render('admin/widgets', { widgets: op.getWidgets() })
   res.redirect("/admin/")
 })
@@ -175,7 +149,7 @@ function sendGenericPosts(res, model) {
   data[properties.name].find({}, model.getProjection(), (err, posts) => {
 
     model.getBuildPosts(posts).then((result) => {
-      console.log(result)
+      // console.log(result)
       res.render('admin/comments', { schema: model.schema, posts: result, columns: model.getColumnsTitles(), properties: model.properties })
     })
   })
@@ -187,7 +161,7 @@ function sendGenericPost(res, model, postId) {
   data[properties.name].findOne({ _id: postId }, (err, post) => {
 
     model.getBuildPost(post).then(result => {
-      console.log(result)
+      // console.log(result)
       res.render('admin/comments-edit', { post: result, properties: properties })
     })
   })
