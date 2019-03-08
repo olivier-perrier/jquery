@@ -88,17 +88,15 @@ router.post('/posts/delete', (req, res) => {
 /*** Pages ***/
 router.post('/pages/create', (req, res) => {
 
-  var page = {
-    title: req.body.title || "Page title",
-    name: req.body.title ? req.body.title.toLowerCase().replace(" ", "-") : "page-name",
-    authorId: req.session.userId,
-  }
+  var post = req.body.post || {}
 
-  Page.create(page, (err, page) => {
-    if (page) {
-      res.send({ message: "success : page created", post: page })
+  post.authorId = req.session.userId
+
+  Page.create(post, (err, post) => {
+    if (post) {
+      res.send({ message: "success : page created", post: post })
     } else {
-      res.send({ message: "internal error : impossible to create page" })
+      res.send({ message: "internal error : impossible to create post" })
     }
   })
 

@@ -4,7 +4,7 @@ var opkey = require('./opkey')
 var Page = new opkey.Model("Pages", "pages")
 
 Page.add({
-    title: { type: String, title: "Title", main: true, viewType: "link"},
+    title: { type: String, title: "Title", main: true, viewType: "link" },
     content: { type: String, title: "Content", viewType: "textarea" },
     authorId: { type: String, title: "Author", viewType: "relationship", ref: 'users', path: "username", protected: true },
     createdAt: { type: Date, title: "Created", viewType: "string", protected: true },
@@ -32,10 +32,12 @@ function create(page, callback) {
 function update(postId, post, callback) {
 
     Page.schemaCleaning(post)
+    
+    Page.schemaChecking(post)
 
     post.updatedAt = new Date()
 
-    data.pages.update({ _id: postId }, post, (err, num) => {
+    data.pages.update({ _id: postId }, { $set: post }, (err, num) => {
         callback(err, num)
     })
 }

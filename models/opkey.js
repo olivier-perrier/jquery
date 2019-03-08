@@ -25,7 +25,7 @@ class Model {
      * Only use for single post
      * @param post post object format to display for the model
      */
-    getBuildPost(post) {
+    async getBuildPost(post) {
 
         // Add the id
         this.schema._id = {}
@@ -43,17 +43,9 @@ class Model {
             // if relationship
             if (this.schema[key].viewType == "relationship") {
 
-                var ref = this.schema[key].ref
-                var path = this.schema[key].path
+                // console.log("[DEBUG] looking for relationship " + key + " " + post[key] + " in ref: " + ref + " path: " + path)
 
-                data[ref].findOne({ _id: post[key] }, (err, docpost) => {
-                    if (docpost) {
-                        this.schema[key].link = docpost[path]
-                    } else {
-                        console.log("[WARNING] not post found for key: " + key + " " + post[key] + " in " + ref)
-                    }
-                })
-
+                this.schema[key].link = await this.asyncFindOne(post, key)
 
             }
 
@@ -68,27 +60,28 @@ class Model {
     * @param posts posts object array from the database
     * @returns Posts array of the formated datas
     */
-    getBuildPosts(posts) {
+    async getBuildPosts(posts) {
         var postsBuilt = []
 
         // For every posts
-        posts.forEach(post => {
+        for (var post of posts) {
 
             var postToReturn = {} // object formated like a post { _id: xxx, author: xxx }
 
             // Add the id
-            postToReturn._id = {}
-            postToReturn._id.value = post._id
-            postToReturn._id.viewType = "delete"
+            if (!this.schema._id) {
+                postToReturn._id = {}
+                postToReturn._id.value = post._id
+                postToReturn._id.viewType = "delete"
+            }
 
             // for every property in the columns to display
-            this.defaultColumns.forEach(column => {
+            for (var column of this.defaultColumns) {
 
                 // get the corresponding line in the Schema
                 if (this.schema[column]) {
                     postToReturn[column] = {}
 
-                    // postToReturn[column].title = this.schema[column].title
                     postToReturn[column].value = post[column]
                     postToReturn[column].viewType = this.schema[column].viewType
 
@@ -99,41 +92,48 @@ class Model {
 
                     // if autokey for the tab
                     if (this.schema[column].viewType == "link") {
-                        console.log("adding link" + post._id)
                         postToReturn[column].ref = this.properties.name
                         postToReturn[column].link = post._id
                     }
 
                     // if relationship
                     if (this.schema[column].viewType == "relationship") {
-                        postToReturn[column].link = post[column]
                         postToReturn[column].ref = this.schema[column].ref
-
-                        var ref = this.schema[column].ref
-                        var path = this.schema[column].path
 
                         // console.log("[DEBUG] looking for relationship " + column + " " + post[column] + " in ref: " + ref + " path: " + path)
 
-                        data[ref].findOne({ _id: post[column] }, (err, docpost) => {
-                            if (docpost) {
-                                postToReturn[column].link = docpost[path]
-                                // console.log("[DEBUG] relationship found " + post[column] + " in ref: " + ref + " path: " + path)
-                            } else {
-                                console.log("[WARNING] not post found for " + post[column] + " in " + ref)
-                            }
-                        })
+                        postToReturn[column].link = await this.asyncFindOne(post, column)
                     }
 
                 } else
                     console.log("[WARNING] property " + column + " not defined in the schema")
 
-            })
+            }
 
             postsBuilt.push(postToReturn)
 
-        })
+        }
 
         return postsBuilt
+
+    }
+
+    asyncFindOne(post, column) {
+        return new Promise(resolve => {
+
+            var ref = this.schema[column].ref
+            var path = this.schema[column].path
+
+            data[ref].findOne({ _id: post[column] }, (err, docpost) => {
+                if (docpost) {
+                    // console.log("[DEBUG] relationship found " + post[column] + " in ref: " + ref + " path: " + path)
+                    resolve(docpost[path])
+                } else {
+                    console.log("[WARNING] not post found for " + post[column] + " in " + ref)
+                    resolve(post[column])
+                }
+            })
+        })
     }
 
     /**
@@ -177,8 +177,20 @@ class Model {
      */
     schemaCleaning(post) {
         for (var key in post) {
-            if (!this.schema[key] || this.schema[key].protected) {
-                console.warn("[WARNING] property '" + key + "' do not existe in the comment schema or protected")
+            if (!this.schema[key]) {
+                console.warn("[WARNING] property '" + key + "' do not existe in the comment schema")
+                delete post[key]
+            }
+        }
+    }
+
+    /**
+    * Clean the post object by removing the properties are protected
+    */
+    schemaChecking(post) {
+        for (var key in post) {
+            if (this.schema[key].protected) {
+                console.warn("[WARNING] property '" + key + "' is protected")
                 delete post[key]
             }
         }
