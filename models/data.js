@@ -16,8 +16,20 @@ db.pages.loadDatabase()
 db.comments.loadDatabase()
 db.settings.loadDatabase()
 
-db.model = function(name){
-    return require('./'+ name)
+db.model = function (name) {
+    return require('./' + name)
+}
+
+db.createDatastores = function (names) {
+    for (var name of names) {
+        db[name] = new Datastore({ filename: 'data/' + name + '.nedb' })
+    }
+}
+
+db.loadDatabases = function (names) {
+    for (var name of names) {
+        db[name].loadDatabase()
+    }
 }
 
 module.exports = db

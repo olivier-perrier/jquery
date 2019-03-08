@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var async = require("async");
+var opkey = require('../models/opkey')
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
@@ -9,6 +9,9 @@ var Page = data.model('Page')
 var User = data.model('User')
 var Comment = data.model('Comment')
 var Setting = data.model('Setting')
+
+var opkey = new opkey()
+
 
 router.all("*", (req, res, next) => {
   next()
@@ -82,15 +85,6 @@ router.get('/menus/edit/:menuId', (req, res) => {
 
 })
 
-/*** Pages ***/
-router.get('/pages', (req, res) => {
-  sendGenericPosts(res, Page)
-})
-
-router.get('/pages/edit/:pageId', (req, res) => {
-  var pageId = req.params.pageId
-  sendGenericPost(res, Page, pageId)
-})
 
 /*** Users ***/
 router.get('/users', (req, res) => {
@@ -132,14 +126,31 @@ router.get('/widgets', (req, res) => {
   res.redirect("/admin/")
 })
 
-/*** Comments ***/
-router.get('/comments', (req, res) => {
-  sendGenericPosts(res, Comment)
+/*** Generic routes ***/
+router.get('/:postType', (req, res) => {
+  var postType = req.params.postType
+  
+  var model = opkey.getModel(postType)
+
+  if (model) {
+    sendGenericPosts(res, model)
+  } else {
+    res.redirect("/admin")
+  }
+
 })
 
-router.get('/comments/edit/:commentId', (req, res) => {
-  var commentId = req.params.commentId
-  sendGenericPost(res, Comment, commentId)
+router.get('/:postType/edit/:postId', (req, res) => {
+  var postType = req.params.postType
+  var postId = req.params.postId
+
+  var model = opkey.getModel(postType)
+
+  if (model) {
+    sendGenericPost(res, model, postId)
+  } else {
+    res.redirect("/admin")
+  }
 
 })
 

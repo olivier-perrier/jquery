@@ -1,7 +1,35 @@
 
 var data = require('./data')
 
-class Opkey { }
+class Opkey {
+
+    constructor() {
+        // console.log("[DEBUG] register models")
+
+        this.modelNames = [
+            { name: "users2", modelName: "User2" },
+            { name: "pages", modelName: "Page" },
+            { name: "comments", modelName: "Comment" },
+        ]
+
+        data.createDatastores(this.modelNames.map(modelName => modelName.name))
+        data.loadDatabases(this.modelNames.map(modelName => modelName.name))
+    }
+
+    /**
+     * @param {String} modelKey model name key (posts, pages, users, comments, etc) 
+     */
+    getModel(modelKey) {
+        var modelName = this.modelNames.find(model => model.name == modelKey)
+
+        if (modelName) {
+            console.log("[DEBUG] generic model found " + modelName.modelName)
+            return data.model(modelName.modelName)
+        } else {
+            return null
+        }
+    }
+}
 
 class Model {
 
@@ -211,6 +239,7 @@ class Model {
         }
     }
 
+    /*** default generic method to request database ***/
     create(post, callback) {
         console.log("[DEBUG] generic create")
 
@@ -271,8 +300,7 @@ class Model {
     }
 
     /**
-     * @private
-     * @param {date} date to format 
+     * @param {date} date to formated date 
      */
     toDate(date) {
         var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
