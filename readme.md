@@ -144,7 +144,7 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
   - [ ] Rendre generique la generation de l'ihm admin de post avec la declaration du model
   - [ ] Apprendre plus sur le framwork keystone pour prendre des idées sur 
 
-  -- BUG sauvegarder un post perd les dates de creation et l'auteur
+  -- BUG certain menu sont parfois innacessible de maniere aleatoire
 
 # Correction
 

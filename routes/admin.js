@@ -157,12 +157,16 @@ router.get('/:postType/edit/:postId', (req, res) => {
 function sendGenericPosts(res, model) {
   var properties = model.getProperties()
 
+  console.log("request database")
+
   data[properties.name].find({}, model.getProjection(), (err, posts) => {
+    console.log("database requested")
 
     model.getBuildPosts(posts).then((result) => {
-      // console.log(result)
+      console.log(result)
       res.render('admin/comments', { schema: model.schema, posts: result, columns: model.getColumnsTitles(), properties: model.properties })
     })
+    console.log("after then")
   })
 }
 

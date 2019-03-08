@@ -398,6 +398,7 @@ router.post('/:postType/save', (req, res) => {
 })
 
 router.post('/:postType/delete', (req, res) => {
+  console.log("Generc API")
   var postType = req.params.postType
 
   var model = opkey.getModel(postType)
