@@ -91,6 +91,7 @@ class Model {
     * @returns Posts array of the formated datas
     */
     async getBuildPosts(posts) {
+        console.log("[DEBUG] building posts")
         var postsBuilt = []
 
         // For every posts

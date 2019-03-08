@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var opkey = require('../models/opkey')
+var opkey = new opkey()
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
@@ -10,7 +11,6 @@ var User = data.model('User')
 var Comment = data.model('Comment')
 var Setting = data.model('Setting')
 
-var opkey = new opkey()
 
 
 router.all("*", (req, res, next) => {

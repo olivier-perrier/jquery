@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var opkey = require('../models/opkey')
+var opkey = new opkey()
+
 var usersRouter = require('./users.js')
 var postsRouter = require('./posts.js')
 
@@ -324,58 +327,7 @@ router.post('/medias/delete', (req, res) => {
 
 /*** Commments ***/
 
-router.post('/comments/create', (req, res) => {
 
-  var comment = req.body.comment || {}
-
-  comment.authorId = req.session.userId
-
-  Comment.create(comment, (err, comment) => {
-    if (comment) {
-      res.send({ message: "success : comment created", post: comment })
-    } else {
-      res.send({ message: "internal error : impossible to create comment" })
-    }
-  })
-
-})
-
-router.post('/comments/save', (req, res) => {
-
-  var id = req.body.id
-  var comment = req.body.post
-
-  Comment.update(id, comment, (err, num) => {
-    if (num) {
-      res.send({ message: "success : comment updated" })
-    } else {
-      res.send({ message: "internal error : impossible to save comment" })
-    }
-  })
-
-})
-
-router.post('/comments/delete', (req, res) => {
-
-  var commentId = req.body.id
-
-  Comment.remove(commentId, (err, num) => {
-    if (num) {
-      res.send({ message: "success : comment deleted" })
-    } else {
-      res.send({ message: "internal error : impossible to delete comment" })
-    }
-  })
-
-})
-
-router.get('/comments', (req, res) => {
-
-  data.comments.find({}).limit(10).exec((err, comments) => {
-    res.send({ message: "success : comments found", comments: comments })
-  })
-
-})
 
 /*** Categories ***/
 
@@ -404,6 +356,73 @@ router.post('/settings/save', (req, res) => {
   })
 
   res.send({ message: "success : settings updated" })
+
+})
+
+/*** Generic routes ***/
+router.post('/:postType/create', (req, res) => {
+
+  var postType = req.params.postType
+
+  var model = opkey.getModel(postType)
+
+  var post = req.body.post || {}
+  post.authorId = req.session.userId
+
+  model.create(post, (err, post) => {
+    if (post) {
+      res.send({ message: "success : comment created", post: post })
+    } else {
+      res.send({ message: "internal error : impossible to create post" })
+    }
+  })
+
+})
+
+router.post('/:postType/save', (req, res) => {
+  var postType = req.params.postType
+
+  var id = req.body.id
+  var post = req.body.post
+
+  var model = opkey.getModel(postType)
+
+  model.update(id, post, (err, num) => {
+    if (num) {
+      res.send({ message: "success : post updated" })
+    } else {
+      res.send({ message: "internal error : impossible to save post" })
+    }
+  })
+
+})
+
+router.post('/:postType/delete', (req, res) => {
+  var postType = req.params.postType
+
+  var model = opkey.getModel(postType)
+
+  var postId = req.body.id
+
+  model.remove(postId, (err, num) => {
+    if (num) {
+      res.send({ message: "success : comment deleted" })
+    } else {
+      res.send({ message: "internal error : impossible to delete comment" })
+    }
+  })
+
+})
+
+router.get('/:postType', (req, res) => {
+  console.log("not tested")
+  var postType = req.params.postType
+
+  var model = opkey.getModel(postType)
+
+  model.getAll().limit(10).exec((err, comments) => {
+    res.send({ message: "success : posts found", posts: posts })
+  })
 
 })
 
