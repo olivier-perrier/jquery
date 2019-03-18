@@ -11,14 +11,17 @@ var User = data.model('User')
 var Comment = data.model('Comment')
 var Setting = data.model('Setting')
 
-
-
 router.all("*", (req, res, next) => {
   next()
 })
 
 router.use((req, res, next) => {
-  next()
+
+  data.customType.find({}, { name: 1, label: 1 }, (err, menus) => {
+    res.locals.menus = menus
+    next()
+  })
+
 })
 
 router.get('/', (req, res) => {
@@ -121,36 +124,108 @@ router.get('/medias', (req, res) => {
 
 })
 
-router.get('/widgets', (req, res) => {
-  // res.render('admin/widgets', { widgets: op.getWidgets() })
-  res.redirect("/admin/")
-})
+function addRelationshhip(){
+  // todo
+}
+
+function setProperties(post, properties, customType) {
+
+  for (var prop of properties) {
+    var propKey = Object.keys(prop)
+    console.log("current prop : " + propKey)
+    console.log(prop[propKey])
+
+    var name = propKey
+    var label = propKey
+    var postValue = post[propKey]
+    var link = ""
+    var type = prop[propKey].type
+    var autokey = prop[propKey].autokey
+
+    // if autokey for the tab
+    if (prop[propKey].autokey) {
+      var link = post[propKey]
+      var path = customType.name
+      console.log("path " + customType.name)
+    } else {
+      if (prop[propKey].type == "relationship") {
+
+        var path = prop[propKey].path
+        var refpath = prop[propKey].refpath
+
+        data[path].findOne({ _id: postValue }, (err, postRelation) => {
+
+          postValue = postRelation[refpath]
+          link = postRelation._id
+        })
+
+      } else {
+
+      }
+
+
+    }
+
+    post[propKey] = {
+      name: name,
+      label: label,
+      value: postValue,
+      link: link,
+      type: type,
+      autokey: autokey,
+      path: path,
+    }
+  }
+}
+
 
 /*** Generic routes ***/
-router.get('/:postType', (req, res) => {
-  var postType = req.params.postType
-  
-  var model = opkey.getModel(postType)
+router.get('/:customType', (req, res) => {
+  console.log("Generique GET")
 
-  if (model) {
-    sendGenericPosts(res, model)
-  } else {
-    res.redirect("/admin")
-  }
+  var customType = req.params.customType
+
+  data.customType.findOne({ name: customType }, (err, customType) => {
+
+    var databaseName = customType.name
+
+    data[databaseName].find({}, (err, posts) => {
+
+      var properties = customType.properties
+
+      for (var post of posts) {
+        setProperties(post, properties, customType)
+      }
+
+      console.log(posts)
+      res.render('admin/generic-page', { posts })
+    })
+
+  })
 
 })
 
-router.get('/:postType/edit/:postId', (req, res) => {
-  var postType = req.params.postType
+router.get('/:customType/edit/:postId', (req, res) => {
+  var customType = req.params.customType
+
   var postId = req.params.postId
 
-  var model = opkey.getModel(postType)
+  data.customType.findOne({ name: customType }, (err, customType) => {
 
-  if (model) {
-    sendGenericPost(res, model, postId)
-  } else {
-    res.redirect("/admin")
-  }
+    var databaseName = customType.name
+
+    data[databaseName].findOne({ _id: postId }, (err, post) => {
+
+      var properties = customType.properties
+
+      setProperties(post, properties, customType)
+
+      console.log(post)
+      res.render('admin/generic-page-edit', { post })
+
+    })
+
+  })
 
 })
 

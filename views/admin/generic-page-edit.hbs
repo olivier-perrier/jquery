@@ -1,0 +1,19 @@
+{{#> admin/content}}
+
+
+generic page edit
+
+<ul>
+
+    {{#each post as |prop|}}
+
+    <li>
+        {{label}}
+        <input type="text" id="post-{{name}}" value="{{value}}">
+
+    </li>
+    {{/each}}
+
+</ul>
+
+{{/ admin/content}}

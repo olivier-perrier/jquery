@@ -95,7 +95,21 @@ exports.createModels = (req, res, next) => {
       })
   })
 
-
+  data.customType.findOne({ name: "comments" }, (err, post) => {
+    if (!post) {
+      data.customType.insert({
+        name: "comments",
+        label: "Comments",
+        properties: [
+          { _id: { autokey: true } },
+          { authorId: { type: "relationship", path: "users", refpath: "username" } },
+          { createdAt: 1 }
+        ]
+      }, (err, post) => {
+        console.log("Custom type comment inserted")
+      })
+    }
+  })
 
 }
 

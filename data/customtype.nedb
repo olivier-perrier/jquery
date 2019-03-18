@@ -1,0 +1,1 @@
+{"name":"comments","label":"Comments","properties":[{"_id":{"autokey":true}},{"authorId":{"type":"relationship","path":"users","refpath":"username"}},{"createdAt":1}],"_id":"dPTMPPtX3656cvZu"}

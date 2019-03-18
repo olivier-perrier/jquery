@@ -1,0 +1,29 @@
+{{#> admin/content}}
+
+genric page
+
+<ul>
+    {{#posts as |post|}}
+    <li>
+
+
+        {{#each post as |prop|}}
+
+        {{#if autokey}}
+        
+        <a href="/admin/{{path}}/edit/{{link}}">{{prop.value}}</a>
+        
+
+        {{else}}
+        {{prop.value}}
+
+        {{/if}}
+
+
+        {{/each}}
+
+    </li>
+    {{/posts}}
+</ul>
+
+{{/ admin/content}}

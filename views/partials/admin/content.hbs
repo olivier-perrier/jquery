@@ -15,8 +15,11 @@
                 <a class="nav-item nav-link" href="/admin/comments"><i class="far fa-comment mr-1"></i><span class="d-none d-md-inline">Comments</span></a>
                 <a class="nav-item nav-link" href=""><i class="fas fa-puzzle-piece mr-1"></i><span class="d-none d-md-inline">Plugins</span></a>
                 <a class="nav-item nav-link" href="/admin/users"><i class="far fa-user mr-1"></i><span class="d-none d-md-inline">Users</span></a>
-                <a class="nav-item nav-link" href="/admin/users2"><i class="far fa-user mr-1"></i><span class="d-none d-md-inline">Users2</span></a>
                 <a class="nav-item nav-link" href="/admin/settings"><i class="fas fa-sliders-h mr-1"></i><span class="d-none d-md-inline">Settings</span></a>
+                {{#menus}}
+                <a class="nav-item nav-link" href="/admin/{{name}}"><i class="fas fa-sliders-h mr-1"></i><span class="d-none d-md-inline">{{label}}</span></a>
+                {{/menus}}
+
             </nav>
         </div>
 

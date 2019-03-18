@@ -7,7 +7,6 @@ class Opkey {
         // console.log("[DEBUG] register models")
 
         this.modelNames = [
-            { name: "users2", modelName: "User2" },
             { name: "pages", modelName: "Page" },
             { name: "comments", modelName: "Comment" },
         ]
