@@ -6,8 +6,6 @@ var opkey = new opkey()
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
-var User = data.model('User')
-var Setting = data.model('Setting')
 
 router.all("*", (req, res, next) => {
   next()
@@ -86,26 +84,6 @@ router.get('/menus/edit/:menuId', (req, res) => {
 
 })
 
-
-/*** Users ***/
-router.get('/users', (req, res) => {
-
-  data.users.find({}, (err, users) => {
-    res.render('admin/users', { users: users })
-  })
-
-})
-
-router.get('/users/edit/:userId', (req, res) => {
-
-  var userId = req.params.userId
-
-  data.users.findOne({ _id: userId }, (err, user) => {
-    res.render('admin/user-edit', { user: user })
-  })
-
-})
-
 router.get('/settings', (req, res) => {
 
   res.render('admin/settings', {})
@@ -127,31 +105,38 @@ router.get('/medias', (req, res) => {
 router.get('/:customType', (req, res) => {
   console.log("Generique GET")
 
-  var customType = req.params.customType
+  var customTypeName = req.params.customType
 
-  data.customType.findOne({ name: customType }, (err, customType) => {
+  data.customType.findOne({ name: customTypeName }, (err, customType) => {
 
-    var databaseName = customType.name
+    if (customType) {
 
-    data[databaseName].find({}, (err, posts) => {
+      var databaseName = customType.name
 
-      getFormatedPosts(posts, customType).then((posts) => {
+      data[databaseName].find({}, (err, posts) => {
 
-        console.log("sending result to client")
-        console.log(posts)
-        res.render('admin/generic-page', { posts, customType })
+        getFormatedPosts(posts, customType).then((posts) => {
+
+          console.log("sending result to client")
+          console.log(posts)
+          res.render('admin/generic-page', { posts, customType })
+        })
       })
-    })
 
+    }else{
+      console.log("[WARNING] not custom type for " + customTypeName)
+      res.redirect('/admin')
+
+    }
   })
 
 })
 
 router.get('/:customType/edit/:postId', (req, res) => {
-  var customType = req.params.customType
+  var customTypeName = req.params.customType
   var postId = req.params.postId
 
-  data.customType.findOne({ name: customType }, (err, customType) => {
+  data.customType.findOne({ name: customTypeName }, (err, customType) => {
 
     var databaseName = customType.name
 

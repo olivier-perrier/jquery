@@ -58,7 +58,26 @@
         </tbody>
     </table>
 
+    <button onClick="createPost('{{customType.name}}')" class="btn btn-light mt-3">Create</button>
+
+
 </div>
 
 
 {{/ admin/content}}
+
+<script>
+
+    function createPost() {
+
+        var post = {}
+
+        $.post(URL + "/API/{{customType.name}}/create", { post }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/{{customType.name}}/edit/" + data.post._id
+        })
+
+
+    }
+
+</script>

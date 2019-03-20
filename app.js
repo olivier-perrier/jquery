@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index.js');
 var adminRouter = require('./routes/admin.js')
 var APIRouter = require('./routes/API.js')
 
+var data = require('./models/data.js')
+
 var authorizations = require('./components/authorizations')
 var installation = require('./components/installation/installation')
 
@@ -65,7 +67,6 @@ app.use(function (req, res, next) {
 
 console.log("[DEBUG] NODE_ENV " + process.env.NODE_ENV)
 
-installation.createModels()
 
 app.all("*", authorizations.loadUser)
 app.all("*", authorizations.requireAuthentication)

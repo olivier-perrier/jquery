@@ -86,53 +86,6 @@ router.post('/posts/delete', (req, res) => {
 
 })
 
-/*** Pages ***/
-router.post('/pages/create', (req, res) => {
-
-  var post = req.body.post || {}
-
-  post.authorId = req.session.userId
-
-  Page.create(post, (err, post) => {
-    if (post) {
-      res.send({ message: "success : page created", post: post })
-    } else {
-      res.send({ message: "internal error : impossible to create post" })
-    }
-  })
-
-})
-
-// router.post('/pages/save', (req, res) => {
-
-//   var postId = req.body.id
-//   var post = req.body.post
-
-//   console.log(post)
-
-//   Page.update(postId, post, (err, num) => {
-//     if (num) {
-//       res.send({ message: "success : page updated" })
-//     } else {
-//       res.send({ message: "internal error : impossible to save page" })
-//     }
-//   })
-
-// })
-
-router.post('/pages/delete', (req, res) => {
-
-  var postId = req.body.id
-
-  Page.remove(postId, (err, num) => {
-    if (num) {
-      res.send({ message: "success : page deleted" })
-    } else {
-      res.send({ message: "internal error : impossible to delete page" })
-    }
-  })
-
-})
 
 /*** Menus ***/
 router.post('/menus/create/', (req, res) => {
@@ -175,62 +128,6 @@ router.post('/menus/delete/', (req, res) => {
       res.send({ message: "internal error : impossible to remove menu" })
     }
   })
-})
-
-/*** Users ***/
-
-router.post('/users/create', (req, res) => {
-
-  var user = {
-    username: req.body.username,
-    role: req.body.role,
-    email: req.body.email,
-    password: req.body.password,
-  }
-
-  User.create(user, (err, user) => {
-    if (user) {
-      res.send({ message: "success : user created", user: user })
-    } else {
-      res.send({ message: "internal error : impossible to create user" })
-    }
-  })
-
-})
-
-router.post('/users/save', (req, res) => {
-
-  var id = req.body.id
-
-  var user = {
-    username: req.body.username,
-    role: req.body.role,
-    email: req.body.email,
-    password: req.body.password,
-  }
-
-  User.update(id, user, (err, num) => {
-    if (num) {
-      res.send({ message: "success : user updated" })
-    } else {
-      res.send({ message: "internal error : impossible to save user for id " + id })
-    }
-  })
-
-})
-
-router.post('/users/delete', (req, res) => {
-
-  var id = req.body.id
-
-  User.remove(id, (err, num) => {
-    if (num) {
-      res.send({ message: "success : user deleted" + num })
-    } else {
-      res.send({ message: "internal error : impossible to delete user for id " + id })
-    }
-  })
-
 })
 
 /*** Medias ***/
@@ -351,21 +248,25 @@ router.post('/settings/save', (req, res) => {
 })
 
 /*** Generic routes ***/
-router.post('/:postType/create', (req, res) => {
+router.post('/:customType/create', (req, res) => {
 
-  var postType = req.params.postType
-
-  var model = opkey.getModel(postType)
+  var customType = req.params.customType
 
   var post = req.body.post || {}
   post.authorId = req.session.userId
 
-  model.create(post, (err, post) => {
-    if (post) {
-      res.send({ message: "success : post created", post: post })
-    } else {
-      res.send({ message: "internal error : impossible to create post" })
-    }
+  data.customType.findOne({ name: customType }, (err, customType) => {
+
+    var databaseName = customType.name
+
+    data[databaseName].insert(post, (err, post) => {
+      if (post) {
+        res.send({ message: "success : post created", post })
+      } else {
+        res.send({ message: "internal error : impossible to create post" })
+      }
+    })
+
   })
 
 })
