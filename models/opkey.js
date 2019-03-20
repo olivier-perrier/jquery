@@ -7,12 +7,8 @@ class Opkey {
         // console.log("[DEBUG] register models")
 
         this.modelNames = [
-            { name: "pages", modelName: "Page" },
-            { name: "comments", modelName: "Comment" },
         ]
 
-        data.createDatastores(this.modelNames.map(modelName => modelName.name))
-        data.loadDatabases(this.modelNames.map(modelName => modelName.name))
     }
 
     /**

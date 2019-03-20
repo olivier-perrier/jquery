@@ -1,29 +1,64 @@
 {{#> admin/content}}
 
-genric page
+<div class="my-3">
 
-<ul>
-    {{#posts as |post|}}
-    <li>
+    <h2 class="m-3">{{customType.name}}</h2>
+
+    <div class="m-1">
+        <span><a href="/admin/{{customType.name}}">All</a></span> -
+        <span><a href="/admin/{{customType.name}}?status=draft">Draft</a></span> -
+        <span><a href="/admin/{{customType.name}}?authorId={{user._id}}">Mine</a></span> -
+        <span><a href="/admin/{{customType.name}}?status=trash">Trash</a></span>
+    </div>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                {{#customType.columns}}
+                <th>{{this}}</th>
+                {{/customType.columns}}
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {{#posts as |post|}}
+            <tr>
+
+                {{#each post as |prop|}}
+                <td>
+
+                    {{#if properties.autokey}}
+                    <a href="/admin/{{path}}/edit/{{link}}">{{value}}</a>
+                    {{else}}
+
+                    {{#ifeq properties.type "relationship"}}
+
+                    <a href="/admin/{{properties.path}}/edit/{{link}}">{{value}}</a>
+
+                    {{else}}
+
+                    {{prop.value}}
 
 
-        {{#each post as |prop|}}
-
-        {{#if autokey}}
-        
-        <a href="/admin/{{path}}/edit/{{link}}">{{prop.value}}</a>
-        
-
-        {{else}}
-        {{prop.value}}
-
-        {{/if}}
+                    {{/ifeq}}
 
 
-        {{/each}}
+                    {{/if}}
 
-    </li>
-    {{/posts}}
-</ul>
+
+                </td>
+                {{/each}}
+
+
+            </tr>
+            {{/posts}}
+
+        </tbody>
+    </table>
+
+</div>
+
 
 {{/ admin/content}}

@@ -95,20 +95,40 @@ exports.createModels = (req, res, next) => {
       })
   })
 
-  data.customType.findOne({ name: "comments" }, (err, post) => {
-    if (!post) {
-      data.customType.insert({
-        name: "comments",
-        label: "Comments",
-        properties: [
-          { _id: { autokey: true } },
-          { authorId: { type: "relationship", path: "users", refpath: "username" } },
-          { createdAt: 1 }
-        ]
-      }, (err, post) => {
-        console.log("Custom type comment inserted")
-      })
-    }
+  data.customType.remove({}, { multi: true })
+
+  data.customType.insert({
+    name: "pages",
+    label: "Pages",
+    icon:"far fa-file",
+    properties: {
+      _id: { type: "hidden" },
+      title: { type: "string", autokey: true, main: 1 },
+      content: { type: "string" },
+      state: { type: "string" },
+      authorId: { type: "relationship", path: "users", refpath: "username" },
+      createdAt: { type: "string" }
+    },
+    columns: ["title", "state", "authorId"]
+  }, (err, post) => {
+    console.log("Custom type page inserted")
+  })
+
+  data.customType.insert({
+    name: "comments",
+    label: "Comments",
+    icon:"far fa-comment",
+    properties: {
+      _id: { type: "string", autokey: true, main: 1 },
+      content: { type: "string" },
+      state: { type: "string" },
+      postId: { type: "relationship", path: "posts", refpath: "name" },
+      authorId: { type: "relationship", path: "users", refpath: "username" },
+      createdAt: { type: "string" }
+    },
+    columns: ["_id", "state", "authorId"]
+  }, (err, post) => {
+    console.log("Custom type comment inserted")
   })
 
 }

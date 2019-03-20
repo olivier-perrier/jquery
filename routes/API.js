@@ -9,9 +9,7 @@ var postsRouter = require('./posts.js')
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
-var Page = data.model('Page')
 var User = data.model('User')
-var Comment = data.model('Comment')
 
 router.use('/users', usersRouter);
 router.use('/posts', postsRouter);
@@ -105,22 +103,22 @@ router.post('/pages/create', (req, res) => {
 
 })
 
-router.post('/pages/save', (req, res) => {
+// router.post('/pages/save', (req, res) => {
 
-  var postId = req.body.id
-  var post = req.body.post
+//   var postId = req.body.id
+//   var post = req.body.post
 
-  console.log(post)
+//   console.log(post)
 
-  Page.update(postId, post, (err, num) => {
-    if (num) {
-      res.send({ message: "success : page updated" })
-    } else {
-      res.send({ message: "internal error : impossible to save page" })
-    }
-  })
+//   Page.update(postId, post, (err, num) => {
+//     if (num) {
+//       res.send({ message: "success : page updated" })
+//     } else {
+//       res.send({ message: "internal error : impossible to save page" })
+//     }
+//   })
 
-})
+// })
 
 router.post('/pages/delete', (req, res) => {
 
@@ -324,11 +322,6 @@ router.post('/medias/delete', (req, res) => {
 
 })
 
-
-/*** Commments ***/
-
-
-
 /*** Categories ***/
 
 router.get('/categories', (req, res) => {
@@ -343,8 +336,6 @@ router.get('/categories', (req, res) => {
   })
 
 })
-
-/*** Widgets ***/
 
 /*** Settings ***/
 router.post('/settings/save', (req, res) => {
@@ -371,7 +362,7 @@ router.post('/:postType/create', (req, res) => {
 
   model.create(post, (err, post) => {
     if (post) {
-      res.send({ message: "success : comment created", post: post })
+      res.send({ message: "success : post created", post: post })
     } else {
       res.send({ message: "internal error : impossible to create post" })
     }
@@ -379,21 +370,28 @@ router.post('/:postType/create', (req, res) => {
 
 })
 
-router.post('/:postType/save', (req, res) => {
-  var postType = req.params.postType
+router.post('/:customType/save', (req, res) => {
+  var customType = req.params.customType
 
-  var id = req.body.id
+  var postId = req.body.postId
   var post = req.body.post
 
-  var model = opkey.getModel(postType)
+  data.customType.findOne({ name: customType }, (err, customType) => {
 
-  model.update(id, post, (err, num) => {
-    if (num) {
-      res.send({ message: "success : post updated" })
-    } else {
-      res.send({ message: "internal error : impossible to save post" })
-    }
+    var databaseName = customType.name
+
+    data[databaseName].update({ _id: postId }, { $set: post }, (err, num) => {
+      if (num) {
+        res.send({ message: "success : post updated" })
+      } else {
+        res.send({ message: "internal error : impossible to save post" })
+      }
+    })
+
+
   })
+
+
 
 })
 
@@ -407,7 +405,7 @@ router.post('/:postType/delete', (req, res) => {
 
   model.remove(postId, (err, num) => {
     if (num) {
-      res.send({ message: "success : comment deleted" })
+      res.send({ message: "success : post deleted" })
     } else {
       res.send({ message: "internal error : impossible to delete comment" })
     }

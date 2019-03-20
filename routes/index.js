@@ -4,7 +4,6 @@ var router = express.Router();
 var data = require('../models/data.js')
 var Post = data.model('Post')
 var User = data.model('User')
-var Comment = data.model('Comment')
 var Setting = data.model('Setting')
 
 //Add settings objects to all entry point of this rooter
@@ -112,7 +111,7 @@ router.get('/posts/:postId', (req, res, next) => {
 
     Post.getPost(postId, (err, post) => {
         if (post)
-            Comment.getByPost(postId, (err, comments) => {
+            data.comments.find({ postId: postId }, (err, comments) => {
                 res.render('post', { post: post, comments: comments })
             })
         else next()
@@ -125,7 +124,7 @@ router.get('/posts/:postName', (req, res) => {
     var postName = req.params.postName
 
     Post.getPostByName(postName, (err, post) => {
-        Comment.getByPost(post._id, (err, comments) => {
+        data.comments.find({ postId: postId }, (err, comments) => {
             res.render('post', { post, comments })
         })
 

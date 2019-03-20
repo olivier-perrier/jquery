@@ -6,9 +6,7 @@ var opkey = new opkey()
 
 var data = require('../models/data.js')
 var Post = data.model('Post')
-var Page = data.model('Page')
 var User = data.model('User')
-var Comment = data.model('Comment')
 var Setting = data.model('Setting')
 
 router.all("*", (req, res, next) => {
@@ -17,7 +15,7 @@ router.all("*", (req, res, next) => {
 
 router.use((req, res, next) => {
 
-  data.customType.find({}, { name: 1, label: 1 }, (err, menus) => {
+  data.customType.find({}, { name: 1, label: 1, icon: 1 }, (err, menus) => {
     res.locals.menus = menus
     next()
   })
@@ -124,60 +122,6 @@ router.get('/medias', (req, res) => {
 
 })
 
-function addRelationshhip(){
-  // todo
-}
-
-function setProperties(post, properties, customType) {
-
-  for (var prop of properties) {
-    var propKey = Object.keys(prop)
-    console.log("current prop : " + propKey)
-    console.log(prop[propKey])
-
-    var name = propKey
-    var label = propKey
-    var postValue = post[propKey]
-    var link = ""
-    var type = prop[propKey].type
-    var autokey = prop[propKey].autokey
-
-    // if autokey for the tab
-    if (prop[propKey].autokey) {
-      var link = post[propKey]
-      var path = customType.name
-      console.log("path " + customType.name)
-    } else {
-      if (prop[propKey].type == "relationship") {
-
-        var path = prop[propKey].path
-        var refpath = prop[propKey].refpath
-
-        data[path].findOne({ _id: postValue }, (err, postRelation) => {
-
-          postValue = postRelation[refpath]
-          link = postRelation._id
-        })
-
-      } else {
-
-      }
-
-
-    }
-
-    post[propKey] = {
-      name: name,
-      label: label,
-      value: postValue,
-      link: link,
-      type: type,
-      autokey: autokey,
-      path: path,
-    }
-  }
-}
-
 
 /*** Generic routes ***/
 router.get('/:customType', (req, res) => {
@@ -191,14 +135,12 @@ router.get('/:customType', (req, res) => {
 
     data[databaseName].find({}, (err, posts) => {
 
-      var properties = customType.properties
+      getFormatedPosts(posts, customType).then((posts) => {
 
-      for (var post of posts) {
-        setProperties(post, properties, customType)
-      }
-
-      console.log(posts)
-      res.render('admin/generic-page', { posts })
+        console.log("sending result to client")
+        console.log(posts)
+        res.render('admin/generic-page', { posts, customType })
+      })
     })
 
   })
@@ -207,7 +149,6 @@ router.get('/:customType', (req, res) => {
 
 router.get('/:customType/edit/:postId', (req, res) => {
   var customType = req.params.customType
-
   var postId = req.params.postId
 
   data.customType.findOne({ name: customType }, (err, customType) => {
@@ -216,12 +157,12 @@ router.get('/:customType/edit/:postId', (req, res) => {
 
     data[databaseName].findOne({ _id: postId }, (err, post) => {
 
-      var properties = customType.properties
+      getFormatedPost(post, customType, false).then((post) => {
 
-      setProperties(post, properties, customType)
-
-      console.log(post)
-      res.render('admin/generic-page-edit', { post })
+        console.log("sending result to client")
+        console.log(post)
+        res.render('admin/generic-page-edit', { post, customType })
+      })
 
     })
 
@@ -229,30 +170,96 @@ router.get('/:customType/edit/:postId', (req, res) => {
 
 })
 
-function sendGenericPosts(res, model) {
-  var properties = model.getProperties()
+async function getFormatedPost(post, customType, isTab) {
 
-  console.log("request database")
+  var properties = customType.properties
 
-  data[properties.name].find({}, model.getProjection(), (err, posts) => {
-    console.log("database requested")
+  var formatedPost = {}
 
-    model.getBuildPosts(posts).then((result) => {
-      console.log(result)
-      res.render('admin/comments', { schema: model.schema, posts: result, columns: model.getColumnsTitles(), properties: model.properties })
-    })
-    console.log("after then")
-  })
+  for (var propKey in properties) {
+
+    if (!isTab || customType.columns.includes(propKey)) {
+
+      var propValues = properties[propKey]
+
+      formatedPost[propKey] = {}
+
+      formatedPost[propKey].properties = properties[propKey]
+      formatedPost[propKey].value = post[propKey]
+
+      var value = post[propKey]
+      var type = propValues.type
+      var autokey = propValues.autokey
+
+      // if autokey for the tab
+      if (autokey) {
+        formatedPost[propKey].link = post._id
+        formatedPost[propKey].value = post[propKey]
+        formatedPost[propKey].path = customType.name
+
+      } else {
+        if (type == "relationship") {
+
+          var relationship = await getRelationship(propValues, value)
+
+          formatedPost[propKey].value = relationship.value
+          formatedPost[propKey].link = relationship.link
+          formatedPost[propKey].options = relationship.options
+
+        } else {
+
+        }
+
+      }
+
+    }
+
+  }
+
+  return formatedPost
+
 }
 
-function sendGenericPost(res, model, postId) {
-  var properties = model.getProperties()
 
-  data[properties.name].findOne({ _id: postId }, (err, post) => {
+async function getFormatedPosts(posts, customType) {
+  for (var postKey in posts) {
+    posts[postKey] = await getFormatedPost(posts[postKey], customType, true)
+  }
+  return posts
+}
 
-    model.getBuildPost(post).then(result => {
-      // console.log(result)
-      res.render('admin/comments-edit', { post: result, properties: properties })
+function getRelationship(propValues, postId) {
+  return new Promise(resolve => {
+
+    var path = propValues.path
+    var refpath = propValues.refpath
+
+    data[path].findOne({ _id: postId }, (err, postRelation) => {
+      var value
+      var link
+
+      if (postRelation) {
+        value = postRelation[refpath]
+        link = postRelation._id
+      } else {
+        value = null
+        link = null
+      }
+
+      data[path].find({}, (err, posts) => {
+
+        var options = []
+
+        for (var postKey in posts) {
+          options[postKey] = { value: posts[postKey][refpath], id: posts[postKey]._id }
+        }
+
+        console.log("options relations builded ")
+        console.log(options)
+
+        resolve({ value, link, options })
+
+      })
     })
   })
 }

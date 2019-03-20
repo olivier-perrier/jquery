@@ -19,7 +19,7 @@
 
                     <div class="d-flex justify-content-between">
                         <strong><a href="/author/{{post.authorId}}" class="">{{post.authorUsername}}</a></strong>
-                        <small>{{toElapsedTime post.createdAt}} ago</small>
+                        <small>{{post.createdAt}} ago</small>
                     </div>
 
                     <h1><a href="/posts/{{post._id}}" class="">{{post.title}}</a></h1>
@@ -51,7 +51,7 @@
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <strong>{{authorUsername}}</strong>
-                            <small>{{toElapsedTime createdAt}}</small>
+                            <small>{{createdAt}}</small>
                         </div>
                         <p>{{content}}</p>
                         <div class="text-right">
