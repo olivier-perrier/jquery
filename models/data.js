@@ -1,13 +1,17 @@
 
+// var installation = require('../components/installation/installation')
+
 console.log("Database managment loading...")
 
 var Datastore = require('nedb')
 
 db = {}
 
-var customType = new Datastore({ filename: 'data/customtype.nedb' })
+db.customType = new Datastore({ filename: 'data/customtype.nedb' })
 
-customType.loadDatabase(err => {
+
+db.customType.loadDatabase(err => {
+
     console.log("Loading datastores")
     db.customType.find({}, { name: 1 }, (err, databases) => {
         for (var database of databases) {
@@ -16,9 +20,10 @@ customType.loadDatabase(err => {
             db[database.name].loadDatabase()
         }
     })
-})
 
-db.customType = customType
+    // installation.createDatas()
+
+})
 
 db.posts = new Datastore({ filename: 'data/posts.nedb' })
 db.settings = new Datastore({ filename: 'data/settings.nedb' })

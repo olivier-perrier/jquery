@@ -64,25 +64,25 @@ router.get('/posts/edit/:postId', (req, res) => {
 })
 
 /*** Menus ***/
-router.get('/menus', (req, res) => {
+// router.get('/menus', (req, res) => {
 
-  Post.getMenus((err, menus) => {
-    res.render('admin/menus', { menus: menus })
-  })
+//   Post.getMenus((err, menus) => {
+//     res.render('admin/menus', { menus: menus })
+//   })
 
-})
+// })
 
-router.get('/menus/edit/:menuId', (req, res) => {
+// router.get('/menus/edit/:menuId', (req, res) => {
 
-  var menuId = req.params.menuId
+//   var menuId = req.params.menuId
 
-  var userId = req.session.userId
+//   var userId = req.session.userId
 
-  data.posts.findOne({ _id: menuId, postType: "menu" }, (err, menu) => {
-    res.render('admin/menu-edit', { menu: menu })
-  })
+//   data.posts.findOne({ _id: menuId, postType: "menu" }, (err, menu) => {
+//     res.render('admin/menu-edit', { menu: menu })
+//   })
 
-})
+// })
 
 router.get('/settings', (req, res) => {
 

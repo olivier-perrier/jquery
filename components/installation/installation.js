@@ -1,7 +1,5 @@
 
 var data = require('../../models/data')
-var User = data.model('User')
-var Post = data.model('Post')
 
 var aboutPage = require('./aboutPage')
 var helloPost = require('./helloPost')
@@ -98,6 +96,23 @@ exports.createModels = (req, res, next) => {
   data.customType.remove({}, { multi: true })
 
   data.customType.insert({
+    name: "menus",
+    label: "Menus",
+    icon: "far fa-compass",
+    properties: {
+      _id: { type: "hidden" },
+      title: { type: "string", autokey: true, main: 1 },
+      type: { type: "string" },
+      target: { type: "string" },
+      order: { type: "string" },
+      parent: { type: "relationship", path: "menus", refpath: "title" },
+    },
+    columns: ["title", "type", "target", "order"]
+  }, (err, post) => {
+    console.log("Custom type inserted menus")
+  })
+
+  data.customType.insert({
     name: "pages",
     label: "Pages",
     icon: "far fa-file",
@@ -111,7 +126,7 @@ exports.createModels = (req, res, next) => {
     },
     columns: ["title", "state", "authorId"]
   }, (err, post) => {
-    console.log("Custom type pages inserted")
+    console.log("Custom type inserted pages")
   })
 
   data.customType.insert({
@@ -130,7 +145,7 @@ exports.createModels = (req, res, next) => {
     },
     columns: ["username", "email", "role", "posts"]
   }, (err, post) => {
-    console.log("Custom type users inserted")
+    console.log("Custom type inserted users")
   })
 
   data.customType.insert({
@@ -147,7 +162,7 @@ exports.createModels = (req, res, next) => {
     },
     columns: ["_id", "state", "authorId"]
   }, (err, post) => {
-    console.log("Custom type comments inserted")
+    console.log("Custom type inserted comments")
   })
 
   data.customType.insert({
@@ -161,9 +176,18 @@ exports.createModels = (req, res, next) => {
     },
     columns: ["name", "state"]
   }, (err, post) => {
-    console.log("Custom type widgets inserted")
+    console.log("Custom type inserted widgets")
   })
 
+
+
+}
+
+exports.createDatas = () => {
+
+  data.users.find({}, (err, posts) => {
+    
+  })
 }
 
 
