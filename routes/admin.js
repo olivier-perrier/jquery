@@ -13,7 +13,7 @@ router.all("*", (req, res, next) => {
 
 router.use((req, res, next) => {
 
-  data.customType.find({}, { name: 1, label: 1, icon: 1 }, (err, menus) => {
+  data.customType.find({}, { name: 1, label: 1, icon: 1 }).sort({ order: 1 }).exec((err, menus) => {
     res.locals.menus = menus
     next()
   })
@@ -63,27 +63,6 @@ router.get('/posts/edit/:postId', (req, res) => {
 
 })
 
-/*** Menus ***/
-// router.get('/menus', (req, res) => {
-
-//   Post.getMenus((err, menus) => {
-//     res.render('admin/menus', { menus: menus })
-//   })
-
-// })
-
-// router.get('/menus/edit/:menuId', (req, res) => {
-
-//   var menuId = req.params.menuId
-
-//   var userId = req.session.userId
-
-//   data.posts.findOne({ _id: menuId, postType: "menu" }, (err, menu) => {
-//     res.render('admin/menu-edit', { menu: menu })
-//   })
-
-// })
-
 router.get('/settings', (req, res) => {
 
   res.render('admin/settings', {})
@@ -123,7 +102,7 @@ router.get('/:customType', (req, res) => {
         })
       })
 
-    }else{
+    } else {
       console.log("[WARNING] not custom type for " + customTypeName)
       res.redirect('/admin')
 
@@ -142,12 +121,17 @@ router.get('/:customType/edit/:postId', (req, res) => {
 
     data[databaseName].findOne({ _id: postId }, (err, post) => {
 
-      getFormatedPost(post, customType, false).then((post) => {
+      if (post) {
 
-        console.log("sending result to client")
-        console.log(post)
-        res.render('admin/generic-page-edit', { post, customType })
-      })
+        getFormatedPost(post, customType, false).then((post) => {
+          console.log("sending result to client")
+          console.log(post)
+          res.render('admin/generic-page-edit', { post, customType })
+        })
+      } else {
+        console.log("[DEBUG] not post found for id " + postId)
+        res.send('not found')
+      }
 
     })
 

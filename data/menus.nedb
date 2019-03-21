@@ -1,0 +1,16 @@
+{"title":"About","name":"about","type":"pages","target":"about","order":10,"_id":"0qqF0hh2lHfjo1hu"}
+{"title":"My category","name":"my-category","type":"categories","target":"my-cat","order":3,"_id":"1i7uBJYyuJKLaqTD"}
+{"title":"Hello world","name":"hello-world","type":"posts","target":"hello-wold","order":1,"_id":"OdgzQyg83iKDvUQc"}
+{"title":"Google","name":"google","type":"direct","target":"www.google.fr","order":5,"_id":"YwImfwUG0CWIJaJ3"}
+{"$$deleted":true,"_id":"0qqF0hh2lHfjo1hu"}
+{"$$deleted":true,"_id":"1i7uBJYyuJKLaqTD"}
+{"$$deleted":true,"_id":"OdgzQyg83iKDvUQc"}
+{"$$deleted":true,"_id":"YwImfwUG0CWIJaJ3"}
+{"title":"Hello world","name":"hello-world","type":"posts","target":"hello-wold","order":1,"_id":"Ksex6InSXWGUb7H4"}
+{"title":"My category","name":"my-category","type":"categories","target":"my-cat","order":3,"_id":"xRRARLw7Et4RFAs1"}
+{"title":"Google","name":"google","type":"direct","target":"www.google.fr","order":5,"_id":"BfobjaJ7TFrTY44u"}
+{"title":"About","name":"about","type":"pages","target":"about","order":10,"_id":"6eeRxRwV8GLOmEwO"}
+{"title":"Hello world","name":"hello-world","type":"posts","target":"hello-wold","order":"1","_id":"Ksex6InSXWGUb7H4","parent":"6eeRxRwV8GLOmEwO"}
+{"title":"Hello world","name":"hello-world","type":"posts","target":"hello-wold","order":"1","_id":"Ksex6InSXWGUb7H4","parent":"6eeRxRwV8GLOmEwO"}
+{"title":"My category","name":"my-category","type":"categories","target":"my-cat","order":"3","_id":"xRRARLw7Et4RFAs1","parent":"6eeRxRwV8GLOmEwO"}
+{"title":"My category","name":"my-category","type":"categories","target":"my-cat","order":"3","_id":"xRRARLw7Et4RFAs1","parent":"Ksex6InSXWGUb7H4"}

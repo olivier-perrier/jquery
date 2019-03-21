@@ -88,47 +88,47 @@ router.post('/posts/delete', (req, res) => {
 
 
 /*** Menus ***/
-router.post('/menus/create/', (req, res) => {
+// router.post('/menus/create/', (req, res) => {
 
-  var menu = req.body.menu
+//   var menu = req.body.menu
 
-  Post.createMenu(menu, (err, menu) => {
-    if (menu) {
-      res.send({ message: "success : menu created", menu: menu })
-    } else {
-      res.send({ message: "internal error : impossible to create menu" })
-    }
-  })
+//   Post.createMenu(menu, (err, menu) => {
+//     if (menu) {
+//       res.send({ message: "success : menu created", menu: menu })
+//     } else {
+//       res.send({ message: "internal error : impossible to create menu" })
+//     }
+//   })
 
-})
+// })
 
-router.post('/menus/save/', (req, res) => {
+// router.post('/menus/save/', (req, res) => {
 
-  var menuId = req.body.id
-  var menu = req.body.menu
+//   var menuId = req.body.id
+//   var menu = req.body.menu
 
-  Post.updateMenu(menuId, menu, (err, num) => {
-    if (num) {
-      res.send({ message: "success : menu updated" })
-    } else {
-      res.send({ message: "internal error : impossible to update menu" })
-    }
-  })
+//   Post.updateMenu(menuId, menu, (err, num) => {
+//     if (num) {
+//       res.send({ message: "success : menu updated" })
+//     } else {
+//       res.send({ message: "internal error : impossible to update menu" })
+//     }
+//   })
 
-})
+// })
 
-router.post('/menus/delete/', (req, res) => {
+// router.post('/menus/delete/', (req, res) => {
 
-  var menuId = req.body.id
+//   var menuId = req.body.id
 
-  Post.removeMenu(menuId, (err, num) => {
-    if (num) {
-      res.send({ message: "success : menu removed" })
-    } else {
-      res.send({ message: "internal error : impossible to remove menu" })
-    }
-  })
-})
+//   Post.removeMenu(menuId, (err, num) => {
+//     if (num) {
+//       res.send({ message: "success : menu removed" })
+//     } else {
+//       res.send({ message: "internal error : impossible to remove menu" })
+//     }
+//   })
+// })
 
 /*** Medias ***/
 router.post('/medias/upload', (req, res) => {

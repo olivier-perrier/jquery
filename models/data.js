@@ -1,6 +1,4 @@
 
-// var installation = require('../components/installation/installation')
-
 console.log("Database managment loading...")
 
 var Datastore = require('nedb')
@@ -19,10 +17,11 @@ db.customType.loadDatabase(err => {
             db[database.name] = new Datastore({ filename: 'data/' + database.name + '.nedb' })
             db[database.name].loadDatabase()
         }
+
+        var installation = require('../components/installation/installation')
+        installation.createDatas()
+
     })
-
-    // installation.createDatas()
-
 })
 
 db.posts = new Datastore({ filename: 'data/posts.nedb' })

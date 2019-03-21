@@ -49,50 +49,6 @@ exports.createModels = (req, res, next) => {
   //   }
   // })
 
-  // // Create default menu Google
-  // Post.getMenuByName("google", (err, menu) => {
-  //   if (!menu)
-  //     Post.createMenu({
-  //       title: "Google",
-  //       name: "google",
-  //       format: "direct",
-  //       content: "www.google.fr",
-  //       order: 3
-  //     }, (err, menu) => {
-  //       if (menu)
-  //         console.log("[INFO] default menu created")
-  //     })
-  // })
-
-  // // Create default menu  About
-  // Post.getMenuByName("about", (err, menu) => {
-  //   if (!menu)
-  //     Post.createMenu({
-  //       title: "About",
-  //       name: "about",
-  //       format: "pages",
-  //       content: "about",
-  //       order: 10
-  //     }, (err, menu) => {
-  //       console.log("[INFO] default menu created")
-  //     })
-  // })
-
-  // // Create default menu Hello World
-  // Post.getMenuByName("hello-world", (err, menu) => {
-  //   if (!menu)
-  //     Post.createMenu({
-  //       title: "Hello World",
-  //       name: "hello-world",
-  //       format: "posts",
-  //       content: "hello-world",
-  //       order: 1,
-  //     }, (err, menu) => {
-  //       if (menu)
-  //         console.log("[INFO] default menu created")
-  //     })
-  // })
-
   data.customType.remove({}, { multi: true })
 
   data.customType.insert({
@@ -107,7 +63,9 @@ exports.createModels = (req, res, next) => {
       order: { type: "string" },
       parent: { type: "relationship", path: "menus", refpath: "title" },
     },
-    columns: ["title", "type", "target", "order"]
+    columns: ["title", "type", "target", "order"],
+    order: 2,
+
   }, (err, post) => {
     console.log("Custom type inserted menus")
   })
@@ -124,7 +82,8 @@ exports.createModels = (req, res, next) => {
       authorId: { type: "relationship", path: "users", refpath: "username" },
       createdAt: { type: "string" }
     },
-    columns: ["title", "state", "authorId"]
+    columns: ["title", "state", "authorId"],
+    order: 1,
   }, (err, post) => {
     console.log("Custom type inserted pages")
   })
@@ -143,7 +102,8 @@ exports.createModels = (req, res, next) => {
       role: { type: "string" },
       posts: { type: "relationship", path: "posts", refpath: "name" },
     },
-    columns: ["username", "email", "role", "posts"]
+    columns: ["username", "email", "role", "posts"],
+    order: 3
   }, (err, post) => {
     console.log("Custom type inserted users")
   })
@@ -160,7 +120,8 @@ exports.createModels = (req, res, next) => {
       authorId: { type: "relationship", path: "users", refpath: "username" },
       createdAt: { type: "string" }
     },
-    columns: ["_id", "state", "authorId"]
+    columns: ["_id", "state", "authorId"],
+    order: 8
   }, (err, post) => {
     console.log("Custom type inserted comments")
   })
@@ -174,7 +135,8 @@ exports.createModels = (req, res, next) => {
       state: { type: "string" },
       configuration: { type: "string" },
     },
-    columns: ["name", "state"]
+    columns: ["name", "state"],
+    order: 10
   }, (err, post) => {
     console.log("Custom type inserted widgets")
   })
@@ -185,8 +147,56 @@ exports.createModels = (req, res, next) => {
 
 exports.createDatas = () => {
 
+  data.menus.remove({}, { multi: true })
+
+  // Create default menu Hello Word
+  data.menus.insert({
+    title: "Hello world",
+    name: "hello-world",
+    type: "posts",
+    target: "hello-wold",
+    order: 1
+  }, (err, post) => {
+    console.log("[INFO] default menu created")
+  })
+
+  // Create default menu Hello Word
+  data.menus.insert({
+    title: "My category",
+    name: "my-category",
+    type: "categories",
+    target: "my-cat",
+    order: 3
+  }, (err, post) => {
+    console.log("[INFO] default menu created")
+  })
+
+
+  // Create default menu Google
+  data.menus.insert({
+    title: "Google",
+    name: "google",
+    type: "direct",
+    target: "www.google.fr",
+    order: 5
+  }, (err, post) => {
+    console.log("[INFO] default menu created")
+  })
+
+  // Create default menu About
+  data.menus.insert({
+    title: "About",
+    name: "about",
+    type: "pages",
+    target: "about",
+    order: 10
+  }, (err, post) => {
+    console.log("[INFO] default menu created")
+  })
+
+
   data.users.find({}, (err, posts) => {
-    
+
   })
 }
 
