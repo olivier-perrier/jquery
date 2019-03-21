@@ -15,6 +15,7 @@
 
         <thead>
             <tr>
+                <th></th>
                 {{#customType.columns}}
                 <th>{{this}}</th>
                 {{/customType.columns}}
@@ -26,29 +27,33 @@
             {{#posts as |post|}}
             <tr>
 
-                {{#each post as |prop|}}
-                <td>
-
-                    {{#if properties.autokey}}
-                    <a href="/admin/{{path}}/edit/{{link}}">{{value}}</a>
-                    {{else}}
-
-                    {{#ifeq properties.type "relationship"}}
-
-                    <a href="/admin/{{properties.path}}/edit/{{link}}">{{value}}</a>
-
-                    {{else}}
-
-                    {{prop.value}}
-
-
-                    {{/ifeq}}
-
-
-                    {{/if}}
-
-
+                {{!-- Icon for deleting --}}
+                <td class="text-muted">
+                    <button type="button" class="btn btn-link" onclick="deletePost('{{post._id.value}}')">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
                 </td>
+
+                {{#each post as |prop|}}
+
+                {{#ifeq properties.type "autokey"}}
+                <td>
+                    <a href="/admin/{{path}}/edit/{{link}}">{{value}}</a>
+                </td>
+                {{/ifeq}}
+
+                {{#ifeq properties.type "relationship"}}
+                <td>
+                    <a href="/admin/{{properties.path}}/edit/{{link}}">{{value}}</a>
+                </td>
+                {{/ifeq}}
+
+                {{#ifeq properties.type "string"}}
+                <td>
+                    {{value}}
+                </td>
+                {{/ifeq}}
+
                 {{/each}}
 
 
@@ -77,7 +82,13 @@
             window.location = "/admin/{{customType.name}}/edit/" + data.post._id
         })
 
+    }
 
+    function deletePost(postId) {
+        $.post(URL + "/API/{{ customType.name }}/delete/", { postId }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/{{ customType.name }}"
+        })
     }
 
 </script>

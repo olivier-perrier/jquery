@@ -147,7 +147,7 @@ async function getFormatedPost(post, customType, isTab) {
 
   for (var propKey in properties) {
 
-    if (!isTab || customType.columns.includes(propKey)) {
+    if (!isTab || customType.columns.includes(propKey) || propKey == "_id") {
 
       var propValues = properties[propKey]
 
@@ -158,26 +158,21 @@ async function getFormatedPost(post, customType, isTab) {
 
       var value = post[propKey]
       var type = propValues.type
-      var autokey = propValues.autokey
 
-      // if autokey for the tab
-      if (autokey) {
-        formatedPost[propKey].link = post._id
+      if (type == "autokey") {
         formatedPost[propKey].value = post[propKey]
+        formatedPost[propKey].link = post._id
         formatedPost[propKey].path = customType.name
 
+      } else if (type == "relationship") {
+
+        var relationship = await getRelationship(propValues, value)
+
+        formatedPost[propKey].value = relationship.value
+        formatedPost[propKey].link = relationship.link
+        formatedPost[propKey].options = relationship.options
+
       } else {
-        if (type == "relationship") {
-
-          var relationship = await getRelationship(propValues, value)
-
-          formatedPost[propKey].value = relationship.value
-          formatedPost[propKey].link = relationship.link
-          formatedPost[propKey].options = relationship.options
-
-        } else {
-
-        }
 
       }
 

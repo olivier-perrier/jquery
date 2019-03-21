@@ -296,20 +296,26 @@ router.post('/:customType/save', (req, res) => {
 
 })
 
-router.post('/:postType/delete', (req, res) => {
-  console.log("Generc API")
-  var postType = req.params.postType
+router.post('/:customType/delete', (req, res) => {
+  var customType = req.params.customType
 
-  var model = opkey.getModel(postType)
+  var postId = req.body.postId
 
-  var postId = req.body.id
+  console.log(customType)
+  console.log(postId)
 
-  model.remove(postId, (err, num) => {
-    if (num) {
-      res.send({ message: "success : post deleted" })
-    } else {
-      res.send({ message: "internal error : impossible to delete comment" })
-    }
+  data.customType.findOne({ name: customType }, (err, customType) => {
+
+    var databaseName = customType.name
+
+    data[databaseName].remove({ _id: postId }, (err, num) => {
+      if (num) {
+        res.send({ message: "success : post deleted" })
+      } else {
+        res.send({ message: "internal error : impossible to delete post" })
+      }
+    })
+
   })
 
 })

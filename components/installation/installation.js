@@ -2,7 +2,6 @@
 var data = require('../../models/data')
 
 var aboutPage = require('./aboutPage')
-var helloPost = require('./helloPost')
 
 exports.createModels = (req, res, next) => {
 
@@ -40,14 +39,19 @@ exports.createModels = (req, res, next) => {
   //   if (user) {
   //     helloPost.authorId = user._id
 
-  //     Post.getPostByName(helloPost.name, (err, post) => {
-  //       if (!post)
-  //         Post.createPost(helloPost, (err, post) => {
-  //           console.log("[INFO] default post created")
-  //         })
-  //     })
-  //   }
-  // })
+  // Post.getPostByName(
+  //   {
+  //     title: "Hello World",
+  //     name: "hello-world",
+  //     content: `Welcome to OP CMS. This is your first post. Edit or delete it, then start writing !`,
+  //     image: "banner.jpg",
+  //     category: "uncategorized",
+  //     tags: ["presentation", "website", "OP cms"],
+  //     status: "publish",
+  //   }, (err, post) => {
+  //     console.log("[INFO] default post created")
+  //   })
+
 
   data.customType.remove({}, { multi: true })
 
@@ -57,7 +61,7 @@ exports.createModels = (req, res, next) => {
     icon: "far fa-compass",
     properties: {
       _id: { type: "hidden" },
-      title: { type: "string", autokey: true, main: 1 },
+      title: { type: "autokey", main: 1 },
       type: { type: "string" },
       target: { type: "string" },
       order: { type: "string" },
@@ -76,7 +80,7 @@ exports.createModels = (req, res, next) => {
     icon: "far fa-file",
     properties: {
       _id: { type: "hidden" },
-      title: { type: "string", autokey: true, main: 1 },
+      title: { type: "autokey", main: 1 },
       content: { type: "string" },
       state: { type: "string" },
       authorId: { type: "relationship", path: "users", refpath: "username" },
@@ -94,7 +98,7 @@ exports.createModels = (req, res, next) => {
     icon: "far fa-user",
     properties: {
       _id: { type: "hidden" },
-      username: { type: "string", autokey: true, main: 1 },
+      username: { type: "autokey", main: 1 },
       firstname: { type: "string" },
       lastname: { type: "string" },
       email: { type: "string" },
@@ -113,7 +117,7 @@ exports.createModels = (req, res, next) => {
     label: "Comments",
     icon: "far fa-comment",
     properties: {
-      _id: { type: "string", autokey: true, main: 1 },
+      _id: { type: "autokey", main: 1 },
       content: { type: "string" },
       state: { type: "string" },
       postId: { type: "relationship", path: "posts", refpath: "name" },
@@ -131,7 +135,7 @@ exports.createModels = (req, res, next) => {
     label: "Widgets",
     icon: "fas fa-puzzle-piece",
     properties: {
-      name: { type: "string" },
+      name: { type: "autokey" },
       state: { type: "string" },
       configuration: { type: "string" },
     },
