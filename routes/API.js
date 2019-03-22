@@ -13,20 +13,14 @@ router.use((req, res, next) => {
 })
 
 /*** Medias ***/
-router.post('/medias/upload', (req, res) => {
+router.post('/:customType/upload', (req, res) => {
+  var customType = req.params.customType
 
   console.log(req.files)
 
   let sampleFile = req.files.sampleFile;
 
-  console.log(sampleFile.name)
-
-  var media = {
-    title: sampleFile.name,
-    name: sampleFile.name,
-    postType: "media",
-    format: "image"
-  }
+  var imageName = sampleFile.name
 
   sampleFile.mv('./public/medias/' + sampleFile.name, function (err) {
     if (err) {
@@ -35,13 +29,16 @@ router.post('/medias/upload', (req, res) => {
 
     } else {
 
-      Post.createMedia(media, (err, media) => {
-        if (media)
-          res.send({ message: "success : media created " + media })
-        else
-          res.send({ message: "internal error : impossible to save create " + media })
+      console.log("media moved")
+      data.medias.update({}, { image: imageName }, (err, num) => {
+        console.log("media updated " + num)
 
+        if (num)
+          res.send({ message: "success : media created " + sampleFile })
+        else
+          res.send({ message: "internal error : impossible to save create " + sampleFile })
       })
+
     }
 
   })
@@ -50,33 +47,38 @@ router.post('/medias/upload', (req, res) => {
 
 router.post('/medias/delete', (req, res) => {
 
-  var id = req.body.id
+  var postId = req.body.postId
 
   const fs = require('fs')
 
-  Post.getMedia(id, (err, media) => {
+  data.medias.findOne({ _id: postId }, (err, media) => {
 
-    fs.unlink('./public/medias/' + media.name, (err) => {
+    if (media) {
 
-      if (err) {
-        console.log("[ERROR] no file to delete " + media.name + " err:" + err)
+      fs.unlink('./public/medias/' + media.name, (err) => {
 
-      } else {
-        console.log("[SUCCESS] file deleted " + media.name)
-      }
-    })
+        if (err) {
+          console.log("[ERROR] no file to delete " + media.name + " err:" + err)
+
+        } else {
+          console.log("[SUCCESS] file deleted " + media.name)
+        }
+      })
+
+    }else{
+      console.log("[DEBUG] impssible to find media for id " + postId)
+
+    }
 
   })
 
-  Post.removeMedia(id, (err, num) => {
+  data.medias.remove({ _id: postId }, (err, num) => {
     if (num) {
-      res.send({ message: "success : media deleted" + num })
+      res.send({ message: "success : media deleted" })
     } else {
-      res.send({ message: "internal error : impossible to delete media for id " + id })
+      res.send({ message: "internal error : impossible to delete media for id " + postId })
     }
   })
-
-  // Todo delete the file (not only the media post)
 
 })
 

@@ -54,6 +54,14 @@
                 </td>
                 {{/ifeq}}
 
+                {{#ifeq properties.type "image"}}
+                <td>
+                    <img src="/medias/{{value}}" alt="alt" height="42" width="42">
+                </td>
+                {{/ifeq}}
+
+
+
                 {{/each}}
 
 
