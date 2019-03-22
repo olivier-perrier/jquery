@@ -1,18 +1,34 @@
 <header>
 
-    <nav class="navbar bg-light">
-        <a class="navbar-brand">
-            <img src="/img/icon.png" width="30" height="30" alt="">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <a class="navbar-brand mr-5" href="/admin">
+            <img src="/img/icon.png" width="30" height="30" alt="icon">
             OP Admin
         </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <div class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" href="/admin"><i class="fas fa-home mr-1"></i></a>
+
+                {{#menus}}
+                <a class="nav-item nav-link border-left px-3" href="/admin/{{name}}"><i class="{{icon}} mr-1"></i>{{label}}</a>
+                {{/menus}}
+            </div>
+            <form class="form-inline">
+                <a id="admin" class="btn btn-link" href="admin" role="button">{{user.name}}</a>
+                <a id="admin" class="btn btn-light" href="/" role="button">View site</a>
+            </form>
         </div>
-        <form class="form-inline">
-            <a id="admin" class="btn btn-link" href="admin" role="button">{{user.name}}</a>
-            <a id="admin" class="btn btn-light" href="/" role="button">View site</a>
-        </form>
 
     </nav>
 
 </header>
+
+<style>
+    a:hover {
+        transition: all 0.3s ease;
+    }
+</style>

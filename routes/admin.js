@@ -17,20 +17,11 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res) => {
-  var userId = req.session.userId
 
-  data.users.find({}).limit(5).exec((err, users) => {
+  data.customType.find({}).sort({ order: 1 }).exec((err, models) => {
+    res.render('admin/index', { models })
 
-    data.posts.find({ postType: "post" }).limit(5).exec((err, posts) => {
-
-      data.posts.find({ postType: "page" }).limit(5).exec((err, pages) => {
-
-        res.render('admin/index', { users: users, posts: posts, pages: pages })
-
-      })
-    })
   })
-
 
 })
 
@@ -47,7 +38,7 @@ router.get('/:customType', (req, res) => {
 
       // Set labels to CustomType properties
       customType.columnsName = []
-      for(var prop in customType.columns){
+      for (var prop in customType.columns) {
         customType.columnsName.push(jsUcfirst(customType.columns[prop]))
       }
 
@@ -187,9 +178,8 @@ function getRelationship(propValues, postId) {
   })
 }
 
-function jsUcfirst(string) 
-{
-    return string.charAt(0).toUpperCase() + string.slice(1);
+function jsUcfirst(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 

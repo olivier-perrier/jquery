@@ -1,34 +1,9 @@
 {{> admin/header}}
 
-<div class="container-fluid bg-white">
-
-    <div class="row">
-
-        <div class="col-md-2 col-1 pl-0">
-            <nav class="nav flex-column">
-                <a class="nav-item nav-link py-3 active" href="/admin"><i class="fas fa-home mr-1"></i><span class="d-none d-md-inline">Home</span></a>
-                {{#menus}}
-                <a class="nav-item nav-link" href="/admin/{{name}}"><i class="{{icon}} mr-1"></i><span class="d-none d-md-inline">{{label}}</span></a>
-                {{/menus}}
-            </nav>
-        </div>
-
-        <div class="col-md-10 col-11 ">
-            {{> @partial-block }}
-        </div>
-    </div>
+<div class="container py-3 bg-white">
+    {{> @partial-block }}
 </div>
 
 <footer class="text-center m-5">
     OP Admin by Olivier Perrier
 </footer>
-
-<style>
-    .nav-link {
-        padding-right: .25rem;
-    }
-    nav a:hover {
-        text-indent: 2px;
-        transition: all 0.3s ease;
-    }
-</style>

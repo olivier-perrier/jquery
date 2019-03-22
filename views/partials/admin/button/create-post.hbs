@@ -1,0 +1,16 @@
+<button id="create-post-{{name}}" class="btn btn-light mt-3">Create</button>
+
+<script>
+
+    $('#create-post-{{name}}').click(() => {
+
+        var post = {}
+
+        $.post(URL + "/API/{{name}}/create", { post }, (data, statut) => {
+            console.log(data)
+            window.location = "/admin/{{name}}/edit/" + data.post._id
+        })
+    })
+
+
+</script>
