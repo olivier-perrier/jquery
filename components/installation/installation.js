@@ -56,6 +56,32 @@ exports.createModels = (req, res, next) => {
   data.customType.remove({}, { multi: true })
 
   data.customType.insert({
+    name: "posts",
+    label: "Posts",
+    icon: "far fa-envelope-open",
+    properties: {
+      _id: { type: "hidden" },
+      title: { type: "autokey", main: 1 },
+      name: { type: "string" },
+      authorId: { type: "relationship", path: "users", refpath: "username" },
+      state: { type: "string" },
+      image: { type: "string" },
+      content: { type: "string" },
+      description: { type: "string" },
+      categories: { type: "string" },
+      format: { type: "string" },
+      tags: { type: "string" },
+      createdAt: { type: "string" },
+      updatedAt: { type: "string" },
+    },
+    columns: ["title", "authorId", "categories", "tags", "createdAt"],
+    order: 1,
+
+  }, (err, post) => {
+    console.log("Custom type inserted posts")
+  })
+
+  data.customType.insert({
     name: "menus",
     label: "Menus",
     icon: "far fa-compass",
@@ -135,6 +161,7 @@ exports.createModels = (req, res, next) => {
     label: "Widgets",
     icon: "fas fa-puzzle-piece",
     properties: {
+      _id: { type: "hidden" },
       name: { type: "autokey" },
       state: { type: "string" },
       configuration: { type: "string" },
@@ -145,7 +172,36 @@ exports.createModels = (req, res, next) => {
     console.log("Custom type inserted widgets")
   })
 
+  data.customType.insert({
+    name: "medias",
+    label: "Medias",
+    icon: "far fa-images",
+    properties: {
+      _id: { type: "hidden" },
+      name: { type: "autokey", autokey: true },
+      image: { type: "image" },
+      createdAt: { type: "string" },
+    },
+    columns: ["name", "image"],
+    order: 12
+  }, (err, post) => {
+    console.log("Custom type inserted medias")
+  })
 
+  data.customType.insert({
+    name: "settings",
+    label: "Settings",
+    icon: "fas fa-sliders-h",
+    properties: {
+      _id: { type: "hidden" },
+      name: { type: "autokey", autokey: true },
+      value: { type: "string" },
+    },
+    columns: ["name", "value"],
+    order: 15
+  }, (err, post) => {
+    console.log("Custom type inserted settings")
+  })
 
 }
 

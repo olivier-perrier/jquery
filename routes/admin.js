@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var opkey = require('../models/opkey')
-var opkey = new opkey()
-
 var data = require('../models/data.js')
-var Post = data.model('Post')
 
 router.all("*", (req, res, next) => {
   next()
@@ -38,52 +34,9 @@ router.get('/', (req, res) => {
 
 })
 
-/*** Posts ***/
-router.get('/posts', (req, res) => {
-
-  var query = req.query
-
-  Post.getPosts(query, (err, posts) => {
-    res.render('admin/posts', { posts: posts })
-  })
-
-})
-
-router.get('/posts/edit/:postId', (req, res) => {
-
-  var postId = req.params.postId
-
-  Post.getPost(postId, (err, post) => {
-    if (post == null) {
-      res.send({ message: "not found : no posts found" })
-    } else {
-      res.render('admin/post-edit', { post: post })
-    }
-  })
-
-})
-
-router.get('/settings', (req, res) => {
-
-  res.render('admin/settings', {})
-
-})
-
-/*** Media ***/
-router.get('/medias', (req, res) => {
-
-  data.posts.find({ postType: "media" }, (err, medias) => {
-    res.render('admin/medias', { medias: medias })
-
-  })
-
-})
-
 
 /*** Generic routes ***/
 router.get('/:customType', (req, res) => {
-  console.log("Generique GET")
-
   var customTypeName = req.params.customType
 
   data.customType.findOne({ name: customTypeName }, (err, customType) => {
@@ -91,6 +44,12 @@ router.get('/:customType', (req, res) => {
     if (customType) {
 
       var databaseName = customType.name
+
+      // Set labels to CustomType properties
+      customType.columnsName = []
+      for(var prop in customType.columns){
+        customType.columnsName.push(jsUcfirst(customType.columns[prop]))
+      }
 
       data[databaseName].find({}, (err, posts) => {
 
@@ -226,6 +185,11 @@ function getRelationship(propValues, postId) {
       })
     })
   })
+}
+
+function jsUcfirst(string) 
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 

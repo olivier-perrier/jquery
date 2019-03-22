@@ -56,6 +56,10 @@
 
     {{/ifeq}}
 
+    {{#ifeq properties.type "image"}}
+    {{> admin/type-image}}
+    {{/ifeq}}
+
     {{/each}}
 
 </div>

@@ -2,7 +2,7 @@
 
 <div class="my-3">
 
-    <h2 class="m-3">{{customType.name}}</h2>
+    <h2 class="m-3">{{customType.label}}</h2>
 
     <div class="m-1">
         <span><a href="/admin/{{customType.name}}">All</a></span> -
@@ -16,9 +16,9 @@
         <thead>
             <tr>
                 <th></th>
-                {{#customType.columns}}
+                {{#customType.columnsName}}
                 <th>{{this}}</th>
-                {{/customType.columns}}
+                {{/customType.columnsName}}
             </tr>
         </thead>
 

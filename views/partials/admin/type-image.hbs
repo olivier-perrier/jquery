@@ -1,0 +1,43 @@
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">{{@key}}</label>
+    <div class="col-sm-10">
+
+        <img src="/medias/{{value}}" alt="alt" height="42" width="42">
+
+        <form>
+            <input type="file" name="file" id="file"> <br>
+            <input type="submit" id="addMedia" class="btn btn-light mt-3" value="Add" />
+        </form>
+        <small class="form-text text-muted">{{comment}}</small>
+    </div>
+</div>
+
+
+<script>
+
+    $(function () {
+        $("#addMedia").click(function (event) {
+            event.preventDefault()
+
+            var formData = new FormData()
+
+            var files = $('#file')[0].files[0];
+
+            formData.append('sampleFile', files);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', "/API/medias/upload", true);
+
+            xhr.onload = function (e) {
+                //window.location = "/admin/medias/edit/{{post._id.value}}"
+            }
+
+            xhr.send(formData);
+
+        })
+
+    })
+
+
+</script>

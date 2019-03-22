@@ -74,42 +74,5 @@
 
     })
 
-    function addMedia() {
-
-        // var pageTitle = $("#pageTitle").val()
-        // var pageName = $("#pageName").val()
-        // var pageContent = $("#pageContent").val()
-    }
-
-
-    function editPage(id) {
-        window.location = "/admin/pages/edit/" + id
-    }
-
-    function deleteMedia(mediaId) {
-        $.post(URL + "/API/medias/delete", { id: mediaId }, (data, statut) => {
-            console.log(data)
-            window.location = "/admin/medias"
-        })
-    }
-
-
-
-    $(() => {
-
-        $(".postTypeSpan").click(function () {
-            $(this).hide();
-            $(this).next(".postTypeInput").val($(this).text())
-            $(this).next(".postTypeInput").show()
-            $(this).next(".postTypeInput").focus()
-        })
-
-        $(".postTypeInput").focusout(function () {
-            $(this).hide();
-            $(this).prev().html($(this).val());
-            $(this).prev().show();
-        });
-
-    })
 
 </script>
