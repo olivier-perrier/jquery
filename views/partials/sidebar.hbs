@@ -1,43 +1,24 @@
-<script src="/widget-posts.js"></script>
-<script src="/widget-search.js"></script>
-<script src="/widget-facebook.js"></script>
-<script src="/widget-instagram.js"></script>
-<script src="/widget-categories.js"></script>
-<script src="/widget-comments.js"></script>
-<script src="/widget-meta.js"></script>
-
 
 <aside>
 
-    <div id="app-widgets" class="container widgets ">
-        <div v-for="widget in vuewidgets" class="mb-5">
-            <component v-bind:is="widget"></component>
-        </div>
-    </div>
+    {{> widgets/widget-posts}}
+    <br>
+    {{> widgets/widget-comments}}
+    <br>
+    {{> widgets/widget-search}}
+    <br>
+    {{> widgets/widget-categories}}
+    <br>
+    {{> widgets/widget-facebook}}
+    <br>
+    {{> widgets/metas}}
+    <br>
 
 </aside>
 
 
 <script>
-
-    var app = new Vue({
-        el: '#app-widgets',
-        components: {
-        },
-        data: {
-            vuewidgets: ["widget-posts",
-                "widget-search",
-                "widget-facebook",
-                "widget-categories",
-                "widget-comments",
-                "widget-meta"
-            ]
-        },
-    })
-
 </script>
-
-
 
 <style>
 </style>

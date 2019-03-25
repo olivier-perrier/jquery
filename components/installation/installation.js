@@ -176,22 +176,6 @@ exports.createModels = (req, res, next) => {
   })
 
   data.customType.insert({
-    name: "widgets",
-    label: "Widgets",
-    icon: "fas fa-puzzle-piece",
-    properties: {
-      _id: { type: "hidden" },
-      name: { type: "autokey" },
-      state: { type: "string" },
-      configuration: { type: "string" },
-    },
-    columns: ["name", "state"],
-    order: 10
-  }, (err, post) => {
-    console.log("Custom type inserted widgets")
-  })
-
-  data.customType.insert({
     name: "medias",
     label: "Medias",
     icon: "far fa-images",
@@ -286,65 +270,3 @@ exports.createDatas = () => {
 
 
 }
-
-
-var defineRouteAccess = [
-
-  { method: "GET", route: "/", autorisation: ["public"] },
-  { method: "GET", route: "/posts", autorisation: ["public"] },
-  { method: "GET", route: "/posts/:", autorisation: ["public"] },
-  { method: "GET", route: "/pages/:", autorisation: ["public"] },
-  { method: "GET", route: "/categories/:", autorisation: ["public"] },
-
-  { method: "GET", route: "/login", autorisation: ["public"] },
-  { method: "GET", route: "/logout", autorisation: ["public"] },
-  { method: "GET", route: "/signup", autorisation: ["public"] },
-
-  // Admin
-  { method: "GET", route: "/admin/", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/posts", autorisation: ["admin"] },
-  { method: "GET", route: "/admin/posts/edit/:", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/pages", autorisation: ["admin"] },
-  { method: "GET", route: "/admin/pages/edit/:", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/menus", autorisation: ["admin", "author"] },
-  { method: "GET", route: "/admin/menus/edit/:", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/users", autorisation: ["admin"] },
-  { method: "GET", route: "/admin/users/edit/:", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/medias", autorisation: ["author"] },
-
-  { method: "GET", route: "/admin/comments", autorisation: ["admin", "author", "subscriber"] },
-  { method: "GET", route: "/admin/comments/edit/:", autorisation: ["admin", "author", "subscriber"] },
-
-  { method: "GET", route: "/admin/widgets", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/settings", autorisation: ["admin"] },
-
-  // API
-  { method: "POST", route: "/API/posts/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/pages/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/menus/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/users/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/medias/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/comments/:", autorisation: ["admin", "author", "subscriber"] },
-
-  { method: "POST", route: "/API/posts/create", autorisation: ["admin", "author"] },
-  { method: "POST", route: "/API/post/save", autorisation: ["admin", "author"] },
-  { method: "POST", route: "/API/posts/delete", autorisation: ["admin"] },
-
-  { method: "POST", route: "/API/pages/create", autorisation: ["admin"] },
-  { method: "POST", route: "/API/pages/save", autorisation: ["admin"] },
-  { method: "POST", route: "/API/pages/delete", autorisation: ["admin"] },
-
-
-  { method: "POST", route: "/API/comments/delete", autorisation: ["admin", "author"] },
-  { method: "POST", route: "/API/settings/save", autorisation: ["admin"] },
-
-  { method: "GET", route: "/API/posts", autorisation: ["public"] },
-  { method: "GET", route: "/API/categories", autorisation: ["public"] },
-  { method: "GET", route: "/API/comments", autorisation: ["public"] },
-]

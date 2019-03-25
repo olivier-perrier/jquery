@@ -6,10 +6,9 @@ var Post = data.model('Post')
 var User = data.model('User')
 var Setting = data.model('Setting')
 
-//Add settings objects to all entry point of this rooter
 router.use((req, res, next) => {
 
-    /*** Inserting global site datas ***/
+    // Insert settings
     data.settings.find({}, (err, settings) => {
 
         settingsMapped = {}
@@ -20,9 +19,11 @@ router.use((req, res, next) => {
 
         res.locals.settings = settingsMapped
 
+        // Insert menus
         data.menus.find({}).sort({ order: 1 }).exec((err, menus) => {
             res.locals.menus = menus
 
+            // Insert current user
             data.users.findOne({ _id: req.session.userId }, (err, user) => {
                 res.locals.user = user
 
@@ -33,15 +34,31 @@ router.use((req, res, next) => {
 
 })
 
-/*** Index ***/
-router.get('/', function (req, res) {
+// For Widgets
+router.use((req, res, next) => {
 
-    data.posts.findOne({ postType: "post" }).sort({ createdAt: -1 }).exec((err, mainPost) => {
-        data.posts.find({ postType: "post" }).limit(2).exec((err, posts) => {
-            res.render('index', { mainPost: mainPost, posts: posts })
+    data.posts.find({}).limit(10).sort({ createdAt: 1 }).exec((err, widgetPosts) => {
+        res.locals.widgetPosts = widgetPosts
+
+        data.comments.find({}).limit(10).sort({ createdAt: 1 }).exec((err, widgetComments) => {
+            res.locals.widgetComments = widgetComments
+
+            data.posts.find({}, { categories: 1 }).limit(10).sort({}).exec((err, widgetCategories) => {
+                console.log(widgetCategories)
+                res.locals.widgetCategories = widgetCategories
+
+                next()
+            })
         })
     })
 
+})
+
+/*** Index ***/
+router.get('/', function (req, res) {
+    data.posts.find({}).limit(2).exec((err, posts) => {
+        res.render('index', { posts })
+    })
 })
 
 /*** Users ***/
@@ -53,21 +70,28 @@ router.get('/signup', (req, res) => {
     res.render('signup')
 })
 
+/*** Search ***/
+router.get('/search', (req, res) => {
+    console.log("TODO : test")
+    var query = req.query
+
+    data.posts.find({ $or: [{ title: query }, { content: query }] }, (err, posts) => {
+        res.render('posts', { posts: posts })
+    })
+
+})
+
 /*** Posts ***/
 router.get('/:postType', (req, res) => {
     var postType = req.params.postType
-
     var query = req.query
-    console.log(query)
 
     data[postType].find(query, (err, posts) => {
-        // console.log(posts)
         res.render('posts', { posts })
     })
 
 })
 
-/*** Post ***/
 router.get('/:postType/:postId', (req, res, next) => {
     var postType = req.params.postType
     var postId = req.params.postId
@@ -80,16 +104,6 @@ router.get('/:postType/:postId', (req, res, next) => {
 
 })
 
-/*** Search ***/
-router.get('/search/:query', (req, res) => {
 
-    var query = req.params.query
-
-    data.posts.find({ $or: [{ title: new RegExp(query, 'i') }, { content: new RegExp(query, 'i') }] }, (err, posts) => {
-        console.log(posts)
-        res.render('posts', { posts: posts })
-    })
-
-})
 
 module.exports = router;

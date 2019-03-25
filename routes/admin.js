@@ -48,7 +48,7 @@ router.get('/:customType', (req, res) => {
 
           console.log("sending result to client")
           console.log(posts)
-          res.render('admin/generic-page', { posts, customType })
+          res.render('admin/posts', { posts, customType })
         })
       })
 
@@ -76,7 +76,7 @@ router.get('/:customType/edit/:postId', (req, res) => {
         getFormatedPost(post, customType, false).then((post) => {
           console.log("sending result to client")
           console.log(post)
-          res.render('admin/generic-page-edit', { post, customType })
+          res.render('admin/posts-edit', { post, customType })
         })
       } else {
         console.log("[DEBUG] not post found for id " + postId)

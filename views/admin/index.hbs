@@ -2,20 +2,23 @@
 
 <div class="container bg-light py-2">
 
-    {{#models}}
+    <div class="row">
 
-    <div class="mb-2">
+        {{#models}}
 
-        <a class="btn btn-outline-Primary" href="/admin/{{name}}" role="button">
-            <div class="border rounded" style="width: 18rem;">
-                <h3>{{label}}</h3>
+        <div class="col-md-4 mb-2">
 
-                {{> admin/button/create-post}}
-            </div>
-        </a>
+            <a class="btn btn-outline-Primary" href="/admin/{{name}}" role="button">
+                <div class="border rounded" style="width: 18rem;">
+                    <h3>{{label}}</h3>
+
+                    {{> admin/button/create-post}}
+                </div>
+            </a>
+        </div>
+
+        {{/models}}
     </div>
-
-    {{/models}}
 
 </div>
 
