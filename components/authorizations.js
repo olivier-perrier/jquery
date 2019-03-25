@@ -56,9 +56,9 @@ exports.requireAuthentication = (req, res, next) => {
 exports.loadUser = (req, res, next) => {
 
   if (process.env.NODE_ENV == 'dev') {
-    User.getByName("Olivier", (err, user) => {
+    data.users.findOne({ username: "Olivier" }, (err, user) => {
       if (user) {
-        // console.log("[DEBUG] auto login")
+        console.log("[DEBUG] auto login")
         req.session.userId = user._id
         req.session.userRole = user.role
       }

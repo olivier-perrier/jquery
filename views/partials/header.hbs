@@ -5,7 +5,7 @@
 
         <div class="title p-5 pl-5">
             <h1 class=""><a href="/" rel="home">{{settings.siteName}}</a></h1>
-            <p class="site-description">website of the test</p>
+            <p class="site-description">{{settings.siteDescription}}</p>
         </div>
     </div>
 
@@ -13,17 +13,15 @@
 
         <nav class="navbar navbar-light bg-light justify-content-around">
             <a class="nav-link rounded" href="/">Home</a>
-            <a class="nav-link rounded" href="/posts">Posts</a>
 
             {{#menus}}
-
             <div class="dropdown">
-                <a class="nav-link rounded" href="{{link}}">{{title}}</a>
+                <a class="nav-link rounded" href="{{target}}">{{title}}</a>
                 {{#if menuChildren}}
                 </button>
                 <div class="dropdown-menu">
                     {{#menuChildren}}
-                    <a class="dropdown-item" href="{{link}}">{{title}}</a>
+                    <a class="dropdown-item" href="{{target}}">{{title}}</a>
                     {{/menuChildren}}
                 </div>
                 {{/if}}
@@ -37,11 +35,7 @@
 
                 <a class="btn btn-link" href="/users/account" role="button">{{user.username}}</a>
                 <button class="btn btn-link" type="button" onClick="logout()">Log out</button>
-
-                {{#if user.accessAdmin}}
                 <a class="btn btn-link" href="/admin" role="button">Admin</a>
-                {{/if}}
-
 
                 {{else}}
 
@@ -78,19 +72,6 @@
 
 <style>
 
-    nav div.dropdown:hover > .dropdown-menu {
-        display: block;
-        margin-top: 0.05rem;
-    }
-
-    nav a:hover {
-        background: lightgray;
-    }
-
-    nav a {
-        transition: all 0.3s ease;
-    }
-
     img.banner {
         box-shadow: 0px 1px 5px gray
     }
@@ -104,4 +85,5 @@
         top: 1%;
         left: 10%;
     }
+    
 </style>

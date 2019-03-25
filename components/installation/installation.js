@@ -81,6 +81,25 @@ exports.createModels = (req, res, next) => {
     console.log("Custom type inserted posts")
   })
 
+  
+  // data.customType.insert({
+  //   name: "categories",
+  //   label: "Categories",
+  //   icon: "far fa-envelope-open",
+  //   properties: {
+  //     _id: { type: "hidden" },
+  //     title: { type: "autokey", main: 1 },
+  //     name: { type: "string" },
+  //   },
+  //   columns: ["title", "name"],
+  //   parent: "posts",
+  //   order: 1,
+
+  // }, (err, post) => {
+  //   console.log("Custom type inserted categories")
+  // })
+  
+
   data.customType.insert({
     name: "menus",
     label: "Menus",
@@ -209,13 +228,24 @@ exports.createDatas = () => {
 
   data.menus.remove({}, { multi: true })
 
+  // Create default menu Posts
+  data.menus.insert({
+    title: "Posts",
+    name: "posts",
+    type: "posts",
+    target: "/posts",
+    order: 1
+  }, (err, post) => {
+    console.log("[INFO] default menu posts")
+  })
+
   // Create default menu Hello Word
   data.menus.insert({
     title: "Hello world",
     name: "hello-world",
     type: "posts",
-    target: "hello-wold",
-    order: 1
+    target: "/posts/hello-world",
+    order: 2
   }, (err, post) => {
     console.log("[INFO] default menu created")
   })
@@ -225,7 +255,7 @@ exports.createDatas = () => {
     title: "My category",
     name: "my-category",
     type: "categories",
-    target: "my-cat",
+    target: "/categories/my-cat",
     order: 3
   }, (err, post) => {
     console.log("[INFO] default menu created")
@@ -237,7 +267,7 @@ exports.createDatas = () => {
     title: "Google",
     name: "google",
     type: "direct",
-    target: "www.google.fr",
+    target: "http://www.google.fr",
     order: 5
   }, (err, post) => {
     console.log("[INFO] default menu created")
@@ -248,16 +278,13 @@ exports.createDatas = () => {
     title: "About",
     name: "about",
     type: "pages",
-    target: "about",
+    target: "pages/about",
     order: 10
   }, (err, post) => {
     console.log("[INFO] default menu created")
   })
 
 
-  data.users.find({}, (err, posts) => {
-
-  })
 }
 
 

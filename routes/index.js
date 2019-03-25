@@ -9,45 +9,21 @@ var Setting = data.model('Setting')
 //Add settings objects to all entry point of this rooter
 router.use((req, res, next) => {
 
-    var widgets =
-        [{ name: 'widgets/posts', data: { posts: [{ name: "post1" }, { name: "post2" }] } },
-        { name: 'widgets/widget', value: "ok" }]
-
-    res.locals.widgets = widgets
-
     /*** Inserting global site datas ***/
-    Setting.getAllSettings((err, settings) => {
-        res.locals.settings = settings
+    data.settings.find({}, (err, settings) => {
 
-        Post.getMenus((err, menus) => {
+        settingsMapped = {}
+        var settingsMapped = settings.reduce((obj, item) =>{
+            obj[item.name] = item.value
+            return obj
+        }, {})
 
-            menus.map(menu => {
-                if (menu.format == "direct")
-                    menu.link = "http://" + menu.content
-                else if (menu.format == "categories")
-                    menu.link = "/categories/" + menu.content
-                else if (menu.format == "posts")
-                    menu.link = "/posts/" + menu.content
-                else if (menu.format == "pages")
-                    menu.link = "/pages/" + menu.content
-            })
+        res.locals.settings = settingsMapped
 
-            // Map the sub menus
-            menus.map(menuParent => {
-
-                var menuChildren = menus.filter(menuChild => menuParent._id == menuChild.parentId)
-
-                if (menuChildren) {
-                    menuParent.menuChildren = menuChildren
-                }
-            })
-
+        data.menus.find({}).sort({ order: 1 }).exec((err, menus) => {
             res.locals.menus = menus
 
-            User.getUser(req.session.userId, (err, user) => {
-                if (user)
-                    user.accessAdmin = user.role == "admin" || user.role == "author"
-
+            data.users.findOne({ _id: req.session.userId }, (err, user) => {
                 res.locals.user = user
 
                 next();
@@ -123,10 +99,15 @@ router.get('/posts/:postName', (req, res) => {
 
     var postName = req.params.postName
 
-    Post.getPostByName(postName, (err, post) => {
-        data.comments.find({ postId: postId }, (err, comments) => {
-            res.render('post', { post, comments })
-        })
+    data.posts.findOne({ name: postName }, (err, post) => {
+        if (post) {
+            data.comments.find({ postId: post._id }, (err, comments) => {
+                res.render('post', { post, comments })
+            })
+        }
+        else {
+            res.send("No posts for found name " + postName)
+        }
 
     })
 
