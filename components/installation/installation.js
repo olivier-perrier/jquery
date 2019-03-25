@@ -255,7 +255,7 @@ exports.createDatas = () => {
     title: "My category",
     name: "my-category",
     type: "categories",
-    target: "/categories/my-cat",
+    target: "/posts?categories=cat",
     order: 3
   }, (err, post) => {
     console.log("[INFO] default menu created")

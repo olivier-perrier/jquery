@@ -115,9 +115,15 @@ router.post('/:customType/delete', (req, res) => {
 router.get('/:customType', (req, res) => {
   var customType = req.params.customType
 
+  if (data[customType]) {
+
     data[customType].find({}, (err, posts) => {
       res.send({ message: "success : posts found", posts })
     })
+
+  } else {
+    res.send({ message: "not found : postType not existing " + customType })
+  }
 
 })
 
@@ -125,13 +131,13 @@ router.post('/:customType/trash', (req, res) => {
   var customType = req.params.customType
   var postId = req.body.postId
 
-    data[customType].update({ _id: postId }, { $set: { status: "trash" } }, (err, num) => {
-      if (num) {
-        res.send({ message: "success : post removed " + num })
-      } else {
-        res.send({ message: "internal error : impossible to trash post" })
-      }
-    })
+  data[customType].update({ _id: postId }, { $set: { status: "trash" } }, (err, num) => {
+    if (num) {
+      res.send({ message: "success : post removed " + num })
+    } else {
+      res.send({ message: "internal error : impossible to trash post" })
+    }
+  })
 
 })
 

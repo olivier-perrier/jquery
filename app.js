@@ -73,9 +73,10 @@ installation.createModels()
 app.all("*", authorizations.loadUser)
 app.all("*", authorizations.requireAuthentication)
 
-app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/API', APIRouter);
+
+app.use('/', indexRouter);
 
 
 app.listen(process.env.PORT || '3000', function () {
