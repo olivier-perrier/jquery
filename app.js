@@ -1,49 +1,19 @@
-
 var express = require('express')
 var session = require('express-session')
-var exphbs = require('express-handlebars')
+
 var fileUpload = require('express-fileupload');
 
 var indexRouter = require('./routes/index.js');
 var adminRouter = require('./routes/admin.js')
 var APIRouter = require('./routes/API.js')
 
-var data = require('./models/data.js')
-
-var authorizations = require('./components/authorizations')
-var installation = require('./components/installation/installation')
+var exphbs = require('./components/handlebars')
+var installation = require('./components/installation')
 
 var app = express()
 
-var hbs = exphbs.create({
-  extname: '.hbs',
-  defaultLayout: 'main',
-  helpers: {
-    toDate: function (date) {
-      var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-      if (date)
-        return date.toLocaleDateString('en-EN', options)
-    },
-    toSimpleDate: function (date) { if (date) return date.toLocaleString() },
-    toElapsedTime: function (date) {
-      if (date) {
-        if (Math.abs(new Date().getDay() - date.getDay()) > 0) return (7 + (new Date().getDay() - date.getDay())) % 7 + " days"
-        if (new Date().getHours() - date.getHours() > 0) return new Date().getHours() - date.getHours() + " hours"
-        if (new Date().getMinutes() - date.getMinutes() > 0) return new Date().getMinutes() - date.getMinutes() + " minutes"
-        return new Date().getSeconds() - date.getSeconds() + " secondes"
-      }
-    },
-    ifeq: function (var1, var2, options) {
-      if (var1 == var2) return options.fn(this)
-      else
-        return options.inverse(this)
-    }
-  }
-})
-
-app.engine('hbs', hbs.engine);
+app.engine('hbs', exphbs.hbs.engine);
 app.set('view engine', 'hbs');
-
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -70,14 +40,10 @@ console.log("[DEBUG] NODE_ENV " + process.env.NODE_ENV)
     
 installation.createModels()
 
-app.all("*", authorizations.loadUser)
-app.all("*", authorizations.requireAuthentication)
-
 app.use('/admin', adminRouter);
 app.use('/API', APIRouter);
 
 app.use('/', indexRouter);
-
 
 app.listen(process.env.PORT || '3000', function () {
   console.log('Application listening on port 3000!')

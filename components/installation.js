@@ -1,57 +1,10 @@
+console.log("[INFO] Installation...")
 
-var data = require('../../models/data')
-
-var aboutPage = require('./aboutPage')
+var data = require('../models/data')
 
 exports.createModels = (req, res, next) => {
 
-  console.log("[INFO] Installation...")
-
-  // // Create default user
-  // data.users.findOne({ username: "Olivier" }, (err, user) => {
-  //   if (!user)
-  //     User.create({
-  //       username: "Olivier",
-  //       role: "admin",
-  //       email: "leperenoel38@hotmail.fr",
-  //       password: "123"
-  //     }, (err, user) => {
-  //       console.log("[INFO] default user created")
-  //     })
-  // })
-
-  // // Create default page About
-  // User.getByName("Olivier", (err, user) => {
-  //   if (user) {
-  //     aboutPage.authorId = user._id
-  //     Post.getPageByName(aboutPage.name, (err, post) => {
-  //       if (!post)
-  //         Post.createPage(aboutPage, (err, page) => {
-  //           if (page)
-  //             console.log("[INFO] default page created")
-  //         })
-  //     })
-  //   }
-  // })
-
-  // // Create default post Hello World
-  // User.getByName("Olivier", (err, user) => {
-  //   if (user) {
-  //     helloPost.authorId = user._id
-
-  // Post.getPostByName(
-  //   {
-  //     title: "Hello World",
-  //     name: "hello-world",
-  //     content: `Welcome to OP CMS. This is your first post. Edit or delete it, then start writing !`,
-  //     image: "banner.jpg",
-  //     category: "uncategorized",
-  //     tags: ["presentation", "website", "OP cms"],
-  //     status: "publish",
-  //   }, (err, post) => {
-  //     console.log("[INFO] default post created")
-  //   })
-
+  console.log("[INFO] installings models...")
 
   data.customType.remove({}, { multi: true })
 
@@ -81,7 +34,7 @@ exports.createModels = (req, res, next) => {
     console.log("Custom type inserted posts")
   })
 
-  
+
   // data.customType.insert({
   //   name: "categories",
   //   label: "Categories",
@@ -98,7 +51,7 @@ exports.createModels = (req, res, next) => {
   // }, (err, post) => {
   //   console.log("Custom type inserted categories")
   // })
-  
+
 
   data.customType.insert({
     name: "menus",
@@ -126,8 +79,8 @@ exports.createModels = (req, res, next) => {
     properties: {
       _id: { type: "hidden" },
       title: { type: "autokey", main: 1 },
-      content: { type: "string" },
-      state: { type: "string" },
+      content: { type: "textarea", rows: 20 },
+      state: { type: "select", options: ['draft', 'published', 'archived'] },
       authorId: { type: "relationship", path: "users", refpath: "username" },
       createdAt: { type: "string" }
     },
@@ -143,7 +96,7 @@ exports.createModels = (req, res, next) => {
     icon: "far fa-user",
     properties: {
       _id: { type: "hidden" },
-      username: { type: "autokey", main: 1 },
+      name: { type: "autokey", main: 1 },
       firstname: { type: "string" },
       lastname: { type: "string" },
       email: { type: "string" },
@@ -210,62 +163,119 @@ exports.createModels = (req, res, next) => {
 
 exports.createDatas = () => {
 
-  data.menus.remove({}, { multi: true })
+  console.log("[INFO] installing defaut datas...")
 
   // Create default menu Posts
-  data.menus.insert({
-    title: "Posts",
-    name: "posts",
-    type: "posts",
-    target: "/posts",
-    order: 1
-  }, (err, post) => {
-    console.log("[INFO] default menu posts")
+  data.menus.findOne({ name: "posts" }, (err, post) => {
+    if (!post)
+      data.menus.insert({
+        title: "Posts",
+        name: "posts",
+        type: "posts",
+        target: "/posts",
+        order: 1
+      }, (err, post) => {
+        console.log("[INFO] default menu posts")
+      })
   })
 
   // Create default menu Hello Word
-  data.menus.insert({
-    title: "Hello world",
-    name: "hello-world",
-    type: "posts",
-    target: "/posts/hello-world",
-    order: 2
-  }, (err, post) => {
-    console.log("[INFO] default menu created")
+  data.menus.findOne({ name: "hello-world" }, (err, post) => {
+    if (!post)
+      data.menus.insert({
+        title: "Hello world",
+        name: "hello-world",
+        type: "posts",
+        target: "/posts/hello-world",
+        order: 2
+      }, (err, post) => {
+        console.log("[INFO] default menu created")
+      })
   })
 
   // Create default menu Hello Word
-  data.menus.insert({
-    title: "My category",
-    name: "my-category",
-    type: "categories",
-    target: "/posts?categories=cat",
-    order: 3
-  }, (err, post) => {
-    console.log("[INFO] default menu created")
+  data.menus.findOne({ name: "my-category" }, (err, post) => {
+    if (!post)
+      data.menus.insert({
+        title: "My category",
+        name: "my-category",
+        type: "categories",
+        target: "/posts?categories=cat",
+        order: 3
+      }, (err, post) => {
+        console.log("[INFO] default menu created")
+      })
   })
 
 
   // Create default menu Google
-  data.menus.insert({
-    title: "Google",
-    name: "google",
-    type: "direct",
-    target: "http://www.google.fr",
-    order: 5
-  }, (err, post) => {
-    console.log("[INFO] default menu created")
+  data.menus.findOne({ name: "google" }, (err, post) => {
+    if (!post)
+      data.menus.insert({
+        title: "Google",
+        name: "google",
+        type: "direct",
+        target: "http://www.google.fr",
+        order: 5
+      }, (err, post) => {
+        console.log("[INFO] default menu created")
+      })
   })
 
   // Create default menu About
-  data.menus.insert({
-    title: "About",
-    name: "about",
-    type: "pages",
-    target: "pages/about",
-    order: 10
-  }, (err, post) => {
-    console.log("[INFO] default menu created")
+  data.menus.findOne({ name: "about" }, (err, post) => {
+    if (!post)
+      data.menus.insert({
+        title: "About",
+        name: "about",
+        type: "pages",
+        target: "pages/about",
+        order: 10
+      }, (err, post) => {
+        console.log("[INFO] default menu created")
+      })
+  })
+
+  // Create default page Hello World
+  data.posts.findOne({ name: "hello-world" }, (err, post) => {
+    if (!post)
+      data.posts.insert({
+        title: "Hello World",
+        name: "hello-world",
+        content: 'Welcome to OP CMS. This is your first post. Edit or delete it, then start writing !',
+        image: "banner.jpg",
+        category: "uncategorized",
+        tags: ["presentation", "website", "OP cms"],
+        status: "publish",
+      }, (err, post) => {
+        console.log("[INFO] default post Hello World created")
+      })
+  })
+
+  // Create default page About
+  data.pages.findOne({ name: "about" }, (err, post) => {
+    if (!post)
+      data.pages.insert({
+        title: "About",
+        name: "about",
+        status: "publish",
+        content: '<h2>Who we are</h2><p>Our website address is: http://opcms.com.</p>'
+      }, (err, page) => {
+        console.log("[INFO] default page About created")
+      })
+  })
+
+  // Create default user Olivier
+  data.users.findOne({ name: "Olivier" }, (err, user) => {
+    if (!user)
+      data.users.insert({
+        name: "Olivier",
+        role: "admin",
+        email: "leperenoel38@hotmail.fr",
+        password: "123"
+      }, (err, user) => {
+        console.log("[INFO] default user Olivier created")
+      })
   })
 
 

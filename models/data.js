@@ -13,12 +13,11 @@ db.customType.loadDatabase(err => {
     console.log("Loading datastores")
     db.customType.find({}, { name: 1 }, (err, databases) => {
         for (var database of databases) {
-            console.log("Loading Datastore name " + database.name)
             db[database.name] = new Datastore({ filename: 'data/' + database.name + '.nedb' })
             db[database.name].loadDatabase()
         }
 
-        var installation = require('../components/installation/installation')
+        var installation = require('../components/installation')
         installation.createDatas()
 
     })

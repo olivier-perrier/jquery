@@ -1,19 +1,52 @@
 var express = require('express');
 var router = express.Router();
 
-var usersRouter = require('./users.js')
-
 var data = require('../models/data.js')
-var Post = data.model('Post')
-
-router.use('/users', usersRouter);
 
 router.use((req, res, next) => {
   next()
 })
 
-/*** Generic routes ***/
+// Users
+router.post('/login', (req, res) => {
+  var username = req.body.name
+  var password = req.body.password
 
+  data.users.findOne({ username: username, password: password }, (err, user) => {
+    if (user) {
+      req.session.userId = user._id
+      req.session.userRole = user.role
+      res.send({ message: "success : loggin ", user: user })
+    } else {
+      res.send({ message: "not found : unknow username or password" })
+    }
+  })
+
+})
+
+router.post('/logout', (req, res) => {
+  req.session.userId = null
+  res.redirect('/')
+})
+
+router.post('/signup', (req, res) => {
+
+  var user = req.body.user
+
+  data.users.findOne({ name: user.userName }, (err, user) => {
+
+    if (user) {
+      res.send({ message: "forbidden : user not available" })
+    } else {
+      data.users.insert(user, (err, user) => {
+        res.send({ message: "success : user created", user: user })
+      })
+    }
+  })
+
+})
+
+/*** Generic routes ***/
 router.post('/:customType/upload', (req, res) => {
   var customType = req.params.customType
 

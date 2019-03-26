@@ -3,26 +3,28 @@ var router = express.Router();
 
 var data = require('../models/data.js')
 
+var authorizations = require('../components/authorizations')
+
 router.all("*", (req, res, next) => {
   next()
 })
 
-router.use((req, res, next) => {
+// Authorizations
+router.all("*", authorizations.requireAuthentication)
 
+// Admin menus
+router.use((req, res, next) => {
   data.customType.find({}, { name: 1, label: 1, icon: 1 }).sort({ order: 1 }).exec((err, menus) => {
     res.locals.menus = menus
     next()
   })
-
 })
 
+// Admin Index
 router.get('/', (req, res) => {
-
   data.customType.find({}).sort({ order: 1 }).exec((err, models) => {
     res.render('admin/index', { models })
-
   })
-
 })
 
 

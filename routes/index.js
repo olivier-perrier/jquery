@@ -2,9 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 var data = require('../models/data.js')
-var Post = data.model('Post')
-var User = data.model('User')
-var Setting = data.model('Setting')
+
+var authorizations = require('../components/authorizations')
+
+// Loading user
+router.all("*", authorizations.loadUser)
 
 router.use((req, res, next) => {
 
@@ -44,7 +46,6 @@ router.use((req, res, next) => {
             res.locals.widgetComments = widgetComments
 
             data.posts.find({}, { categories: 1 }).limit(10).sort({}).exec((err, widgetCategories) => {
-                console.log(widgetCategories)
                 res.locals.widgetCategories = widgetCategories
 
                 next()
@@ -82,13 +83,18 @@ router.get('/search', (req, res) => {
 })
 
 /*** Posts ***/
-router.get('/:postType', (req, res) => {
+router.get('/:postType', (req, res, next) => {
     var postType = req.params.postType
     var query = req.query
 
-    data[postType].find(query, (err, posts) => {
-        res.render('posts', { posts })
-    })
+
+    if (data[postType]) {
+        data[postType].find(query, (err, posts) => {
+            res.render('posts', { posts })
+        })
+    } else {
+        next()
+    }
 
 })
 

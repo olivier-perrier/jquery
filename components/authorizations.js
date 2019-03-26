@@ -6,46 +6,30 @@ exports.requireAuthentication = (req, res, next) => {
 
   console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path)
 
-  var routeAccess = defineRouteAccess.find(routeAccess => {
-    return routeAccess.method == req.method && routeAccess.route == req.baseUrl + req.path
-  })
+  var userRole = req.session.userRole
 
-  if (routeAccess == null) {
-    routeAccess = defineRouteAccess.find(routeAccess => {
-      return routeAccess.route.includes(":") &&
-        routeAccess.method == req.method &&
-        req.originalUrl.includes(routeAccess.route.replace(":", ""))
+  if (req.session.userRole == "admin")
+    next()
+  else {
+
+
+    var routeAccess = defineRouteAccess.find(routeAccess => {
+      return routeAccess.method == req.method && routeAccess.route == req.baseUrl + req.path
     })
-  }
 
-  if (routeAccess) {
+    if (routeAccess) {
 
-    // console.log("[DEBUG] route access autorisation " + routeAccess.method + " " + routeAccess.route + " " + routeAccess.autorisation)
-
-    if (routeAccess.autorisation == "public") {
-      next()
+      if (routeAccess.autorisation.includes(userRole)) {
+        next()
+      } else {
+        console.log("[WARNING] attenting access not autorised adress: " + req.baseUrl + req.path + " role: " + userRole)
+        next()
+        // res.status(403).send({ message: "forbidden : you do not have the autorisation" })
+      }
 
     } else {
-
-      var userRole = req.session.userRole
-
-      if (userRole) {
-        if (routeAccess.autorisation.includes(userRole)) {
-          next()
-        } else {
-          console.log("[WARNING] attenting access not autorised API " + req.baseUrl + req.path)
-          res.status(403).send({ message: "forbidden : you do not have the autorisation" })
-        }
-      } else {
-        console.log("[WARNING] no user role defined")
-        res.redirect("/login")
-      }
+      next()
     }
-
-  } else {
-    console.log("[WARNING] no security route autorisation defined for " + req.baseUrl + req.path)
-    //DEBUG autorise la route si elle n'est pas definit
-    next()
   }
 
 }
@@ -56,7 +40,7 @@ exports.requireAuthentication = (req, res, next) => {
 exports.loadUser = (req, res, next) => {
 
   if (process.env.NODE_ENV == 'dev') {
-    data.users.findOne({ username: "Olivier" }, (err, user) => {
+    data.users.findOne({ name: "Olivier" }, (err, user) => {
       if (user) {
         console.log("[DEBUG] auto login")
         req.session.userId = user._id
@@ -72,16 +56,6 @@ exports.loadUser = (req, res, next) => {
 
 
 var defineRouteAccess = [
-
-  { method: "GET", route: "/", autorisation: ["public"] },
-  { method: "GET", route: "/posts", autorisation: ["public"] },
-  { method: "GET", route: "/posts/:", autorisation: ["public"] },
-  { method: "GET", route: "/pages/:", autorisation: ["public"] },
-  { method: "GET", route: "/categories/:", autorisation: ["public"] },
-
-  { method: "GET", route: "/login", autorisation: ["public"] },
-  { method: "GET", route: "/logout", autorisation: ["public"] },
-  { method: "GET", route: "/signup", autorisation: ["public"] },
 
   // Admin
   { method: "GET", route: "/admin", autorisation: ["admin"] },

@@ -62,6 +62,14 @@
 
     {{/ifeq}}
 
+    {{#ifeq properties.type "select"}}
+    {{> admin/type-select}}
+    {{/ifeq}}
+
+    {{#ifeq properties.type "textarea"}}
+    {{> admin/type-textarea}}
+    {{/ifeq}}
+
     {{#ifeq properties.type "image"}}
     {{> admin/type-image}}
     {{/ifeq}}

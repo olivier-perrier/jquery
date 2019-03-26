@@ -36,6 +36,7 @@
                     </button>
                 </td>
 
+                {{!-- {{#each post as |prop|}} --}}
                 {{#each post as |prop|}}
 
                 {{#ifeq properties.type "autokey"}}
@@ -59,6 +60,18 @@
                 {{#ifeq properties.type "image"}}
                 <td>
                     <img src="/medias/{{value}}" alt="alt" height="42" width="42">
+                </td>
+                {{/ifeq}}
+
+                {{#ifeq properties.type "select"}}
+                <td>
+                    {{value}}
+                </td>
+                {{/ifeq}}
+
+                {{#ifeq properties.type "textarea"}}
+                <td>
+                    {{value}}
                 </td>
                 {{/ifeq}}
 
