@@ -13,7 +13,6 @@ exports.createModels = (req, res, next) => {
     label: "Posts",
     icon: "far fa-envelope-open",
     properties: {
-      _id: { type: "hidden" },
       title: { type: "autokey", main: 1 },
       name: { type: "string" },
       authorId: { type: "relationship", path: "users", refpath: "username" },
@@ -58,7 +57,6 @@ exports.createModels = (req, res, next) => {
     label: "Menus",
     icon: "far fa-compass",
     properties: {
-      _id: { type: "hidden" },
       title: { type: "autokey", main: 1 },
       type: { type: "string" },
       target: { type: "string" },
@@ -77,8 +75,7 @@ exports.createModels = (req, res, next) => {
     label: "Pages",
     icon: "far fa-file",
     properties: {
-      _id: { type: "hidden" },
-      title: { type: "autokey", main: 1 },
+      title: { type: "string", autokey: 1, main: 1 },
       content: { type: "textarea", rows: 20 },
       state: { type: "select", options: ['draft', 'published', 'archived'] },
       authorId: { type: "relationship", path: "users", refpath: "username" },
@@ -95,7 +92,6 @@ exports.createModels = (req, res, next) => {
     label: "Users",
     icon: "far fa-user",
     properties: {
-      _id: { type: "hidden" },
       name: { type: "autokey", main: 1 },
       firstname: { type: "string" },
       lastname: { type: "string" },
@@ -133,7 +129,6 @@ exports.createModels = (req, res, next) => {
     label: "Medias",
     icon: "far fa-images",
     properties: {
-      _id: { type: "hidden" },
       name: { type: "autokey", autokey: true },
       image: { type: "image" },
       createdAt: { type: "string" },
@@ -149,7 +144,6 @@ exports.createModels = (req, res, next) => {
     label: "Settings",
     icon: "fas fa-sliders-h",
     properties: {
-      _id: { type: "hidden" },
       name: { type: "autokey", autokey: true },
       value: { type: "string" },
     },

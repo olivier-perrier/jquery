@@ -97,32 +97,36 @@ async function getFormatedPost(post, customType, isTab) {
 
   var formatedPost = {}
 
+  formatedPost._id = post._id
+
   for (var propKey in properties) {
 
-    if (!isTab || customType.columns.includes(propKey) || propKey == "_id") {
+    if (!isTab || customType.columns.includes(propKey)) {
 
       var propValues = properties[propKey]
 
-      formatedPost[propKey] = {}
+      formatedPost.fields = {}
 
-      formatedPost[propKey].properties = properties[propKey]
-      formatedPost[propKey].value = post[propKey]
+      formatedPost.fields[propKey] = {}
+
+      formatedPost.fields[propKey].properties = properties[propKey]
+      formatedPost.fields[propKey].value = post[propKey]
 
       var value = post[propKey]
       var type = propValues.type
 
-      if (type == "autokey") {
-        formatedPost[propKey].value = post[propKey]
-        formatedPost[propKey].link = post._id
-        formatedPost[propKey].path = customType.name
+      // if (type == "autokey") {
+      // formatedPost.fields[propKey].value = post[propKey]
+      // formatedPost.fields[propKey].link = post._id
+      // formatedPost.fields[propKey].path = customType.name
 
-      } else if (type == "relationship") {
+      if (type == "relationship") {
 
         var relationship = await getRelationship(propValues, value)
 
-        formatedPost[propKey].value = relationship.value
-        formatedPost[propKey].link = relationship.link
-        formatedPost[propKey].options = relationship.options
+        formatedPost.fields[propKey].value = relationship.value
+        formatedPost.fields[propKey].link = relationship.link
+        formatedPost.fields[propKey].options = relationship.options
 
       } else {
 

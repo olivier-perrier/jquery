@@ -31,51 +31,40 @@
 
                 {{!-- Icon for deleting --}}
                 <td class="text-muted">
-                    <button type="button" class="btn btn-link" onclick="deletePost('{{post._id.value}}')">
+                    <button type="button" class="btn btn-link" onclick="deletePost('{{post._id}}')">
                         <i class="far fa-trash-alt"></i>
                     </button>
                 </td>
 
                 {{!-- {{#each post as |prop|}} --}}
-                {{#each post as |prop|}}
+                {{#each post.fields as |fields|}}
 
-                {{#ifeq properties.type "autokey"}}
                 <td>
+                    {{#ifeq properties.type "autokey"}}
                     <a href="/admin/{{path}}/edit/{{link}}">{{value}}</a>
-                </td>
-                {{/ifeq}}
+                    {{/ifeq}}
 
-                {{#ifeq properties.type "relationship"}}
-                <td>
+                    {{#ifeq properties.type "relationship"}}
                     <a href="/admin/{{properties.path}}/edit/{{link}}">{{value}}</a>
-                </td>
-                {{/ifeq}}
+                    {{/ifeq}}
 
-                {{#ifeq properties.type "string"}}
-                <td>
+                    {{#ifeq properties.type "string"}}
                     {{value}}
-                </td>
-                {{/ifeq}}
+                    {{/ifeq}}
 
-                {{#ifeq properties.type "image"}}
-                <td>
+                    {{#ifeq properties.type "image"}}
                     <img src="/medias/{{value}}" alt="alt" height="42" width="42">
-                </td>
-                {{/ifeq}}
+                    {{/ifeq}}
 
-                {{#ifeq properties.type "select"}}
-                <td>
+                    {{#ifeq properties.type "select"}}
                     {{value}}
-                </td>
-                {{/ifeq}}
+                    {{/ifeq}}
 
-                {{#ifeq properties.type "textarea"}}
-                <td>
+                    {{#ifeq properties.type "textarea"}}
                     {{value}}
+                    {{/ifeq}}
+
                 </td>
-                {{/ifeq}}
-
-
 
                 {{/each}}
 
