@@ -33,7 +33,7 @@
                 <!-- if user is login -->
                 {{#if user}}
 
-                <a class="btn btn-link" href="/users/account" role="button">{{user.name}}</a>
+                <a class="btn btn-link" href="/users/{{user._id}}" role="button">{{user.name}}</a>
                 <button class="btn btn-link" type="button" onClick="logout()">Log out</button>
                 <a class="btn btn-link" href="/admin" role="button">Admin</a>
 

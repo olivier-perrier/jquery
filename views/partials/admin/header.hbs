@@ -1,11 +1,13 @@
 <header>
 
     <nav class="navbar navbar-expand-lg bg-light">
-        <a class="navbar-brand mr-5" href="/admin">
-            <img src="/img/icon.png" width="30" height="30" alt="icon">
+        <a class="navbar-brand" href="/admin">
+            <img src="/img/icon.png" width="30" height="30"
+                class="d-inline-block align-top" alt="">
             OP Admin
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -14,11 +16,11 @@
                 <a class="nav-item nav-link" href="/admin"><i class="fas fa-home mr-1"></i></a>
 
                 {{#menus}}
-                <a class="nav-item nav-link border-left px-3" href="/admin/{{name}}"><i class="{{icon}} d-inline mr-1"></i>{{label}}</a>
+                <a class="nav-item nav-link border-left px-3" href="/admin/{{name}}"><i
+                        class="{{icon}} d-inline mr-1"></i>{{label}}</a>
                 {{/menus}}
             </div>
             <form class="form-inline">
-                <a id="admin" class="btn btn-link" href="admin" role="button">{{user.name}}</a>
                 <a id="admin" class="btn btn-light" href="/" role="button">View site</a>
             </form>
         </div>

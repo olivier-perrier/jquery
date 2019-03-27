@@ -113,50 +113,9 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
 
 Évolutions majeures à venir
 
-- [x] Utilisation des types de post (post, page, menu, media)
-- [x] Gestion des menus
-- [x] Gestion des pages
-
-- [x] Gestion des médias
-- [x] Gestion de commentaires
-- [ ] Gestion des utilisateurs (en cours)
-  - [x] Autorisations dans API
-  - [ ] Autorisations dans l'administration
-  - [ ] Autorisations dans l'interface
-
-- [ ] Gestion des Widgets (en cours)
-  - [x] Posts recents
-  - [x] Recherche
-  - [x] facebook
-  - [ ] instagram
-  - [x] cathegories
-  - [x] commentaires recents
-  - [x] meta
-
-- [x] Ordre dans les menus
-- [x] Status des posts et pages
-- [x] Parents menu
-
-- [ ] Handlebars organisation and short extention
 
 - [ ] Organisation admin keystone
-  - [x] Simplifier ihm admin pour post et page en enlevant la colonne de droite
-  - [ ] Rendre generique la generation de l'ihm admin de post avec la declaration du model
   - [ ] Apprendre plus sur le framwork keystone pour prendre des idées sur 
 
-  -- BUG certain menu sont parfois innacessible de maniere aleatoire
 
 # Correction
-
-Corrections à faire
-
-- [x] Base de données respect un schema
-  - [x] faire sur les autres bases que post 
-
-- [x] jointure generique pour les posts et les utilisateurs
-
-- Réorganisation par coposants (à voir comment faire)
-
-- Amélioration de l'interface
-
-Autorisations :

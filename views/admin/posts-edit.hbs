@@ -41,6 +41,10 @@
     {{> admin/types/date}}
     {{/ifeq}}
 
+    {{#ifeq properties.type "password"}}
+    {{> admin/types/password}}
+    {{/ifeq}}
+
     {{/each}}
 
 </div>

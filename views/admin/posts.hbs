@@ -40,8 +40,11 @@
                 {{#each post.fields as |field|}}
 
                 <td>
+
                     {{#if properties.autokey}}
-                    <a href="/admin/{{path}}/edit/{{link}}">{{value}}</a>
+                    <a href="/admin/{{path}}/edit/{{link}}">
+                        {{#if value}} {{value}} {{else}} - {{/if}}
+                    </a>
 
                     {{else}}
 
@@ -58,7 +61,7 @@
                     {{/ifeq}}
 
                     {{#ifeq properties.type "select"}}
-                    {{value}}
+                    {{labelify value}}
                     {{/ifeq}}
 
                     {{#ifeq properties.type "textarea"}}
@@ -67,6 +70,10 @@
 
                     {{#ifeq properties.type "date"}}
                     {{toDate value}}
+                    {{/ifeq}}
+
+                    {{#ifeq properties.type "password"}}
+                    -
                     {{/ifeq}}
 
                     {{/if}}

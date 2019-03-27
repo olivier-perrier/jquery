@@ -5,6 +5,12 @@ var data = require('../models/data.js')
 
 var authorizations = require('../components/authorizations')
 
+// Print route
+router.all("*" ,(req, res, next)=> {
+  console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path)
+  next()
+})
+
 // Loading user
 router.all("*", authorizations.loadUser)
 
@@ -57,7 +63,7 @@ router.use((req, res, next) => {
 
 /*** Index ***/
 router.get('/', function (req, res) {
-    data.posts.find({}).limit(2).exec((err, posts) => {
+    data.posts.find({}).limit(10).exec((err, posts) => {
         res.render('index', { posts })
     })
 })

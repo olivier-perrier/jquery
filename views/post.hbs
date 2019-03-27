@@ -49,7 +49,7 @@
                 <h2>Comments</h2>
 
                 <ul class="list-group list-group-flush">
-                    {{# comments}}
+                    {{#comments}}
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <strong>{{authorUsername}}</strong>
@@ -62,7 +62,7 @@
                         </div>
                     </li>
 
-                    {{/ comments}}
+                    {{/comments}}
                 </ul>
 
                 <br>
@@ -97,9 +97,8 @@
             postId: postId,
         }
 
-        $.post(URL + "/API/comments/create", { comment: comment }, (data, statut) => {
+        $.post(URL + "/API/comments/create", { comment }, (data, statut) => {
             console.log(data)
-            console.log(statut)
             window.location.href = "/posts/" + postId //+ "/#add-comment"
         })
     }

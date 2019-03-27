@@ -16,12 +16,10 @@ exports.createModels = (req, res, next) => {
       title: { type: "string", autokey: true, main: 1 },
       name: { type: "string" },
       authorId: { type: "relationship", path: "users", refpath: "username" },
-      state: { type: "string" },
+      state: { type: "select", options: ["publish", "draft", "trash"] },
       image: { type: "string" },
-      content: { type: "string" },
-      description: { type: "string" },
+      content: { type: "textarea", rows: 10 },
       categories: { type: "string" },
-      format: { type: "string" },
       tags: { type: "string" },
       createdAt: { type: "date", protected: true },
       updatedAt: { type: "date", protected: true },
@@ -32,25 +30,6 @@ exports.createModels = (req, res, next) => {
   }, (err, post) => {
     console.log("Custom type inserted posts")
   })
-
-
-  // data.customType.insert({
-  //   name: "categories",
-  //   label: "Categories",
-  //   icon: "far fa-envelope-open",
-  //   properties: {
-  //     _id: { type: "hidden" },
-  //     title: { type: "autokey", main: 1 },
-  //     name: { type: "string" },
-  //   },
-  //   columns: ["title", "name"],
-  //   parent: "posts",
-  //   order: 1,
-
-  // }, (err, post) => {
-  //   console.log("Custom type inserted categories")
-  // })
-
 
   data.customType.insert({
     name: "menus",
@@ -96,11 +75,10 @@ exports.createModels = (req, res, next) => {
       firstname: { type: "string" },
       lastname: { type: "string" },
       email: { type: "string" },
-      password: { type: "string" },
-      role: { type: "string" },
-      posts: { type: "relationship", path: "posts", refpath: "name" },
+      password: { type: "password" },
+      role: { type: "select", options: ["admin", "reporter", "user"] },
     },
-    columns: ["username", "email", "role", "posts"],
+    columns: ["name", "email", "role"],
     order: 3
   }, (err, post) => {
     console.log("Custom type inserted users")
@@ -122,21 +100,6 @@ exports.createModels = (req, res, next) => {
     order: 8
   }, (err, post) => {
     console.log("Custom type inserted comments")
-  })
-
-  data.customType.insert({
-    name: "medias",
-    label: "Medias",
-    icon: "far fa-images",
-    properties: {
-      name: { type: "string", autokey: true, },
-      image: { type: "image" },
-      createdAt: { type: "string" },
-    },
-    columns: ["name", "image"],
-    order: 12
-  }, (err, post) => {
-    console.log("Custom type inserted medias")
   })
 
   data.customType.insert({
@@ -238,9 +201,10 @@ exports.createDatas = () => {
         name: "hello-world",
         content: 'Welcome to OP CMS. This is your first post. Edit or delete it, then start writing !',
         image: "banner.jpg",
-        category: "uncategorized",
+        categories: "cat",
         tags: ["presentation", "website", "OP cms"],
         status: "publish",
+        createdAt: new Date()
       }, (err, post) => {
         console.log("[INFO] default post Hello World created")
       })
