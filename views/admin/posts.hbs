@@ -2,13 +2,13 @@
 
 <div class="my-3">
 
-    <h2 class="m-3">{{customType.label}}</h2>
+    <h2 class="m-3">{{model.label}}</h2>
 
     <div class="m-1">
-        <span><a href="/admin/{{customType.name}}">All</a></span> -
-        <span><a href="/admin/{{customType.name}}?status=draft">Draft</a></span> -
-        <span><a href="/admin/{{customType.name}}?authorId={{user._id}}">Mine</a></span> -
-        <span><a href="/admin/{{customType.name}}?status=trash">Trash</a></span>
+        <span><a href="/admin/{{model.name}}">All</a></span> -
+        <span><a href="/admin/{{model.name}}?status=draft">Draft</a></span> -
+        <span><a href="/admin/{{model.name}}?authorId={{user._id}}">Mine</a></span> -
+        <span><a href="/admin/{{model.name}}?status=trash">Trash</a></span>
     </div>
 
     <table class="table">
@@ -18,9 +18,9 @@
         <thead>
             <tr>
                 <th></th>
-                {{#customType.columnsName}}
+                {{#model.columnsName}}
                 <th>{{this}}</th>
-                {{/customType.columnsName}}
+                {{/model.columnsName}}
             </tr>
         </thead>
 
@@ -37,12 +37,13 @@
                 </td>
 
                 {{!-- {{#each post as |prop|}} --}}
-                {{#each post.fields as |fields|}}
+                {{#each post.fields as |field|}}
 
                 <td>
-                    {{#ifeq properties.type "autokey"}}
+                    {{#if properties.autokey}}
                     <a href="/admin/{{path}}/edit/{{link}}">{{value}}</a>
-                    {{/ifeq}}
+
+                    {{else}}
 
                     {{#ifeq properties.type "relationship"}}
                     <a href="/admin/{{properties.path}}/edit/{{link}}">{{value}}</a>
@@ -64,6 +65,9 @@
                     {{value}}
                     {{/ifeq}}
 
+                    {{/if}}
+
+
                 </td>
 
                 {{/each}}
@@ -75,7 +79,7 @@
         </tbody>
     </table>
 
-    <button onClick="createPost('{{customType.name}}')" class="btn btn-light mt-3">Create</button>
+    <button onClick="createPost('{{model.name}}')" class="btn btn-light mt-3">Create</button>
 
 
 </div>
@@ -89,17 +93,17 @@
 
         var post = {}
 
-        $.post(URL + "/API/{{customType.name}}/create", { post }, (data, statut) => {
+        $.post(URL + "/API/{{model.name}}/create", { post }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/{{customType.name}}/edit/" + data.post._id
+            window.location = "/admin/{{model.name}}/edit/" + data.post._id
         })
 
     }
 
     function deletePost(postId) {
-        $.post(URL + "/API/{{ customType.name }}/delete/", { postId }, (data, statut) => {
+        $.post(URL + "/API/{{ model.name }}/delete/", { postId }, (data, statut) => {
             console.log(data)
-            window.location = "/admin/{{ customType.name }}"
+            window.location = "/admin/{{ model.name }}"
         })
     }
 

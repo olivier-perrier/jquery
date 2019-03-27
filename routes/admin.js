@@ -29,28 +29,28 @@ router.get('/', (req, res) => {
 
 
 /*** Generic routes ***/
-router.get('/:customType', (req, res) => {
-  var customTypeName = req.params.customType
+router.get('/:model', (req, res) => {
+  var customTypeName = req.params.model
 
-  data.customType.findOne({ name: customTypeName }, (err, customType) => {
+  data.customType.findOne({ name: customTypeName }, (err, model) => {
 
-    if (customType) {
+    if (model) {
 
-      var databaseName = customType.name
+      var databaseName = model.name
 
       // Set labels to CustomType properties
-      customType.columnsName = []
-      for (var prop in customType.columns) {
-        customType.columnsName.push(jsUcfirst(customType.columns[prop]))
+      model.columnsName = []
+      for (var prop in model.columns) {
+        model.columnsName.push(jsUcfirst(model.columns[prop]))
       }
 
       data[databaseName].find({}, (err, posts) => {
 
-        getFormatedPosts(posts, customType).then((posts) => {
+        getFormatedPosts(posts, model).then((posts) => {
 
           console.log("sending result to client")
           console.log(posts)
-          res.render('admin/posts', { posts, customType })
+          res.render('admin/posts', { posts, model })
         })
       })
 
@@ -63,22 +63,22 @@ router.get('/:customType', (req, res) => {
 
 })
 
-router.get('/:customType/edit/:postId', (req, res) => {
-  var customTypeName = req.params.customType
+router.get('/:model/edit/:postId', (req, res) => {
+  var customTypeName = req.params.model
   var postId = req.params.postId
 
-  data.customType.findOne({ name: customTypeName }, (err, customType) => {
+  data.customType.findOne({ name: customTypeName }, (err, model) => {
 
-    var databaseName = customType.name
+    var databaseName = model.name
 
     data[databaseName].findOne({ _id: postId }, (err, post) => {
 
       if (post) {
 
-        getFormatedPost(post, customType, false).then((post) => {
+        getFormatedPost(post, model, false).then((post) => {
           console.log("sending result to client")
           console.log(post)
-          res.render('admin/posts-edit', { post, customType })
+          res.render('admin/posts-edit', { post, model })
         })
       } else {
         console.log("[DEBUG] not post found for id " + postId)
@@ -99,30 +99,32 @@ async function getFormatedPost(post, customType, isTab) {
 
   formatedPost._id = post._id
 
+  formatedPost.fields = {}
+
   for (var propKey in properties) {
 
     if (!isTab || customType.columns.includes(propKey)) {
 
-      var propValues = properties[propKey]
-
-      formatedPost.fields = {}
-
       formatedPost.fields[propKey] = {}
 
+      // Add the properties to the objet field
       formatedPost.fields[propKey].properties = properties[propKey]
+
+      // Add the default value of the field
       formatedPost.fields[propKey].value = post[propKey]
 
-      var value = post[propKey]
-      var type = propValues.type
 
-      // if (type == "autokey") {
-      // formatedPost.fields[propKey].value = post[propKey]
-      // formatedPost.fields[propKey].link = post._id
-      // formatedPost.fields[propKey].path = customType.name
+      var type = properties[propKey].type
+
+      if (properties[propKey].autokey) {
+        formatedPost.fields[propKey].value = post[propKey]
+        formatedPost.fields[propKey].link = post._id
+        formatedPost.fields[propKey].path = customType.name
+      }
 
       if (type == "relationship") {
 
-        var relationship = await getRelationship(propValues, value)
+        var relationship = await getRelationship(properties[propKey], post[propKey])
 
         formatedPost.fields[propKey].value = relationship.value
         formatedPost.fields[propKey].link = relationship.link
