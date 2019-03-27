@@ -13,7 +13,7 @@ exports.createModels = (req, res, next) => {
     label: "Posts",
     icon: "far fa-envelope-open",
     properties: {
-      title: { type: "autokey", main: 1 },
+      title: { type: "string", autokey: true, main: 1 },
       name: { type: "string" },
       authorId: { type: "relationship", path: "users", refpath: "username" },
       state: { type: "string" },
@@ -23,8 +23,8 @@ exports.createModels = (req, res, next) => {
       categories: { type: "string" },
       format: { type: "string" },
       tags: { type: "string" },
-      createdAt: { type: "string" },
-      updatedAt: { type: "string" },
+      createdAt: { type: "date", protected: true },
+      updatedAt: { type: "date", protected: true },
     },
     columns: ["title", "authorId", "categories", "tags", "createdAt"],
     order: 1,
@@ -57,7 +57,7 @@ exports.createModels = (req, res, next) => {
     label: "Menus",
     icon: "far fa-compass",
     properties: {
-      title: { type: "autokey", main: 1 },
+      title: { type: "string", autokey: true, main: 1 },
       type: { type: "string" },
       target: { type: "string" },
       order: { type: "string" },
@@ -79,7 +79,7 @@ exports.createModels = (req, res, next) => {
       content: { type: "textarea", rows: 20 },
       state: { type: "select", options: ['draft', 'published', 'archived'] },
       authorId: { type: "relationship", path: "users", refpath: "username" },
-      createdAt: { type: "string" }
+      createdAt: { type: "date", protected: true }
     },
     columns: ["title", "state", "authorId"],
     order: 1,
@@ -92,7 +92,7 @@ exports.createModels = (req, res, next) => {
     label: "Users",
     icon: "far fa-user",
     properties: {
-      name: { type: "autokey", main: 1 },
+      name: { type: "string", autokey: true, main: 1 },
       firstname: { type: "string" },
       lastname: { type: "string" },
       email: { type: "string" },
@@ -111,7 +111,7 @@ exports.createModels = (req, res, next) => {
     label: "Comments",
     icon: "far fa-comment",
     properties: {
-      _id: { type: "autokey", main: 1 },
+      _id: { type: "string", autokey: true, main: 1 },
       content: { type: "string" },
       state: { type: "string" },
       postId: { type: "relationship", path: "posts", refpath: "name" },
@@ -129,7 +129,7 @@ exports.createModels = (req, res, next) => {
     label: "Medias",
     icon: "far fa-images",
     properties: {
-      name: { type: "autokey", autokey: true },
+      name: { type: "string", autokey: true, },
       image: { type: "image" },
       createdAt: { type: "string" },
     },
@@ -144,7 +144,7 @@ exports.createModels = (req, res, next) => {
     label: "Settings",
     icon: "fas fa-sliders-h",
     properties: {
-      name: { type: "autokey", autokey: true },
+      name: { type: "string", autokey: true, },
       value: { type: "string" },
     },
     columns: ["name", "value"],

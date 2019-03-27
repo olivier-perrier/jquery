@@ -8,10 +8,22 @@ exports.hbs = exphbs.create({
     extname: '.hbs',
     defaultLayout: 'main',
     helpers: {
+        labelify: function(string) {
+            var label
+            if(string){
+                label = string.replace(/([A-Z])/g, ' $1').trim()
+                label = label.charAt(0).toUpperCase() + label.slice(1)
+            }
+            return label
+        },
         toDate: function (date) {
-            var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-            if (date)
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            try {
                 return date.toLocaleDateString('en-EN', options)
+            }catch(e){
+                console.log("[ERROR] " + e)
+                return date
+            }
         },
         toSimpleDate: function (date) { if (date) return date.toLocaleString() },
         toElapsedTime: function (date) {

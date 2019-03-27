@@ -30,27 +30,19 @@ router.get('/', (req, res) => {
 
 /*** Generic routes ***/
 router.get('/:model', (req, res) => {
-  var customTypeName = req.params.model
+  var modelName = req.params.model
 
-  data.customType.findOne({ name: customTypeName }, (err, model) => {
+  data.customType.findOne({ name: modelName }, (err, model) => {
 
     if (model) {
 
-      var databaseName = model.name
-
-      // Set labels to CustomType properties
-      model.columnsName = []
-      for (var prop in model.columns) {
-        model.columnsName.push(jsUcfirst(model.columns[prop]))
-      }
-
-      data[databaseName].find({}, (err, posts) => {
+      data[modelName].find({}, (err, posts) => {
 
         getFormatedPosts(posts, model).then((posts) => {
 
-          console.log("sending result to client")
           console.log(posts)
           res.render('admin/posts', { posts, model })
+
         })
       })
 
@@ -64,14 +56,12 @@ router.get('/:model', (req, res) => {
 })
 
 router.get('/:model/edit/:postId', (req, res) => {
-  var customTypeName = req.params.model
+  var modelName = req.params.model
   var postId = req.params.postId
 
-  data.customType.findOne({ name: customTypeName }, (err, model) => {
+  data.customType.findOne({ name: modelName }, (err, model) => {
 
-    var databaseName = model.name
-
-    data[databaseName].findOne({ _id: postId }, (err, post) => {
+    data[modelName].findOne({ _id: postId }, (err, post) => {
 
       if (post) {
 
@@ -112,6 +102,7 @@ async function getFormatedPost(post, customType, isTab) {
 
       // Add the default value of the field
       formatedPost.fields[propKey].value = post[propKey]
+      formatedPost.fields[propKey].disabled = properties[propKey].protected ? "disabled" : ""
 
 
       var type = properties[propKey].type
@@ -175,9 +166,6 @@ function getRelationship(propValues, postId) {
         for (var postKey in posts) {
           options[postKey] = { value: posts[postKey][refpath], id: posts[postKey]._id }
         }
-
-        console.log("options relations builded ")
-        console.log(options)
 
         resolve({ value, link, options })
 

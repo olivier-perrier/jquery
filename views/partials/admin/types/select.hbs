@@ -1,10 +1,10 @@
 <div class="form-group row">
-    <label class="col-sm-2 col-form-label">{{@key}}</label>
+    {{> admin/types/field-label}}
     <div class="col-sm-10">
         <select class="custom-select" id="post-{{@key}}">
-            <option value="{{value}}">{{value}}</option>
+            <option value="{{value}}">{{labelify value}}</option>
             {{#properties.options}}
-            <option value="{{this}}">{{this}}</option>
+            <option value="{{this}}">{{labelify this}}</option>
             {{/properties.options}}
         </select>
         <small class="form-text text-muted">{{comment}}</small>

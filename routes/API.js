@@ -126,8 +126,6 @@ router.post('/:customType/save', (req, res) => {
 
   })
 
-
-
 })
 
 router.post('/:customType/delete', (req, res) => {

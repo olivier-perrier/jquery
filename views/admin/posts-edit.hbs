@@ -18,23 +18,27 @@
     {{/if}}
 
     {{#ifeq properties.type "relationship"}}
-    {{> admin/type-relationship}}
+    {{> admin/types/relationship}}
     {{/ifeq}}
 
     {{#ifeq properties.type "string"}}
-    {{> admin/type-string}}
+    {{> admin/types/string}}
     {{/ifeq}}
 
     {{#ifeq properties.type "select"}}
-    {{> admin/type-select}}
+    {{> admin/types/select}}
     {{/ifeq}}
 
     {{#ifeq properties.type "textarea"}}
-    {{> admin/type-textarea}}
+    {{> admin/types/textarea}}
     {{/ifeq}}
 
     {{#ifeq properties.type "image"}}
-    {{> admin/type-image}}
+    {{> admin/types/image}}
+    {{/ifeq}}
+
+    {{#ifeq properties.type "date"}}
+    {{> admin/types/date}}
     {{/ifeq}}
 
     {{/each}}
@@ -53,12 +57,12 @@
         var genericPost = {}
 
         $('[id^="post-"]').each(function (index, key) {
-            // var protected = $(this).attr("disabled") {
-            // if (!protected) {
-            var key = $(this).attr("id").split("-")[1]
-            var value = $(this).val()
-            genericPost[key] = value
-            // }
+            var disabled = $(this).attr("disabled")
+            if (!disabled) {
+                var key = $(this).attr("id").split("-")[1]
+                var value = $(this).val()
+                genericPost[key] = value
+            }
         })
 
         console.log(genericPost)

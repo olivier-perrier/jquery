@@ -18,9 +18,9 @@
         <thead>
             <tr>
                 <th></th>
-                {{#model.columnsName}}
-                <th>{{this}}</th>
-                {{/model.columnsName}}
+                {{#model.columns}}
+                <th>{{labelify this}}</th>
+                {{/model.columns}}
             </tr>
         </thead>
 
@@ -63,6 +63,10 @@
 
                     {{#ifeq properties.type "textarea"}}
                     {{value}}
+                    {{/ifeq}}
+
+                    {{#ifeq properties.type "date"}}
+                    {{toDate value}}
                     {{/ifeq}}
 
                     {{/if}}
