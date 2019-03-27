@@ -7,13 +7,14 @@
 
         <div class="col-9">
 
-            {{#posts}}
+            {{#posts as |post|}}
+
             <article class="mb-5 border-bottom">
 
                 <header>
 
-                    <a href="{{model.name}}/{{_id}}">
-                        <img src="/img/card-286px180.svg" alt="Card image cap" class="rounded" width="100%">
+                    <a href="/posts/{{_id}}">
+                        <img src="/medias/{{image}}" alt="Card image cap" class="rounded" width="100%">
                     </a>
 
                     <div class="m-3 ml-5 mb-3">
@@ -22,18 +23,10 @@
 
                 </header>
 
-                <div class="body ml-5 p-1 mb-3">
-
-                    <p class="card-text">{{contentPreview}}</p>
-
-                    <a href="posts/{{_id}}" class="card-link">Continue reading</a>
-
-                </div>
-
                 <footer class="pb-3 ml-5">
                     <div class="d-flex justify-content-between">
                         <strong><a href="/author/{{authorId}}" class="text-dark">{{authorUsername}}</a></strong>
-                        <small>{{createdAt}} ago</small>
+                        <small>{{toDate createdAt}}</small>
                     </div>
                     <div class="d-flex justify-content-between">
                         <a href="/tags/{{tags}}" class="text-muted text-right">{{tags}}</a>

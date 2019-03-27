@@ -17,7 +17,7 @@ exports.createModels = (req, res, next) => {
       name: { type: "string" },
       authorId: { type: "relationship", path: "users", refpath: "username" },
       state: { type: "select", options: ["publish", "draft", "trash"] },
-      image: { type: "string" },
+      image: { type: "image" },
       content: { type: "textarea", rows: 10 },
       categories: { type: "string" },
       tags: { type: "string" },

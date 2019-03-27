@@ -25,7 +25,6 @@ exports.hbs = exphbs.create({
                 return date
             }
         },
-        toSimpleDate: function (date) { if (date) return date.toLocaleString() },
         toElapsedTime: function (date) {
             if (date) {
                 if (Math.abs(new Date().getDay() - date.getDay()) > 0) return (7 + (new Date().getDay() - date.getDay())) % 7 + " days"

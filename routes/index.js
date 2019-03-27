@@ -6,14 +6,15 @@ var data = require('../models/data.js')
 var authorizations = require('../components/authorizations')
 
 // Print route
-router.all("*" ,(req, res, next)=> {
-  console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path)
-  next()
+router.all("*", (req, res, next) => {
+    console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path)
+    next()
 })
 
 // Loading user
 router.all("*", authorizations.loadUser)
 
+// Inserting Settings, menus, current user
 router.use((req, res, next) => {
 
     // Insert settings
@@ -93,14 +94,20 @@ router.get('/:postType', (req, res, next) => {
     var postType = req.params.postType
     var query = req.query
 
+    data.customType.findOne({ name: postType }, (err, model) => {
 
-    if (data[postType]) {
-        data[postType].find(query, (err, posts) => {
-            res.render('posts', { posts })
-        })
-    } else {
-        next()
-    }
+        if (data[postType]) {
+
+            data[postType].find(query, (err, posts) => {
+                res.render('posts', { posts, model })
+            })
+            
+        } else {
+            next()
+        }
+    })
+
+
 
 })
 

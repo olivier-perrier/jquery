@@ -15,7 +15,9 @@
     {{#each post.fields as |field|}}
 
     {{#if properties.main}}
-    {{/if}}
+    {{> admin/types/main}}
+    
+    {{else}}
 
     {{#ifeq properties.type "relationship"}}
     {{> admin/types/relationship}}
@@ -44,6 +46,8 @@
     {{#ifeq properties.type "password"}}
     {{> admin/types/password}}
     {{/ifeq}}
+
+    {{/if}}
 
     {{/each}}
 
