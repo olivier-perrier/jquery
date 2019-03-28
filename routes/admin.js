@@ -3,6 +3,8 @@ var router = express.Router();
 
 var data = require('../models/data.js')
 
+var postController = require('../controllers/postController')
+
 var authorizations = require('../components/authorizations')
 
 router.all("*", (req, res, next) => {

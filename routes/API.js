@@ -4,10 +4,18 @@ var router = express.Router();
 var data = require('../models/data.js')
 
 router.use((req, res, next) => {
+  console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path)
   next()
 })
 
 // Users
+router.get('/user', (req, res) => {
+  data.users.findOne({ name: "Olivier" }, (err, user) => {
+    res.send({ message: "success : user ", user })
+  })
+
+})
+
 router.post('/login', (req, res) => {
   var username = req.body.name
   var password = req.body.password

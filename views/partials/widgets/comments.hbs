@@ -2,9 +2,11 @@
     <h3 class="text-center mb-3">Comments</h3>
     <ul class="list-group list-group-flush">
         {{#widgetComments}}
+        {{#if content}}
         <li class="list-group-item">
             <a href="/comments/{{_id}}">{{content}}</a>
         </li>
+        {{/if}}
         {{/widgetComments}}
     </ul>
 </div>

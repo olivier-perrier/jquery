@@ -17,14 +17,15 @@
             {{#menus}}
             <div class="dropdown">
                 <a class="nav-link rounded" href="{{target}}">{{title}}</a>
+                
                 {{#if menuChildren}}
-                </button>
                 <div class="dropdown-menu">
                     {{#menuChildren}}
                     <a class="dropdown-item" href="{{target}}">{{title}}</a>
                     {{/menuChildren}}
                 </div>
                 {{/if}}
+                
             </div>
             {{/menus}}
 
