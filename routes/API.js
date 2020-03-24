@@ -18,7 +18,7 @@ router.get("/user", (req, res) => {
 // Admin requests
 router.post("/admin/menus", (req, res) => {
   data.customType.find({}, { name: 1, label: 1, icon: 1 }).sort({ order: 1 }).exec((err, menus) => {
-    res.send({menus});
+    res.send({ menus });
   })
 });
 
@@ -66,6 +66,87 @@ router.post("/signup", (req, res) => {
   });
 });
 
+/*** new API for Vuejs */
+
+/*** Custom type */
+
+
+//Get a custom type
+router.get("/customType/:customTypeId", (req, res) => {
+  var customTypeId = req.params.customTypeId;
+
+  data.customType.findOne({ _id: customTypeId }, (err, post) => {
+    if (post) {
+      res.send({ message: "success : custom type found", post });
+    } else {
+      res.send({ message: "not found : custom type not existing for id " + customTypeId });
+    }
+  });
+
+});
+
+//Create a custom Type
+router.post("/:customType/create", (req, res) => {
+  var customType = req.body.customType;
+
+  customType = customType || {}
+
+  customType.name = "New custom type";
+  customType.authorId = "TODO";
+  customType.createdAt = new Date();
+
+  data.customType.insert(customType, (err, post) => {
+    if (post) {
+      res.send({ message: "success : custome type created", post });
+    } else {
+      res.send({ message: "database error : impossible to create custom type" });
+    }
+  });
+});
+
+//Save a Custome Type
+router.post("/customType/save", (req, res) => {
+  var _id = req.body._id;
+  var name = req.body.name;
+  var setting = req.body.setting;
+  var updatedAt = new Date()
+
+  data.customType.update({_id: _id},
+    { $set : {
+      name: name,
+      setting: setting,
+      updatedAt: updatedAt }
+    },
+    (err, num) => {
+      console.log("[DEBUG] custum type " + name + " created " + num)
+      res.send({ message: "success : custom type created " });
+    });
+
+});
+
+//Get list of custom types
+router.get("/customTypes", (req, res) => {
+
+  data.customType.find({}, (err, customTypes) => {
+    res.send({ message: "success : custom types found", customTypes });
+  })
+
+});
+
+//Delete a custom Type
+router.post("/customType/delete", (req, res) => {
+
+  var customTypeId = req.body.customTypeId;
+
+  data.customType.remove({ _id: customTypeId }, (err, num) => {
+    if (num) {
+      res.send({ message: "success : custom type deleted" });
+    } else {
+      res.send({ message: "not found : impossible to delete custom type" });
+    }
+  });
+});
+
 /*** Generic routes ***/
 router.post("/:customType/upload", (req, res) => {
   var customType = req.params.customType;
@@ -76,7 +157,7 @@ router.post("/:customType/upload", (req, res) => {
 
   var imageName = sampleFile.name;
 
-  sampleFile.mv("./public/medias/" + sampleFile.name, function(err) {
+  sampleFile.mv("./public/medias/" + sampleFile.name, function (err) {
     if (err) {
       console.log("[ERROR] moving uploaded file " + err);
       res.send({
@@ -180,5 +261,7 @@ router.post("/:customType/trash", (req, res) => {
     }
   );
 });
+
+
 
 module.exports = router;
