@@ -68,8 +68,21 @@ router.post("/signup", (req, res) => {
 
 /*** new API for Vuejs */
 
-/*** Custom type */
+/*** Menus
+ * Les menus d'aministration sont la liste des types paramétrés
+ */
 
+//Get list of menus
+router.get("/menus", (req, res) => {
+
+  data.customType.find({}, (err, menus) => {
+    res.send({ message: "success : menus found", menus });
+  })
+
+});
+
+
+/*** Custom type */
 
 //Get a custom type
 router.get("/customType/:customTypeId", (req, res) => {
@@ -80,6 +93,20 @@ router.get("/customType/:customTypeId", (req, res) => {
       res.send({ message: "success : custom type found", post });
     } else {
       res.send({ message: "not found : custom type not existing for id " + customTypeId });
+    }
+  });
+
+});
+
+//Get a custom type by name
+router.get("/customType/name/:customTypeName", (req, res) => {
+  var customTypeName = req.params.customTypeName;
+
+  data.customType.findOne({ name: customTypeName }, (err, post) => {
+    if (post) {
+      res.send({ message: "success : custom type found", post });
+    } else {
+      res.send({ message: "not found : custom type not existing for id " + customTypeName });
     }
   });
 

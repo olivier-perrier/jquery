@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
 console.log("[DEBUG] NODE_ENV " + process.env.NODE_ENV)
 
     
-installation.createModels()
+//installation.createModels()
 
 app.use('/admin', adminRouter);
 app.use('/API', APIRouter);
