@@ -81,6 +81,18 @@ router.get("/menus", (req, res) => {
 
 });
 
+/*** Posts */ 
+
+//Get a post
+router.get('/:customTypeName/:postId', (req, res, next) => {
+  var customTypeName = req.params.customTypeName
+  var postId = req.params.postId
+
+  data[customTypeName].findOne({ _id: postId }, (err, post) => {
+    res.send({ message: "success : post found", post })
+  })
+
+})
 
 /*** Custom type */
 
@@ -112,41 +124,41 @@ router.get("/customType/name/:customTypeName", (req, res) => {
 
 });
 
-//Create a custom Type
-router.post("/:customType/create", (req, res) => {
-  var customType = req.body.customType;
+//Create a post
+router.post("/:postTypeName/create", (req, res) => {
+  var postTypeName = req.params.postTypeName;
+  var newPost = req.body.customType;
 
-  customType = customType || {}
+  newPost = newPost || {}
 
-  customType.name = "New custom type";
-  customType.authorId = "TODO";
-  customType.createdAt = new Date();
+  newPost.createdAt = new Date();
 
-  data.customType.insert(customType, (err, post) => {
+  data[postTypeName].insert(newPost, (err, post) => {
     if (post) {
-      res.send({ message: "success : custome type created", post });
+      res.send({ message: "success : post created", post });
     } else {
-      res.send({ message: "database error : impossible to create custom type" });
+      res.send({ message: "database error : impossible to create post" });
     }
+    console.log("[DEBUG] post (" + postTypeName + ") created " + post._id)
   });
 });
 
-//Save a Custome Type
-router.post("/customType/save", (req, res) => {
-  var _id = req.body._id;
-  var name = req.body.name;
-  var setting = req.body.setting;
-  var updatedAt = new Date()
+//Save a post
+router.post("/:postTypeName/save", (req, res) => {
+  var postTypeName = req.params.postTypeName;
+  var newPost = req.body.post
+  var postId = req.body.postId
 
-  data.customType.update({_id: _id},
-    { $set : {
-      name: name,
-      setting: setting,
-      updatedAt: updatedAt }
-    },
+  newPost = newPost || {}
+  newPost.updatedAt = new Date()
+
+  data[postTypeName].update({ _id: postId }, { $set: newPost },
     (err, num) => {
-      console.log("[DEBUG] custum type " + name + " created " + num)
-      res.send({ message: "success : custom type created " });
+      if (num)
+        res.send({ message: "success : post saved" });
+      else
+        res.send({ message: "database error : impossible to save post" });
+      console.log("[DEBUG] post (" + postTypeName + ") saved " + num)
     });
 
 });
@@ -246,6 +258,7 @@ router.post("/:customType/save", (req, res) => {
   });
 });
 
+//Delete a post
 router.post("/:customType/delete", (req, res) => {
   var customType = req.params.customType;
 
@@ -253,7 +266,7 @@ router.post("/:customType/delete", (req, res) => {
 
   data[customType].remove({ _id: postId }, (err, num) => {
     if (num) {
-      res.send({ message: "success : post deleted" });
+      res.send({ message: "success : post deleted" + num });
     } else {
       res.send({ message: "internal error : impossible to delete post" });
     }
@@ -265,6 +278,7 @@ router.get("/:customType", (req, res) => {
 
   if (data[customType]) {
     data[customType].find({}, (err, posts) => {
+      console.log(posts)
       res.send({ message: "success : posts found", posts });
     });
   } else {

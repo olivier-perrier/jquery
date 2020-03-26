@@ -11,7 +11,7 @@ db.customType = new Datastore({ filename: 'data/customtype.nedb' })
 db.customType.loadDatabase(err => {
 
     console.log("Loading datastores")
-    db.customType.find({}, { name: 1 }, (err, databases) => {
+    db.customType.find({}, { name: 1 }, (err, databases) => { 
         for (var database of databases) {
             db[database.name] = new Datastore({ filename: 'data/' + database.name + '.nedb' })
             db[database.name].loadDatabase()
