@@ -8,7 +8,7 @@ var adminRouter = require('./routes/admin.js')
 var APIRouter = require('./routes/API.js')
 
 var exphbs = require('./components/handlebars')
-var installation = require('./components/installation')
+//var installation = require('./components/installation')
 
 var app = express()
 

@@ -81,7 +81,7 @@ router.get("/menus", (req, res) => {
 
 });
 
-/*** Posts */ 
+/*** Posts */
 
 //Get a post
 router.get('/:customTypeName/:postId', (req, res, next) => {
@@ -175,14 +175,15 @@ router.get("/customTypes", (req, res) => {
 //Delete a custom Type
 router.post("/customType/delete", (req, res) => {
 
-  var customTypeId = req.body.customTypeId;
+  var postId = req.body.postId;
 
-  data.customType.remove({ _id: customTypeId }, (err, num) => {
+  data.customType.remove({ _id: postId }, (err, num) => {
     if (num) {
       res.send({ message: "success : custom type deleted" });
     } else {
       res.send({ message: "not found : impossible to delete custom type" });
     }
+    console.log("[DEBUG] custom type post (customType) deleted " + postId + " " + num)
   });
 });
 
@@ -270,16 +271,19 @@ router.post("/:customType/delete", (req, res) => {
     } else {
       res.send({ message: "internal error : impossible to delete post" });
     }
+    console.log("[DEBUG] post (" + customType + ") deleted " + num)
   });
 });
 
+//Get a post
 router.get("/:customType", (req, res) => {
   var customType = req.params.customType;
 
   if (data[customType]) {
     data[customType].find({}, (err, posts) => {
-      console.log(posts)
       res.send({ message: "success : posts found", posts });
+      console.log("[DEBUG] posts (" + customType + ") found " + posts.length) 
+
     });
   } else {
     res.send({ message: "not found : postType not existing " + customType });
