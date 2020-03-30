@@ -110,12 +110,20 @@ router.get("/customType/:customTypeId", (req, res) => {
 
 });
 
-//Get a custom type by name
+//Get a custom type by name // TODO call the same function with ID 
 router.get("/customType/name/:customTypeName", (req, res) => {
   var customTypeName = req.params.customTypeName;
 
   data.customType.findOne({ name: customTypeName }, (err, post) => {
     if (post) {
+
+      //Parse the settings
+      post.setting = JSON.parse(post.setting);
+
+      //Disable the updated and created fields
+      post.setting.find(e => e.name == "updatedAt").disabled = true
+      post.setting.find(e => e.name == "createdAt").disabled = true
+
       res.send({ message: "success : custom type found", post });
     } else {
       res.send({ message: "not found : custom type not existing for id " + customTypeName });
@@ -275,7 +283,7 @@ router.post("/:customType/delete", (req, res) => {
   });
 });
 
-//Get a post
+//Get all posts
 router.get("/:customType", (req, res) => {
   var customType = req.params.customType;
 
