@@ -17,13 +17,13 @@ router.get("/user", (req, res) => {
 
 // Admin requests
 router.post("/admin/menus", (req, res) => {
-  data.customType.find({}, { name: 1, label: 1, icon: 1 }).sort({ order: 1 }).exec((err, menus) => {
+  data.customTypes.find({}, { name: 1, label: 1, icon: 1 }).sort({ order: 1 }).exec((err, menus) => {
     res.send({ menus });
   })
 });
 
 router.post("/admin/models", (req, res) => {
-  data.customType.find({}).sort({ order: 1 }).exec((err, models) => {
+  data.customTypes.find({}).sort({ order: 1 }).exec((err, models) => {
     res.send({ models })
   })
 });
@@ -75,13 +75,90 @@ router.post("/signup", (req, res) => {
 //Get list of menus
 router.get("/menus", (req, res) => {
 
-  data.customType.find({}, (err, menus) => {
+  data.customTypes.find({}).sort({ order: 1 }).exec(function (err, menus) {
     res.send({ message: "success : menus found", menus });
   })
 
 });
 
-/*** Posts */
+
+
+/*** Custom types ***/
+
+//Get a custom type
+router.get("/customTypes/:customTypeId", (req, res) => {
+  var customTypeId = req.params.customTypeId;
+
+  data.customTypes.findOne({ _id: customTypeId }, (err, post) => {
+    if (post) {
+      res.send({ message: "success : custom type found", post });
+    } else {
+      res.send({ message: "not found : custom type not existing for id " + customTypeId });
+    }
+  });
+
+});
+
+//Get a custom type by name // TODO call the same function with ID 
+router.get("/customTypes/name/:customTypeName", (req, res) => {
+  var customTypeName = req.params.customTypeName;
+
+  data.customTypes.findOne({ name: customTypeName }, (err, post) => {
+    if (post) {
+
+      //Parse the settings
+      try {
+        post.setting = JSON.parse(post.setting);
+      } catch (error) {
+        console.log("[WARNING] impossible to parse JSON " + post.setting)
+      }
+
+      //Disable the updated and created fields
+      if (post.setting) {
+        try {
+          post.setting.find(e => e.name == "updatedAt").disabled = true
+          post.setting.find(e => e.name == "createdAt").disabled = true
+        } catch (error) {
+          console.log("[WARNING] impossible disable updated and created setting ")
+        }
+      }
+
+      res.send({ message: "success : custom type found", post });
+    } else {
+      res.send({ message: "not found : custom type not existing for id " + customTypeName });
+    }
+  });
+
+});
+
+//Get list of custom types
+router.get("/customTypes", (req, res) => {
+  var sortQuery = req.query.sort;
+
+  console.log("here " + sortQuery)
+
+  data.customTypes.find({}, (err, customTypes) => {
+    res.send({ message: "success : custom types found", customTypes });
+  })
+
+});
+
+//Delete a custom Type
+router.post("/customTypes/delete", (req, res) => {
+
+  var postId = req.body.postId;
+
+  data.customTypes.remove({ _id: postId }, (err, num) => {
+    if (num) {
+      res.send({ message: "success : custom type deleted" });
+    } else {
+      res.send({ message: "not found : impossible to delete custom type" });
+    }
+    console.log("[DEBUG] custom type post (customTypes) deleted " + postId + " " + num)
+  });
+});
+
+/*** Posts ***/
 
 //Get a post
 router.get('/:customTypeName/:postId', (req, res, next) => {
@@ -94,42 +171,18 @@ router.get('/:customTypeName/:postId', (req, res, next) => {
 
 })
 
-/*** Custom type */
-
-//Get a custom type
-router.get("/customType/:customTypeId", (req, res) => {
-  var customTypeId = req.params.customTypeId;
-
-  data.customType.findOne({ _id: customTypeId }, (err, post) => {
-    if (post) {
-      res.send({ message: "success : custom type found", post });
-    } else {
-      res.send({ message: "not found : custom type not existing for id " + customTypeId });
-    }
-  });
-
-});
-
-//Get a custom type by name // TODO call the same function with ID 
-router.get("/customType/name/:customTypeName", (req, res) => {
+//Get all posts
+router.get("/:customTypeName", (req, res) => {
   var customTypeName = req.params.customTypeName;
 
-  data.customType.findOne({ name: customTypeName }, (err, post) => {
-    if (post) {
-
-      //Parse the settings
-      post.setting = JSON.parse(post.setting);
-
-      //Disable the updated and created fields
-      post.setting.find(e => e.name == "updatedAt").disabled = true
-      post.setting.find(e => e.name == "createdAt").disabled = true
-
-      res.send({ message: "success : custom type found", post });
-    } else {
-      res.send({ message: "not found : custom type not existing for id " + customTypeName });
-    }
-  });
-
+  if (data[customTypeName]) {
+    data[customTypeName].find({}, (err, posts) => {
+      res.send({ message: "success : posts found", posts });
+      console.log("[DEBUG] posts (" + customTypeName + ") found " + posts.length)
+    });
+  } else {
+    res.send({ message: "not found : postType not existing " + customTypeName });
+  }
 });
 
 //Create a post
@@ -171,32 +224,29 @@ router.post("/:postTypeName/save", (req, res) => {
 
 });
 
-//Get list of custom types
-router.get("/customTypes", (req, res) => {
+//TODO n'est plus utilisé 
+router.post("/:customTypes/create", (req, res) => {
+  var customType = req.params.customType;
 
-  data.customType.find({}, (err, customTypes) => {
-    res.send({ message: "success : custom types found", customTypes });
-  })
+  var post = req.body.post || {};
+  post.authorId = req.session.userId;
+  post.createdAt = new Date();
 
-});
+  data.customTypes.findOne({ name: customType }, (err, customType) => {
+    var databaseName = customType.name;
 
-//Delete a custom Type
-router.post("/customType/delete", (req, res) => {
-
-  var postId = req.body.postId;
-
-  data.customType.remove({ _id: postId }, (err, num) => {
-    if (num) {
-      res.send({ message: "success : custom type deleted" });
-    } else {
-      res.send({ message: "not found : impossible to delete custom type" });
-    }
-    console.log("[DEBUG] custom type post (customType) deleted " + postId + " " + num)
+    data[databaseName].insert(post, (err, post) => {
+      if (post) {
+        res.send({ message: "success : post created", post });
+      } else {
+        res.send({ message: "internal error : impossible to create post" });
+      }
+    });
   });
 });
 
-/*** Generic routes ***/
-router.post("/:customType/upload", (req, res) => {
+
+router.post("/:customTypes/upload", (req, res) => {
   var customType = req.params.customType;
 
   console.log(req.files);
@@ -226,27 +276,8 @@ router.post("/:customType/upload", (req, res) => {
   });
 });
 
-router.post("/:customType/create", (req, res) => {
-  var customType = req.params.customType;
-
-  var post = req.body.post || {};
-  post.authorId = req.session.userId;
-  post.createdAt = new Date();
-
-  data.customType.findOne({ name: customType }, (err, customType) => {
-    var databaseName = customType.name;
-
-    data[databaseName].insert(post, (err, post) => {
-      if (post) {
-        res.send({ message: "success : post created", post });
-      } else {
-        res.send({ message: "internal error : impossible to create post" });
-      }
-    });
-  });
-});
-
-router.post("/:customType/save", (req, res) => {
+//TODO n'est plus utilisé
+router.post("/:customTypes/save", (req, res) => {
   var customType = req.params.customType;
 
   var postId = req.body.postId;
@@ -268,7 +299,7 @@ router.post("/:customType/save", (req, res) => {
 });
 
 //Delete a post
-router.post("/:customType/delete", (req, res) => {
+router.post("/:customTypes/delete", (req, res) => {
   var customType = req.params.customType;
 
   var postId = req.body.postId;
@@ -283,22 +314,7 @@ router.post("/:customType/delete", (req, res) => {
   });
 });
 
-//Get all posts
-router.get("/:customType", (req, res) => {
-  var customType = req.params.customType;
-
-  if (data[customType]) {
-    data[customType].find({}, (err, posts) => {
-      res.send({ message: "success : posts found", posts });
-      console.log("[DEBUG] posts (" + customType + ") found " + posts.length) 
-
-    });
-  } else {
-    res.send({ message: "not found : postType not existing " + customType });
-  }
-});
-
-router.post("/:customType/trash", (req, res) => {
+router.post("/:customTypes/trash", (req, res) => {
   var customType = req.params.customType;
   var postId = req.body.postId;
 
@@ -314,7 +330,5 @@ router.post("/:customType/trash", (req, res) => {
     }
   );
 });
-
-
 
 module.exports = router;
