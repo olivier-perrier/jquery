@@ -1,3 +1,0 @@
-{"createdAt":"2020-03-30T15:02:38.137Z","_id":"8MweGiL2UMhzDBRn","name":"Olivier","email":"leperenoel38@hotmail.fr","role":"admin","updatedAt":{"$$date":1585580790880},"firstname":"Olivier","lastname":"Perrier","password":"123"}
-{"createdAt":"2020-03-30T15:04:11.985Z","_id":"Lqbj0e3is50lA2jV","name":"user","email":"user@user.fr","role":"user","updatedAt":{"$$date":1585580668120}}
-{"createdAt":"2020-03-30T15:04:11.985Z","_id":"Lqbj0e3is50lA2jV","name":"user","email":"user@user.fr","role":"admin","updatedAt":{"$$date":1585667470680},"firstname":"Pierre","lastname":"Patrick"}

@@ -8,12 +8,7 @@ router.use((req, res, next) => {
   next();
 });
 
-// Users
-router.get("/user", (req, res) => {
-  data.users.findOne({ name: "Olivier" }, (err, user) => {
-    res.send({ message: "success : user ", user });
-  });
-});
+
 
 // Admin requests
 router.post("/admin/menus", (req, res) => {
@@ -28,20 +23,32 @@ router.post("/admin/models", (req, res) => {
   })
 });
 
+//DEBUG
+router.post("/test", (req, res) => {
+  if (req.session.test)
+    req.session.test++
+  else
+    req.session.test = 1;
+  console.log(req.session.test)
+  res.send()
+});
 
+/*** Login ***/
 router.post("/login", (req, res) => {
-  var username = req.body.name;
-  var password = req.body.password;
+  var loginUser = req.body.user || {};
 
   data.users.findOne(
-    { username: username, password: password },
+    { email: loginUser.email, password: loginUser.password },
     (err, user) => {
       if (user) {
         req.session.userId = user._id;
         req.session.userRole = user.role;
+        req.session.userName = user.firstName;
         res.send({ message: "success : loggin ", user: user });
+        console.log("[DEBUG] login user " + user._id)
       } else {
         res.send({ message: "not found : unknow username or password" });
+        console.log("[DEBUG] login user not found " + loginUser.email + " " + loginUser.password)
       }
     }
   );
@@ -49,7 +56,7 @@ router.post("/login", (req, res) => {
 
 router.post("/logout", (req, res) => {
   req.session.userId = null;
-  res.redirect("/");
+  res.send({ message: "success : user logout" });
 });
 
 router.post("/signup", (req, res) => {
@@ -63,6 +70,20 @@ router.post("/signup", (req, res) => {
         res.send({ message: "success : user created", user: user });
       });
     }
+  });
+});
+
+// Send the current login user
+router.get("/currentUser", (req, res) => {
+  console.log("/currentUser " + req.session.userId)
+  var userId = req.session.userId;
+  data.users.findOne({ _id: userId }, (err, currentUser) => {
+    if (currentUser)
+      res.send({ message: "success : current user ", currentUser });
+    else
+      res.send({ message: "No user currently login " });
+    console.log("curent user sent ")
+    console.log(currentUser)
   });
 });
 
@@ -125,7 +146,7 @@ router.get("/customTypes/name/:customTypeName", (req, res) => {
 
       res.send({ message: "success : custom type found", post });
     } else {
-      res.send({ message: "not found : custom type not existing for id " + customTypeName });
+      res.send({ message: "not found : custom type not existing for name " + customTypeName });
     }
   });
 
@@ -133,11 +154,8 @@ router.get("/customTypes/name/:customTypeName", (req, res) => {
 
 //Get list of custom types
 router.get("/customTypes", (req, res) => {
-  var sortQuery = req.query.sort;
 
-  console.log("here " + sortQuery)
-
-  data.customTypes.find({}, (err, customTypes) => {
+  data.customTypes.find({}).sort({ order: 1 }).exec((err, customTypes) => {
     res.send({ message: "success : custom types found", customTypes });
   })
 
