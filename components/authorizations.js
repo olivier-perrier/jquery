@@ -2,15 +2,35 @@
 var data = require('../models/data')
 var User = data.model('User')
 
+/***
+ * Autorisation des API et autorisation des vues (l'autorisation des vues est surement à faire dans le coté client avec vuejs)
+ * 
+ * Autorisation des API
+ * 
+ * ADMIN : le profil admin donne droit d'accès à toutes les API (admin et client)
+ * REPORTER : le profile reporter donne droit d'accès à toutes les API client et doit d'accès aux API admin sauf des types paramétres
+ * USER : le profil user donne droit d'accès à toutes les API client
+ * 
+ * Si l'utilisateur est admin alors il à toujours accès à tout
+ * 
+ * Si une règle n'est pas définit alors 
+ *    Si la route est cliente alors l'accès est intégrale 
+ *    Si la route est admin
+ *        l'accès en GET est intégrale à part pour settings, users, et customTypes
+ *        l'ccès en POST est jamais possible
+ * 
+ */
+
 exports.requireAuthentication = (req, res, next) => {
 
-  console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path)
+  console.log("[AUTORISATION] " + req.method + " " + req.baseUrl + " " + req.path)
 
   var userRole = req.session.userRole
 
-  if (req.session.userRole == "admin")
+  if (req.session.userRole == "admin") {
+    console.log("[AUTORISATION] admin allowed")
     next()
-  else {
+  } else {
 
 
     var routeAccess = defineRouteAccess.find(routeAccess => {
@@ -20,88 +40,43 @@ exports.requireAuthentication = (req, res, next) => {
     if (routeAccess) {
 
       if (routeAccess.autorisation.includes(userRole)) {
+        console.log("[AUTORISATION] user with role " + userRole + " allowed for route " + req.baseUrl + req.path)
         next()
       } else {
-        console.log("[WARNING] attenting access not autorised adress: " + req.baseUrl + req.path + " role: " + userRole)
+        console.log("[AUTORISATION] WARNING attenting access not autorised address: " + req.baseUrl + req.path + " role: " + userRole)
         next()
         // res.status(403).send({ message: "forbidden : you do not have the autorisation" })
       }
 
     } else {
+      console.log("[AUTORISATION] WARNING no route acces difined for " + req.method + " " + req.baseUrl + req.path)
       next()
     }
   }
 
 }
 
-/**
- * Auto loggin the Olivier admin user
- */
-exports.loadUser = (req, res, next) => {
-
-  if (process.env.NODE_ENV == 'dev') {
-    data.users.findOne({ name: "Olivier" }, (err, user) => {
-      if (user) {
-        console.log("[DEBUG] auto login")
-        req.session.userId = user._id
-        req.session.userRole = user.role
-      }
-      next()
-    })
-  } else
-    next()
-
-
-}
-
 
 var defineRouteAccess = [
 
-  // Admin
-  { method: "GET", route: "/admin", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/posts", autorisation: ["admin"] },
-  { method: "GET", route: "/admin/posts/edit/:", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/pages", autorisation: ["admin"] },
-  { method: "GET", route: "/admin/pages/edit/:", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/menus", autorisation: ["admin", "author"] },
-  { method: "GET", route: "/admin/menus/edit/:", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/users", autorisation: ["admin"] },
-  { method: "GET", route: "/admin/users/edit/:", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/medias", autorisation: ["admin", "author"] },
-
-  { method: "GET", route: "/admin/comments", autorisation: ["admin", "author", "subscriber"] },
-  { method: "GET", route: "/admin/comments/edit/:", autorisation: ["admin", "author", "subscriber"] },
-
-  { method: "GET", route: "/admin/widgets", autorisation: ["admin"] },
-
-  { method: "GET", route: "/admin/settings", autorisation: ["admin"] },
+  // GET
+  { method: "GET", route: "/API/admin/:", autorisation: ["admin", "reporter"] },
+  { method: "GET", route: "/API/admin/customTypes", autorisation: ["admin"] },
 
   // API
-  { method: "POST", route: "/API/posts/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/pages/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/menus/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/users/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/medias/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/comments/:", autorisation: ["admin", "author", "subscriber"] },
+  { method: "POST", route: "/API/admin/:", autorisation: ["admin", "reporter"] },
+  { method: "POST", route: "/API/admin/customTypes:", autorisation: ["admin"] },
 
-  { method: "POST", route: "/API/posts/create", autorisation: ["admin", "author"] },
-  { method: "POST", route: "/API/post/save", autorisation: ["admin", "author"] },
-  { method: "POST", route: "/API/posts/delete", autorisation: ["admin"] },
-
-  { method: "POST", route: "/API/pages/create", autorisation: ["admin"] },
-  { method: "POST", route: "/API/pages/save", autorisation: ["admin"] },
-  { method: "POST", route: "/API/pages/delete", autorisation: ["admin"] },
+  { method: "POST", route: "/API/admin/menus/:", autorisation: ["admin"] },
+  { method: "POST", route: "/API/admin/users/:", autorisation: ["admin"] },
+  { method: "POST", route: "/API/admin/medias/:", autorisation: ["admin"] },
 
 
-  { method: "POST", route: "/API/comments/delete", autorisation: ["admin", "author"] },
-  { method: "POST", route: "/API/settings/save", autorisation: ["admin"] },
+  { method: "POST", route: "/API/admin/settings", autorisation: ["admin"] },
+  { method: "POST", route: "/API/admin/settings/:", autorisation: ["admin"] },
 
-  { method: "GET", route: "/API/posts", autorisation: ["public"] },
-  { method: "GET", route: "/API/categories", autorisation: ["public"] },
-  { method: "GET", route: "/API/comments", autorisation: ["public"] },
+  //Test
+  { method: "POST", route: "/API/settings", autorisation: ["admin"] },
+
+
 ]

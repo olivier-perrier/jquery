@@ -11,36 +11,10 @@ router.all("*", (req, res, next) => {
     next()
 })
 
-// Loading user
-router.all("*", authorizations.loadUser)
+router.all("*", authorizations.requireAuthentication)
 
-// Inserting Settings, menus, current user
 router.use((req, res, next) => {
-
-    // Insert settings
-    data.settings.find({}, (err, settings) => {
-
-        settingsMapped = {}
-        var settingsMapped = settings.reduce((obj, item) => {
-            obj[item.name] = item.value
-            return obj
-        }, {})
-
-        res.locals.settings = settingsMapped
-
-        // Insert menus
-        data.menus.find({}).sort({ order: 1 }).exec((err, menus) => {
-            res.locals.menus = menus
-
-            // Insert current user
-            data.users.findOne({ _id: req.session.userId }, (err, user) => {
-                res.locals.user = user
-
-                next();
-            })
-        })
-    })
-
+    next();
 })
 
 // For Widgets
@@ -63,53 +37,48 @@ router.use((req, res, next) => {
 })
 
 /*** Index ***/
-router.get('/', function (req, res) {
-    data.posts.find({}).limit(10).exec((err, posts) => {
-        res.render('index', { posts })
-    })
-})
+// router.get('/', function (req, res) {
+//     data.posts.find({}).limit(10).exec((err, posts) => {
+//         res.render('index', { posts })
+//     })
+// })
 
 /*** Users ***/
-router.get('/login', (req, res) => {
-    res.render('login', {})
-})
+// router.get('/login', (req, res) => {
+//     res.render('login', {})
+// })
 
-router.get('/signup', (req, res) => {
-    res.render('signup')
-})
+// router.get('/signup', (req, res) => {
+//     res.render('signup')
+// })
 
 /*** Search ***/
+//TODO Fonction de recherche
 router.get('/search', (req, res) => {
-    console.log("TODO : test")
-    var query = req.query
-
-    data.posts.find({ $or: [{ title: query }, { content: query }] }, (err, posts) => {
-        res.render('posts', { posts: posts })
-    })
-
+    res.send({ message: "TODO" })
 })
 
 /*** Posts ***/
-router.get('/:postType', (req, res, next) => {
-    var postType = req.params.postType
-    var query = req.query
+// router.get('/:postType', (req, res, next) => {
+//     var postType = req.params.postType
+//     var query = req.query
 
-    data.customType.findOne({ name: postType }, (err, model) => {
+//     data.customType.findOne({ name: postType }, (err, model) => {
 
-        if (data[postType]) {
+//         if (data[postType]) {
 
-            data[postType].find(query, (err, posts) => {
-                res.render('posts', { posts, model })
-            })
-            
-        } else {
-            next()
-        }
-    })
+//             data[postType].find(query, (err, posts) => {
+//                 res.render('posts', { posts, model })
+//             })
+
+//         } else {
+//             next()
+//         }
+//     })
 
 
 
-})
+// })
 
 router.get('/:postType/:postId', (req, res, next) => {
     var postType = req.params.postType

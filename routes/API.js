@@ -3,37 +3,19 @@ var router = express.Router();
 
 var data = require("../models/data.js");
 
+var authorizations = require('../components/authorizations')
+
 router.use((req, res, next) => {
   console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path);
   next();
 });
 
+//TODO autorisations
+router.all("*", authorizations.requireAuthentication)
 
+// TODO : faut il séparer les API dans différents fichiers avec un prefix admin/posts etc ?
 
-// Admin requests
-router.post("/admin/menus", (req, res) => {
-  data.customTypes.find({}, { name: 1, label: 1, icon: 1 }).sort({ order: 1 }).exec((err, menus) => {
-    res.send({ menus });
-  })
-});
-
-router.post("/admin/models", (req, res) => {
-  data.customTypes.find({}).sort({ order: 1 }).exec((err, models) => {
-    res.send({ models })
-  })
-});
-
-//DEBUG
-router.post("/test", (req, res) => {
-  if (req.session.test)
-    req.session.test++
-  else
-    req.session.test = 1;
-  console.log(req.session.test)
-  res.send()
-});
-
-/*** Login ***/
+/*** Login and current user ***/
 router.post("/login", (req, res) => {
   var loginUser = req.body.user || {};
 
@@ -73,27 +55,19 @@ router.post("/signup", (req, res) => {
   });
 });
 
-// Send the current login user
 router.get("/currentUser", (req, res) => {
-  console.log("/currentUser " + req.session.userId)
   var userId = req.session.userId;
   data.users.findOne({ _id: userId }, (err, currentUser) => {
     if (currentUser)
       res.send({ message: "success : current user ", currentUser });
     else
       res.send({ message: "No user currently login " });
-    console.log("curent user sent ")
-    console.log(currentUser)
   });
 });
 
-/*** new API for Vuejs */
 
-/*** Menus
- * Les menus d'aministration sont la liste des types paramétrés
- */
+/*** Get list of menus ***/
 
-//Get list of menus
 router.get("/menus", (req, res) => {
 
   data.customTypes.find({}).sort({ order: 1 }).exec(function (err, menus) {
@@ -152,7 +126,7 @@ router.get("/customTypes/name/:customTypeName", (req, res) => {
 
 });
 
-//Get list of custom types
+//Get all custom types
 router.get("/customTypes", (req, res) => {
 
   data.customTypes.find({}).sort({ order: 1 }).exec((err, customTypes) => {
@@ -175,6 +149,7 @@ router.post("/customTypes/delete", (req, res) => {
     console.log("[DEBUG] custom type post (customTypes) deleted " + postId + " " + num)
   });
 });
+
 
 /*** Posts ***/
 
@@ -242,28 +217,23 @@ router.post("/:postTypeName/save", (req, res) => {
 
 });
 
-//TODO n'est plus utilisé 
-router.post("/:customTypes/create", (req, res) => {
-  var customType = req.params.customType;
+// Delete a post
+router.post("/:postTypeName/delete", (req, res) => {
+  var postTypeName = req.params.postTypeName;
 
-  var post = req.body.post || {};
-  post.authorId = req.session.userId;
-  post.createdAt = new Date();
+  var postId = req.body.postId;
 
-  data.customTypes.findOne({ name: customType }, (err, customType) => {
-    var databaseName = customType.name;
-
-    data[databaseName].insert(post, (err, post) => {
-      if (post) {
-        res.send({ message: "success : post created", post });
-      } else {
-        res.send({ message: "internal error : impossible to create post" });
-      }
-    });
+  data[postTypeName].remove({ _id: postId }, (err, num) => {
+    if (num) {
+      res.send({ message: "success : post deleted" + num });
+    } else {
+      res.send({ message: "internal error : impossible to delete post" });
+    }
+    console.log("[DEBUG] post (" + postTypeName + ") deleted " + num)
   });
 });
 
-
+// TODO for image field
 router.post("/:customTypes/upload", (req, res) => {
   var customType = req.params.customType;
 
@@ -294,59 +264,15 @@ router.post("/:customTypes/upload", (req, res) => {
   });
 });
 
-//TODO n'est plus utilisé
-router.post("/:customTypes/save", (req, res) => {
-  var customType = req.params.customType;
 
-  var postId = req.body.postId;
-  var post = req.body.post;
-
-  post.updatedAt = new Date();
-
-  data.customType.findOne({ name: customType }, (err, customType) => {
-    var databaseName = customType.name;
-
-    data[databaseName].update({ _id: postId }, { $set: post }, (err, num) => {
-      if (num) {
-        res.send({ message: "success : post updated" });
-      } else {
-        res.send({ message: "internal error : impossible to save post" });
-      }
-    });
-  });
-});
-
-//Delete a post
-router.post("/:customTypes/delete", (req, res) => {
-  var customType = req.params.customType;
-
-  var postId = req.body.postId;
-
-  data[customType].remove({ _id: postId }, (err, num) => {
-    if (num) {
-      res.send({ message: "success : post deleted" + num });
-    } else {
-      res.send({ message: "internal error : impossible to delete post" });
-    }
-    console.log("[DEBUG] post (" + customType + ") deleted " + num)
-  });
-});
-
-router.post("/:customTypes/trash", (req, res) => {
-  var customType = req.params.customType;
-  var postId = req.body.postId;
-
-  data[customType].update(
-    { _id: postId },
-    { $set: { status: "trash" } },
-    (err, num) => {
-      if (num) {
-        res.send({ message: "success : post removed " + num });
-      } else {
-        res.send({ message: "internal error : impossible to trash post" });
-      }
-    }
-  );
+// DEBUG
+router.post("/test", (req, res) => {
+  if (req.session.test)
+    req.session.test++
+  else
+    req.session.test = 1;
+  console.log(req.session.test)
+  res.send()
 });
 
 module.exports = router;
