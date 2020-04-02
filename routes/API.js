@@ -68,7 +68,7 @@ router.get("/currentUser", (req, res) => {
 
 /*** Get list of menus ***/
 
-router.get("/menus", (req, res) => {
+router.get("/adminMenus", (req, res) => {
 
   data.customTypes.find({}).sort({ order: 1 }).exec(function (err, menus) {
     res.send({ message: "success : menus found", menus });
@@ -169,7 +169,7 @@ router.get("/:customTypeName", (req, res) => {
   var customTypeName = req.params.customTypeName;
 
   if (data[customTypeName]) {
-    data[customTypeName].find({}, (err, posts) => {
+    data[customTypeName].find({}).sort().exec((err, posts) => {
       res.send({ message: "success : posts found", posts });
       console.log("[DEBUG] posts (" + customTypeName + ") found " + posts.length)
     });

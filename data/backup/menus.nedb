@@ -1,0 +1,5 @@
+{"title":"Posts","name":"posts","type":"posts","target":"/posts","order":1,"_id":"IYF0qm4ej8GnyueA"}
+{"title":"About","name":"about","type":"pages","target":"/pages/about","order":"10","_id":"P1uxFyFH0EhFZwFM","parent":"","updatedAt":{"$$date":1553691079316}}
+{"title":"Google","name":"google","type":"direct","target":"http://www.google.fr","order":5,"_id":"RpvvlDNyieQ51uuN"}
+{"title":"Hello world","name":"hello-world","type":"posts","target":"/posts/hello-world","order":2,"_id":"dpqbeImC0Fh5SkDw"}
+{"title":"My category","name":"my-category","type":"categories","target":"/posts?categories=cat","order":3,"_id":"hes0wNN3ZbuCgGXf"}
