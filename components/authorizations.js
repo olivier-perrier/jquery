@@ -1,6 +1,5 @@
 
 var data = require('../models/data')
-var User = data.model('User')
 
 /***
  * Autorisation des API et autorisation des vues (l'autorisation des vues est surement à faire dans le coté client avec vuejs)

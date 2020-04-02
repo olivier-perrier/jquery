@@ -3,34 +3,32 @@ console.log("Database managment loading...")
 
 var Datastore = require('nedb')
 
+var installation = require('../components/installation')
+
 db = {}
 
-db.customTypes = new Datastore({ filename: 'data/customtypes.nedb' })
+// Charge la base de données principale
+db.customTypes = new Datastore({ filename: 'data/customtypes.nedb', autoload: true })
 
+// installation.createModels()
 
-db.customTypes.loadDatabase(err => {
+// Charge les bases de données des types paramétres
+db.customTypes.find({}, { name: 1 }, (err, databases) => {
+    for (var database of databases) {
+        db[database.name] = new Datastore({ filename: 'data/' + database.name + '.nedb' })
+        db[database.name].loadDatabase()
+    }
 
-    console.log("Loading datastores")
-    db.customTypes.find({}, { name: 1 }, (err, databases) => {
-        for (var database of databases) {
-            db[database.name] = new Datastore({ filename: 'data/' + database.name + '.nedb' })
-            db[database.name].loadDatabase()
-        }
+    console.log("Database loaded")
 
-        //var installation = require('../components/installation')
-        //installation.createDatas()
+    // Crée des exemples de données
+    // installation.createDatas()
 
-    })
 })
 
-db.posts = new Datastore({ filename: 'data/posts.nedb' })
-db.settings = new Datastore({ filename: 'data/settings.nedb' })
-db.posts.loadDatabase()
-db.settings.loadDatabase()
 
-
-db.model = function (name) {
-    return require('./' + name)
-}
+// db.model = function (name) {
+//     return require('./' + name)
+// }
 
 module.exports = db
