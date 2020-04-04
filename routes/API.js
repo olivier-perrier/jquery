@@ -109,9 +109,13 @@ router.get("/customTypes/name/:customTypeName", (req, res) => {
       }
 
       //Disable the updated and created fields
-      if (post.setting) {
-        (post.setting.find(e => e.name == "createdAt") || {}).disabled = true;
-        (post.setting.find(e => e.name == "updatedAt") || {}).disabled = true;
+      try {
+        if (post.setting) {
+          (post.setting.find(e => e.name == "createdAt") || {}).disabled = true;
+          (post.setting.find(e => e.name == "updatedAt") || {}).disabled = true;
+        }
+      } catch (error) {
+        console.log("[WARNING] impossible to set created at updated date to disabled")
       }
 
       res.send({ message: "success : custom type found", post });
