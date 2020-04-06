@@ -69,8 +69,9 @@ router.get("/currentUser", (req, res) => {
 /*** Get list of menus ***/
 
 router.get("/adminMenus", (req, res) => {
+  var sort = req.query.sort
 
-  data.customTypes.find({}).sort({ order: 1 }).exec(function (err, menus) {
+    data.customTypes.find({}).sort({[sort] : 1}).exec(function (err, menus) {
     res.send({ message: "success : menus found", menus });
   })
 
@@ -128,8 +129,9 @@ router.get("/customTypes/name/:customTypeName", (req, res) => {
 
 //Get all custom types
 router.get("/customTypes", (req, res) => {
+  var sort = req.query.sort
 
-  data.customTypes.find({}).sort({ order: 1 }).exec((err, customTypes) => {
+  data.customTypes.find({}).sort({[sort] : 1}).exec((err, customTypes) => {
     res.send({ message: "success : custom types found", customTypes });
   })
 
@@ -168,8 +170,17 @@ router.get('/:customTypeName/:postId', (req, res, next) => {
 router.get("/:customTypeName", (req, res) => {
   var customTypeName = req.params.customTypeName;
 
+  var sort = req.query.sort
+  var query = req.query.query || ""
+
+  query = "{ " + query + " }"
+  console.log(query)
+  var pasedQuery = JSON.parse(query)
+  console.log(JSON.parse(query))
+  console.log({query})
+
   if (data[customTypeName]) {
-    data[customTypeName].find({}).sort().exec((err, posts) => {
+    data[customTypeName].find(pasedQuery).sort({[sort] : 1}).exec((err, posts) => {
       res.send({ message: "success : posts found", posts });
       console.log("[DEBUG] posts (" + customTypeName + ") found " + posts.length)
     });

@@ -1,8 +1,1 @@
-{"authorId":"EDtuXYwpe4n3Jnd9","_id":"xfjRmlswKvvEjVGR","name":"sdf","state":"","configuration":""}
-{"authorId":"EDtuXYwpe4n3Jnd9","_id":"xfjRmlswKvvEjVGR","name":"recentPost.widget.opsi","state":"","configuration":"","updatedAt":{"$$date":1586177337281},"createdAt":{"$$date":1586177337281}}
-{"authorId":"EDtuXYwpe4n3Jnd9","_id":"xfjRmlswKvvEjVGR","name":"recentPost","state":"","configuration":"","updatedAt":{"$$date":1586177771779},"createdAt":"2020-04-06T12:48:57.281Z"}
-{"authorId":"EDtuXYwpe4n3Jnd9","_id":"xfjRmlswKvvEjVGR","name":"recentPosts","state":"","configuration":"","updatedAt":{"$$date":1586177913609},"createdAt":"2020-04-06T12:48:57.281Z"}
-{"authorId":"EDtuXYwpe4n3Jnd9","_id":"xfjRmlswKvvEjVGR","name":"recentPosts","state":"","configuration":"","updatedAt":{"$$date":1586178972062},"createdAt":"2020-04-06T12:48:57.281Z","title":"Mes posts récents","settings":""}
-{"authorId":"EDtuXYwpe4n3Jnd9","_id":"xfjRmlswKvvEjVGR","name":"recentPosts","state":"","configuration":"","updatedAt":{"$$date":1586179051667},"createdAt":"2020-04-06T12:48:57.281Z","title":"Mes posts récents","settings":"{\"showTitle\":true}"}
-{"authorId":"EDtuXYwpe4n3Jnd9","_id":"xfjRmlswKvvEjVGR","name":"recentPosts","state":"","configuration":"","updatedAt":{"$$date":1586179886618},"createdAt":"2020-04-06T12:48:57.281Z","title":"Mes posts récents","settings":"{\"showTitle\":true}","isActive":true}
 {"authorId":"EDtuXYwpe4n3Jnd9","_id":"xfjRmlswKvvEjVGR","name":"recentPosts","state":"","configuration":"","updatedAt":{"$$date":1586179892002},"createdAt":"2020-04-06T12:48:57.281Z","title":"Mes posts récents","settings":"{\"showTitle\":true}","isActive":false}
