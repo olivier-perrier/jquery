@@ -119,3 +119,29 @@ En developpement si une route n'est pas définit d'autorisation alors la route e
 
 
 # Correction
+
+# Template
+
+Le template courant est celui utilisé dans le dossier public du serveur.
+Il doit correspondre à un projet Vuejs (ou autre) faisant appel à l'API du serveur.
+Il y a donc 3 perties distinctes : Le serveur, le client admin et le client visible.
+Le projet du client visible est publique est doit etre amélioré par des utilisateurs.
+
+Protocole de création d'un nouveau template :
+	Pull request du projet Git du client visible
+	Modification et création des vues
+	Construction du fichier de build
+	Upload du fichier de build sur la platfome globale
+	
+Protocole utilisateur d'un template
+	Se connecter à son client admin et visualiser les templates
+	Selectionner un template
+	Possibilité de selectionner le template de base
+	
+Protocole systeme
+	Upload sur la platfome globale correspond :
+		Création d'une ligne en base de données pour le type template avec le nom
+		Placement des fichiers dans un repertoires du serveur
+	Selection d'un template
+		Chargement des fichiers depuis la platforme globale
+		Copie des fihciers dans le dossier statique du serveur

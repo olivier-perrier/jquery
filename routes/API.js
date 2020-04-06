@@ -265,15 +265,24 @@ router.post("/:customTypes/upload", (req, res) => {
   });
 });
 
+const fs = require('fs-extra')
 
 // DEBUG
 router.post("/test", (req, res) => {
-  if (req.session.test)
-    req.session.test++
-  else
-    req.session.test = 1;
-  console.log(req.session.test)
-  res.send()
+
+  data.settings.findOne({name : "currentTemplate"}, (err, post) => {
+    if(post){
+      var oldPath = "./templates/" + post.value
+      var newPath = "./public"
+
+      fs.copy(oldPath, newPath)
+        .then(() => console.log('success!'))
+        .catch(err => console.error(err))
+
+        res.send()
+    }
+  })
+
 });
 
 module.exports = router;
