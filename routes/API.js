@@ -5,6 +5,10 @@ var data = require("../models/data.js");
 
 var authorizations = require('../components/authorizations')
 
+var apiWebservice = require('./api/admin/webservices/webservices.js')
+
+router.use('/admin/webservices', apiWebservice);
+
 router.use((req, res, next) => {
   console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path);
   next();
@@ -173,11 +177,8 @@ router.get("/:customTypeName", (req, res) => {
   var sort = req.query.sort
   var query = req.query.query || ""
 
-  query = "{ " + query + " }"
-  console.log(query)
-  var pasedQuery = JSON.parse(query)
-  console.log(JSON.parse(query))
-  console.log({query})
+  // Met en forme la query en json pour la base de données
+  var pasedQuery = JSON.parse("{ " + query + " }")
 
   if (data[customTypeName]) {
     data[customTypeName].find(pasedQuery).sort({[sort] : 1}).exec((err, posts) => {
