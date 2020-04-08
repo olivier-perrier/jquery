@@ -1,13 +1,13 @@
 
 const axios = require('axios');
 
-var data = require("../models/data");
+var db = require("../components/data");
 
 
 function loadRequests() {
     console.log("[REQUESTS] Loading requests")
     
-    data.requests.find({}, (err, posts) => {
+    db.requests.find({}, (err, posts) => {
 
         posts.forEach(post => {
 

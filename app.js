@@ -43,12 +43,16 @@ app.use('/API', APIRouter);
 app.use('/', indexRouter);
 
 
-var data = require('./models/data')
+var data = require('./components/data')
 var requests = require('./components/requests')
+var installation = require('./components/installation')
 
 
 data.loadDatabases(
-  function () { requests.loadRequests() }
+  function () {
+    requests.loadRequests();
+    installation.createModels();
+  }
 )
 
 

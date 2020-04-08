@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var data = require('../models/data.js')
+var data = require('../components/data.js')
 
 var authorizations = require('../components/authorizations')
 
