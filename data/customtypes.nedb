@@ -1,3 +1,4 @@
+{"createdAt":"2020-04-08T14:37:08.663Z","_id":"2yDXvPaNrygTxib5","name":"requests","setting":"[{\"name\":\"name\"}, {\"name\":\"method\"}, {\"name\":\"url\"}, {\"name\":\"function\"}]","updatedAt":{"$$date":1586357213529}}
 {"createdAt":"2020-04-05T16:40:37.690Z","_id":"3BIq9rgbpgYcJ2kI","name":"templates","updatedAt":{"$$date":1586201941754},"setting":"[{\"name\":\"name\"}, {\"name\":\"files\"}]","order":"8"}
 {"createdAt":"2020-03-26T18:05:05.452Z","_id":"54uSrnzwG0CXhROz","name":"settings","updatedAt":{"$$date":1585675050235},"setting":"[{\"name\":\"name\"}, {\"name\":\"value\"}]","icon":"fas fa-sliders-h","order":"9"}
 {"createdAt":"2020-04-06T12:47:20.686Z","_id":"8Giz9VbSZRfMa7dO","name":"widgets","setting":"[\n{\"name\":\"name\"},\n{\"name\":\"title\"},\n{\"name\":\"settings\", \"type\":\"Textarea\", \"hideTab\":true},\n{\"name\":\"isActive\", \"type\":\"Checkbox\"}\n]","updatedAt":{"$$date":1586201935263},"order":"8"}

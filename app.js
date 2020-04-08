@@ -40,8 +40,11 @@ console.log("[DEBUG] NODE_ENV " + process.env.NODE_ENV)
 app.use('/admin', adminRouter);
 // app.use('/admin', adminRouter);
 app.use('/API', APIRouter);
-
 app.use('/', indexRouter);
+
+
+var requests = require('./components/requests')
+// requests.loadRequests()
 
 app.listen(process.env.PORT || '3000', function () {
   console.log('Application listening on port 3000')
