@@ -6,30 +6,37 @@ var Datastore = require('nedb')
 var installation = require('../components/installation')
 
 db = {
-	isLoaded : false
+    isLoaded: false,
+    loadDatabases: loadDatabases
 }
 
-// Charge la base de données principale
-db.customTypes = new Datastore({ filename: 'data/customtypes.nedb', autoload: true })
+function loadDatabases(callback) {
 
-// installation.createModels()
+    // Charge la base de données principale
+    db.customTypes = new Datastore({ filename: 'data/customtypes.nedb', autoload: true })
 
-// Charge les bases de données des types paramétres
-db.customTypes.find({}, { name: 1 }, (err, databases) => {
-    for (var database of databases) {
-        db[database.name] = new Datastore({ filename: 'data/' + database.name + '.nedb' })
-        db[database.name].loadDatabase()
-		console.log("Database loaded " + database.name)
-    }
+    // installation.createModels()
 
-	isLoaded = true
-    console.log("Database loaded")
+    // Charge les bases de données des types paramétres
+    db.customTypes.find({}, { name: 1 }, (err, databases) => {
+        for (var database of databases) {
+            db[database.name] = new Datastore({ filename: 'data/' + database.name + '.nedb' })
+            db[database.name].loadDatabase()
+            // console.log("Database loaded " + database.name)
+        }
+
+        isLoaded = true
+        console.log("Database loaded")
 
 
-    // Crée des exemples de données
-    // installation.createDatas()
+        // Crée des exemples de données
+        // installation.createDatas()
 
-})
+
+        if(callback)
+        callback()
+    })
+}
 
 
 // db.model = function (name) {

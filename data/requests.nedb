@@ -1,1 +1,1 @@
-{"createdAt":"2020-04-08T14:47:12.068Z","_id":"40A8SxKRtRYvUDcu","name":"nasa","url":"https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY","method":"get","updatedAt":{"$$date":1586357247822}}
+{"createdAt":"2020-04-08T14:47:12.068Z","_id":"40A8SxKRtRYvUDcu","name":"nasa","url":"https://jsonplaceholder.typicode.com/comments?postId=1","method":"get","updatedAt":{"$$date":1586361119896},"triggerTime":"5000","function":"console.log(response.data)"}

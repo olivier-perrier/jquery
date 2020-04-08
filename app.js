@@ -34,7 +34,7 @@ app.use(cors({
 
 console.log("[DEBUG] NODE_ENV " + process.env.NODE_ENV)
 
-    
+
 //installation.createModels()
 
 app.use('/admin', adminRouter);
@@ -43,8 +43,14 @@ app.use('/API', APIRouter);
 app.use('/', indexRouter);
 
 
+var data = require('./models/data')
 var requests = require('./components/requests')
-// requests.loadRequests()
+
+
+data.loadDatabases(
+  function () { requests.loadRequests() }
+)
+
 
 app.listen(process.env.PORT || '3000', function () {
   console.log('Application listening on port 3000')
