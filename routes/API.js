@@ -75,7 +75,7 @@ router.get("/currentUser", (req, res) => {
 router.get("/adminMenus", (req, res) => {
   var sort = req.query.sort
 
-    data.customTypes.find({}).sort({[sort] : 1}).exec(function (err, menus) {
+  data.customTypes.find({}).sort({ [sort]: 1 }).exec(function (err, menus) {
     res.send({ message: "success : menus found", menus });
   })
 
@@ -135,7 +135,7 @@ router.get("/customTypes/name/:customTypeName", (req, res) => {
 router.get("/customTypes", (req, res) => {
   var sort = req.query.sort
 
-  data.customTypes.find({}).sort({[sort] : 1}).exec((err, customTypes) => {
+  data.customTypes.find({}).sort({ [sort]: 1 }).exec((err, customTypes) => {
     res.send({ message: "success : custom types found", customTypes });
   })
 
@@ -181,7 +181,7 @@ router.get("/:customTypeName", (req, res) => {
   var pasedQuery = JSON.parse("{ " + query + " }")
 
   if (data[customTypeName]) {
-    data[customTypeName].find(pasedQuery).sort({[sort] : 1}).exec((err, posts) => {
+    data[customTypeName].find(pasedQuery).sort({ [sort]: 1 }).exec((err, posts) => {
       res.send({ message: "success : posts found", posts });
       console.log("[DEBUG] posts (" + customTypeName + ") found " + posts.length)
     });
@@ -219,14 +219,62 @@ router.post("/:postTypeName/save", (req, res) => {
   newPost.updatedAt = new Date()
   newPost.createdAt = newPost.createdAt || new Date()
 
-  data[postTypeName].update({ _id: postId }, { $set: newPost },
-    (err, num) => {
-      if (num)
-        res.send({ message: "success : post saved" });
-      else
-        res.send({ message: "database error : impossible to save post" });
-      console.log("[DEBUG] post (" + postTypeName + ") saved " + num)
-    });
+  console.log("newPost before cast")
+  console.log(newPost)
+  // Cast les attributs
+  data.customTypes.findOne({ name: postTypeName }, (err, postType) => {
+    if (postType) {
+      // console.log("postType " + postType.name)
+
+      var postTypeSettings = JSON.parse(postType.setting)
+      for (var fieldPostType of postTypeSettings) {
+        // console.log("fieldPostType " + fieldPostType)
+
+        if (fieldPostType.type) {
+
+          // console.log("[CAST] nom du champ (" + fieldPostType.name + ") type du champ " + fieldPostType.type)
+
+          if (fieldPostType.type == "String"){
+            console.log("cast du champ " + fieldPostType.name + " en type String")
+            newPost[fieldPostType.name] = String(newPost[fieldPostType.name])
+          } else if (fieldPostType.type == "Number") {
+            console.log("cast du champ " + fieldPostType.name + " en type Number")
+            newPost[fieldPostType.name] = Number(newPost[fieldPostType.name])
+          } else if (fieldPostType.type == "Json") {
+            console.log("cast du champ " + fieldPostType.name + " en type JSON")
+            try {
+              newPost[fieldPostType.name] = JSON.parse(newPost[fieldPostType.name])
+            } catch (error) {
+              console.log("[ERROR] impossible to parse json for " + fieldPostType.name)
+              console.log(newPost[fieldPostType.name])
+            }
+          } else if (fieldPostType.type == "Date") {
+            console.log("cast du champ " + fieldPostType.name + " en type Date")
+            newPost[fieldPostType.name] = new Date(newPost[fieldPostType.name])
+          } 
+        }
+      }
+    } else {
+      console.log("[WARNING] no post type found for name " + postTypeName)
+    }
+
+    console.log("newPost")
+    console.log(newPost)
+
+
+
+    // Update the post
+    data[postTypeName].update({ _id: postId }, { $set: newPost },
+      (err, num) => {
+        if (num)
+          res.send({ message: "success : post saved" });
+        else
+          res.send({ message: "database error : impossible to save post" });
+        console.log("[DEBUG] post (" + postTypeName + ") saved " + num)
+      });
+
+
+  })
 
 });
 
@@ -282,8 +330,8 @@ const fs = require('fs-extra')
 // DEBUG
 router.post("/test", (req, res) => {
 
-  data.settings.findOne({name : "currentTemplate"}, (err, post) => {
-    if(post){
+  data.settings.findOne({ name: "currentTemplate" }, (err, post) => {
+    if (post) {
       var oldPath = "./templates/" + post.value
       var newPath = "./public"
 
@@ -291,7 +339,7 @@ router.post("/test", (req, res) => {
         .then(() => console.log('success!'))
         .catch(err => console.error(err))
 
-        res.send()
+      res.send()
     }
   })
 

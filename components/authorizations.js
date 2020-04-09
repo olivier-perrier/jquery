@@ -1,5 +1,5 @@
 
-var data = require('../components/data')
+var db = require('../components/data')
 
 /***
  * Autorisation des API et autorisation des vues (l'autorisation des vues est surement à faire dans le coté client avec vuejs)
