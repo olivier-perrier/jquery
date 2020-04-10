@@ -1,11 +1,1 @@
-{"createdAt":"2020-04-08T14:47:12.068Z","_id":"40A8SxKRtRYvUDcu","name":"nasa","url":"https://jsonplaceholder.typicode.com/comments?postId=1","method":"get","updatedAt":{"$$date":1586436487668},"triggerTime":"50000","function":"// console.log(response.data)","startingDate":"2003-12-20T12:20"}
-{"createdAt":"2020-04-09T12:34:08.685Z","_id":"M2i2Z9xwKO7jnHSK","updatedAt":{"$$date":1586436455839},"startingDate":"1970-01-01T00:00:00.000Z"}
-{"createdAt":"2020-04-09T12:34:08.685Z","_id":"M2i2Z9xwKO7jnHSK","updatedAt":{"$$date":1586436693733},"startingDate":{"$$date":0}}
-{"createdAt":"2020-04-08T14:47:12.068Z","_id":"40A8SxKRtRYvUDcu","name":"nasa","url":"https://jsonplaceholder.typicode.com/comments?postId=1","method":"get","updatedAt":{"$$date":1586437076650},"triggerTime":"50000","function":"// console.log(response.data)","startingDate":{"$$date":1072869600000}}
-{"createdAt":"2020-04-08T14:47:12.068Z","_id":"40A8SxKRtRYvUDcu","name":"nasa","url":"https://jsonplaceholder.typicode.com/comments?postId=1","method":"get","updatedAt":{"$$date":1586437156766},"triggerTime":"50000","function":"// console.log(response.data)","startingDate":{"$$date":1586437076650}}
-{"createdAt":"2020-04-08T14:47:12.068Z","_id":"40A8SxKRtRYvUDcu","name":"nasa","url":"https://jsonplaceholder.typicode.com/comments?postId=1","method":"get","updatedAt":{"$$date":1586437173816},"triggerTime":"50000","function":"// console.log(response.data)","startingDate":{"$$date":1586602676650}}
-{"createdAt":{"$$date":1586437207568},"_id":"sQIMYfGv0bn4qXRY"}
-{"createdAt":"2020-04-09T13:00:07.568Z","_id":"sQIMYfGv0bn4qXRY","updatedAt":{"$$date":1586437213930},"startingDate":null}
-{"createdAt":"2020-04-09T12:34:08.685Z","_id":"M2i2Z9xwKO7jnHSK","updatedAt":{"$$date":1586437250132},"startingDate":{"$$date":1041375600000}}
-{"createdAt":"2020-04-09T12:34:08.685Z","_id":"M2i2Z9xwKO7jnHSK","updatedAt":{"$$date":1586437263917},"startingDate":{"$$date":1041375600000},"name":"test"}
-{"createdAt":"2020-04-09T12:34:08.685Z","_id":"M2i2Z9xwKO7jnHSK","updatedAt":{"$$date":1586437272505},"startingDate":{"$$date":1609452000000},"name":"test"}
+{"createdAt":"2020-04-08T14:47:12.068Z","_id":"40A8SxKRtRYvUDcu","name":"nasa","url":"https://jsonplaceholder.typicode.com/comments?postId=1","method":"get","updatedAt":{"$$date":1586443327087},"triggerTime":"50000","function":"// console.log(response.data)","startingDate":{"$$date":1586602676650}}

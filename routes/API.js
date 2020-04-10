@@ -1,13 +1,24 @@
 var express = require("express");
 var router = express.Router();
 
+var authRouter = require('./auth.js')
+var postRouter = require('./post.js')
+
+
 var data = require("../components/data.js");
+var apiWebservice = require('./api/admin/webservices/webservices.js')
 
 var authorizations = require('../components/authorizations')
 
-var apiWebservice = require('./api/admin/webservices/webservices.js')
+router.use('/auth', authRouter);
+router.use('/post', postRouter);
 
 router.use('/admin/webservices', apiWebservice);
+
+// Controllers
+var postController = require('../controllers/postController')
+
+
 
 router.use((req, res, next) => {
   console.log("[DEBUG] " + req.method + " " + req.baseUrl + req.path);
@@ -17,48 +28,8 @@ router.use((req, res, next) => {
 //TODO autorisations
 router.all("*", authorizations.requireAuthentication)
 
-// TODO : faut il séparer les API dans différents fichiers avec un prefix admin/posts etc ?
 
-/*** Login and current user ***/
-router.post("/login", (req, res) => {
-  var loginUser = req.body.user || {};
-
-  data.users.findOne(
-    { email: loginUser.email, password: loginUser.password },
-    (err, user) => {
-      if (user) {
-        req.session.userId = user._id;
-        req.session.userRole = user.role;
-        req.session.userName = user.firstName;
-        res.send({ message: "success : loggin ", user: user });
-        console.log("[DEBUG] login user " + user._id)
-      } else {
-        res.send({ message: "not found : unknow username or password" });
-        console.log("[DEBUG] login user not found " + loginUser.email + " " + loginUser.password)
-      }
-    }
-  );
-});
-
-router.post("/logout", (req, res) => {
-  req.session.userId = null;
-  res.send({ message: "success : user logout" });
-});
-
-router.post("/signup", (req, res) => {
-  var user = req.body.user;
-
-  data.users.findOne({ name: user.userName }, (err, user) => {
-    if (user) {
-      res.send({ message: "forbidden : user not available" });
-    } else {
-      data.users.insert(user, (err, user) => {
-        res.send({ message: "success : user created", user: user });
-      });
-    }
-  });
-});
-
+/*** Current user ***/
 router.get("/currentUser", (req, res) => {
   var userId = req.session.userId;
   data.users.findOne({ _id: userId }, (err, currentUser) => {
@@ -70,7 +41,7 @@ router.get("/currentUser", (req, res) => {
 });
 
 
-/*** Get list of menus ***/
+/*** Admin menu ***/
 
 router.get("/adminMenus", (req, res) => {
   var sort = req.query.sort
@@ -82,217 +53,26 @@ router.get("/adminMenus", (req, res) => {
 });
 
 
-
-/*** Custom types ***/
-
-//Get a custom type
-router.get("/customTypes/:customTypeId", (req, res) => {
-  var customTypeId = req.params.customTypeId;
-
-  data.customTypes.findOne({ _id: customTypeId }, (err, post) => {
-    if (post) {
-      res.send({ message: "success : custom type found", post });
-    } else {
-      res.send({ message: "not found : custom type not existing for id " + customTypeId });
-    }
-  });
-
-});
-
-//Get a custom type by name // TODO call the same function with ID 
-router.get("/customTypes/name/:customTypeName", (req, res) => {
-  var customTypeName = req.params.customTypeName;
-
-  data.customTypes.findOne({ name: customTypeName }, (err, post) => {
-    if (post) {
-
-      //Parse the settings
-      try {
-        post.setting = JSON.parse(post.setting);
-      } catch (error) {
-        console.log("[WARNING] impossible to parse JSON " + post.setting)
-      }
-
-      //Disable the updated and created fields
-      try {
-        if (post.setting) {
-          (post.setting.find(e => e.name == "createdAt") || {}).disabled = true;
-          (post.setting.find(e => e.name == "updatedAt") || {}).disabled = true;
-        }
-      } catch (error) {
-        console.log("[WARNING] impossible to set created at updated date to disabled")
-      }
-
-      res.send({ message: "success : custom type found", post });
-    } else {
-      res.send({ message: "not found : custom type not existing for name " + customTypeName });
-    }
-  });
-
-});
-
-//Get all custom types
-router.get("/customTypes", (req, res) => {
-  var sort = req.query.sort
-
-  data.customTypes.find({}).sort({ [sort]: 1 }).exec((err, customTypes) => {
-    res.send({ message: "success : custom types found", customTypes });
-  })
-
-});
-
-//Delete a custom Type
-router.post("/customTypes/delete", (req, res) => {
-
-  var postId = req.body.postId;
-
-  data.customTypes.remove({ _id: postId }, (err, num) => {
-    if (num) {
-      res.send({ message: "success : custom type deleted" });
-    } else {
-      res.send({ message: "not found : impossible to delete custom type" });
-    }
-    console.log("[DEBUG] custom type post (customTypes) deleted " + postId + " " + num)
-  });
-});
-
-
 /*** Posts ***/
 
-//Get a post
-router.get('/:customTypeName/:postId', (req, res, next) => {
-  var customTypeName = req.params.customTypeName
-  var postId = req.params.postId
-
-  data[customTypeName].findOne({ _id: postId }, (err, post) => {
-    res.send({ message: "success : post found", post })
-  })
-
-})
+//Get a custom type by name // TODO call the same function with ID 
+router.get("/:postTypeName/name/:customTypeName", postController.getByName)
 
 //Get all posts
-router.get("/:customTypeName", (req, res) => {
-  var customTypeName = req.params.customTypeName;
-
-  var sort = req.query.sort
-  var query = req.query.query || ""
-
-  // Met en forme la query en json pour la base de données
-  var pasedQuery = JSON.parse("{ " + query + " }")
-
-  if (data[customTypeName]) {
-    data[customTypeName].find(pasedQuery).sort({ [sort]: 1 }).exec((err, posts) => {
-      res.send({ message: "success : posts found", posts });
-      console.log("[DEBUG] posts (" + customTypeName + ") found " + posts.length)
-    });
-  } else {
-    res.send({ message: "not found : postType not existing " + customTypeName });
-  }
-});
+router.get("/:postTypeName", postController.get);
 
 //Create a post
-router.post("/:postTypeName/create", (req, res) => {
-  var postTypeName = req.params.postTypeName;
-  var newPost = req.body.customType;
+router.post("/:postTypeName/create", postController.create);
 
-  newPost = newPost || {}
+//Get a post by Id
+router.get('/:postTypeName/:postId', postController.getById)
 
-  newPost.createdAt = new Date();
-
-  data[postTypeName].insert(newPost, (err, post) => {
-    if (post) {
-      res.send({ message: "success : post created", post });
-    } else {
-      res.send({ message: "database error : impossible to create post" });
-    }
-    console.log("[DEBUG] post (" + postTypeName + ") created " + post._id)
-  });
-});
-
-//Save a post
-router.post("/:postTypeName/save", (req, res) => {
-  var postTypeName = req.params.postTypeName;
-  var newPost = req.body.post
-  var postId = req.body.postId
-
-  newPost = newPost || {}
-  newPost.updatedAt = new Date()
-  newPost.createdAt = newPost.createdAt || new Date()
-
-  console.log("newPost before cast")
-  console.log(newPost)
-  // Cast les attributs
-  data.customTypes.findOne({ name: postTypeName }, (err, postType) => {
-    if (postType) {
-      // console.log("postType " + postType.name)
-
-      var postTypeSettings = JSON.parse(postType.setting)
-      for (var fieldPostType of postTypeSettings) {
-        // console.log("fieldPostType " + fieldPostType)
-
-        if (fieldPostType.type) {
-
-          // console.log("[CAST] nom du champ (" + fieldPostType.name + ") type du champ " + fieldPostType.type)
-
-          if (fieldPostType.type == "String"){
-            console.log("cast du champ " + fieldPostType.name + " en type String")
-            newPost[fieldPostType.name] = String(newPost[fieldPostType.name])
-          } else if (fieldPostType.type == "Number") {
-            console.log("cast du champ " + fieldPostType.name + " en type Number")
-            newPost[fieldPostType.name] = Number(newPost[fieldPostType.name])
-          } else if (fieldPostType.type == "Json") {
-            console.log("cast du champ " + fieldPostType.name + " en type JSON")
-            try {
-              newPost[fieldPostType.name] = JSON.parse(newPost[fieldPostType.name])
-            } catch (error) {
-              console.log("[ERROR] impossible to parse json for " + fieldPostType.name)
-              console.log(newPost[fieldPostType.name])
-            }
-          } else if (fieldPostType.type == "Date") {
-            console.log("cast du champ " + fieldPostType.name + " en type Date")
-            newPost[fieldPostType.name] = new Date(newPost[fieldPostType.name])
-          } 
-        }
-      }
-    } else {
-      console.log("[WARNING] no post type found for name " + postTypeName)
-    }
-
-    console.log("newPost")
-    console.log(newPost)
-
-
-
-    // Update the post
-    data[postTypeName].update({ _id: postId }, { $set: newPost },
-      (err, num) => {
-        if (num)
-          res.send({ message: "success : post saved" });
-        else
-          res.send({ message: "database error : impossible to save post" });
-        console.log("[DEBUG] post (" + postTypeName + ") saved " + num)
-      });
-
-
-  })
-
-});
+// Update a post
+router.put("/:postTypeName/:postId", postController.update)
 
 // Delete a post
-router.post("/:postTypeName/delete", (req, res) => {
-  var postTypeName = req.params.postTypeName;
+router.delete("/:postTypeName/:postId", postController.remove);
 
-  var postId = req.body.postId;
-
-  data[postTypeName].remove({ _id: postId }, (err, num) => {
-    if (num) {
-      res.send({ message: "success : post deleted" + num });
-    } else {
-      res.send({ message: "internal error : impossible to delete post" });
-    }
-    console.log("[DEBUG] post (" + postTypeName + ") deleted " + num)
-  });
-});
 
 // TODO for image field
 router.post("/:customTypes/upload", (req, res) => {
@@ -325,9 +105,14 @@ router.post("/:customTypes/upload", (req, res) => {
   });
 });
 
+
+
+
+
+/*** DEBUG ***/
+
 const fs = require('fs-extra')
 
-// DEBUG
 router.post("/test", (req, res) => {
 
   data.settings.findOne({ name: "currentTemplate" }, (err, post) => {
@@ -344,5 +129,9 @@ router.post("/test", (req, res) => {
   })
 
 });
+
+router.get('/search', (req, res) => {
+  res.send({ message: "TODO" })
+})
 
 module.exports = router;

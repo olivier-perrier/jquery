@@ -4,8 +4,7 @@ var cors = require('cors')
 
 var fileUpload = require('express-fileupload');
 
-var indexRouter = require('./routes/index.js');
-var adminRouter = require('./routes/admin.js')
+// var adminRouter = require('./routes/admin.js');
 var APIRouter = require('./routes/API.js')
 
 var app = express()
@@ -37,10 +36,8 @@ console.log("[DEBUG] NODE_ENV " + process.env.NODE_ENV)
 
 //installation.createModels()
 
-app.use('/admin', adminRouter);
-// app.use('/admin', adminRouter);
 app.use('/API', APIRouter);
-app.use('/', indexRouter);
+// app.use('/admin', adminRouter);
 
 
 var data = require('./components/data')

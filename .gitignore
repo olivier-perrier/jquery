@@ -66,5 +66,7 @@ data/posts.nedb
 data/settings.nedb
 data/users.nedb
 data/comments.nedb
+data/customtypes.nedb
+data/*
 
 tmp/
