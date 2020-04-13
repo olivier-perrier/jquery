@@ -21,6 +21,9 @@ function get(req, res) {
 
     if (data[postTypeName]) {
         data[postTypeName].find(pasedQuery).sort({ [sort]: 1 }).exec((err, posts) => {
+            if(posts){
+                // Caster les types pour l'envoie au client
+            }
             res.send({ message: "success : posts found", posts });
             console.log("[DEBUG] posts (" + postTypeName + ") found " + posts.length)
         });

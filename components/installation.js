@@ -2,6 +2,15 @@ console.log("[INFO] Installation")
 
 var db = require('../components/data.js')
 
+var customTypesModel = {
+  name: "customTypes",
+  setting: `[{"name":"name"}, 
+            {"name":"setting", "type":"Textarea", "hideTab":true},
+            {"name":"icon", "hideTab":true},
+            {"name":"order", "type":"Number"}]`,
+  icon: "fab fa-suse",
+  order: 999
+}
 
 var usersModel = {
   name: "users",
@@ -46,11 +55,11 @@ var menusModel = {
   order: 4
 }
 
-var models = [menusModel, postsModel, usersModel, settingsModel]
+var models = [customTypesModel, menusModel, postsModel, usersModel, settingsModel]
 
 function createModels() {
 
-  for (var model of models) {
+  models.forEach(model => {
 
     db.customTypes.findOne({ name: model.name }, (err, post) => {
       if (post) {
@@ -61,7 +70,7 @@ function createModels() {
         })
       }
     })
-  }
+  });
 
 }
 
