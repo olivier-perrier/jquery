@@ -4,10 +4,11 @@ var router = express.Router();
 var data = require("../components/data.js");
 
 // Router and api
+var publicRouter = require('./public.js')
 var authRouter = require('./auth.js')
 var postRouter = require('./post.js')
 
-var apiWebservice = require('./api/admin/webservices/webservices.js')
+var apiWebservice = require('./admin/webservices.js')
 
 // Authorisations
 var authorizations = require('../components/authorizations')
@@ -18,6 +19,7 @@ router.use((req, res, next) => {
   next();
 });
 
+router.use('/public', authRouter);
 router.use('/auth', authRouter);
 router.use('/post', postRouter);
 

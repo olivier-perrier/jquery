@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-var data = require("../../../../components/data");
+var data = require("../../components/data");
 
 // Création d'une api qui recois les connexions web services de l'exterieur
 router.get("/:webServiceAdress", (req, res, next) => {
