@@ -1,16 +1,27 @@
 var express = require('express');
 var router = express.Router();
 
-var authController = require('../controllers/authController')
+// var authController = require('../controllers/authController')
 
-// var authorizations = require('../components/authorizations')
-// router.all("*", authorizations.requireAuthentication)
+var data = require("../components/data.js");
 
-router.post("/login", authController.login)
 
-router.post("/logout", authController.logout)
+router.get("/menus", (req, res) => {
+    if (data.menus) {
+        data.menus.find({}).sort({ order: 1 }).exec((err, posts) => {
 
-router.post("/register", authController.register)
-
+            if (posts) {
+                posts.forEach(post => {
+                    if (post.postType)
+                        post.link = '/' + post.postType.name + '/' + post.link
+                });
+            }
+            res.send({ message: "success : posts found", posts });
+            console.log("[DEBUG] public menus sent" + posts.length)
+        });
+    } else {
+        res.send({ message: "not found : no database found for menus" });
+    }
+})
 
 module.exports = router;

@@ -19,7 +19,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.use('/public', authRouter);
+router.use('/public', publicRouter);
 router.use('/auth', authRouter);
 router.use('/post', postRouter);
 
