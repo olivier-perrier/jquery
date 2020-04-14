@@ -14,6 +14,8 @@ router.get("/menus", (req, res) => {
                 posts.forEach(post => {
                     if (post.postType)
                         post.link = '/' + post.postType.name + '/' + post.link
+                    else
+                        post.link = '/'
                 });
             }
             res.send({ message: "success : posts found", posts });
