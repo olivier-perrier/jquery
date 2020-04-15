@@ -8,6 +8,7 @@ var publicRouter = require('./public.js')
 var authRouter = require('./auth.js')
 var postRouter = require('./post.js')
 
+var apiMedia = require('./admin/medias.js')
 var apiWebservice = require('./admin/webservices.js')
 
 // Authorisations
@@ -23,6 +24,7 @@ router.use('/public', publicRouter);
 router.use('/auth', authRouter);
 router.use('/post', postRouter);
 
+router.use('/admin/medias', apiMedia);
 router.use('/admin/webservices', apiWebservice);
 
 
@@ -58,35 +60,36 @@ router.get("/adminMenus", (req, res) => {
 
 
 // TODO for image field
-router.post("/:customTypes/upload", (req, res) => {
-  var customType = req.params.customType;
+// router.post("/medias/upload", (req, res) => {
+//   var customType = req.params.customType;
+//   var customType = "users";
 
-  console.log(req.files);
+//   console.log(req.files);
 
-  let sampleFile = req.files.sampleFile;
+//   let sampleFile = req.files.file;
 
-  var imageName = sampleFile.name;
+//   var fileName = sampleFile.name;
 
-  sampleFile.mv("./public/medias/" + sampleFile.name, function (err) {
-    if (err) {
-      console.log("[ERROR] moving uploaded file " + err);
-      res.send({
-        message: "internal error : error moving the file " + sampleFile.name
-      });
-    } else {
-      console.log("media moved");
-      data[customType].update({}, { image: imageName }, (err, num) => {
-        console.log("media updated " + num);
+//   sampleFile.mv("./public/medias/" + sampleFile.name, function (err) {
+//     if (err) {
+//       console.log("[ERROR] moving uploaded file " + err);
+//       res.send({
+//         message: "internal error : error moving the file " + sampleFile.name
+//       });
+//     } else {
+//       console.log("media moved");
+//       data[customType].update({}, { image: fileName }, (err, num) => {
+//         console.log("media updated " + num);
 
-        if (num) res.send({ message: "success : media created " + sampleFile });
-        else
-          res.send({
-            message: "internal error : impossible to save create " + sampleFile
-          });
-      });
-    }
-  });
-});
+//         if (num) res.send({ message: "success : media created " + sampleFile });
+//         else
+//           res.send({
+//             message: "internal error : impossible to save create " + sampleFile
+//           });
+//       });
+//     }
+//   });
+// });
 
 
 

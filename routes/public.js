@@ -1,29 +1,23 @@
 var express = require('express');
 var router = express.Router();
 
-// var authController = require('../controllers/authController')
+var publicController = require('../controllers/publicController')
+var postController = require('../controllers/postController')
 
-var data = require("../components/data.js");
+// Public menu of the site
+router.get("/menus", publicController.getMenus)
 
 
-router.get("/menus", (req, res) => {
-    if (data.menus) {
-        data.menus.find({}).sort({ order: 1 }).exec((err, posts) => {
+/*** Posts ***/
 
-            if (posts) {
-                posts.forEach(post => {
-                    if (post.postType)
-                        post.link = '/' + post.postType.name + '/' + post.link
-                    else
-                        post.link = '/'
-                });
-            }
-            res.send({ message: "success : posts found", posts });
-            console.log("[DEBUG] public menus sent" + posts.length)
-        });
-    } else {
-        res.send({ message: "not found : no database found for menus" });
-    }
-})
+//Get a custom type by name // TODO call the same function with ID 
+router.get("/post/:postTypeName/name/:customTypeName", postController.getByName)
+
+//Get all posts
+router.get("/post/:postTypeName", postController.get);
+
+//Get a post by Id
+router.get('/post/:postTypeName/:postId', postController.getById)
+
 
 module.exports = router;

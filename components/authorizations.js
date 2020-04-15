@@ -6,6 +6,12 @@ var db = require('../components/data')
  * 
  * Autorisation des API
  * 
+ * Public / privé
+ * 
+ * Public : un chemin est public ce que signit qu'il est accéssible sans aucun control
+ * 
+ * Privé : un chemin est privé ce qui signit qu'il fait appel au composant des autorisations
+ * 
  * ADMIN : le profil admin donne droit d'accès à toutes les API (admin et client)
  * REPORTER : le profile reporter donne droit d'accès à toutes les API client et doit d'accès aux API admin sauf des types paramétres
  * USER : le profil user donne droit d'accès à toutes les API client

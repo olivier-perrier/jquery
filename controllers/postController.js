@@ -142,6 +142,9 @@ function update(req, res) {
                     } else if (fieldPostType.type == "Date") {
                         console.log("cast du champ " + fieldPostType.name + " en type Date")
                         newPost[fieldPostType.name] = new Date(newPost[fieldPostType.name])
+                    }else {
+                        console.log("Pas de type définit : cast du champ " + fieldPostType.name + " en type String")
+                        newPost[fieldPostType.name] = String(newPost[fieldPostType.name])
                     }
                 }
             }
