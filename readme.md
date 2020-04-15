@@ -145,3 +145,9 @@ Protocole systeme
 	Selection d'un template
 		Chargement des fichiers depuis la platforme globale
 		Copie des fihciers dans le dossier statique du serveur
+
+
+# Type de champs
+
+- Image : pour le chargement d'image sur le serveur. Valeur sauvée : nom de l'image. Effet de bord : l'image est sauvegadé sur le serveur dans le dossier public media avec un sous dossier du nom du modele.
+

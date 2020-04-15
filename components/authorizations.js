@@ -11,6 +11,7 @@ var db = require('../components/data')
  * Public : un chemin est public ce que signit qu'il est accéssible sans aucun control
  * 
  * Privé : un chemin est privé ce qui signit qu'il fait appel au composant des autorisations
+ * L'utilisateur est admit s'il est administrateur
  * 
  * ADMIN : le profil admin donne droit d'accès à toutes les API (admin et client)
  * REPORTER : le profile reporter donne droit d'accès à toutes les API client et doit d'accès aux API admin sauf des types paramétres
@@ -28,60 +29,53 @@ var db = require('../components/data')
 
 exports.requireAuthentication = (req, res, next) => {
 
-  console.log("[AUTORISATION] " + req.method + " " + req.baseUrl + " " + req.path)
+  console.log("[AUTORISATION] " + req.method + " " + req.baseUrl + req.path)
 
   var userRole = req.session.userRole
 
-  if (req.session.userRole == "admin") {
-    console.log("[AUTORISATION] admin allowed")
+  if (req.session.userRole == "admin" || process.env.NODE_ENV == "dev") {
     next()
   } else {
+    console.log("[AUTHORISATION] user with role (" + userRole + ") not allowed")
+    res.status(403).send({ message: "[AUTHORISATION] : forbiden you do not have the autorisation or login" })
 
 
-    var routeAccess = defineRouteAccess.find(routeAccess => {
-      return routeAccess.method == req.method && routeAccess.route == req.baseUrl + req.path
-    })
+    // TODO pour un systeme d'autorisations plus poussé.
+    // console.log("req.baseUrl " + req.baseUrl)
 
-    if (routeAccess) {
+    // routeAcces = routesAcces[req.method + " " + req.baseUrl]
 
-      if (routeAccess.autorisation.includes(userRole)) {
-        console.log("[AUTORISATION] user with role " + userRole + " allowed for route " + req.baseUrl + req.path)
-        next()
-      } else {
-        console.log("[AUTORISATION] WARNING attenting access not autorised address: " + req.baseUrl + req.path + " role: " + userRole)
-        next()
-        // res.status(403).send({ message: "forbidden : you do not have the autorisation" })
-      }
+    // console.log("routeAcces " + routeAcces)
 
-    } else {
-      console.log("[AUTORISATION] WARNING no route acces difined for " + req.method + " " + req.baseUrl + req.path)
-      next()
-    }
+    // if (routeAcces.includes(req.session.userRole))
+    //   next()
+    // else
+    //   res.status(403).send({ message: "[AUTHORISATION] : forbiden you do not have the autorisation or login" })
+
   }
-
 }
 
 
-var defineRouteAccess = [
+
+var routesAcces = {
 
   // GET
-  { method: "GET", route: "/API/admin/:", autorisation: ["admin", "reporter"] },
-  { method: "GET", route: "/API/admin/customTypes", autorisation: ["admin"] },
-
-  // API
-  { method: "POST", route: "/API/admin/:", autorisation: ["admin", "reporter"] },
-  { method: "POST", route: "/API/admin/customTypes:", autorisation: ["admin"] },
-
-  { method: "POST", route: "/API/admin/menus/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/admin/users/:", autorisation: ["admin"] },
-  { method: "POST", route: "/API/admin/medias/:", autorisation: ["admin"] },
+  "GET /API/post": ["admin", "reporter"],
 
 
-  { method: "POST", route: "/API/admin/settings", autorisation: ["admin"] },
-  { method: "POST", route: "/API/admin/settings/:", autorisation: ["admin"] },
+  "GET /API/admin/:": ["admin", "reporter"],
+  "GET /API/admin/customTypes": ["admin"],
 
-  //Test
-  { method: "POST", route: "/API/settings", autorisation: ["admin"] },
+  // POST
+  "POST API/admin/:": ["admin", "reporter"],
+  "POST API/admin/customTypes:": ["admin"],
+
+  "POST API/admin/menus/:": ["admin"],
+  "POST API/admin/users/:": ["admin"],
+  "POST API/admin/medias/:": ["admin"],
 
 
-]
+  "POST API/admin/settings": ["admin"],
+  "POST API/admin/settings/:": ["admin"],
+
+}

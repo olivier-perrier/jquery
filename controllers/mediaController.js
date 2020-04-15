@@ -6,32 +6,19 @@ var mediaController = {
 
 // Upload a file
 function upload(req, res) {
-    var customType = req.params.customType;
-    var customType = "users";
-
-    console.log(req.files);
+    var postType = req.body.postType;
 
     let sampleFile = req.files.file;
 
-    var fileName = sampleFile.name;
-
-    sampleFile.mv("./public/medias/" + customType + sampleFile.name, function (err) {
+    sampleFile.mv("./public/medias/" + postType + "/" + sampleFile.name, function (err) {
         if (err) {
             console.log("[ERROR] moving uploaded file " + err);
             res.send({
-                message: "internal error : error moving the file " + sampleFile.name
+                message: "[ERROR] impossible to move file " + sampleFile.name
             });
         } else {
-            console.log("media moved");
-            data[customType].update({}, { image: fileName }, (err, num) => {
-                console.log("media updated " + num);
-
-                if (num) res.send({ message: "success : media created " + sampleFile });
-                else
-                    res.send({
-                        message: "internal error : impossible to save create " + sampleFile
-                    });
-            });
+            console.log("[DEBUG] media moved succefully " + sampleFile.name);
+            res.send({ message: "success : media uploaded " + sampleFile.name });
         }
     });
 }

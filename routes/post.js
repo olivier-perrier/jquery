@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 var postController = require('../controllers/postController')
+var authorizations = require('../components/authorizations')
 
-// var authorizations = require('../components/authorizations')
-// router.all("*", authorizations.requireAuthentication)
+
+router.all("*", authorizations.requireAuthentication)
 
 
 //Get a custom type by name // TODO call the same function with ID 

@@ -12,7 +12,7 @@ var apiMedia = require('./admin/medias.js')
 var apiWebservice = require('./admin/webservices.js')
 
 // Authorisations
-var authorizations = require('../components/authorizations')
+// var authorizations = require('../components/authorizations')
 
 // Logger for the routes requests
 router.use((req, res, next) => {
@@ -31,7 +31,7 @@ router.use('/admin/webservices', apiWebservice);
 
 
 //TODO autorisations
-router.all("*", authorizations.requireAuthentication)
+// router.all("*", authorizations.requireAuthentication)
 
 
 /*** Current user ***/
@@ -56,42 +56,6 @@ router.get("/adminMenus", (req, res) => {
   })
 
 });
-
-
-
-// TODO for image field
-// router.post("/medias/upload", (req, res) => {
-//   var customType = req.params.customType;
-//   var customType = "users";
-
-//   console.log(req.files);
-
-//   let sampleFile = req.files.file;
-
-//   var fileName = sampleFile.name;
-
-//   sampleFile.mv("./public/medias/" + sampleFile.name, function (err) {
-//     if (err) {
-//       console.log("[ERROR] moving uploaded file " + err);
-//       res.send({
-//         message: "internal error : error moving the file " + sampleFile.name
-//       });
-//     } else {
-//       console.log("media moved");
-//       data[customType].update({}, { image: fileName }, (err, num) => {
-//         console.log("media updated " + num);
-
-//         if (num) res.send({ message: "success : media created " + sampleFile });
-//         else
-//           res.send({
-//             message: "internal error : impossible to save create " + sampleFile
-//           });
-//       });
-//     }
-//   });
-// });
-
-
 
 
 

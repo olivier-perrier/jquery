@@ -12,7 +12,7 @@ function getMenus(req, res) {
             if (posts) {
                 posts.forEach(post => {
                     if (post.postType)
-                        post.link = '/' + post.postType.name + '/' + post.link
+                        post.link = '/' + post.postType + '/' + post.link
                     else
                         post.link = '/'
                 });
