@@ -6,23 +6,25 @@ var publicController = {
 
 // Get all posts for a custom type
 function getMenus(req, res) {
-    if (data.menus) {
-        data.menus.find({}).sort({ order: 1 }).exec((err, posts) => {
 
-            if (posts) {
-                posts.forEach(post => {
-                    if (post.postType)
-                        post.link = '/' + post.postType + '/' + post.link
-                    else
-                        post.link = '/'
-                });
-            }
-            res.send({ message: "success : posts found", posts });
-            console.log("[DEBUG] public menus sent" + posts.length)
-        });
-    } else {
-        res.send({ message: "not found : no database found for menus" });
-    }
+    data.customTypes.findOne({ name: "menus" }).sort({ order: 1 }).exec((err, posttype) => {
+
+        if (posttype) {
+
+            data._posts.find({ postTypeId: posttype._id }).sort({ order: 1 }).exec((err, posts) => {
+                if (posts) {
+                    res.send({ message: "success : posts found", posts });
+                } else {
+                    res.send({ message: "not found : no menus found for postTypeId " + posttype._id });
+                }
+
+            });
+
+        } else {
+            res.send({ message: "not found : no posttype found for menus" });
+        }
+    });
+
 }
 
 module.exports = publicController;

@@ -1,15 +1,29 @@
 var data = require("../components/data.js");
 
-var postController = {
+var postTypeController = {
     index,
+    indexPost,
+    show,
     create,
-    getById,
     store,
     remove
 }
 
-// Get all posts
 function index(req, res) {
+
+    data.customTypes.find({}).sort({ order: 1 }).exec((err, posts) => {
+        if (posts) {
+            console.log("[DEBUG] post types found " + posts.length);
+            res.send({ message: "success : post types found", posts });
+        } else {
+            res.send({ message: "no post types found" });
+        }
+    });
+}
+
+// Get all posts for a custom type
+function indexPost(req, res) {
+    var postTypeId = req.params.postTypeId;
 
     var sort = req.query.sort
     var query = req.query.query || ""
@@ -17,55 +31,44 @@ function index(req, res) {
     // Met en forme la query en json pour la base de données
     var pasedQuery = JSON.parse("{ " + query + " }")
 
-    data._posts.find({}).sort({ [sort]: 1 }).exec((err, posts) => {
+    data._posts.find({ postTypeId: postTypeId }).sort({ [sort]: 1 }).exec((err, posts) => {
         if (posts) {
             // Caster les types pour l'envoie au client
-            console.log("[DEBUG] posts found : " + posts.length);
+            console.log("[DEBUG] posts (" + postTypeId + ") found " + posts.length);
             res.send({ message: "success : posts found", posts });
         } else {
-            res.send({ message: "no post found" });
+            res.send({ message: "no post found for post type id " + postTypeId });
         }
     });
 }
 
-// get a post by Id
-function getById(req, res) {
-    var postId = req.params.postId
+function show(req, res) {
+    var postTypeId = req.params.postTypeId
 
-    console.log(postId)
-
-    data._posts.findOne({ _id: postId }, (err, post) => {
-        if (post)
-            res.send({ message: "success : post found", post });
-        else
-            res.send({ message: "database error : impossible to find post" });
-    })
-}
-
-
-// Create a post of the custom type
-function create(req, res) {
-    var postTypeId = req.query.postTypeId;
-    var newPost = req.body.customType;
-
-    newPost = newPost || {}
-
-    newPost.postTypeId = postTypeId;
-    newPost.createdAt = new Date();
-
-    data._posts.insert(newPost, (err, post) => {
+    data.customTypes.findOne({ _id: postTypeId }, (err, post) => {
         if (post) {
-            res.send({ message: "success : post created", post });
+
+            //Disable the updated and created fields
+            try {
+                if (post.setting) {
+                    (post.setting.find(e => e.name == "createdAt") || {}).disabled = true;
+                    (post.setting.find(e => e.name == "updatedAt") || {}).disabled = true;
+                }
+            } catch (error) {
+                console.log("[WARNING] impossible to set created at updated date to disabled")
+            }
+
+            res.send({ message: "success : post type found", post });
+
         } else {
-            res.send({ message: "database error : impossible to create post" });
+            res.send({ message: "not found : post type not existing for id " + postTypeId });
         }
-        console.log("[DEBUG] post (" + postTypeId + ") created " + post._id)
-    });
+    })
 }
 
 // Update a post of a custom type
 function store(req, res) {
-    var postId = req.params.postId
+    var postTypeId = req.params.postTypeId
 
     var newPost = req.body.post
 
@@ -73,11 +76,11 @@ function store(req, res) {
     newPost.updatedAt = new Date()
     newPost.createdAt = newPost.createdAt || new Date()
 
-    console.log("newPost before cast")
-    console.log(newPost)
+    // console.log("newPost before cast")
+    // console.log(newPost)
 
     // Cast les attributs
-    data._posts.findOne({ _id: postId }, (err, post) => {
+    data.customTypes.findOne({ _id: postTypeId }, (err, post) => {
         if (post) {
 
             data.customTypes.findOne({ _id: post.postTypeId }, (err, postType) => {
@@ -123,41 +126,60 @@ function store(req, res) {
                 console.log(newPost)
 
                 // Update the post
-                data._posts.update({ _id: postId }, { $set: newPost },
+                data.customTypes.update({ _id: postTypeId }, { $set: newPost },
                     (err, num) => {
                         if (num)
                             res.send({ message: "success : post saved" });
                         else
                             res.send({ message: "database error : impossible to save post" });
-                        console.log("[DEBUG] post (" + postId + ") saved " + num)
+                        console.log("[DEBUG] post (" + postTypeId + ") saved " + num)
                     });
 
             })
 
 
         } else {
-            console.log("[WARNING] no post type found for id " + postId)
+            console.log("[WARNING] no post type found for id " + postTypeId);
+            res.send({ message: "not found : no post type found for id " + postTypeId });
         }
     });
 
 
 
+}
+
+// Create a post of the custom type
+function create(req, res) {
+    var postTypeId = req.query.postTypeId;
+    var newPost = req.body.customType;
+
+    newPost = newPost || {}
+
+    newPost.postTypeId = postTypeId;
+    newPost.createdAt = new Date();
+
+    data.customTypes.insert(newPost, (err, post) => {
+        if (post) {
+            res.send({ message: "success : post created", post });
+        } else {
+            res.send({ message: "database error : impossible to create post" });
+        }
+        console.log("[DEBUG] post (" + postTypeId + ") created " + post._id)
+    });
 }
 
 // Remove a post of a custom type
 function remove(req, res) {
-    var postId = req.params.postId;
+    var postTypeId = req.params.postTypeId;
 
-    data._posts.remove({ _id: postId }, (err, num) => {
+    data.customTypes.remove({ _id: postTypeId }, (err, num) => {
         if (num) {
-            res.send({ message: "success : post deleted" + num });
+            res.send({ message: "success : posttype deleted" + num });
         } else {
-            res.send({ message: "internal error : impossible to delete post" });
+            res.send({ message: "not found : impossible to delete posttype for id " + postTypeId});
         }
-        console.log("[DEBUG] post (" + postId + ") deleted " + num)
+        console.log("[DEBUG] post (" + postTypeId + ") deleted " + num)
     });
 }
 
-
-
-module.exports = postController;
+module.exports = postTypeController;

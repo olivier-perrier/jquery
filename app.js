@@ -4,7 +4,6 @@ var cors = require('cors')
 
 var fileUpload = require('express-fileupload');
 
-// var adminRouter = require('./routes/admin.js');
 var APIRouter = require('./routes/API.js')
 
 var app = express()
@@ -34,10 +33,7 @@ app.use(cors({
 console.log("[DEBUG] NODE_ENV " + process.env.NODE_ENV)
 
 
-//installation.createModels()
-
 app.use('/API', APIRouter);
-// app.use('/admin', adminRouter);
 
 
 var data = require('./components/data')
@@ -45,12 +41,10 @@ var requests = require('./components/requests')
 var installation = require('./components/installation')
 
 
-data.loadDatabases(
-  function () {
-    requests.loadRequests();
-    installation.createModels();
-  }
-)
+data.loadDatabases();
+
+requests.loadRequests();
+installation.createModels();
 
 
 app.listen(process.env.PORT || '3000', function () {

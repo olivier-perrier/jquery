@@ -5,27 +5,16 @@ db = {
     loadDatabases: loadDatabases
 }
 
-function loadDatabases(callback) {
+function loadDatabases() {
     console.log("[DEBUG] Loading database")
 
-    // Charge la base de données principale
     db.customTypes = new Datastore({ filename: 'data/customtypes.nedb', autoload: true })
 
-    // Charge les bases de données des types paramétres
-    db.customTypes.find({}, { name: 1 }, (err, databases) => {
-        for (var database of databases) {
-            db[database.name] = new Datastore({ filename: 'data/' + database.name + '.nedb' })
-            db[database.name].loadDatabase()
-            // console.log("Database loaded " + database.name)
-        }
+    db._posts = new Datastore({ filename: 'data/_posts.nedb', autoload: true })
 
-        isLoaded = true
-        console.log("[DEBUG] Database loaded")
-
-
-        if (callback)
-            callback()
-    })
+    db.users = new Datastore({ filename: 'data/users.nedb', autoload: true })
+    
+    db.requests = new Datastore({ filename: 'data/requests.nedb', autoload: true })
 }
 
 module.exports = db

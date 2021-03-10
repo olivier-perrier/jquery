@@ -10,14 +10,11 @@ router.get("/menus", publicController.getMenus)
 
 /*** Posts ***/
 
-//Get a custom type by name // TODO call the same function with ID 
-router.get("/post/:postTypeName/name/:customTypeName", postController.getByName)
-
 //Get all posts
-router.get("/post/:postTypeName", postController.get);
+router.get("/post/:postTypeName", postController.index);
 
 //Get a post by Id
-router.get('/post/:postTypeName/:postId', postController.getById)
+router.get('/post/:postId', postController.getById)
 
 
 module.exports = router;

@@ -7,6 +7,7 @@ var data = require("../components/data.js");
 var publicRouter = require('./public.js')
 var authRouter = require('./auth.js')
 var postRouter = require('./post.js')
+var posttypeRouter = require('./posttype.js')
 
 var apiMedia = require('./admin/medias.js')
 var apiWebservice = require('./admin/webservices.js')
@@ -22,6 +23,7 @@ router.use((req, res, next) => {
 
 router.use('/public', publicRouter);
 router.use('/auth', authRouter);
+router.use('/posttypes', posttypeRouter);
 router.use('/post', postRouter);
 
 router.use('/admin/medias', apiMedia);
